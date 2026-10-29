@@ -99,12 +99,16 @@ class VisionSheet:
     def restructure(self, usage: np.ndarray, mode: str = "split_on") -> dict:
         """usage：这段时间每个神经元的使用率。
         mode：split_on（用户机制）/ split_random（对照：拆同样多个随机挑的）/
-              add_random（对照：新加同样多个随机神经元）。"""
+              add_random（对照：新加同样多个随机神经元）。
+        返回的 info 里带结构事件，给跟随者（链 / 前额叶 / 海马体）用：
+          split   = [(父, [子, 子]), ...]   父单元已删、子单元新建
+          added   = [新神经元, ...]
+          deleted = [删掉的, ...]"""
         c = self.cfg
         alive = np.nonzero(self._alive)[0]
         on = alive[usage[alive] >= c.on_thr]
         m = int(round(c.split_frac * len(on)))
-        info = {"always_on": int(len(on)), "never": 0, "changed": m}
+        info = {"always_on": int(len(on)), "never": 0, "changed": m, "split": [], "added": [], "deleted": []}
         if mode == "split_on":
             parents = self.rng.choice(on, m, replace=False) if m else []
         elif mode == "split_random":
@@ -113,19 +117,21 @@ class VisionSheet:
             parents = []
             for i in self.rng.choice(alive, m, replace=False) if m else []:
                 y, x = self.pos[i]
-                self._new((y, x), self.random_inputs(y, x, c.k), int(np.ceil(c.need_frac * c.k)))
+                info["added"].append(
+                    self._new((y, x), self.random_inputs(y, x, c.k), int(np.ceil(c.need_frac * c.k))))
         for p in parents:
             x = self.rng.permutation(self.inputs[p])
             h = len(x) // 2
-            for part in (x[:h], x[h:]):
-                self._new(self.pos[p], np.sort(part), min(self.need[p], len(part)))
+            kids = [self._new(self.pos[p], np.sort(part), min(self.need[p], len(part))) for part in (x[:h], x[h:])]
             self.alive[p] = False
+            info["split"].append((int(p), kids))
             self.n_split += 1
         if c.delete:
             never = alive[usage[alive] == 0.0]
             for i in never:
                 self.alive[i] = False
             info["never"] = int(len(never))
+            info["deleted"] = [int(i) for i in never]
             self.n_deleted += len(never)
         self._pack()
         return info

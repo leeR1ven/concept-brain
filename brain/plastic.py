@@ -57,6 +57,18 @@ class Plastic:
         """i → 各单元的当前权重（海马体：经回程送回概念层的驱动）。"""
         return self.rows[i]
 
+    def add_units(self, k: int) -> list[int]:
+        """结构可塑性：跟随的新神经元（编号接在后面，稳定 ID）。"""
+        start = self.n
+        self.rows += [dict() for _ in range(k)]
+        self.n += k
+        return list(range(start, self.n))
+
+    def remove(self, i: int) -> None:
+        """删一个单元：出边清掉；别人指向它的入边留给整体降权慢慢清（不再被加强）。"""
+        self.rows[i].clear()
+        self.trace.pop(i, None)
+
     def edge_rows(self):
         """给整体降权用：这一组的全部可塑边。"""
         return self.rows
