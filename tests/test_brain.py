@@ -93,7 +93,7 @@ def test_followers():
         assert info["split"] or info["deleted"], "这一轮应有结构变化"
     v = b.vision
     alive_c = set(np.nonzero(v._alive)[0].tolist())
-    alive_f = {b.f_src[f] for f in range(len(b.f_src)) if b.f_alive[f]}
+    alive_f = {b.f_src[f][1] for f in range(len(b.f_src)) if b.f_alive[f] and b.f_src[f][0] == "vision"}
     assert alive_c == alive_f, f"跟随者对不上：皮层 {len(alive_c)} vs 跟随者 {len(alive_f)}"
     assert b.pfc.n == len(b.f_src) == b.pfc.hippo.W.shape[0] == b.pfc.cortex.W.shape[0]
     for f in range(len(b.f_src)):
