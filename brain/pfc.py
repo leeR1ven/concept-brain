@@ -19,6 +19,8 @@
     同一拍一起亮的不互相加强。每个单元学来的输入总量有上限（budget），超了按比例缩。
   - 亮了却没带亮对方：i 上一拍亮、j 这一拍没亮 → W[i,j] 往**出生时的权重**退一点（退到出生权重就停：
     很少用的不会一直掉，背景的随机连接始终在）。
+  - 【临时，eta_back，可关】后亮的抑制先亮的：j 刚亮时 i 的痕迹还在 → V[j,i] 加强——下一个一出来就把上一个压下去。
+    用户：可能只解决眼下的问题、以后可能引出新问题，不要当成长期机制。
   - 抑制：i 亮、j 不亮 → V[i,j] 加强；**两拍里一起亮**（同一拍一起亮，或 j 刚亮时 i 的痕迹还在）→ 算相关，
     V[i,j] 往出生权重退。（只看同一拍时，一前一后的字从不同时亮，"今"学会了压它的下一个字"天"，实测。）
   - 整体降权：学来的部分（W − 出生权重）每隔一段整体 ×γ（global_decay）。
@@ -44,6 +46,9 @@ class PFCCfg:
     w_ref: float = 0.2
     fail: float = 0.002          # 亮了却没带亮对方：往出生权重退的比例（1% 时学不过削：40 遍后"今→天"反而变弱，实测）
     eta_inhib: float = 0.0002    # 抑制每拍都在学、兴奋只在刚亮时学：抑制要慢得多，否则常亮的"安静"单元很快压死一切
+    eta_back: float = 0.05       # 【临时】后亮的抑制先亮的：j 刚亮时 i 的痕迹还在 → j 学会压 i。
+                                 # 用户：可能只是眼下解决了问题，不确定以后会不会引出新问题，不要当成长期机制；0 = 关。
+                                 # 出现新问题时先关掉它复测一遍。
     inh_budget: float = 0.5      # 每个单元学来的抑制（V − 出生权重）总量上限（不限时 40 遍后压在一个单元上的抑制达 215，实测）
     trace_decay: float = 0.7     # 0.5 时隔一拍安静后痕迹只剩 1/4，"今 → 天"几乎学不到；0.8 时跨度覆盖整句，隔几个字的也学
     seed: int = 0
@@ -156,6 +161,17 @@ class PFC:
             if len(rising) and len(pre):                         # 先亮 → 后亮也算相关：抑制按痕迹往出生权重退
                 ix = np.ix_(pre, rising)
                 self.V[ix] -= self.trace[pre][:, None] * (self.V[ix] - self.V0[ix])
+                if c.eta_back > 0:                               # 后亮的抑制先亮的
+                    old_pre = pre[~np.isin(pre, rising)]
+                    if len(old_pre):
+                        jx = np.ix_(rising, old_pre)
+                        self.V[jx] += c.eta_back * self.trace[old_pre][None, :]
+                        learned = self.V[:, old_pre] - self.V0[:, old_pre]
+                        tot = learned.sum(axis=0)
+                        over = tot > c.inh_budget
+                        if over.any():
+                            cc = old_pre[over]
+                            self.V[:, cc] = self.V0[:, cc] + learned[:, over] * (c.inh_budget / tot[over])[None, :]
         self.trace *= c.trace_decay
         self.trace[self.trace < 0.05] = 0.0
         self.trace[new > 0] = 1.0
