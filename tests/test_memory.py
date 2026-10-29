@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""记住一段连续的声音：反复听同一串字，之后只给开头，看前额叶能不能顺着"放"下去。
+"""记住一段连续的声音：反复听同一句话，之后只给开头的字，看听觉区能不能"在心里"顺着放下去。
 
-  学：反复听"今天天气很好"（别人的声音，每字 2 拍 + 1 拍安静，句末安静 4 拍）。
-  测（不学习）：只听"今"，然后一直安静；记录之后每拍前额叶的状态。
-  比：听这句话时，每个字那几拍前额叶的状态（参照）。安静后每拍的状态最像哪个字的参照 → 解码出来的序列。
+  学：反复听"今天天气很好"（别人的声音，每字 2 拍 + 1 拍安静，句末安静；中间穿插别的话）。
+  测（不学习）：只听"今"，然后一直安静；海马体 / 前额叶经回程送回听觉区（在心里听到）。
+  读：听觉区第 2、3 层每一拍的状态，和每个字真的听到时的状态比（Jaccard），最像哪个字 / 安静。
   对照：没听过这句话的同一个脑。
 
 python tests/test_memory.py [重复遍数]
@@ -28,42 +28,40 @@ def jac(x, y):
     return (x & y).sum() / u if u else 0.0
 
 
-def run(train: bool):
+def run(train: bool, steps: int = 24):
     t = Talker(sorted(set(SENT + OTHER)))
     b = t.brain
+    ear = b.sensors["ear"]
     t.warmup()
+    deep = np.nonzero(ear._layer >= 1)[0]
+    ref = {c: ear.respond(ear.encode(t.voice.hear(c, "other")))[deep] for c in sorted(set(SENT + OTHER))}
+    ref["_"] = ear.respond(ear.encode(t.voice.hear(None, "other")))[deep]          # 安静
+    rng = np.random.default_rng(0)
     if train:
         for _ in range(REPS):
             t.listen(SENT)
-            t.listen(OTHER[: 1 + np.random.default_rng(_).integers(3, 8)])   # 中间穿插别的话
+            t.listen(OTHER[: rng.integers(3, 8)])
     b.learning = False
-    # 参照：听这句话时每个字那几拍的前额叶状态（只看前额叶自己的活动里和耳朵无关的部分也行，这里看整体）
-    ref = {}
-    for ch in SENT:
-        states = []
-        for _ in range(2):
-            t.tick(other=ch)
-            states.append(b.pfc.a > 0)
-        t.tick()
-        ref.setdefault(ch, []).append(np.any(states, axis=0))
     for _ in range(6):
         t.tick()
-    ref = {ch: np.any(v, axis=0) for ch, v in ref.items()}
-    # 测：只给开头的字，然后安静
     for _ in range(2):
         t.tick(other=SENT[0])
     out = []
-    for _ in range(18):
+    for _ in range(steps):
         t.tick()
-        a = b.pfc.a > 0
-        scores = {ch: jac(a, r) for ch, r in ref.items()}
-        best = max(scores, key=scores.get)
-        out.append((best, round(scores[best], 2), int(a.sum())))
+        a = ear.respond(ear.encode(t.voice.hear(None, "other")), b._sense_topdown()["ear"])[deep]
+        extra = a & ~ref["_"]                       # 回程在安静之外额外点亮的
+        if extra.sum() < 3:
+            out.append(("_", int(extra.sum())))
+            continue
+        sc = {c: jac(extra, r & ~ref["_"]) for c, r in ref.items() if c != "_"}
+        best = max(sc, key=sc.get)
+        out.append((best, int(extra.sum())))
     return out
 
 
 if __name__ == "__main__":
-    for name, tr in (("听过 %d 遍" % REPS, True), ("没听过", False)):
+    for name, tr in ((f"听过 {REPS} 遍", True), ("没听过", False)):
         out = run(tr)
-        print(f"{name}：只给'{SENT[0]}'之后每拍最像的字(相似度,前额叶亮几个)：")
-        print("   ", "  ".join(f"{c}({s},{n})" for c, s, n in out))
+        print(f"{name}：只给'{SENT[0]}'之后，听觉区每拍在心里听到的（_ = 安静；括号里是额外亮了几个）：")
+        print("   ", " ".join(f"{c}({n})" for c, n in out))

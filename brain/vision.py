@@ -124,12 +124,16 @@ class VisionSheet:
     def n_alive(self) -> int:
         return int(self._alive.sum())
 
-    def respond(self, lines: np.ndarray) -> np.ndarray:
-        """一张画面 → 所有层所有神经元的亮 / 不亮（删掉的永远不亮），逐层往前算。"""
+    def respond(self, lines: np.ndarray, topdown: np.ndarray | None = None) -> np.ndarray:
+        """一张画面 → 所有层所有神经元的亮 / 不亮（删掉的永远不亮），逐层往前算。
+        topdown：回程送回每个神经元的输入（以"门槛"为单位：1.0 = 单靠它就能亮）——在心里看到 / 听到。"""
         S = np.zeros(self.off + len(self.inputs), dtype=bool)
         S[: self.off] = lines
         for ids in self._by_layer:
-            S[self.off + ids] = (S[self._idx[ids]].sum(axis=1) >= self._need[ids]) & self._alive[ids]
+            drive = S[self._idx[ids]].sum(axis=1).astype(np.float32)
+            if topdown is not None:
+                drive = drive + topdown[ids] * self._need[ids]
+            S[self.off + ids] = (drive >= self._need[ids]) & self._alive[ids]
         return S[self.off:]
 
     def _rewire_downstream(self, old: int, new_choices) -> None:

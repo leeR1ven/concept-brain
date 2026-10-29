@@ -8,6 +8,8 @@
                                                     │      └── 输出 1:1 送回前额叶
   本能：感觉区先天直连运动区（不走链）──────────────┼──► 运动区（brain/motor.py）
   前额叶里运动神经元的对应单元 ── 回程（链，1:1）────┘   维持：只扶住正在动的神经元
+  海马体 / 前额叶里感觉神经元的对应单元 ── 回程 1:1 ──► 同一个感觉神经元（在心里看到 / 听到；
+      回出来的东西再像平常一样经链送进去，回忆就沿着"听的时候学到的顺序"往下走）
   前额叶 ── 发起（出生就随机铺满的弱连接，训练中修改）──┘   发起：前额叶的大致意图点亮哪些运动神经元
 
   - 前额叶在想别的事、没激活运动相关的单元时：运动完全由其他区（本能）决定。
@@ -31,7 +33,8 @@ class Brain:
                  pfc_cfg: PFCCfg | None = None, hippo_cfg: PFCCfg | None = None, hippo_gain: float = 1.0,
                  init_w: float = 0.0005, eta_init: float = 0.05, fail_init: float = 0.01, init_budget: float = 1.0,
                  decay_T: int = 200, cortex_gamma: float = 1.0, hippo_gamma: float = 0.9,
-                 ext_gain: float = 1.5, mute_thr: float = 0.6, chain_from_layer: int = 1):
+                 ext_gain: float = 1.5, mute_thr: float = 0.6, chain_from_layer: int = 1,
+                 sense_ret_hippo: float = 1.0, sense_ret_pfc: float = 0.5):
         if isinstance(sensors, VisionSheet):
             sensors = {"vision": sensors}
         self.sensors: dict[str, VisionSheet] = dict(sensors)
@@ -67,6 +70,8 @@ class Brain:
         self.decay_T, self.cortex_gamma, self.hippo_gamma = decay_T, cortex_gamma, hippo_gamma
         self.ext_gain = ext_gain        # 链送来的信号强度（相对门槛 1.0）：感觉信号默认进得来，除非被明显抑制
         self.mute_thr = mute_thr        # 使用率 ≥ 它的感觉神经元算"经常亮、没特征"，不送链
+        # 回程到感觉区（在心里看到 / 听到）：海马体（细节）、前额叶（大致）里感觉神经元的对应单元 1:1 送回同一个神经元
+        self.sense_ret_hippo, self.sense_ret_pfc = sense_ret_hippo, sense_ret_pfc
         z = ({k: np.zeros(len(s.inputs), dtype=bool) for k, s in self.sensors.items()},
              np.zeros(motor.n_neurons, dtype=np.float32))
         self.chain = deque([z] * chain_delay, maxlen=chain_delay)          # 去程
@@ -167,6 +172,20 @@ class Brain:
                               for k in v}, m) for v, m in self.chain], maxlen=self.chain_delay)
         return infos if len(infos) > 1 else infos[self.first]
 
+    def _sense_topdown(self) -> dict:
+        """上一拍海马体 / 前额叶的状态 → 回到各感觉神经元的输入（以门槛为单位）。"""
+        out = {}
+        if self.sense_ret_hippo <= 0 and self.sense_ret_pfc <= 0:
+            return out
+        r = self.sense_ret_hippo * self.hippo.a + self.sense_ret_pfc * self.pfc.a
+        for region, (fs, nids) in self._ext_index().items():
+            if region == "motor":
+                continue
+            td = np.zeros(len(self.sensors[region].inputs), dtype=np.float32)
+            td[nids] = r[fs]
+            out[region] = td
+        return out
+
     # ------------------------------------------------------------ 本能
     def wire_reflex(self, action: str, sources, gain: float = 1.5, region: str | None = None) -> None:
         self.reflex[action] = (region or self.first, set(int(i) for i in sources))
@@ -187,8 +206,9 @@ class Brain:
         if not isinstance(inputs, dict):
             inputs = {self.first: inputs}
         acts = {}
+        topdown = self._sense_topdown()
         for name, sheet in self.sensors.items():
-            act = sheet.respond(sheet.encode(inputs[name]))
+            act = sheet.respond(sheet.encode(inputs[name]), topdown.get(name))
             self.usage[name][: len(act)] += act
             acts[name] = act
         self.n_seen += 1
