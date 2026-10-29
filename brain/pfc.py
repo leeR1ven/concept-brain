@@ -19,7 +19,8 @@
     同一拍一起亮的不互相加强。每个单元学来的输入总量有上限（budget），超了按比例缩。
   - 亮了却没带亮对方：i 上一拍亮、j 这一拍没亮 → W[i,j] 往**出生时的权重**退一点（退到出生权重就停：
     很少用的不会一直掉，背景的随机连接始终在）。
-  - 抑制：i 亮、j 不亮 → V[i,j] 加强；一起亮 → V[i,j] 往出生权重退。
+  - 抑制：i 亮、j 不亮 → V[i,j] 加强；**两拍里一起亮**（同一拍一起亮，或 j 刚亮时 i 的痕迹还在）→ 算相关，
+    V[i,j] 往出生权重退。（只看同一拍时，一前一后的字从不同时亮，"今"学会了压它的下一个字"天"，实测。）
   - 整体降权：学来的部分（W − 出生权重）每隔一段整体 ×γ（global_decay）。
 """
 from __future__ import annotations
@@ -41,9 +42,10 @@ class PFCCfg:
     eta: float = 0.01            # 先亮 → 后亮 加强
     budget: float = 1.5          # 每个单元学来的兴奋输入（W − 出生权重）总量上限：一个单元同时从几百个来源学，总量不会失控
     w_ref: float = 0.2
-    fail: float = 0.01           # 亮了却没带亮对方：往出生权重退的比例
-    eta_inhib: float = 0.002
-    trace_decay: float = 0.5
+    fail: float = 0.002          # 亮了却没带亮对方：往出生权重退的比例（1% 时学不过削：40 遍后"今→天"反而变弱，实测）
+    eta_inhib: float = 0.0002    # 抑制每拍都在学、兴奋只在刚亮时学：抑制要慢得多，否则常亮的"安静"单元很快压死一切
+    inh_budget: float = 0.5      # 每个单元学来的抑制（V − 出生权重）总量上限（不限时 40 遍后压在一个单元上的抑制达 215，实测）
+    trace_decay: float = 0.7     # 0.5 时隔一拍安静后痕迹只剩 1/4，"今 → 天"几乎学不到；0.8 时跨度覆盖整句，隔几个字的也学
     seed: int = 0
     learn: bool = True
 
@@ -140,10 +142,20 @@ class PFC:
                 ix = np.ix_(was, quiet)
                 self.W[ix] -= c.fail * (self.W[ix] - self.W0[ix])
                 self.V[ix] += c.eta_inhib                        # 一个亮、一个不亮：抑制变强
+                if c.inh_budget > 0:
+                    learned = self.V[:, quiet] - self.V0[:, quiet]
+                    tot = learned.sum(axis=0)
+                    over = tot > c.inh_budget
+                    if over.any():
+                        cc = quiet[over]
+                        self.V[:, cc] = self.V0[:, cc] + learned[:, over] * (c.inh_budget / tot[over])[None, :]
             both = np.nonzero(new > 0)[0]
             if len(was) and len(both):                           # 一起亮：抑制往出生权重退
                 ix = np.ix_(was, both)
                 self.V[ix] -= 0.5 * (self.V[ix] - self.V0[ix])
+            if len(rising) and len(pre):                         # 先亮 → 后亮也算相关：抑制按痕迹往出生权重退
+                ix = np.ix_(pre, rising)
+                self.V[ix] -= self.trace[pre][:, None] * (self.V[ix] - self.V0[ix])
         self.trace *= c.trace_decay
         self.trace[self.trace < 0.05] = 0.0
         self.trace[new > 0] = 1.0

@@ -28,7 +28,7 @@ H = W = 8
 def make():
     v = VisionSheet(H, W, SheetCfg(layers=(4, 4, 4), split_frac=(0.1, 0.2, 0.3)), seed=0)
     m = Motor(["withdraw", "approach"], rivals=[("withdraw", "approach")])
-    b = Brain(v, m)
+    b = Brain(v, m, chain_from_layer=0)
     # 先天：第 1 层里左半边、对"很亮"敏感的神经元（入边里至少 need 条是高档位的正线）直连"缩回"
     srcs = []
     for i, inp in enumerate(v.inputs):

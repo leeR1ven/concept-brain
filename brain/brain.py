@@ -31,7 +31,7 @@ class Brain:
                  pfc_cfg: PFCCfg | None = None, hippo_cfg: PFCCfg | None = None, hippo_gain: float = 1.0,
                  init_w: float = 0.0005, eta_init: float = 0.05, fail_init: float = 0.01, init_budget: float = 1.0,
                  decay_T: int = 200, cortex_gamma: float = 1.0, hippo_gamma: float = 0.9,
-                 ext_gain: float = 1.5, mute_thr: float = 0.6):
+                 ext_gain: float = 1.5, mute_thr: float = 0.6, chain_from_layer: int = 1):
         if isinstance(sensors, VisionSheet):
             sensors = {"vision": sensors}
         self.sensors: dict[str, VisionSheet] = dict(sensors)
@@ -41,11 +41,16 @@ class Brain:
         self.f_src: list[tuple[str, int]] = []
         self.f_alive: list[bool] = []
         self.f_of: dict[tuple[str, int], int] = {}
-        srcs = [(name, int(cid)) for name, sheet in self.sensors.items() for cid in np.nonzero(sheet._alive)[0]]
+        # 靠近输入层的神经元经常亮、没特征：第 chain_from_layer 层（从 0 数）之前的层不送链
+        self.chain_from_layer = chain_from_layer
+        srcs = [(name, int(cid)) for name, sheet in self.sensors.items() for cid in np.nonzero(sheet._alive)[0]
+                if sheet.layer[cid] >= chain_from_layer]
         srcs += [("motor", mid) for mid in range(motor.n_neurons)]
         pfc_cfg = pfc_cfg or PFCCfg()
         self.pfc = PFC(len(srcs), pfc_cfg)
-        self.hippo = PFC(len(srcs), hippo_cfg or PFCCfg(eta=0.3, fail=0.05, seed=pfc_cfg.seed + 1))
+        # 海马体：同样的机制，记细节——学得快、上限大；"亮了没带亮对方"削得慢（削得快会把刚学的马上削掉，实测）；
+        # 忘得快靠整体降权（hippo_gamma）
+        self.hippo = PFC(len(srcs), hippo_cfg or PFCCfg(eta=0.5, budget=5.0, fail=0.002, seed=pfc_cfg.seed + 1))
         self.hippo_gain = hippo_gain
         for f, key in enumerate(srcs):
             self.f_src.append(key)
@@ -114,16 +119,19 @@ class Brain:
         return self._index
 
     def apply_events(self, region: str, info: dict) -> None:
+        sheet = self.sensors[region]
         for parent, kids in info.get("split", []):
             for k in kids:
-                self._attach(region, k)
+                if sheet.layer[k] >= self.chain_from_layer:
+                    self._attach(region, k)
             for rg, srcs in self.reflex.values():
                 if rg == region and parent in srcs:
                     srcs.discard(parent)
                     srcs.update(kids)
             self._detach(region, parent)
         for cid in info.get("added", []):
-            self._attach(region, cid)
+            if sheet.layer[cid] >= self.chain_from_layer:
+                self._attach(region, cid)
         for cid in info.get("deleted", []):
             for rg, srcs in self.reflex.values():
                 if rg == region:
