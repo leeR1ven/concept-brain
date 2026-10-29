@@ -1,32 +1,8 @@
 # concept-brain
 
-模仿真实大脑、**边运行边学**的 AI 架构（研究原型）。不用梯度、不用反向传播。
-
-- 设计与实验结果：[DESIGN.md](DESIGN.md)
-- 代码全部重写；以前几个库只用来理解架构意图。
-
-## 目前做到
-
-| 部件 | 状态 | 一句话结果 |
-|---|---|---|
-| 视觉皮层：常亮分裂 / 从不亮删除 | 已实现 | 相似画面 0.902 → 0.923，神经元少 1/3；随机拆反而越拆越差 |
-| 海马体（快）+ 皮层（慢）同一套学习 | 已实现 | 一次的马上记住再淡忘；重复的变成长期记忆；老知识 10/10 |
-| 整体降权（全脑共用清理） | 已实现 | |
-| 运动区：肌肉 vs 抑制，本能 / 理性协作或竞争 | 已实现 | 平时放松；强光触发本能；理性强时压过本能 |
-| 整脑骨架 + 跟随增删（链 / 前额叶 / 海马体） | 已实现 | 冒烟测试 0.6 秒全过 |
-| 前额叶 → 运动区怎么学、前额叶内部、自 / 他 | 待做 | |
-
-数字来自合成数据、多个种子，用来确认机制成立，不是性能承诺。
-
-## 运行
+模仿真实大脑、边运行边学的 AI 模型（研究原型）。设计见 [DESIGN.md](DESIGN.md)。
 
 ```bash
 pip install numpy
-python experiments/exp_composition.py   # 实验 A：组合 + 换规则（几秒）
-python experiments/exp_binding.py       # 实验 B：绑定 2×2（约 20 秒）
-python experiments/exp_hippocampus.py   # 实验 C：短期 / 长期记忆（约 4 分钟）
-python experiments/exp_refine.py        # 实验 D：常亮分裂 → 分辨更细（约 7 分钟）
-python tests/test_brain.py              # 整脑冒烟测试（1 秒）
+python tests/test_brain.py     # 冒烟测试，约 1 秒
 ```
-
-结果写到 `results/`。
