@@ -33,7 +33,8 @@ class Brain:
                  pfc_cfg: PFCCfg | None = None, hippo_cfg: PFCCfg | None = None, hippo_gain: float = 1.0,
                  init_w: float = 0.0005, eta_init: float = 0.05, fail_init: float = 0.01, init_budget: float = 1.0,
                  decay_T: int = 200, cortex_gamma: float = 1.0, hippo_gamma: float = 0.9,
-                 ext_gain: float = 1.5, mute_thr: float = 0.6, chain_from_layer: int = 1,
+                 ext_gain: float = 1.5, pfc_ext_gain: float = 0.3, mute_thr: float = 0.6, chain_from_layer: int = 1,
+                 sense_cfg: PFCCfg | None = None, sense_from_layer: int = 1,
                  sense_ret_hippo: float = 1.0, sense_ret_pfc: float = 0.5):
         if isinstance(sensors, VisionSheet):
             sensors = {"vision": sensors}
@@ -53,7 +54,7 @@ class Brain:
         self.pfc = PFC(len(srcs), pfc_cfg)
         # 海马体：同样的机制，记细节——学得快、上限大；"亮了没带亮对方"削得慢（削得快会把刚学的马上削掉，实测）；
         # 忘得快靠整体降权（hippo_gamma）
-        self.hippo = PFC(len(srcs), hippo_cfg or PFCCfg(eta=0.5, budget=5.0, fail=0.002, seed=pfc_cfg.seed + 1))
+        self.hippo = PFC(len(srcs), hippo_cfg or PFCCfg(eta=0.5, budget=3.0, fail=0.002, seed=pfc_cfg.seed + 1))
         self.hippo_gain = hippo_gain
         for f, key in enumerate(srcs):
             self.f_src.append(key)
@@ -68,7 +69,19 @@ class Brain:
         self.R = self.R0.copy()
         self.eta_init, self.fail_init, self.init_budget = eta_init, fail_init, init_budget
         self.decay_T, self.cortex_gamma, self.hippo_gamma = decay_T, cortex_gamma, hippo_gamma
-        self.ext_gain = ext_gain        # 链送来的信号强度（相对门槛 1.0）：感觉信号默认进得来，除非被明显抑制
+        self.ext_gain = ext_gain          # 链送进海马体的信号强度（记细节：单靠它就能点亮）
+        self.pfc_ext_gain = pfc_ext_gain  # 链送进前额叶的信号强度（< 门槛：单个信号点不亮，只在当前想法范围上推一把）
+        # 感觉区内部的赫布连接（链之后的那几层）：被激活后沿学好的顺序一个接一个亮（表征坍缩）
+        # 只在第 sense_from_layer 层及更深的层之间（第 1 层靠近输入、一半常亮：压它会把整个感觉区压垮，实测）
+        self.sense_from_layer = sense_from_layer
+        self.sense_cfg = sense_cfg or PFCCfg(target=0.0, pool_gain=2.0, w_init=0.0002, v_init=0.0, eta=0.05,
+                                             budget=1.5, seed=pfc_cfg.seed + 3)
+        self.sense_pop = {}
+        for name, sheet in self.sensors.items():
+            pop = PFC(len(sheet.inputs), self.sense_cfg)
+            for i in np.nonzero((sheet._layer < sense_from_layer) | ~sheet._alive)[0]:
+                pop.remove(int(i))
+            self.sense_pop[name] = pop
         self.mute_thr = mute_thr        # 使用率 ≥ 它的感觉神经元算"经常亮、没特征"，不送链
         # 回程到感觉区（在心里看到 / 听到）：海马体（细节）、前额叶（大致）里感觉神经元的对应单元 1:1 送回同一个神经元
         self.sense_ret_hippo, self.sense_ret_pfc = sense_ret_hippo, sense_ret_pfc
@@ -166,6 +179,11 @@ class Brain:
             infos[name] = info
         self.mute_featureless()
         for name, sheet in self.sensors.items():
+            pop = self.sense_pop[name]
+            if len(sheet.inputs) > pop.n:
+                pop.grow(len(sheet.inputs) - pop.n)
+            for i in np.nonzero(pop.alive & (~sheet._alive | (sheet._layer < self.sense_from_layer)))[0]:
+                pop.remove(int(i))
             self.usage[name] = np.zeros(len(sheet.inputs))
         self.n_seen = 0
         self.chain = deque([({k: np.r_[v[k], np.zeros(len(self.sensors[k].inputs) - len(v[k]), dtype=bool)]
@@ -173,17 +191,21 @@ class Brain:
         return infos if len(infos) > 1 else infos[self.first]
 
     def _sense_topdown(self) -> dict:
-        """上一拍海马体 / 前额叶的状态 → 回到各感觉神经元的输入（以门槛为单位）。"""
+        """感觉神经元这一拍收到的、来自"下面一层"以外的输入（以门槛为单位）：
+        本区内部的赫布连接（上一拍的状态）+ 海马体 / 前额叶经回程送回的（在心里听到 / 看到）。"""
         out = {}
+        for name, sheet in self.sensors.items():
+            pop = self.sense_pop[name]
+            td = np.zeros(len(sheet.inputs), dtype=np.float32)
+            td[: pop.n] = np.where(pop.alive, pop.currents(), 0.0)[: len(td)]
+            out[name] = td
         if self.sense_ret_hippo <= 0 and self.sense_ret_pfc <= 0:
             return out
         r = self.sense_ret_hippo * self.hippo.a + self.sense_ret_pfc * self.pfc.a
         for region, (fs, nids) in self._ext_index().items():
             if region == "motor":
                 continue
-            td = np.zeros(len(self.sensors[region].inputs), dtype=np.float32)
-            td[nids] = r[fs]
-            out[region] = td
+            out[region][nids] += r[fs]
         return out
 
     # ------------------------------------------------------------ 本能
@@ -199,6 +221,8 @@ class Brain:
     @learning.setter
     def learning(self, on: bool) -> None:
         self.pfc.cfg.learn = self.hippo.cfg.learn = on
+        for pop in self.sense_pop.values():
+            pop.cfg.learn = on
 
     def step(self, inputs, reason: dict[str, float] | None = None) -> dict[str, int]:
         """inputs：{感觉区: 这一拍的输入图}（只有一个区时也可以直接给图）。
@@ -209,6 +233,8 @@ class Brain:
         topdown = self._sense_topdown()
         for name, sheet in self.sensors.items():
             act = sheet.respond(sheet.encode(inputs[name]), topdown.get(name))
+            pop = self.sense_pop[name]
+            pop.learn_from(pop.a, (act[: pop.n] & pop.alive).astype(np.float32))   # 本区内部：先亮 → 后亮
             self.usage[name][: len(act)] += act
             acts[name] = act
         self.n_seen += 1
@@ -221,10 +247,9 @@ class Brain:
             ok = nids < len(src)
             ext[fs[ok]] = src[nids[ok]]
         h_prev = self.hippo.a.copy()
-        ext *= self.ext_gain
-        self.hippo.step(ext)
+        self.hippo.step(ext * self.ext_gain)
         trace_before = self.pfc.trace.copy()
-        a = self.pfc.step(ext + self.hippo_gain * h_prev)
+        a = self.pfc.step(ext * self.pfc_ext_gain + self.hippo_gain * h_prev)
         # 回程（维持）：对应单元 → 同一个运动神经元；发起：前额叶的状态经 R 点亮运动神经元
         self.ret.append((a[self.motor_f].copy(), (a @ self.R).astype(np.float32)))
         mirror, init = self.ret[0]
