@@ -17,9 +17,9 @@
   I                    抑制神经元（独立细胞，有基础活动 tonic）
   D                    去抑制神经元（被自己这组的驱动点亮，压住 I）
 每拍：
-  d    = 本能驱动 + ret_gain · mean(回程到本组 muscle 的活动)
-  D    = disinh · d + ret_gain · 回程到 D 的活动
-  I    = max(0, tonic + lateral · 对手的 d + ret_gain · 回程到 I 的活动 − D)
+  d    = 本能驱动 + ret_gain · mean(回程到本组 muscle 的活动)          （回程到肌肉：强，前额叶能自己推动）
+  D    = disinh · d + ret_gain_inh · 回程到 D 的活动                （回程到抑制 / 去抑制：弱，只当调制）
+  I    = max(0, tonic + lateral · 对手的 d + ret_gain_inh · 回程到 I 的活动 − D)
   第 l 档 muscle 在 d − I > l · step 时亮；力度 = 亮的档数
 没有回程时等于：I = tonic + lateral·对手驱动 − disinh·自己驱动（与之前一致）。
 
@@ -42,7 +42,9 @@ class MotorCfg:
     lateral: float = 1.0        # 对手的驱动 → 我的抑制
     disinh: float = 1.0         # 我的驱动 → 去抑制
     step: float = 0.2           # 每档力度要多出多少驱动
-    ret_gain: float = 0.5       # 前额叶回程的强度（参数；链式架构"回程只当调制"。2.0 时抑制的对应单元回送后本能压不过，强光不再触发缩回）
+    ret_gain: float = 2.0       # 前额叶回程 → 肌肉神经元的强度（前额叶要能自己推动肌肉）
+    ret_gain_inh: float = 0.5   # 前额叶回程 → 抑制 / 去抑制神经元的强度（只当调制：抑制平时就亮，
+                                # 它的对应单元以 2.0 回送时本能压不过、强光不再触发缩回，实测）
 
 
 class Motor:
@@ -92,8 +94,8 @@ class Motor:
         X = extra.reshape(n, self.per)
         d = d + X[:, : c.levels].mean(axis=1)
         d = d + c.ret_gain * R[:, : c.levels].mean(axis=1)    # 回程到本组肌肉神经元的驱动（取平均）
-        D = c.disinh * d + c.ret_gain * R[:, c.levels + 1] + X[:, c.levels + 1]
-        self.inh = np.maximum(0.0, c.tonic + c.lateral * (self.rival @ d) + c.ret_gain * R[:, c.levels]
+        D = c.disinh * d + c.ret_gain_inh * R[:, c.levels + 1] + X[:, c.levels + 1]
+        self.inh = np.maximum(0.0, c.tonic + c.lateral * (self.rival @ d) + c.ret_gain_inh * R[:, c.levels]
                               + X[:, c.levels] - D)
         margin = d - self.inh
         lv = np.arange(1, c.levels + 1)
