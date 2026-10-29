@@ -6,7 +6,7 @@
 不同部位用不同的 γ：海马体 γ 小（降得快），皮层 γ 接近 1（降得慢）。
 
 登记方式：register(名字, 取边函数, γ)。取边函数返回一组 dict（每个 dict 是一行：目标 → 权重），
-降权时就地修改。
+或一个稠密矩阵；降权时就地修改。
 """
 from __future__ import annotations
 
@@ -28,7 +28,12 @@ class GlobalDecay:
         for get_rows, gamma in self.groups.values():
             if gamma >= 1.0:
                 continue
-            for row in get_rows():
+            rows = get_rows()
+            if hasattr(rows, "shape"):                 # 稠密矩阵（前额叶 / 海马体）
+                rows *= gamma
+                rows[rows < self.prune] = 0.0
+                continue
+            for row in rows:
                 if not row:
                     continue
                 dead = []
