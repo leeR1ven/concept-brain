@@ -39,6 +39,8 @@
 每拍（a = 前额叶活动，0..1）：
   exc  = a @ (W0 + Wc + hippo_gain·Wh)            正连接（先天 + 先亮 → 后亮学来的）
   inh  = inh_gain · (a @ (V0 + Vc))               抑制神经元：被 A 推亮就压它的伙伴
+       + pool_gain · (亮着的比例)                  一群抑制神经元收整个前额叶的活动、压回所有单元（亮得越多压得越重）
+         （没有它：耳朵一半常亮 + 先天 / 学来的兴奋，前额叶 448 个单元亮 421 个，全部肌肉被推动，实测）
   pot  = decay·a + (exc − inh) / (1 + γ_g·Σa) + ext      增益控制
   a'   = clip((pot − thr) / soft, 0, 1)            每个单元自己的门槛 thr（不随全局变）
 学习（快慢同一规则）：
@@ -66,7 +68,11 @@ class PFCCfg:
     eta_cortex: float = 0.02     # 慢
     eta_hippo: float = 1.0       # 快
     eta_inhib: float = 0.01      # 抑制连接（只在皮层，慢）
+    fail_cortex: float = 0.005   # 亮了却没带亮对方：学来的连接每拍按比例变弱（皮层慢）
+    fail_hippo: float = 0.05     #                      （海马体快）
     inh_gain: float = 0.6        # 抑制总增益（沿用字网络）
+    pool_gain: float = 2.0       # 前额叶内部的一群抑制神经元：收整个前额叶的活动、压回所有单元；
+                                 # 压的电流 = pool_gain × 亮着的比例（可调数值；0 = 关）
     hippo_gain: float = 1.0      # 海马体回程强度
     in_budget: float = 2.0       # 每个单元学来的兴奋输入总量上限（每份：皮层 / 海马体各一份）；0 = 不限
     inh_budget: float = 2.0      # 每个抑制神经元学来的输入总量上限
@@ -123,6 +129,12 @@ class DenseWeights:
         sub += eta / (1.0 + sub)
         self.V[ix] = sub
         apply_budget(self.V, quiet, budget)
+
+    def weaken_failed(self, active: np.ndarray, quiet: np.ndarray, rate: float) -> None:
+        if rate <= 0 or not len(active) or not len(quiet):
+            return
+        ix = np.ix_(active, quiet)
+        self.W[ix] *= (1.0 - rate)
 
     def grow(self, k: int) -> None:
         n = self.W.shape[0]
@@ -209,7 +221,8 @@ class PFC:
             inh = c.inh_gain * (a @ (self.V0 + self.cortex.V))
         else:
             inh = 0.0
-        pot = c.decay * a + (exc - inh) / (1.0 + c.gain_g * float(a.sum())) + ext
+        pool = c.pool_gain * float((a >= c.on_thr).sum()) / max(1, int(self.alive.sum()))
+        pot = c.decay * a + (exc - inh) / (1.0 + c.gain_g * float(a.sum())) + ext - pool
         pot[~self.alive] = -np.inf
         if c.attention == "global":
             k = min(c.target, int(self.alive.sum()) - 1)
@@ -225,6 +238,10 @@ class PFC:
         if c.learn:
             self.cortex.learn(self.trace, rising, c.in_budget)
             self.hippo.learn(self.trace, rising, c.in_budget)
+            was_on = np.nonzero(a >= c.on_thr)[0]                     # 上一拍亮着的
+            not_now = np.nonzero((new < c.on_thr) & self.alive)[0]    # 这一拍没被带亮的
+            self.cortex.weaken_failed(was_on, not_now, c.fail_cortex)
+            self.hippo.weaken_failed(was_on, not_now, c.fail_hippo)
             if c.attention == "inhib_pair":
                 quiet = np.nonzero((new < c.on_thr) & self.alive)[0]
                 self.cortex.learn_inhib(rising, quiet, c.eta_inhib, c.inh_budget)

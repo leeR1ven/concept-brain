@@ -42,7 +42,7 @@ class MotorCfg:
     lateral: float = 1.0        # 对手的驱动 → 我的抑制
     disinh: float = 1.0         # 我的驱动 → 去抑制
     step: float = 0.2           # 每档力度要多出多少驱动
-    ret_gain: float = 2.0       # 前额叶回程 → 肌肉神经元的强度。可调旋钮、不是定值：它调的是"理性 vs 本能"的分量，
+    ret_gain: float = 1.0       # 前额叶回程 → 肌肉神经元的强度。可调旋钮、不是定值：它调的是"理性 vs 本能"的分量，
                                 # 以后用大批量测试找合适的范围
     ret_gain_inh: float = 0.5   # 前额叶回程 → 抑制 / 去抑制神经元的强度（只当调制：抑制平时就亮，
                                 # 它的对应单元以 2.0 回送时本能压不过、强光不再触发缩回，实测）
@@ -64,6 +64,9 @@ class Motor:
         self.inh = np.full(n, self.cfg.tonic)
         self.force = np.zeros(n, dtype=int)
         self.links: list[tuple[np.ndarray, int, float]] = []
+        mask = np.zeros((n, self.per), dtype=bool)
+        mask[:, : self.cfg.levels] = True
+        self.muscle_mask = mask.reshape(-1)                 # 哪些是控制肌肉的神经元
 
     def wire(self, sources, target: int, weight: float) -> None:
         """先天连线：sources 上一拍的平均活动 × weight → 这一拍的 target 神经元。"""
@@ -81,12 +84,17 @@ class Motor:
         return self.idx[a] * self.per + self.cfg.levels + 1
 
     def step(self, drive: dict[str, float], ret: np.ndarray | None = None) -> dict[str, int]:
-        """drive：各区（本能）送来的驱动；ret：前额叶经回程送回每个运动神经元的活动（0..1）。"""
+        """drive：各区（本能）送来的驱动；键前加 "!"（如 "!m3"）表示驱动这一组的**抑制神经元**（停）。
+        ret：前额叶经回程送回每个运动神经元的活动（0..1）。"""
         c = self.cfg
         n = len(self.actions)
         d = np.zeros(n)
+        stop = np.zeros(n)
         for a, v in drive.items():
-            d[self.idx[a]] += v
+            if a.startswith("!"):
+                stop[self.idx[a[1:]]] += v
+            else:
+                d[self.idx[a]] += v
         r = np.zeros(self.n_neurons) if ret is None else np.asarray(ret, dtype=float)
         R = r.reshape(n, self.per)
         extra = np.zeros(self.n_neurons)                 # 先天连线（来自上一拍）
@@ -97,7 +105,7 @@ class Motor:
         d = d + c.ret_gain * R[:, : c.levels].mean(axis=1)    # 回程到本组肌肉神经元的驱动（取平均）
         D = c.disinh * d + c.ret_gain_inh * R[:, c.levels + 1] + X[:, c.levels + 1]
         self.inh = np.maximum(0.0, c.tonic + c.lateral * (self.rival @ d) + c.ret_gain_inh * R[:, c.levels]
-                              + X[:, c.levels] - D)
+                              + X[:, c.levels] + stop - D)
         margin = d - self.inh
         lv = np.arange(1, c.levels + 1)
         on = margin[:, None] > lv[None, :] * c.step

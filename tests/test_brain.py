@@ -101,7 +101,7 @@ def test_followers():
             assert not b.pfc.alive[f]
             assert not b.pfc.hippo.W[f].any() and not b.pfc.hippo.W[:, f].any()
             assert not b.pfc.cortex.W[f].any() and not b.pfc.cortex.W[:, f].any()
-    for srcs in b.reflex.values():
+    for _, srcs in b.reflex.values():
         assert srcs <= alive_c, "本能来源里不能有死神经元"
     refs = v._idx[v._alive]
     neur = refs[refs >= v.off] - v.off

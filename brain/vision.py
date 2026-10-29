@@ -35,7 +35,8 @@ class SheetCfg:
     levels: int = 10
     layers: tuple = (8,)         # 每层每个像素位置先天几个神经元（长度 = 层数）
     k: int = 8                   # 先天入边数
-    need_frac: float = 0.5       # 先天门槛 = ceil(need_frac · k)
+    need_frac: tuple = (0.5,)    # 每层先天门槛 = ceil(need_frac · k)；越深越挑剔（上一层亮得多，同样的门槛会让深层全亮）；
+                                 # 层数多于元组长度时沿用最后一个
     radius: int = 1
     on_thr: float = 0.9          # 使用率 ≥ 它 = 常亮
     split_frac: tuple = (0.02, 0.05, 0.1)
@@ -57,8 +58,8 @@ class VisionSheet:
         self.alive: list[bool] = []
         self.pos: list[tuple[int, int]] = []
         self.layer: list[int] = []
-        need0 = int(np.ceil(c.need_frac * c.k))
         for d, per in enumerate(c.layers):
+            need0 = self.need_for(d)
             self._pack()
             for y in range(H):
                 for x in range(W):
@@ -66,6 +67,10 @@ class VisionSheet:
                         self._new((y, x), d, self.random_inputs(y, x, c.k, d), need0)
         self.n_split = self.n_deleted = 0
         self._pack()
+
+    def need_for(self, layer: int) -> int:
+        nf = self.cfg.need_frac if isinstance(self.cfg.need_frac, (tuple, list)) else (self.cfg.need_frac,)
+        return int(np.ceil(nf[min(layer, len(nf) - 1)] * self.cfg.k))
 
     # ------------------------------------------------------------ 编码
     def encode(self, img: np.ndarray) -> np.ndarray:
@@ -171,8 +176,7 @@ class VisionSheet:
             parents = []
             for i in picked:
                 (y, x), d = self.pos[i], self.layer[i]
-                info["added"].append(self._new((y, x), d, self.random_inputs(y, x, c.k, d),
-                                               int(np.ceil(c.need_frac * c.k))))
+                info["added"].append(self._new((y, x), d, self.random_inputs(y, x, c.k, d), self.need_for(d)))
         for p in parents:
             x = self.rng.permutation(self.inputs[p])
             h = len(x) // 2
