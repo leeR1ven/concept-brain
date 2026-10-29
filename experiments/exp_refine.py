@@ -84,7 +84,8 @@ def run(mode, seed):
     base = smooth_base(rng)
     sim = variants(base, rng)
     other = [smooth_base(rng) for _ in range(N_VAR)]
-    sheet = VisionSheet(H, W, SheetCfg(levels=LEVELS, layers=LAYERS, delete=(mode != "split_on_keep")), seed=seed)
+    sheet = VisionSheet(H, W, SheetCfg(levels=LEVELS, layers=LAYERS, delete=(mode != "split_on_keep"),
+                                       split_frac=(0.1,) if len(LAYERS) == 1 else (0.02, 0.05, 0.1)), seed=seed)
     rows = []
 
     def record(r, info):

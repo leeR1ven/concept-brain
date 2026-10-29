@@ -17,7 +17,8 @@
     下一层原来接父单元的入边，改接其中一个子单元。
   - **从不亮的删除**：没有特征。下一层接它的入边断开（指向哑线）。
   - 本来就有时亮有时不亮的不动。拆得太窄、从不亮的子单元，下一轮自然被删。
-  - 慢：每次只拆常亮者中的 split_frac。
+  - 慢：每次只拆常亮者中的 split_frac；**越靠近输入层拆得越少**（用户：浅层的改动会大幅改变
+    后面的神经元和权重）。
   - 稳定 ID + alive：删除只改 alive，不移位；结构事件（split / added / deleted）交给跟随者。
 
 状态向量：S = [输入线 n_lines 条, 哑线 1 条(永远 False), 神经元 0..N-1]；入边都是 S 里的下标。
@@ -37,7 +38,9 @@ class SheetCfg:
     need_frac: float = 0.5       # 先天门槛 = ceil(need_frac · k)
     radius: int = 1
     on_thr: float = 0.9          # 使用率 ≥ 它 = 常亮
-    split_frac: float = 0.1      # 每次拆常亮者中的这么多
+    split_frac: tuple = (0.02, 0.05, 0.1)
+                                 # 每层每次拆常亮者中的这么多（越靠近输入越少：浅层一改，后面所有神经元和权重都跟着变）；
+                                 # 层数多于元组长度时沿用最后一个
     delete: bool = True
 
 
@@ -150,15 +153,23 @@ class VisionSheet:
         c = self.cfg
         alive = np.nonzero(self._alive)[0]
         on = alive[usage[alive] >= c.on_thr]
-        m = int(round(c.split_frac * len(on)))
+        fr = tuple(c.split_frac) if isinstance(c.split_frac, (tuple, list)) else (c.split_frac,)
+        picked = []                                   # 每层按自己的比例挑
+        for d in range(len(c.layers)):
+            f = fr[min(d, len(fr) - 1)]
+            on_d = on[self._layer[on] == d]
+            m_d = int(round(f * len(on_d)))
+            if not m_d:
+                continue
+            pool = on_d if mode == "split_on" else alive[self._layer[alive] == d]
+            picked += list(self.rng.choice(pool, m_d, replace=False))
+        m = len(picked)
         info = {"always_on": int(len(on)), "never": 0, "changed": m, "split": [], "added": [], "deleted": []}
-        if mode == "split_on":
-            parents = self.rng.choice(on, m, replace=False) if m else []
-        elif mode == "split_random":
-            parents = self.rng.choice(alive, m, replace=False) if m else []
+        if mode in ("split_on", "split_random"):
+            parents = picked
         else:
             parents = []
-            for i in self.rng.choice(alive, m, replace=False) if m else []:
+            for i in picked:
                 (y, x), d = self.pos[i], self.layer[i]
                 info["added"].append(self._new((y, x), d, self.random_inputs(y, x, c.k, d),
                                                int(np.ceil(c.need_frac * c.k))))
