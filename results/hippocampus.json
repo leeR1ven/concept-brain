@@ -1,190 +1,166 @@
 {
- "no-hippo": {
+ "cortex-only": {
   "rows": [
    {
-    "after_sentences": 0,
-    "recall@25": 0.0,
-    "median_rank": 32.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 0
+    "sentence": 1.0,
+    "once": 0.0,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 10,
-    "recall@25": 0.0,
-    "median_rank": 32.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 0
+    "sentence": 50.0,
+    "once": 0.016666666666666666,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 50,
-    "recall@25": 0.0,
-    "median_rank": 32.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 0
+    "sentence": 500.0,
+    "once": 0.016666666666666666,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 200,
-    "recall@25": 0.0,
-    "median_rank": 32.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 0
+    "sentence": 1990.0,
+    "once": 0.016666666666666666,
+    "repeated": 0.75,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 1000,
-    "recall@25": 0.0,
-    "median_rank": 32.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 0
+    "sentence": 2100.0,
+    "once": 0.016666666666666666,
+    "repeated": 0.75,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 3000,
-    "recall@25": 0.0,
-    "median_rank": 32.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 0
+    "sentence": 3000.0,
+    "once": 0.016666666666666666,
+    "repeated": 0.75,
+    "old_kept_of10": 10.0
    }
   ],
-  "ms_per_step": 0.002272039083832059
+  "ms_per_step": 0.04435765059994689
  },
- "cortex-fast": {
+ "hippo-only": {
   "rows": [
    {
-    "after_sentences": 0,
-    "recall@25": 1.0,
-    "median_rank": 9.666666666666666,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 9914
+    "sentence": 1.0,
+    "once": 0.05000000000000001,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 10,
-    "recall@25": 1.0,
-    "median_rank": 9.666666666666666,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 15793
+    "sentence": 50.0,
+    "once": 0.9666666666666667,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 50,
-    "recall@25": 1.0,
-    "median_rank": 10.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 39059
+    "sentence": 500.0,
+    "once": 0.016666666666666666,
+    "repeated": 1.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 200,
-    "recall@25": 1.0,
-    "median_rank": 11.166666666666666,
-    "old_kept_of10": 9.993333333333334,
-    "hippo_edges": 125893
+    "sentence": 1990.0,
+    "once": 0.0,
+    "repeated": 1.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 1000,
-    "recall@25": 0.9,
-    "median_rank": 15.666666666666666,
-    "old_kept_of10": 8.933333333333334,
-    "hippo_edges": 582011
+    "sentence": 2100.0,
+    "once": 0.0,
+    "repeated": 1.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 3000,
-    "recall@25": 0.3333333333333333,
-    "median_rank": 30.833333333333332,
-    "old_kept_of10": 4.1933333333333325,
-    "hippo_edges": 1664841
+    "sentence": 3000.0,
+    "once": 0.0,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    }
   ],
-  "ms_per_step": 0.04551764203092044
+  "ms_per_step": 1.2154883667332694
  },
- "hippo-hl500": {
+ "hippo+cortex": {
   "rows": [
    {
-    "after_sentences": 0,
-    "recall@25": 0.5166666666666667,
-    "median_rank": 24.333333333333332,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 9914
+    "sentence": 1.0,
+    "once": 0.05000000000000001,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 10,
-    "recall@25": 0.5,
-    "median_rank": 24.333333333333332,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 15793
+    "sentence": 50.0,
+    "once": 1.0,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 50,
-    "recall@25": 0.0,
-    "median_rank": 35.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 39059
+    "sentence": 500.0,
+    "once": 0.016666666666666666,
+    "repeated": 1.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 200,
-    "recall@25": 0.0,
-    "median_rank": 43.166666666666664,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 125893
+    "sentence": 1990.0,
+    "once": 0.016666666666666666,
+    "repeated": 1.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 1000,
-    "recall@25": 0.0,
-    "median_rank": 82.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 220993
+    "sentence": 2100.0,
+    "once": 0.0,
+    "repeated": 1.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 3000,
-    "recall@25": 0.0,
-    "median_rank": 75.33333333333333,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 220774
+    "sentence": 3000.0,
+    "once": 0.0,
+    "repeated": 0.7833333333333333,
+    "old_kept_of10": 10.0
    }
   ],
-  "ms_per_step": 0.42589253616997524
+  "ms_per_step": 1.375386585600063
  },
- "hippo-hl5000": {
+ "fast-cortex": {
   "rows": [
    {
-    "after_sentences": 0,
-    "recall@25": 1.0,
-    "median_rank": 11.166666666666666,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 9914
+    "sentence": 1.0,
+    "once": 0.05000000000000001,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 10,
-    "recall@25": 1.0,
-    "median_rank": 11.333333333333334,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 15793
+    "sentence": 50.0,
+    "once": 1.0,
+    "repeated": 0.0,
+    "old_kept_of10": 10.0
    },
    {
-    "after_sentences": 50,
-    "recall@25": 0.9666666666666667,
-    "median_rank": 14.833333333333334,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 39059
+    "sentence": 500.0,
+    "once": 0.9833333333333334,
+    "repeated": 1.0,
+    "old_kept_of10": 9.793333333333333
    },
    {
-    "after_sentences": 200,
-    "recall@25": 0.20000000000000004,
-    "median_rank": 28.833333333333332,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 125893
+    "sentence": 1990.0,
+    "once": 0.3666666666666667,
+    "repeated": 1.0,
+    "old_kept_of10": 6.373333333333334
    },
    {
-    "after_sentences": 1000,
-    "recall@25": 0.0,
-    "median_rank": 71.0,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 582011
+    "sentence": 2100.0,
+    "once": 0.3333333333333333,
+    "repeated": 1.0,
+    "old_kept_of10": 6.146666666666667
    },
    {
-    "after_sentences": 3000,
-    "recall@25": 0.0,
-    "median_rank": 283.5,
-    "old_kept_of10": 10.0,
-    "hippo_edges": 1659866
+    "sentence": 3000.0,
+    "once": 0.15,
+    "repeated": 1.0,
+    "old_kept_of10": 4.133333333333333
    }
   ],
-  "ms_per_step": 1.6573094133553232
+  "ms_per_step": 0.04617536337779408
  }
 }
