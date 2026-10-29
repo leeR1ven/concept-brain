@@ -22,6 +22,11 @@
   I    = max(0, tonic + lateral · 对手的 d + ret_gain · 回程到 I 的活动 − D)
   第 l 档 muscle 在 d − I > l · step 时亮；力度 = 亮的档数
 没有回程时等于：I = tonic + lateral·对手驱动 − disinh·自己驱动（与之前一致）。
+
+先天连线（用户：可以手动安排，让动作"顺着往下走"，而不是同一批神经元一直激活同一块肌肉）：
+  wire(源神经元们, 目标神经元, 权重)：源上一拍的平均活动 × 权重，这一拍加到目标上
+  （目标是 muscle → 加到该组驱动；是 I → 加到抑制；是 D → 加到去抑制）。
+  例：缩回的肌肉神经元 → 缩回组自己的抑制神经元 = "缩一下就停"。
 """
 from __future__ import annotations
 
@@ -54,6 +59,11 @@ class Motor:
         self.act = np.zeros(self.n_neurons, dtype=np.float32)
         self.inh = np.full(n, self.cfg.tonic)
         self.force = np.zeros(n, dtype=int)
+        self.links: list[tuple[np.ndarray, int, float]] = []
+
+    def wire(self, sources, target: int, weight: float) -> None:
+        """先天连线：sources 上一拍的平均活动 × weight → 这一拍的 target 神经元。"""
+        self.links.append((np.asarray(sources, dtype=int), int(target), float(weight)))
 
     # 神经元编号
     def muscle_ids(self, a: str) -> np.ndarray:
@@ -75,9 +85,15 @@ class Motor:
             d[self.idx[a]] += v
         r = np.zeros(self.n_neurons) if ret is None else np.asarray(ret, dtype=float)
         R = r.reshape(n, self.per)
+        extra = np.zeros(self.n_neurons)                 # 先天连线（来自上一拍）
+        for src, dst, w in self.links:
+            extra[dst] += w * float(self.act[src].mean())
+        X = extra.reshape(n, self.per)
+        d = d + X[:, : c.levels].mean(axis=1)
         d = d + c.ret_gain * R[:, : c.levels].mean(axis=1)
-        D = c.disinh * d + c.ret_gain * R[:, c.levels + 1]
-        self.inh = np.maximum(0.0, c.tonic + c.lateral * (self.rival @ d) + c.ret_gain * R[:, c.levels] - D)
+        D = c.disinh * d + c.ret_gain * R[:, c.levels + 1] + X[:, c.levels + 1]
+        self.inh = np.maximum(0.0, c.tonic + c.lateral * (self.rival @ d) + c.ret_gain * R[:, c.levels]
+                              + X[:, c.levels] - D)
         margin = d - self.inh
         lv = np.arange(1, c.levels + 1)
         on = margin[:, None] > lv[None, :] * c.step

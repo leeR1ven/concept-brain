@@ -8,6 +8,7 @@
   untrained   没训练过的同一个脑看 C
   other       训练过的脑看一张没和强光配对过的画面 D
 另外记录：强光撤掉后肌肉能不能自己放松（回程会不会把肌肉锁住）。
+先天连线（用户建议手动安排）："缩回"的肌肉神经元 → 缩回组自己的抑制神经元（缩一下就停）。
 """
 from __future__ import annotations
 
@@ -24,11 +25,14 @@ from brain.vision import SheetCfg, VisionSheet  # noqa: E402
 
 H = W = 12
 REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 8
+SELF_STOP = float(sys.argv[2]) if len(sys.argv) > 2 else 4.0   # 缩回肌肉 → 缩回抑制 的先天连线权重（0 = 不接）
 
 
 def make(seed):
     v = VisionSheet(H, W, SheetCfg(layers=(6,)), seed=seed)
     m = Motor(["withdraw", "approach"], rivals=[("withdraw", "approach")])
+    if SELF_STOP:                                          # 先天："缩一下就停"
+        m.wire(m.muscle_ids("withdraw"), m.inh_id("withdraw"), SELF_STOP)
     gray = np.full((H, W), 4, dtype=int)
     base = int(v.respond(v.encode(gray)).sum()) + len(m.act)
     b = Brain(v, m, pfc_cfg=PFCCfg(target=base + 80))
