@@ -6,8 +6,9 @@
   3. 本能和理性都想缩回：协作，力度更大。
   4. 理性强烈想"靠近"（和缩回冲突）：理性压过本能；理性只是弱弱地想靠近：本能赢。
   5. 力度单调分级。
-  6. 结构调整后：每个活着的皮层神经元恰好有一套活着的跟随者（链 / 前额叶 / 海马体），
-     删掉 / 被拆的父单元的跟随者都没了；本能来源由子单元继承。
+  6. 结构调整后（3 层，所有层都可分裂 / 删除）：每个活着的皮层神经元恰好有一套活着的跟随者
+     （链 / 前额叶 / 海马体），删掉 / 被拆的父单元的跟随者都没了；本能来源由子单元继承；
+     没有任何入边指向死神经元（下一层已改接子单元或断开）。
 """
 from __future__ import annotations
 
@@ -25,12 +26,14 @@ H = W = 8
 
 
 def make():
-    v = VisionSheet(H, W, SheetCfg(per_pixel=4, split_frac=0.2), seed=0)
+    v = VisionSheet(H, W, SheetCfg(layers=(4, 4, 4), split_frac=0.2), seed=0)
     m = Motor(["withdraw", "approach"], rivals=[("withdraw", "approach")])
     b = Brain(v, m)
-    # 先天：左半边、对"很亮"敏感的神经元（入边里至少 need 条是高档位的正线）直连"缩回"
+    # 先天：第 1 层里左半边、对"很亮"敏感的神经元（入边里至少 need 条是高档位的正线）直连"缩回"
     srcs = []
     for i, inp in enumerate(v.inputs):
+        if v.layer[i] != 0:
+            continue
         y, x = v.pos[i]
         t = (inp // 2) % v.cfg.levels
         pol = inp % 2
@@ -98,6 +101,11 @@ def test_followers():
             assert not b.hippo.rows[f] and not b.cortex.rows[f]
     for srcs in b.reflex.values():
         assert srcs <= alive_c, "本能来源里不能有死神经元"
+    refs = v._idx[v._alive]
+    neur = refs[refs >= v.off] - v.off
+    assert v._alive[neur].all(), "有入边指向死神经元"
+    layers_changed = {v.layer[p] for p, _ in info["split"]} | {v.layer[i] for i in info["deleted"]}
+    assert len(layers_changed) >= 2, f"分裂 / 删除应发生在多层：{layers_changed}"
     b.step(flash())   # 结构变了之后还能正常走
     return len(alive_c)
 
@@ -110,4 +118,4 @@ if __name__ == "__main__":
     test_graded()
     print("5   力度分级：ok")
     n = test_followers()
-    print(f"6   跟随增删：ok（结构调整后皮层神经元 {n}，跟随者一一对应）")
+    print(f"6   跟随增删（3 层）：ok（结构调整后皮层神经元 {n}，跟随者一一对应）")

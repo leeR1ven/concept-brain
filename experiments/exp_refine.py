@@ -32,6 +32,11 @@ LEVELS = 10
 N_VAR, VIEWS_PROTO, VIEWS_TEST = 20, 20, 20
 ROUNDS, VIEWS_PER_ROUND = 20, 400
 NOISE = 0.15
+# 命令行：python exp_refine.py [每层每像素神经元数...]，例如 `8 8 8` = 3 层（默认单层 8）
+LAYERS = tuple(int(a) for a in sys.argv[1:]) or (8,)
+MODES = ["none", "split_on", "split_on_keep", "split_random", "add_random"] if len(LAYERS) == 1 \
+    else ["none", "split_on", "split_random"]
+SEEDS = 5 if len(LAYERS) == 1 else 3
 
 
 def smooth_base(rng):
@@ -79,7 +84,7 @@ def run(mode, seed):
     base = smooth_base(rng)
     sim = variants(base, rng)
     other = [smooth_base(rng) for _ in range(N_VAR)]
-    sheet = VisionSheet(H, W, SheetCfg(levels=LEVELS, delete=(mode != "split_on_keep")), seed=seed)
+    sheet = VisionSheet(H, W, SheetCfg(levels=LEVELS, layers=LAYERS, delete=(mode != "split_on_keep")), seed=seed)
     rows = []
 
     def record(r, info):
@@ -99,11 +104,11 @@ def run(mode, seed):
 
 
 def main():
-    modes = ["none", "split_on", "split_on_keep", "split_random", "add_random"]
+    modes = MODES
     res = {}
     for mode in modes:
         t0 = time.perf_counter()
-        runs = [run(mode, s) for s in range(5)]
+        runs = [run(mode, s) for s in range(SEEDS)]
         keys = [k for k in runs[0][-1] if isinstance(runs[0][-1][k], (int, float))]
         rows = []
         for i in range(len(runs[0])):
@@ -114,7 +119,8 @@ def main():
         for r in rows[::4] + ([rows[-1]] if len(rows) % 4 != 1 else []):
             print(f"  {int(r['round'])}     {r['sim_acc']:.3f}  {r['sim_sep']:.3f}        {r['other_acc']:.3f}  {r['other_sep']:.3f}"
                   f"   {int(r['neurons']):6d}  {int(r.get('always_on', 0)):5d}  {int(r.get('changed', 0)):4d}  {int(r.get('never', 0)):4d}")
-    out = Path(__file__).resolve().parents[1] / "results" / "refine.json"
+    name = "refine.json" if len(LAYERS) == 1 else f"refine_{len(LAYERS)}layer.json"
+    out = Path(__file__).resolve().parents[1] / "results" / name
     out.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
