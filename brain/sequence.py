@@ -18,8 +18,8 @@
     通过的转正，以后不再考核，内容靠衰减更新。
     （一直考核不行：换规则后有用的单元暂时变差，被删掉、拉黑，重学要 2200~2700 个三元组。）
     —— 本来就随机的位置（谁也预测不了）长出来的单元会被删掉。
-  - **按使用衰减**：单元每被用一次，旧计数先乘 use_decay 再加新的一次 → 新规则能替换旧规则。
-    （按钟点衰减不行：一个组合约 300 拍才出现一次，计数还没攒够就衰减光了。）
+  - 遗忘：默认走全脑共用的**整体降权**（brain/global_decay.py，登记 edge_rows）。
+    另留一个对照开关 use_decay：单元每被用一次，旧计数先乘它（实验 A 里比较两者）。
   - 稳定 ID + alive：删除只改 alive，不移位。
 
 读出：亮着的、见过足够多次 (≥ n_min) 的单元按**最近的可靠度**竞争（每个单元记一个
@@ -56,7 +56,6 @@ class SequenceCortex:
         self.depth: list[int] = []
         self.alive: list[bool] = []
         self.counts: list[dict[int, float]] = []
-        self.total: list[float] = []
         self.gain: list[float] = []
         self.uses: list[int] = []
         self.rel: list[float] = []
@@ -76,7 +75,6 @@ class SequenceCortex:
         self.depth.append(depth)
         self.alive.append(True)
         self.counts.append({})
-        self.total.append(0.0)
         self.gain.append(0.0)
         self.uses.append(0)
         self.rel.append(0.5)
@@ -94,7 +92,7 @@ class SequenceCortex:
         active = self.active if active is None else active
         best, score = -1, -1.0
         for c in active:
-            if self.total[c] >= self.cfg.n_min:
+            if self._tot(c) >= self.cfg.n_min:
                 sc = self.rel[c] + 1e-3 * self.depth[c]
                 if sc > score:
                     best, score = c, sc
@@ -105,9 +103,16 @@ class SequenceCortex:
             p[s] = n
         return p / p.sum(), best
 
+    def _tot(self, c: int) -> float:
+        return sum(self.counts[c].values())
+
     def _p(self, c: int, s: int) -> float:
         a = self.cfg.smooth
-        return (self.counts[c].get(s, 0.0) + a) / (self.total[c] + a * self.V)
+        return (self.counts[c].get(s, 0.0) + a) / (self._tot(c) + a * self.V)
+
+    def edge_rows(self):
+        """给整体降权用：每个单元的"下一拍符号"计数就是它的可塑出边。"""
+        return self.counts
 
     # ------------------------------------------------------------ 走一拍
     def step(self, s: int, learn: bool = True) -> dict:
@@ -119,7 +124,7 @@ class SequenceCortex:
             c_ = self.cfg
             if c_.prune:                        # 子单元 vs 同一拍更短的上下文
                 for q, c in zip(prev[:-1], prev[1:]):
-                    if self.uses[c] >= 0 and self.total[c] >= c_.n_min and self.total[q] >= c_.n_min:
+                    if self.uses[c] >= 0 and self._tot(c) >= c_.n_min and self._tot(q) >= c_.n_min:
                         self.gain[c] += np.log(self._p(c, s)) - np.log(self._p(q, s))
                         self.uses[c] += 1
                         if self.uses[c] >= c_.prune_after:
@@ -129,7 +134,7 @@ class SequenceCortex:
                                 self.n_proven += 1      # 转正：以后不再考核
                             self.uses[c] = -10 ** 9
             for c in prev:                      # 可靠度：这个单元自己的最大计数猜对没有
-                if self.total[c] >= c_.n_min:
+                if self._tot(c) >= c_.n_min:
                     cs = self.counts[c]
                     ok = float(max(cs, key=cs.get) == s)
                     self.rel[c] += c_.rel_rate * (ok - self.rel[c])
@@ -138,9 +143,7 @@ class SequenceCortex:
                     cs = self.counts[c]
                     for k in cs:
                         cs[k] *= c_.use_decay
-                    self.total[c] *= c_.use_decay
                 self.counts[c][s] = self.counts[c].get(s, 0.0) + 1.0
-                self.total[c] += 1.0
             if c_.grow and p[s] < c_.surprise_p:
                 for c in prev:                  # 从浅往深，找第一个缺口
                     if self.depth[c] < c_.max_depth and (c, s) not in self.children:

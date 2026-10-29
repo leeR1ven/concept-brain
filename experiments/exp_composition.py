@@ -12,7 +12,8 @@
   pairwise      只有感觉单元（不长概念单元）= 两两关联矩阵
   concept         意外时长、没用就删，不忘
   concept-noprune 意外时长、不删（看删除的作用）
-  concept+decay   意外时长、没用就删，按使用衰减
+  concept+globalγ 意外时长、没用就删，全脑整体降权（每 200 拍 ×γ）
+  concept+use_decay 对照：按使用衰减
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from brain.global_decay import GlobalDecay  # noqa: E402
 from brain.sequence import SeqCfg, SequenceCortex  # noqa: E402
 
 
@@ -36,14 +38,17 @@ def stream(n_triples: int, rule: str, rng) -> list[tuple[int, bool]]:
     return out
 
 
-def run(cfg: SeqCfg, seed: int, n1: int, n2: int, window: int) -> dict:
+def run(cfg: SeqCfg, seed: int, n1: int, n2: int, window: int, gamma: float = 1.0) -> dict:
     rng = np.random.default_rng(seed)
     data = stream(n1, "add", rng) + stream(n2, "sub", rng)
     m = SequenceCortex(V=20, cfg=cfg)
+    gd = GlobalDecay(T=200)
+    gd.register("cortex", m.edge_rows, gamma)
     hits, curve = [], []
     t0 = time.perf_counter()
     for s, scored in data:
         info = m.step(s)
+        gd.tick()
         if scored:
             hits.append(info["hit"])
             if len(hits) % window == 0:
@@ -65,15 +70,18 @@ def run(cfg: SeqCfg, seed: int, n1: int, n2: int, window: int) -> dict:
 
 def main():
     n1, n2, window = 3000, 3000, 100
-    variants = {
-        "pairwise": SeqCfg(grow=False),
-        "concept": SeqCfg(),
-        "concept-noprune": SeqCfg(prune=False),
-        "concept+decay": SeqCfg(use_decay=0.7),
+    variants = {   # 名字: (配置, 整体降权 γ / 每 200 拍)
+        "pairwise": (SeqCfg(grow=False), 1.0),
+        "concept": (SeqCfg(), 1.0),
+        "concept-noprune": (SeqCfg(prune=False), 1.0),
+        "concept+global0.99": (SeqCfg(), 0.99),
+        "concept+global0.9": (SeqCfg(), 0.9),
+        "concept+global0.7": (SeqCfg(), 0.7),
+        "concept+use_decay0.7": (SeqCfg(use_decay=0.7), 1.0),
     }
     res = {}
-    for name, cfg in variants.items():
-        runs = [run(cfg, seed, n1, n2, window) for seed in range(3)]
+    for name, (cfg, gamma) in variants.items():
+        runs = [run(cfg, seed, n1, n2, window, gamma) for seed in range(3)]
         res[name] = {
             "rule1_last": [r["rule1_last"] for r in runs],
             "rule2_last": [r["rule2_last"] for r in runs],
@@ -84,7 +92,7 @@ def main():
             "curve_seed0": runs[0]["curve"],
         }
         r = res[name]
-        print(f"{name:14s} 规则1末段 {np.mean(r['rule1_last']):.3f}  规则2末段 {np.mean(r['rule2_last']):.3f}  "
+        print(f"{name:22s} 规则1末段 {np.mean(r['rule1_last']):.3f}  规则2末段 {np.mean(r['rule2_last']):.3f}  "
               f"换规则后回到90%: {r['relearn_triples']}  存活 {r['units']} 转正 {r['proven']}  {r['ms_per_step']:.3f} ms/拍")
     out = Path(__file__).resolve().parents[1] / "results" / "composition.json"
     out.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
