@@ -95,10 +95,12 @@ def test_followers():
     alive_c = set(np.nonzero(v._alive)[0].tolist())
     alive_f = {b.f_src[f] for f in range(len(b.f_src)) if b.f_alive[f]}
     assert alive_c == alive_f, f"跟随者对不上：皮层 {len(alive_c)} vs 跟随者 {len(alive_f)}"
-    assert len(b.hippo.rows) == len(b.f_src) == len(b.cortex.rows)
+    assert b.pfc.n == len(b.f_src) == b.pfc.hippo.W.shape[0] == b.pfc.cortex.W.shape[0]
     for f in range(len(b.f_src)):
         if not b.f_alive[f]:
-            assert not b.hippo.rows[f] and not b.cortex.rows[f]
+            assert not b.pfc.alive[f]
+            assert not b.pfc.hippo.W[f].any() and not b.pfc.hippo.W[:, f].any()
+            assert not b.pfc.cortex.W[f].any() and not b.pfc.cortex.W[:, f].any()
     for srcs in b.reflex.values():
         assert srcs <= alive_c, "本能来源里不能有死神经元"
     refs = v._idx[v._alive]

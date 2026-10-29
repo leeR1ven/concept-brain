@@ -3,8 +3,8 @@
 
   感觉区（现在只有视觉，brain/vision.py）
      │  每个皮层神经元一根链式专用线（1:1，延迟 chain_delay 拍）
-     ├──────────────► 前额叶接收端（每个皮层神经元一个）── 皮层慢学（Plastic，η 小）
-     ├──────────────► 海马体单元（每个皮层神经元一个）──── 快涨快降（Plastic，η 大）
+     ├──────────────► 前额叶接收端（每个皮层神经元一个）── 在上面思考（brain/pfc.py），皮层慢权重
+     ├──────────────► 海马体单元（每个皮层神经元一个）──── 快涨快降，回程送回前额叶
      │
      └─ 本能：先天直连运动区（不走链，比理性快）
                                         前额叶运动相关组（理性）
@@ -17,7 +17,7 @@
 
 还没做（如实标出）：
   - 前额叶 → 运动区的权重怎么学：现在由外部给"前额叶运动相关组"的活动（step 的 reason 参数）。
-  - 前额叶内部的协调 / 思考循环、自 / 他标记。
+  - 前额叶整体与各区的协调 / 竞争（本能 vs 理性）目前只在运动区汇合，前额叶内部还没有对应机制。
   - 视觉以外的区。
 """
 from __future__ import annotations
@@ -28,13 +28,13 @@ import numpy as np
 
 from .global_decay import GlobalDecay
 from .motor import Motor
-from .plastic import Plastic, PlasticCfg
+from .pfc import PFC, PFCCfg
 from .vision import VisionSheet
 
 
 class Brain:
     def __init__(self, vision: VisionSheet, motor: Motor, chain_delay: int = 2,
-                 hippo_eta: float = 1.0, cortex_eta: float = 0.05,
+                 pfc_cfg: PFCCfg | None = None,
                  hippo_gamma: float = 0.5, cortex_gamma: float = 1.0, decay_T: int = 200):
         self.vision = vision
         self.motor = motor
@@ -43,16 +43,13 @@ class Brain:
         self.f_src: list[int] = []
         self.f_alive: list[bool] = []
         self.f_of: dict[int, int] = {}
-        self.hippo = Plastic(0, PlasticCfg(eta=hippo_eta))
-        self.cortex = Plastic(0, PlasticCfg(eta=cortex_eta))
+        self.pfc = PFC(0, pfc_cfg)
         for cid in np.nonzero(vision._alive)[0]:
             self._attach(int(cid))
         self.gd = GlobalDecay(T=decay_T)
-        self.gd.register("hippocampus", self.hippo.edge_rows, hippo_gamma)
-        self.gd.register("cortex", self.cortex.edge_rows, cortex_gamma)
+        self.gd.register("hippocampus", lambda: self.pfc.hippo.W, hippo_gamma)
+        self.gd.register("cortex", lambda: self.pfc.cortex.W, cortex_gamma)
         self.chain = deque([np.zeros(len(vision.inputs), dtype=bool)] * chain_delay, maxlen=chain_delay)
-        self.pfc_prev = np.zeros(0, dtype=bool)
-        self.pfc = np.zeros(0, dtype=bool)
         self.reflex: dict[str, set[int]] = {}      # 动作 → 先天直连它的皮层神经元
         self.reflex_gain: dict[str, float] = {}
         self.usage = np.zeros(len(vision.inputs))
@@ -65,8 +62,7 @@ class Brain:
         self.f_src.append(cid)
         self.f_alive.append(True)
         self.f_of[cid] = f
-        self.hippo.add_units(1)
-        self.cortex.add_units(1)
+        self.pfc.grow(1)
         return f
 
     def _detach(self, cid: int) -> None:
@@ -74,8 +70,7 @@ class Brain:
         if f is None:
             return
         self.f_alive[f] = False
-        self.hippo.remove(f)
-        self.cortex.remove(f)
+        self.pfc.remove(f)
 
     def apply_events(self, info: dict) -> None:
         for parent, kids in info.get("split", []):
@@ -118,15 +113,11 @@ class Brain:
         self.chain.append(act)
         arrived = self.chain[0]
         n_f = len(self.f_src)
-        pfc = np.zeros(n_f, dtype=bool)
+        ext = np.zeros(n_f, dtype=np.float32)
         src = np.asarray(self.f_src)
         ok = np.asarray(self.f_alive) & (src < len(arrived))
-        pfc[ok] = arrived[src[ok]]
-        prev = np.r_[self.pfc_prev, np.zeros(n_f - len(self.pfc_prev), dtype=bool)]
-        rising = np.nonzero(pfc & ~prev)[0].tolist()
-        self.hippo.step(rising)
-        self.cortex.step(rising)
-        self.pfc_prev, self.pfc = pfc, pfc
+        ext[ok] = arrived[src[ok]]
+        self.pfc.step(ext)                       # 前额叶思考一拍（海马体回程、实时学习都在里面）
         # 运动区：本能（不走链）+ 理性（前额叶运动相关组）
         drive: dict[str, float] = {}
         for a, srcs in self.reflex.items():
