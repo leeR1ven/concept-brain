@@ -36,6 +36,7 @@ H = W = 16
 N_ONCE, N_REP, REPS = 5, 5, 10
 FILLER = int(sys.argv[1]) if len(sys.argv) > 1 else 40
 SEEDS = int(sys.argv[2]) if len(sys.argv) > 2 else 3
+ATTN = sys.argv[3] if len(sys.argv) > 3 else "inhib_pair"   # 前额叶注意力：抑制神经元 / global（旧全局阈值）
 HIPPO_HALF = 300              # 拍
 VARIANTS = {"none": (0.0, 0.0), "hippo": (0.0, 1.0), "cortex": (0.02, 0.0), "both": (0.02, 1.0)}
 
@@ -57,10 +58,11 @@ def run(variant, seed):
 
     eta_c, eta_h = VARIANTS[variant]
     target = int(g_act.sum()) + 150                                   # 带宽：感觉驱动的 + 150 个"想"的名额
-    pfc = PFC(len(g_act), PFCCfg(target=target, eta_cortex=eta_c, eta_hippo=eta_h))
+    pfc = PFC(len(g_act), PFCCfg(attention=ATTN, target=target, eta_cortex=eta_c, eta_hippo=eta_h))
     gd = GlobalDecay(T=50)
-    gd.register("hippocampus", pfc.hippo.rows, GlobalDecay.gamma_for_half_life(HIPPO_HALF, T=50))
-    gd.register("cortex", pfc.cortex.rows, 1.0)
+    cortex_m, hippo_m = pfc.decay_targets()
+    gd.register("hippocampus", hippo_m, GlobalDecay.gamma_for_half_life(HIPPO_HALF, T=50))
+    gd.register("cortex", cortex_m, 1.0)
 
     def show(act, n, learn=True, rec=None):
         pfc.cfg.learn = learn
@@ -114,7 +116,7 @@ def run(variant, seed):
 
 def main():
     res = {}
-    print(f"干扰 {FILLER} 对（约 {FILLER * 18} 拍），海马体半衰期 {HIPPO_HALF} 拍，{SEEDS} 个种子")
+    print(f"注意力 {ATTN}；干扰 {FILLER} 对（约 {FILLER * 18} 拍），海马体半衰期 {HIPPO_HALF} 拍，{SEEDS} 个种子")
     for v in VARIANTS:
         t0 = time.perf_counter()
         rs = [run(v, s) for s in range(SEEDS)]
@@ -122,7 +124,7 @@ def main():
         print(f"{v:7s} 一次对: 想起 {res[v]['once']['recall']:.2f} / 误想 {res[v]['once']['false']:.2f}   "
               f"重复对: 想起 {res[v]['repeated']['recall']:.2f} / 误想 {res[v]['repeated']['false']:.2f}   "
               f"(特征神经元均 {rs[0]['n_feat_mean']:.0f}，带宽 {rs[0]['target']}，{time.perf_counter() - t0:.0f}s)")
-    out = Path(__file__).resolve().parents[1] / "results" / f"recall_filler{FILLER}.json"
+    out = Path(__file__).resolve().parents[1] / "results" / f"recall_filler{FILLER}_{ATTN}.json"
     out.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
 
 

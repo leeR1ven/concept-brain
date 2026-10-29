@@ -49,8 +49,9 @@ class Brain:
             self._attach("motor", mid)
         self.motor_f = np.array([self.f_of[("motor", m)] for m in range(motor.n_neurons)])
         self.gd = GlobalDecay(T=decay_T)
-        self.gd.register("hippocampus", lambda: self.pfc.hippo.W, hippo_gamma)
-        self.gd.register("cortex", lambda: self.pfc.cortex.W, cortex_gamma)
+        cortex_m, hippo_m = self.pfc.decay_targets()
+        self.gd.register("hippocampus", hippo_m, hippo_gamma)
+        self.gd.register("cortex", cortex_m, cortex_gamma)
         z = (np.zeros(len(vision.inputs), dtype=bool), np.zeros(motor.n_neurons, dtype=np.float32))
         self.chain = deque([z] * chain_delay, maxlen=chain_delay)          # 去程
         self.ret = deque([np.zeros(motor.n_neurons, dtype=np.float32)] * chain_delay,

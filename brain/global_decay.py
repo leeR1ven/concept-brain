@@ -29,9 +29,11 @@ class GlobalDecay:
             if gamma >= 1.0:
                 continue
             rows = get_rows()
-            if hasattr(rows, "shape"):                 # 稠密矩阵（前额叶 / 海马体）
-                rows *= gamma
-                rows[rows < self.prune] = 0.0
+            mats = [rows] if hasattr(rows, "shape") else [m for m in rows if hasattr(m, "shape")]
+            if mats:                                   # 稠密矩阵（前额叶 / 海马体）
+                for M in mats:
+                    M *= gamma
+                    M[M < self.prune] = 0.0
                 continue
             for row in rows:
                 if not row:

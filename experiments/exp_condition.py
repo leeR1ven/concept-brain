@@ -26,6 +26,7 @@ from brain.vision import SheetCfg, VisionSheet  # noqa: E402
 H = W = 12
 REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 8
 SELF_STOP = float(sys.argv[2]) if len(sys.argv) > 2 else 4.0   # 缩回肌肉 → 缩回抑制 的先天连线权重（0 = 不接）
+ATTN = sys.argv[3] if len(sys.argv) > 3 else "inhib_pair"
 
 
 def make(seed):
@@ -35,7 +36,7 @@ def make(seed):
         m.wire(m.muscle_ids("withdraw"), m.inh_id("withdraw"), SELF_STOP)
     gray = np.full((H, W), 4, dtype=int)
     base = int(v.respond(v.encode(gray)).sum()) + len(m.act)
-    b = Brain(v, m, pfc_cfg=PFCCfg(target=base + 80))
+    b = Brain(v, m, pfc_cfg=PFCCfg(attention=ATTN, target=base + 80))
     srcs = []
     for i, inp in enumerate(v.inputs):
         t, pol = (inp // 2) % v.cfg.levels, inp % 2
