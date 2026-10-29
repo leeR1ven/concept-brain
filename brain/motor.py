@@ -42,7 +42,7 @@ class MotorCfg:
     lateral: float = 1.0        # 对手的驱动 → 我的抑制
     disinh: float = 1.0         # 我的驱动 → 去抑制
     step: float = 0.2           # 每档力度要多出多少驱动
-    ret_gain: float = 2.0       # 前额叶回程的强度
+    ret_gain: float = 1.0       # 前额叶回程的强度
 
 
 class Motor:
@@ -57,6 +57,7 @@ class Motor:
         self.per = self.cfg.levels + 2                 # 每组神经元数：muscle × levels + I + D
         self.n_neurons = n * self.per
         self.act = np.zeros(self.n_neurons, dtype=np.float32)
+        self.act[np.arange(n) * self.per + self.cfg.levels] = 1.0     # 静息：抑制神经元处在基础活动
         self.inh = np.full(n, self.cfg.tonic)
         self.force = np.zeros(n, dtype=int)
         self.links: list[tuple[np.ndarray, int, float]] = []
@@ -90,7 +91,7 @@ class Motor:
             extra[dst] += w * float(self.act[src].mean())
         X = extra.reshape(n, self.per)
         d = d + X[:, : c.levels].mean(axis=1)
-        d = d + c.ret_gain * R[:, : c.levels].mean(axis=1)
+        d = d + c.ret_gain * R[:, : c.levels].mean(axis=1)    # 回程到本组肌肉神经元的驱动（取平均）
         D = c.disinh * d + c.ret_gain * R[:, c.levels + 1] + X[:, c.levels + 1]
         self.inh = np.maximum(0.0, c.tonic + c.lateral * (self.rival @ d) + c.ret_gain * R[:, c.levels]
                               + X[:, c.levels] - D)
