@@ -1,53 +1,26 @@
 # -*- coding: utf-8 -*-
-"""前额叶：在分布式单元上思考。
+"""一群互相连接的神经元：前额叶用它，海马体也用它（机制很像，各是各的神经元，只是参数不同）。
 
 用户的框架：
-  - 不是"一个字一个神经元"。看到 / 听到一个字会激活很多神经元；每次都亮的那批就是它的特征神经元。
-  - 前额叶单元 = 各区每个神经元经链式专用线送来的接收端（brain/brain.py 的跟随者）。
-  - 文字网络证明了这套动态能让前额叶真正思考；这里搬到分布式单元上：
-      扩散 + 增益控制 + 先亮 → 后亮的实时学习。
-  - 海马体：同一批单元（经链 1:1 对应）、同一种学习，只是快涨快降；回程送回前额叶。
-  - 长期记忆 = 皮层（前额叶之间的慢权重）自己学。下降都走整体降权。
-  - **没有全局门槛**（用户 2026-10-29）：注意力靠抑制神经元——思考中的大量神经元抑制无关的，
-    有关的互相激活，让思想总在一个范围里。
+  - 神经元只有激活 / 不激活两种状态。
+  - 一开始就**随机充满连接**（兴奋，以及经抑制神经元的抑制），训练只是**修改**它们，不是从零长。
+  - 前额叶内部充满互相激活的连接，可能想了很多才说话；只要求慢慢形成连接规律。
+  - 海马体：权重变得快、忘得快，只管短期记忆；前额叶（皮层）变得慢。
+  - 单元经链式专用线接收各区神经元（brain/brain.py 的跟随者），ext 就是链送来的 0/1。
 
-抑制（attention="inhib_pair"，默认；用户描述的第二种方法）：
-  - 每个前额叶单元 B 身边一个抑制神经元 I_B（独立细胞，不在连接上写负权重）：B 不亮时 I_B 亮，B 亮时 I_B 不亮。
-  - 学习：A 刚亮、而 B 没亮（I_B 亮着）→ A → I_B 的连接加强：ΔV[A,B] = η / (1 + V[A,B])。
-  - 以后 A 一亮就推 I_B，I_B 压住 B（不管 B 当时亮没亮）。"B 亮时 I_B 不亮"说的是**什么时候长连接**，
-    不是 I_B 放不放电——I_B 放不放电只看它收到的输入。
-    （曾把它做成"只压还没亮的 B"——那是 Claude 的过度解读：已经亮着的念头永远压不下去，已去掉。）
-    → 无关的互相抑制、有关的（正连接）互相激活。
-  - 抑制连接只由皮层慢慢学（速度沿用字网络 learn_inh_eta=0.01），海马体不学抑制，同样走整体降权；
-    抑制总增益 0.6（沿用字网络）。
-
-输入预算（旧架构"输入兴奋预算"的概念 / 突触缩放；可关）：
-  每个单元（及每个抑制神经元）**学来的**输入总量有上限，超过就按比例缩回——新学的挤掉一部分旧的。
-  分布式表示里一个目标同时从几百个来源学（看灰底时约 500 个单元同时亮），不限的话总量失控：
-  抑制压死一切新输入（5 以上）、兴奋把念头锁住（约 240）、回程让静息的肌肉全力收缩（实测）。
-  （之前用"每个抑制神经元最多 24 条来源"只治了抑制那一处，已由预算统一替代。）
-    （曾让海马体也用 η=1 快学抑制：一开始看到的灰底一下子把其他一切挡在前额叶外，
-    连 C 本身都进不来，压在肌肉对应单元上的抑制达 514——那是我自己加的，不是用户框架，已去掉。）
-  （attention="global" 保留旧的全局阈值作对照：第 target 大的电位反推门槛。）
-
-先天随机连接（用户：现在的模型还没有丰富连接，思考没法持续变化，B 亮起来后自然就一直亮；
-像儿童时期那样给它丰富的随机连接；born-wired-cortex 里每个细胞出生就有随机兴奋 / 抑制出边）：
-  W0：每个单元随机连 innate_exc_k 个别的单元，权重 U(innate_w)；
-  V0：每个单元随机连 innate_inh_k 个别的单元的抑制神经元，权重 U(innate_w)。
-  先天连接不学、不参与整体降权；学到的连接叠加在上面。数量 / 强度是搜索空间（用户 2026-09-29），先给能跑的默认值。
-
-每拍（a = 前额叶活动，0..1）：
-  exc  = a @ (W0 + Wc + hippo_gain·Wh)            正连接（先天 + 先亮 → 后亮学来的）
-  inh  = inh_gain · (a @ (V0 + Vc))               抑制神经元：被 A 推亮就压它的伙伴
-       + pool_gain · (亮着的比例)                  一群抑制神经元收整个前额叶的活动、压回所有单元（亮得越多压得越重）
-         （没有它：耳朵一半常亮 + 先天 / 学来的兴奋，前额叶 448 个单元亮 421 个，全部肌肉被推动，实测）
-  pot  = decay·a + (exc − inh) / (1 + γ_g·Σa) + ext      增益控制
-  a'   = clip((pot − thr) / soft, 0, 1)            每个单元自己的门槛 thr（不随全局变）
-学习（快慢同一规则）：
-  正连接：刚亮的 j ← 痕迹还在的 i：ΔW[i,j] = η · trace_i / (1 + W[i,j])
-          痕迹每拍 ×trace_decay；刚亮的痕迹在**学完之后**才置 1
-          → **只有先亮的指向后亮的**；同一拍一起亮的不互相加强（用户：否则容易来回不停地激活）。
-  抑制：  刚亮的 A → 此刻没亮的 B 的抑制神经元。
+每拍（s = 这一群的 0/1 状态）：
+  I = s @ W − inh_gain · (s @ V) − pool_gain · (亮着的比例) + ext
+  s' = I ≥ thr
+  W：兴奋连接；V：到抑制神经元的连接（"A 亮 → 压 B"）；pool：一群抑制神经元按总活跃度压所有单元。
+  + bias：一群去抑制神经元的活动（动态平衡）——整体亮得比 target 少就慢慢多放开一点，多就少放开一点。
+    （用户：输入层亮的数量始终一样，前额叶亮的数量也应始终差不多，不该听字时多、安静时少。）
+学习（只看相邻两拍）：
+  - 先亮 → 后亮：i 上一拍亮（痕迹还在）、j 这一拍刚亮 → W[i,j] 加强，越涨越难涨（Δ = η / (1 + W/w_ref)）。
+    同一拍一起亮的不互相加强。每个单元学来的输入总量有上限（budget），超了按比例缩。
+  - 亮了却没带亮对方：i 上一拍亮、j 这一拍没亮 → W[i,j] 往**出生时的权重**退一点（退到出生权重就停：
+    很少用的不会一直掉，背景的随机连接始终在）。
+  - 抑制：i 亮、j 不亮 → V[i,j] 加强；一起亮 → V[i,j] 往出生权重退。
+  - 整体降权：学来的部分（W − 出生权重）每隔一段整体 ×γ（global_decay）。
 """
 from __future__ import annotations
 
@@ -58,39 +31,25 @@ import numpy as np
 
 @dataclass
 class PFCCfg:
-    attention: str = "inhib_pair"   # "inhib_pair"（抑制神经元）/ "global"（旧：全局阈值，对照用）
-    thr: float = 0.5             # 每个单元自己的门槛
-    decay: float = 0.45
-    soft: float = 0.15
-    gain_g: float = 0.01         # 增益控制
-    on_thr: float = 0.35         # 判"亮"
-    trace_decay: float = 0.8
-    eta_cortex: float = 0.02     # 慢
-    eta_hippo: float = 1.0       # 快
-    eta_inhib: float = 0.01      # 抑制连接（只在皮层，慢）
-    fail_cortex: float = 0.005   # 亮了却没带亮对方：学来的连接每拍按比例变弱（皮层慢）
-    fail_hippo: float = 0.05     #                      （海马体快）
-    inh_gain: float = 0.6        # 抑制总增益（沿用字网络）
-    pool_gain: float = 2.0       # 前额叶内部的一群抑制神经元：收整个前额叶的活动、压回所有单元；
-                                 # 压的电流 = pool_gain × 亮着的比例（可调数值；0 = 关）
-    hippo_gain: float = 1.0      # 海马体回程强度
-    in_budget: float = 2.0       # 每个单元学来的兴奋输入总量上限（每份：皮层 / 海马体各一份）；0 = 不限
-    inh_budget: float = 2.0      # 每个抑制神经元学来的输入总量上限
-    innate_exc_k: int = 20       # 先天随机兴奋出边数
-    innate_inh_k: int = 20       # 先天随机抑制出边数
-    innate_w: tuple = (0.02, 0.1)
+    thr: float = 1.0
+    w_init: float = 0.004        # 出生兴奋权重 ~ U(0, w_init)，所有单元两两之间都有
+    v_init: float = 0.004        # 出生抑制权重 ~ U(0, v_init)
+    inh_gain: float = 1.0
+    pool_gain: float = 4.0       # 一群抑制神经元：压的电流 = pool_gain × 亮着的比例
+    target: float = 0.1          # 动态平衡：一群去抑制神经元慢慢调整自己的活动，让整体活跃比例稳定在这附近（0 = 关）
+    balance_rate: float = 0.05
+    eta: float = 0.01            # 先亮 → 后亮 加强
+    budget: float = 1.5          # 每个单元学来的兴奋输入（W − 出生权重）总量上限：一个单元同时从几百个来源学，总量不会失控
+    w_ref: float = 0.2
+    fail: float = 0.01           # 亮了却没带亮对方：往出生权重退的比例
+    eta_inhib: float = 0.002
+    trace_decay: float = 0.5
     seed: int = 0
     learn: bool = True
-    # 以下只给 attention="global" 用
-    target: int = 200
-    act_eps: float = 0.35
-    theta_lr: float = 0.5
-    theta_min: float = 1e-3
 
 
 def apply_budget(M: np.ndarray, cols: np.ndarray, budget: float) -> None:
-    """输入预算：cols 这些目标收到的（学来的）连接总量超过 budget 就按比例缩回去。
-    新学的挤掉一部分旧的；分布式表示里一个目标同时从几百个来源学，总量不会失控。"""
+    """输入预算：cols 这些目标收到的连接总量超过 budget 就按比例缩回去（新学的挤掉一部分旧的）。"""
     if budget <= 0 or not len(cols):
         return
     tot = M[:, cols].sum(axis=0)
@@ -100,158 +59,98 @@ def apply_budget(M: np.ndarray, cols: np.ndarray, budget: float) -> None:
         M[:, cc] *= (budget / tot[over])[None, :]
 
 
-class DenseWeights:
-    """一组可塑连接（稠密存放）：皮层慢 / 海马体快各一份。
-    W = 正连接（先亮 → 后亮），V = 到抑制神经元的连接（A → I_B）。都是越涨越难涨。"""
-
-    def __init__(self, n: int, eta: float):
-        self.W = np.zeros((n, n), dtype=np.float32)
-        self.V = np.zeros((n, n), dtype=np.float32)
-        self.eta = eta
-
-    def learn(self, trace: np.ndarray, rising: np.ndarray, budget: float = 0.0) -> None:
-        if not len(rising) or self.eta <= 0:
-            return
-        pre = np.nonzero(trace > 0)[0]
-        if not len(pre):
-            return
-        ix = np.ix_(pre, rising)
-        sub = self.W[ix]
-        sub += self.eta * trace[pre][:, None] / (1.0 + sub)
-        self.W[ix] = sub
-        apply_budget(self.W, rising, budget)
-
-    def learn_inhib(self, rising: np.ndarray, quiet: np.ndarray, eta: float, budget: float) -> None:
-        if not len(rising) or not len(quiet) or eta <= 0:
-            return
-        ix = np.ix_(rising, quiet)
-        sub = self.V[ix]
-        sub += eta / (1.0 + sub)
-        self.V[ix] = sub
-        apply_budget(self.V, quiet, budget)
-
-    def weaken_failed(self, active: np.ndarray, quiet: np.ndarray, rate: float) -> None:
-        if rate <= 0 or not len(active) or not len(quiet):
-            return
-        ix = np.ix_(active, quiet)
-        self.W[ix] *= (1.0 - rate)
-
-    def grow(self, k: int) -> None:
-        n = self.W.shape[0]
-        for name in ("W", "V"):
-            M = np.zeros((n + k, n + k), dtype=np.float32)
-            M[:n, :n] = getattr(self, name)
-            setattr(self, name, M)
-
-    def remove(self, i: int) -> None:
-        for M in (self.W, self.V):
-            M[i, :] = 0.0
-            M[:, i] = 0.0
-
-
 class PFC:
     def __init__(self, n: int, cfg: PFCCfg | None = None):
         self.cfg = cfg or PFCCfg()
-        self.n = n
-        self.cortex = DenseWeights(n, self.cfg.eta_cortex)
-        self.hippo = DenseWeights(n, self.cfg.eta_hippo)
-        self.a = np.zeros(n, dtype=np.float32)
-        self.trace = np.zeros(n, dtype=np.float32)
-        self.alive = np.ones(n, dtype=bool)
-        self.theta = None
         self.rng = np.random.default_rng(self.cfg.seed)
-        self.W0 = np.zeros((0, 0), dtype=np.float32)
-        self.V0 = np.zeros((0, 0), dtype=np.float32)
-        self._innate(0, n)
-
-    def _innate(self, start: int, stop: int) -> None:
-        """给编号 [start, stop) 的新单元接先天随机连接（出边 + 从老单元来的入边）。"""
-        c, n = self.cfg, stop
-        for name in ("W0", "V0"):
-            M = np.zeros((n, n), dtype=np.float32)
-            old = getattr(self, name)
-            M[: old.shape[0], : old.shape[1]] = old
-            setattr(self, name, M)
-        if n < 2:
-            return
-        for M, k in ((self.W0, c.innate_exc_k), (self.V0, c.innate_inh_k)):
-            k = min(k, n - 1)
-            for i in range(start, stop):                 # 新单元的出边
-                tgt = self.rng.choice(n - 1, k, replace=False)
-                tgt[tgt >= i] += 1
-                M[i, tgt] = self.rng.uniform(*c.innate_w, k)
-            if start > 0:                                # 老单元 → 新单元：按同样的密度补
-                p = k / (n - 1)
-                for j in range(start, stop):
-                    src = np.nonzero(self.rng.random(start) < p)[0]
-                    M[src, j] = self.rng.uniform(*c.innate_w, len(src))
+        self.n = 0
+        self.W = self.W0 = self.V = self.V0 = np.zeros((0, 0), dtype=np.float32)
+        self.a = np.zeros(0, dtype=np.float32)
+        self.trace = np.zeros(0, dtype=np.float32)
+        self.alive = np.zeros(0, dtype=bool)
+        self.bias = 0.0
+        self.grow(n)
 
     # ------------------------------------------------------------ 跟随增删
     def grow(self, k: int) -> list[int]:
-        start = self.n
-        self.n += k
-        self.cortex.grow(k)
-        self.hippo.grow(k)
+        """加 k 个单元：它们和所有单元之间都有随机的出生连接。"""
+        c, n0 = self.cfg, self.n
+        n = n0 + k
+        for name, hi in (("W0", c.w_init), ("V0", c.v_init)):
+            M = np.zeros((n, n), dtype=np.float32)
+            M[:n0, :n0] = getattr(self, name)
+            M[n0:, :] = self.rng.uniform(0, hi, (k, n))
+            M[:, n0:] = self.rng.uniform(0, hi, (n, k))
+            dead = np.nonzero(~self.alive)[0]                    # 已删掉的单元不连新单元
+            M[dead, :] = 0.0
+            M[:, dead] = 0.0
+            np.fill_diagonal(M, 0.0)
+            setattr(self, name, M)
+        for name, birth in (("W", "W0"), ("V", "V0")):
+            M = getattr(self, birth).copy()
+            M[:n0, :n0] = getattr(self, name)
+            setattr(self, name, M)
         self.a = np.r_[self.a, np.zeros(k, dtype=np.float32)]
         self.trace = np.r_[self.trace, np.zeros(k, dtype=np.float32)]
         self.alive = np.r_[self.alive, np.ones(k, dtype=bool)]
-        self._innate(start, self.n)
-        return list(range(start, self.n))
+        self.n = n
+        return list(range(n0, n))
 
     def remove(self, i: int) -> None:
         self.alive[i] = False
         self.a[i] = self.trace[i] = 0.0
-        self.cortex.remove(i)
-        self.hippo.remove(i)
-        for M in (self.W0, self.V0):
+        for M in (self.W, self.W0, self.V, self.V0):
             M[i, :] = 0.0
             M[:, i] = 0.0
 
-    def decay_targets(self):
-        """给整体降权登记：(皮层的所有可塑矩阵, 海马体的所有可塑矩阵)。"""
-        return (lambda: [self.cortex.W, self.cortex.V]), (lambda: [self.hippo.W, self.hippo.V])
+    def global_decay(self, gamma: float) -> None:
+        """整体降权：学来的部分往出生权重退。"""
+        if gamma < 1.0:
+            self.W[:] = self.W0 + (self.W - self.W0) * gamma
+            self.V[:] = self.V0 + (self.V - self.V0) * gamma
 
     # ------------------------------------------------------------ 一拍
     def step(self, ext: np.ndarray) -> np.ndarray:
         c = self.cfg
-        a = self.a
-        g = c.hippo_gain
-        exc = a @ (self.W0 + self.cortex.W) + g * (a @ self.hippo.W)
-        if c.attention == "inhib_pair":
-            inh = c.inh_gain * (a @ (self.V0 + self.cortex.V))
-        else:
-            inh = 0.0
-        pool = c.pool_gain * float((a >= c.on_thr).sum()) / max(1, int(self.alive.sum()))
-        pot = c.decay * a + (exc - inh) / (1.0 + c.gain_g * float(a.sum())) + ext - pool
-        pot[~self.alive] = -np.inf
-        if c.attention == "global":
-            k = min(c.target, int(self.alive.sum()) - 1)
-            th_star = float(np.partition(pot, -k)[-k]) - c.act_eps * c.soft
-            self.theta = th_star if self.theta is None else self.theta + c.theta_lr * (th_star - self.theta)
-            self.theta = max(self.theta, c.theta_min)
-            thr = self.theta
-        else:
-            thr = c.thr
-        new = np.clip((pot - thr) / c.soft, 0.0, 1.0).astype(np.float32)
-        new[~self.alive] = 0.0
-        rising = np.nonzero((new >= c.on_thr) & (a < c.on_thr))[0]
+        s = self.a
+        frac = float(s[self.alive].mean()) if self.alive.any() else 0.0
+        I = s @ self.W - c.inh_gain * (s @ self.V) - c.pool_gain * frac + ext + self.bias
+        new = ((I >= c.thr) & self.alive).astype(np.float32)
+        if c.target > 0:                                         # 动态平衡（去抑制神经元的活动慢慢调整）
+            now = float(new[self.alive].mean()) if self.alive.any() else 0.0
+            self.bias += c.balance_rate * (c.target - now)
         if c.learn:
-            self.cortex.learn(self.trace, rising, c.in_budget)
-            self.hippo.learn(self.trace, rising, c.in_budget)
-            was_on = np.nonzero(a >= c.on_thr)[0]                     # 上一拍亮着的
-            not_now = np.nonzero((new < c.on_thr) & self.alive)[0]    # 这一拍没被带亮的
-            self.cortex.weaken_failed(was_on, not_now, c.fail_cortex)
-            self.hippo.weaken_failed(was_on, not_now, c.fail_hippo)
-            if c.attention == "inhib_pair":
-                quiet = np.nonzero((new < c.on_thr) & self.alive)[0]
-                self.cortex.learn_inhib(rising, quiet, c.eta_inhib, c.inh_budget)
+            rising = np.nonzero((new > 0) & (s == 0))[0]
+            pre = np.nonzero(self.trace > 0)[0]
+            if len(rising) and len(pre):                         # 先亮 → 后亮
+                ix = np.ix_(pre, rising)
+                sub = self.W[ix]
+                sub += c.eta * self.trace[pre][:, None] / (1.0 + sub / c.w_ref)
+                self.W[ix] = sub
+                if c.budget > 0:                                 # 输入预算：只管学来的那部分
+                    learned = self.W[:, rising] - self.W0[:, rising]
+                    tot = learned.sum(axis=0)
+                    over = tot > c.budget
+                    if over.any():
+                        cc = rising[over]
+                        self.W[:, cc] = self.W0[:, cc] + learned[:, over] * (c.budget / tot[over])[None, :]
+            was = np.nonzero(s > 0)[0]
+            quiet = np.nonzero((new == 0) & self.alive)[0]
+            if len(was) and len(quiet):                          # 亮了却没带亮对方：往出生权重退
+                ix = np.ix_(was, quiet)
+                self.W[ix] -= c.fail * (self.W[ix] - self.W0[ix])
+                self.V[ix] += c.eta_inhib                        # 一个亮、一个不亮：抑制变强
+            both = np.nonzero(new > 0)[0]
+            if len(was) and len(both):                           # 一起亮：抑制往出生权重退
+                ix = np.ix_(was, both)
+                self.V[ix] -= 0.5 * (self.V[ix] - self.V0[ix])
         self.trace *= c.trace_decay
         self.trace[self.trace < 0.05] = 0.0
-        self.trace[rising] = 1.0
+        self.trace[new > 0] = 1.0
         self.a = new
         return new
 
     def reset(self) -> None:
         self.a[:] = 0.0
         self.trace[:] = 0.0
-        self.theta = None
+        self.bias = 0.0

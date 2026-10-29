@@ -25,7 +25,6 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from brain.brain import Brain  # noqa: E402
-from brain.global_decay import GlobalDecay  # noqa: E402
 from brain.motor import Motor, MotorCfg  # noqa: E402
 from brain.pfc import PFCCfg  # noqa: E402
 from brain.vision import SheetCfg, VisionSheet  # noqa: E402
@@ -62,11 +61,24 @@ class Talker:
         ear = VisionSheet(v.F, v.T, SheetCfg(levels=v.levels, layers=(8, 8, 8), need_frac=(0.5, 0.875, 0.375),
                                              split_frac=(0.01, 0.02, 0.05)), seed=seed)
         mouth = Motor([f"m{i}" for i in range(v.n_muscles)], cfg=MotorCfg(levels=3))
-        self.brain = Brain({"ear": ear}, mouth, pfc_cfg=PFCCfg(eta_hippo=0.3, seed=seed),
-                           hippo_gamma=GlobalDecay.gamma_for_half_life(2000))
+        self.brain = Brain({"ear": ear}, mouth, pfc_cfg=PFCCfg(seed=seed))
         self.rng = np.random.default_rng(seed)
         self.saying = None           # 嘴这一拍发出的声音（下一拍自己听到）
         self.said: list[str] = []
+
+    def warmup(self, steps_chars: int = 200):
+        """出生后先随便听一阵（不学），统计哪些耳朵神经元经常亮、没特征，撤掉它们的链。"""
+        b = self.brain
+        b.learning = False
+        rng = np.random.default_rng(1)
+        for _ in range(steps_chars):
+            self.listen(self.voice.chars[rng.integers(len(self.voice.chars))])
+        b.mute_featureless()
+        b.usage = {k: np.zeros_like(u) for k, u in b.usage.items()}
+        b.n_seen = 0
+        b.pfc.reset()
+        b.hippo.reset()
+        b.learning = True
 
     def tick(self, other: str | None = None, reason=None) -> str | None:
         """一拍：耳朵听到 别人这一拍说的 + 自己上一拍说的（叠在一起取大）。返回嘴这一拍发出的。"""
@@ -162,7 +174,7 @@ def main():
                     b.restructure()
         print(f"听语料第 {ep + 1} 遍：累计 {b.t} 拍，{time.perf_counter() - t0:.0f}s，前额叶 {b.pfc.n} 个单元")
 
-    b.pfc.cfg.learn = False
+    b.learning = False
     for p in ["你好", "早上好你好吗", "你好吗", "你最喜欢什么颜色", "谢谢", "你是谁"]:
         print(f"  我：{p}\n  它：{t.reply(p) or '（不说话）'}")
 

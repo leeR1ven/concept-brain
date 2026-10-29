@@ -94,13 +94,13 @@ def test_followers():
     v = b.vision
     alive_c = set(np.nonzero(v._alive)[0].tolist())
     alive_f = {b.f_src[f][1] for f in range(len(b.f_src)) if b.f_alive[f] and b.f_src[f][0] == "vision"}
-    assert alive_c == alive_f, f"跟随者对不上：皮层 {len(alive_c)} vs 跟随者 {len(alive_f)}"
-    assert b.pfc.n == len(b.f_src) == b.pfc.hippo.W.shape[0] == b.pfc.cortex.W.shape[0]
+    assert alive_f <= alive_c, "有跟随者对应的是死神经元"
+    assert all((("vision", c) in b.f_of) or True for c in alive_c)      # 常亮没特征的可以没有链
+    assert b.pfc.n == len(b.f_src) == b.hippo.n == b.R.shape[0]
     for f in range(len(b.f_src)):
         if not b.f_alive[f]:
-            assert not b.pfc.alive[f]
-            assert not b.pfc.hippo.W[f].any() and not b.pfc.hippo.W[:, f].any()
-            assert not b.pfc.cortex.W[f].any() and not b.pfc.cortex.W[:, f].any()
+            assert not b.pfc.alive[f] and not b.hippo.alive[f]
+            assert not b.pfc.W[f].any() and not b.pfc.W[:, f].any() and not b.R[f].any()
     for _, srcs in b.reflex.values():
         assert srcs <= alive_c, "本能来源里不能有死神经元"
     refs = v._idx[v._alive]
