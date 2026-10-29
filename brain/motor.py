@@ -42,7 +42,7 @@ class MotorCfg:
     lateral: float = 1.0        # 对手的驱动 → 我的抑制
     disinh: float = 1.0         # 我的驱动 → 去抑制
     step: float = 0.2           # 每档力度要多出多少驱动
-    ret_gain: float = 1.0       # 前额叶回程的强度
+    ret_gain: float = 0.5       # 前额叶回程的强度（参数；链式架构"回程只当调制"。2.0 时抑制的对应单元回送后本能压不过，强光不再触发缩回）
 
 
 class Motor:

@@ -7,17 +7,13 @@
                               │
   本能：视觉先天直连运动区 ────┼──► 运动区（brain/motor.py）
                               │        ▲
-  前额叶 ── 回程（链，延迟 chain_delay 拍）──► 运动神经元：先天随机铺的"空连接" + 先亮 → 后亮学来的
+  前额叶里运动神经元的对应单元 ── 回程（链，1:1，延迟 chain_delay 拍）──► 同一个运动神经元
 
   - 前额叶在想别的事、没激活运动对应单元时：运动完全由其他区（本能）决定。
   - 前额叶想动 / 想压住某些肌肉：靠它自己内部的相互激活 / 竞争把对应单元点亮。
-  - 前额叶会自己学"看到什么之后哪些肌肉动了"：前额叶单元先亮、某个运动神经元后亮 → 这条回程加强
-    （皮层慢、海马体快，同一规则；同样走整体降权；先天那部分不动）。
-  - 回程**不是** 1:1 送回同一个运动神经元：那样运动神经元 → 它在前额叶的对应单元 → 回送自己，
-    是一个不经思考的回声回路，肌肉一动就停不下来（实测：海马体速度从 1 降到 0.03 都一样）。
-  - 回程的先天部分是**空连接**（旧架构的概念：权重 0.0001，几乎不传导，只是给学习留出能写的路线；
-    学习只加强这些已有的路线）。运动区不接收有实际强度的先天随机兴奋：前额叶任何时候都有约一半单元亮着，
-    随机回程会给每个运动神经元约 0.95 的底噪，去抑制被点亮、静息时肌肉自己全力收缩（实测）。
+  - 前额叶会自己学"看到什么之后哪些肌肉动了"：运动神经元的活动和感觉一样经链进来，
+    先亮 → 后亮的实时学习把它们接起来。
+  - 前额叶 ↔ 各区之间的回路是正常现象（用户 2026-10-29），不当作问题去改。
 
 跟随增删：各区神经元分裂 / 删除时，它的链、前额叶接收端、海马体单元一起增删
 （子单元各配一套新的；本能直连的来源身份由子单元继承）。
@@ -33,14 +29,13 @@ import numpy as np
 
 from .global_decay import GlobalDecay
 from .motor import Motor
-from .pfc import PFC, PFCCfg, apply_budget
+from .pfc import PFC, PFCCfg
 from .vision import VisionSheet
 
 
 class Brain:
     def __init__(self, vision: VisionSheet, motor: Motor, chain_delay: int = 2,
                  pfc_cfg: PFCCfg | None = None,
-                 ret_routes: int = 100, ret_empty_w: float = 1e-4,
                  hippo_gamma: float = 0.5, cortex_gamma: float = 1.0, decay_T: int = 200):
         self.vision = vision
         self.motor = motor
@@ -54,21 +49,10 @@ class Brain:
         for mid in range(motor.n_neurons):
             self._attach("motor", mid)
         self.motor_f = np.array([self.f_of[("motor", m)] for m in range(motor.n_neurons)])
-        # 回程：前额叶 → 运动神经元（先天随机空连接 + 学来的快 / 慢两份，只能写在空连接上）
-        c = self.pfc.cfg
-        rng = np.random.default_rng(c.seed + 7)
-        n_p, n_m = self.pfc.n, motor.n_neurons
-        self.R0 = np.zeros((n_p, n_m), dtype=np.float32)
-        for mid in range(n_m):
-            src = rng.choice(n_p, min(ret_routes, n_p), replace=False)
-            self.R0[src, mid] = ret_empty_w
-        self.Rc = np.zeros((n_p, n_m), dtype=np.float32)
-        self.Rh = np.zeros((n_p, n_m), dtype=np.float32)
-        self.motor_trace_prev = np.zeros(n_m, dtype=np.float32)
         self.gd = GlobalDecay(T=decay_T)
         cortex_m, hippo_m = self.pfc.decay_targets()
-        self.gd.register("hippocampus", lambda: hippo_m() + [self.Rh], hippo_gamma)
-        self.gd.register("cortex", lambda: cortex_m() + [self.Rc], cortex_gamma)
+        self.gd.register("hippocampus", hippo_m, hippo_gamma)
+        self.gd.register("cortex", cortex_m, cortex_gamma)
         z = (np.zeros(len(vision.inputs), dtype=bool), np.zeros(motor.n_neurons, dtype=np.float32))
         self.chain = deque([z] * chain_delay, maxlen=chain_delay)          # 去程
         self.ret = deque([np.zeros(motor.n_neurons, dtype=np.float32)] * chain_delay,
@@ -86,10 +70,6 @@ class Brain:
         self.f_alive.append(True)
         self.f_of[(region, nid)] = f
         self.pfc.grow(1)
-        for name in ("R0", "Rc", "Rh"):                 # 回程矩阵跟着加一行（新单元暂无回程）
-            if hasattr(self, name):
-                M = getattr(self, name)
-                setattr(self, name, np.r_[M, np.zeros((1, M.shape[1]), dtype=np.float32)])
         return f
 
     def _detach(self, region: str, nid: int) -> None:
@@ -98,9 +78,6 @@ class Brain:
             return
         self.f_alive[f] = False
         self.pfc.remove(f)
-        for name in ("R0", "Rc", "Rh"):
-            if hasattr(self, name):
-                getattr(self, name)[f, :] = 0.0
 
     def apply_events(self, info: dict) -> None:
         for parent, kids in info.get("split", []):
@@ -153,11 +130,9 @@ class Brain:
                     ext[f] = v_arr[nid]
             else:
                 ext[f] = m_arr[nid]
-        trace_before = self.pfc.trace.copy()             # 学回程用：这一拍之前就亮过、痕迹还在的前额叶单元
         a = self.pfc.step(ext)
-        # 回程：前额叶 → 链 → 运动神经元
-        R = self.R0 + self.Rc + self.pfc.cfg.hippo_gain * self.Rh
-        self.ret.append((a @ R).astype(np.float32))
+        # 回程：前额叶里运动神经元的对应单元 → 链 → 同一个运动神经元
+        self.ret.append(a[self.motor_f].copy())
         ret = self.ret[0]
         # 运动区：本能（不走链）+ 回程 +（测试用）外部理性驱动
         drive: dict[str, float] = {}
@@ -169,20 +144,7 @@ class Brain:
             drive[name] = drive.get(name, 0.0) + v
         self.gd.tick()
         self.t += 1
-        prev_m = self.motor.act.copy()
         out = self.motor.step(drive, ret)
-        # 学回程：先亮的前额叶单元 → 这一拍刚亮的运动神经元
-        if self.pfc.cfg.learn:
-            rising_m = np.nonzero((self.motor.act >= 0.35) & (prev_m < 0.35))[0]
-            pre = np.nonzero(trace_before > 0)[0]
-            if len(rising_m) and len(pre):
-                ix = np.ix_(pre, rising_m)
-                route = self.R0[ix] > 0                     # 只能写在先天铺好的空连接上
-                for M, eta in ((self.Rc, self.pfc.cfg.eta_cortex), (self.Rh, self.pfc.cfg.eta_hippo)):
-                    sub = M[ix]
-                    sub += route * (eta * trace_before[pre][:, None] / (1.0 + sub))
-                    M[ix] = sub
-                    apply_budget(M, rising_m, self.pfc.cfg.in_budget)   # 每个运动神经元的回程输入预算
         return out
 
     # ------------------------------------------------------------ 看
