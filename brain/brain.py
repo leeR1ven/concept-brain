@@ -8,8 +8,11 @@
           运动皮层 → 肌肉神经元的连接学"这个组合之后要动哪些肌肉"。
           肌肉神经元 vs 抑制神经元同一拍比较，平时抑制占上风；收到的是各路信号的总和。
   链：听觉区皮层、运动皮层、肌肉神经元的每个神经元，各一根线到海马体的一个神经元、一根到前额叶的一个神经元。
-  前额叶还有自己的神经元：没有链进来、也没有回程出去，只和前额叶内部互相连，慢慢学成概括 / 概念；
-      前额叶在它们之间想事情时不推动别的区（可以独立思考）。
+  前额叶分两层，外加一个和它来回连的丘脑小区：
+      接收层：上面那些"对应者"（收链；内部互相连；集中的活动经回程中继送出去）；
+      思考层：前额叶自己的神经元，没有链进来、也没有回程出去。从接收层收信号，层内互相连，
+              再送回接收层（输出又返回成为上一层的输入）——慢慢学成概括 / 概念；在这里想事情不推动别的区；
+      丘脑：和思考层一小组一小组地来回连（出生固定），给想法一个回路托着，能撑过一段间隔。
       海马体的链强（有真实输入时以输入为准，安静时空出的名额是回放）；前额叶的链弱（进不进得来看它在想什么）。
   回程：海马体 / 前额叶 → 回程中继 → 听觉区（心里听到）、运动皮层（想动）。强度是可调的数值。
         只让集中的想法回送：每个中继读"它负责的那个神经元 + 同一位置上下相邻几个"在前额叶里对应的神经元，
@@ -47,7 +50,13 @@ class BrainCfg:
     ret_pfc: float = 0.5
     relay_span: int = 3           # 回程中继读同一位置上下各几个邻居
     relay_need: float = 3.0       # 这一小簇里至少亮几个，中继才亮
-    pfc_own: int = 10000          # 前额叶自己的神经元（不对应任何区，没有链也没有回程）
+    pfc_own: int = 10000          # 前额叶思考层（自己的神经元，不对应任何区，没有链也没有回程）
+    think: ThoughtCfg = field(default_factory=lambda: ThoughtCfg(region=RegionCfg(frac=0.05),
+                                                                 internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999)))
+    in_think: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.03, eta=0.01, gamma=0.999))   # 接收层 → 思考层
+    think_in: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.01, eta=0.01, gamma=0.999))   # 思考层 → 接收层
+    thal_group: int = 5           # 丘脑每个神经元和思考层几个神经元来回连
+    thal_w: float = 0.3           # 丘脑环路的强度（托住想法的旋钮：太强会锁死，太弱撑不住）
     ear_mctx: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999))
     mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999))
     decay_T: int = 100
@@ -105,10 +114,11 @@ class Brain:
         self.cand = {"ear": cand_e, "mctx": cand_c, "motor": np.arange(nm)}
         ids = np.r_[cand_e, ne + cand_c, ne + nc + np.arange(nm)]
         self.hip = ThoughtArea("hip", ne + nc + nm, c.hip, seed=c.seed + 1, ids=ids)
-        n_mirror = ne + nc + nm
-        self.pfc = ThoughtArea("pfc", n_mirror + c.pfc_own, c.pfc, seed=c.seed + 2,
-                               ids=np.r_[ids, n_mirror + np.arange(c.pfc_own)])
-        self.pfc_own = slice(n_mirror, n_mirror + c.pfc_own)
+        self.pfc = ThoughtArea("pfc", ne + nc + nm, c.pfc, seed=c.seed + 2, ids=ids)          # 接收层
+        self.think = ThoughtArea("think", c.pfc_own, c.think, seed=c.seed + 3)              # 思考层
+        n_th = c.pfc_own // c.thal_group
+        self.thal = ThoughtArea("thal", n_th, ThoughtCfg(region=RegionCfg(frac=0.05),
+                                                         internal=PathCfg(k=1, w_init=0.0)), seed=c.seed + 4)
         src = {"ear": ear.region, "mctx": mctx.region, "motor": mot.region}
         paths, relays = [], []
         for X, cg, rg in ((self.hip, c.chain_hip, c.ret_hip), (self.pfc, c.chain_pfc, c.ret_pfc)):
@@ -125,11 +135,20 @@ class Brain:
                                   pairs=[(o + int(i), nb[int(i)]) for i in self.cand[k]]))
                 paths.append(Path(f"{k}中继⇒{k}", relay.region, A.region, PathCfg(w_init=rg), rng,
                                   pairs=[(int(i), [int(i)]) for i in self.cand[k]]))
+        grp = np.arange(c.pfc_own) % n_th                          # 思考层第 i 个 ↔ 丘脑第 i % n_th 个
+        paths += [Path("pfc→think", self.pfc.region, self.think.region, c.in_think, rng, src_ids=ids,
+                       dst_ids=np.arange(c.pfc_own)),
+                  Path("think→pfc", self.think.region, self.pfc.region, c.think_in, rng, src_ids=np.arange(c.pfc_own),
+                       dst_ids=ids),
+                  Path("think⇒thal", self.think.region, self.thal.region, PathCfg(w_init=c.thal_w), rng,
+                       pairs=[(i, [int(grp[i])]) for i in range(c.pfc_own)]),
+                  Path("thal⇒think", self.thal.region, self.think.region, PathCfg(w_init=c.thal_w), rng,
+                       pairs=[(j, np.nonzero(grp == j)[0]) for j in range(n_th)])]
         paths += [Path("mctx→motor", mctx.region, mot.region, c.mctx_mot, rng, src_ids=cand_c, dst_ids=np.arange(nm)),
                   Path("ear→mctx", ear.region, mctx.region, c.ear_mctx, rng, src_ids=cand_e, dst_ids=cand_c),
                   Path("mctx→ear", mctx.region, ear.region, c.mctx_ear, rng, src_ids=cand_c, dst_ids=cand_e)]
         self.relays = relays
-        self.c = Circuit([ear, mctx, self.hip, self.pfc, mot] + relays, paths, decay_T=c.decay_T)
+        self.c = Circuit([ear, mctx, self.hip, self.pfc, self.think, self.thal, mot] + relays, paths, decay_T=c.decay_T)
         self._sync_mirrors()
 
     def _sync_mirrors(self) -> None:
@@ -140,7 +159,6 @@ class Brain:
                 X.region.alive[o:o + A.region.n] = T(A.cortex)
             X.region.alive[self.off["motor"]:self.off["motor"] + self.mot.region.n] = True
             X.region._alive_ref = None
-        self.pfc.region.alive[self.pfc_own] = True
         for r in self.relays:
             r.region.alive = T(r.area.cortex)
 
