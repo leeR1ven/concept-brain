@@ -163,8 +163,9 @@ class Path:
     def learn(self) -> None:
         """两个区都已更新完（prev = 上一拍，s = 这一拍）。i→j：
           i 先亮、j 后亮（上一拍 i 亮着，这一拍 j 刚亮）→ 加强，越强越难涨；
-          反过来 j 先亮、i 后亮（上一拍 j 亮着，这一拍 i 刚亮）→ 减弱，最多减回出生强度。
-        所以只有总是"i 在前、j 在后"的连接留得住；常亮的神经元前后什么都碰得到，两边抵消。"""
+          j 先亮、i 后亮（上一拍 j 亮着，这一拍 i 亮着）→ 减弱，最多减回出生强度。
+          i 一直亮着、j 中途亮了一下，就等于"i 后 j"又"j 后 i"，两边抵消（用户）。
+        所以只有总是"i 灭了、j 接着亮"的先后关系留得住；一直亮着的共有特征连不出很多。"""
         c = self.cfg
         if c.eta <= 0:
             return
@@ -176,8 +177,8 @@ class Path:
                 W, W0 = self.w[rows], self.w0[rows]
                 W += R * (c.eta / (1.0 + (W - W0) / c.w_ref))
                 self.w[rows] = W
-        rows = np.nonzero(self.src.s & ~self.src.prev)[0]
-        if len(rows):                                                    # j 先亮、i 后亮
+        rows = np.nonzero(self.src.s)[0]
+        if len(rows):                                                    # j 先亮、i 后亮（i 一直亮着也算）
             B = self.dst.prev[self.to[rows]] & self.ok[rows]
             if B.any():
                 W, W0 = self.w[rows], self.w0[rows]

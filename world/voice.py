@@ -65,3 +65,30 @@ class Voice:
             if hit >= self.k - 1:
                 return best
         return "~"
+
+
+class Stream:
+    """耳朵收到的声音是连续流动的：每拍推进 step 个时间片，耳朵看到最近 T 个时间片（一个字那么长）。
+    一个字的 T 个时间片在 T/step 拍里放完；前一个字的尾巴和后一个字的开头在时间窗里连在一起。
+    别人的声音和自己的声音叠在一起（取大）。"""
+
+    def __init__(self, voice: Voice, step: int):
+        self.v, self.step = voice, step
+        self.win = np.zeros((voice.F, voice.T), dtype=int)
+        self.src = {"other": [None, 0], "self": [None, 0]}       # 每个声源：正在放的字、放到第几片
+
+    def tick(self, other: str | None, self_: str | None, new_other: bool = False) -> np.ndarray:
+        """other / self_：这一拍别人 / 自己在发的字（None = 不出声）；new_other：别人这一拍开始说一个新字。"""
+        v, T = self.v, self.v.T
+        new = np.zeros((v.F, self.step), dtype=int)
+        for who, ch, fresh in (("other", other, new_other), ("self", self_, False)):
+            prev, ph = self.src[who]
+            if ch != prev or fresh:
+                ph = 0
+            if ch is not None:
+                g = v.hear(ch, who)
+                cols = [min(ph + j, T - 1) for j in range(self.step)]   # 拖得比本来长：停在最后一片
+                new = np.maximum(new, g[:, cols])
+            self.src[who] = [ch, ph + self.step]
+        self.win = np.concatenate([self.win[:, self.step:], new], axis=1)
+        return self.win

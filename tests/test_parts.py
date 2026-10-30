@@ -190,6 +190,47 @@ def hippo(seed: int = 0, cfg=None, verbose: bool = True, after: int = 300, chain
     return float(np.mean(b1)), float(np.mean(b2))
 
 
+# ================================================================ 运动区
+def motor(reps: int = 30, seed: int = 0, verbose: bool = True):
+    """运动区单独：平时放松；用数据训练几串嘴部动作（每个字 = 一组肌肉，说完推抑制神经元停下）；
+    之后只轻推第一个字，看运动区自己能不能把这一串做完、做完停下。"""
+    from brain.areas import MotorArea
+    words = ["今天天气", "我们去", "你吃饭了吗"]
+    v = Voice(sorted(set("".join(words))), seed=seed)
+    m = MotorArea(seed=seed)
+    c = Circuit([m])
+
+    def run(drive_seq):
+        said = []
+        for d in drive_seq:
+            c.step(ext=None if d is None else {"motor": d})
+            said.append(v.mouth({f"m{i}": int(f) for i, f in enumerate(m.force())}))
+        return said
+
+    def say_plan(w):
+        plan = []
+        for ch in w:
+            plan += [m.push(v.need[ch])] * SOUND
+        plan += [m.stop()] * 2 + [None] * PAUSE                 # 说完：先停下（推抑制神经元），再安静
+        return plan
+
+    rest = run([None] * 10)
+    for _ in range(reps):
+        for w in words:
+            run(say_plan(w))
+    c.learning = False
+    out = []
+    for w in words:
+        run([None] * 6)
+        said = run([m.push(v.need[w[0]], strength=1.6)] + [None] * 16)
+        out.append((w, runs([s or "_" for s in said])))
+    if verbose:
+        print(f"运动区：平时（没有输入）{'放松' if all(s is None for s in rest) else '在动'}")
+        for w, s in out:
+            print(f"  训练 {reps} 遍后只轻推第一个字 '{w[0]}'：说出 {s or '（没说）'}    （训练的是 {w}）")
+    return out
+
+
 if __name__ == "__main__":
     part = sys.argv[1] if len(sys.argv) > 1 else "sense"
     if part == "sense":
@@ -197,3 +238,5 @@ if __name__ == "__main__":
             sense(r)
     elif part == "hippo":
         hippo()
+    elif part == "motor":
+        motor()

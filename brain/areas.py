@@ -94,7 +94,8 @@ class ThoughtCfg:
 
 
 def pfc_cfg() -> ThoughtCfg:
-    return ThoughtCfg()
+    """前额叶：亮的范围大、学得慢。出生的随机连接丰富一些，让它有自己的活动，不只是输入的复印件。"""
+    return ThoughtCfg(region=RegionCfg(frac=0.08), internal=PathCfg(k=96, w_init=0.05, eta=0.01, gamma=0.999))
 
 
 def hip_cfg() -> ThoughtCfg:
@@ -128,10 +129,16 @@ class MotorCfg:
     tonic: float = 1.2                # 抑制神经元的基础电流（平时一直亮）
     inh_w: float = 1.5                # 抑制神经元 → 肌肉神经元
     dis_w: float = 2.0                # 去抑制神经元 → 抑制神经元
+    dis_thr: float = 2.5              # 去抑制神经元的门槛：零散的推力撤不掉抑制，要足够集中的意图或外力
     internal: PathCfg = field(default_factory=lambda: PathCfg(k=64, w_init=0.02, eta=0.05, gamma=0.99))
 
 
 class MotorArea:
+    """肌肉控制神经元 vs 抑制神经元：同一拍里比较（抑制是即时的，不往后拖一拍）。
+      去抑制神经元 D：收到的电流 ≥ dis_thr 就亮；
+      抑制神经元 I：基础电流 tonic + 收到的 − dis_w·（这一拍它的 D 亮没亮）≥ 1 就亮（平时一直亮）；
+      肌肉神经元 M：收到的 − inh_w·（这一拍它的 I 亮没亮）≥ 1 + 档·level_step 就亮；亮几档 = 多大力。"""
+
     def __init__(self, name: str = "motor", cfg: MotorCfg | None = None, seed: int = 0):
         self.name = name
         self.cfg = c = cfg or MotorCfg()
@@ -142,17 +149,21 @@ class MotorArea:
         self.D = nm * L + nm + np.arange(nm)             # 去抑制神经元
         self.region = R = Region(name, nm * L + 2 * nm, RegionCfg(frac=0.0))   # 平时不动：用门槛
         R.thr[self.M] = 1.0 + c.level_step * np.arange(L)[None, :]
-        R.base[self.I] = c.tonic
         self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng,
                           src_ids=np.r_[self.M.reshape(-1), self.I, self.D], dst_ids=np.arange(R.n))
-        inh = Path("I⊣M", R, R, PathCfg(w_init=c.inh_w, sign=-1.0), self.rng,
-                   pairs=[(int(self.I[m]), self.M[m]) for m in range(nm)])
-        dis = Path("D⊣I", R, R, PathCfg(w_init=c.dis_w, sign=-1.0), self.rng,
-                   pairs=[(int(self.D[m]), [int(self.I[m])]) for m in range(nm)])
-        self.regions, self.paths = [R], [self.inner, inh, dis]
+        self.regions, self.paths = [R], [self.inner]
 
     def fire(self, cur: dict, lines: dict) -> None:
-        self.region.fire(cur[self.name])
+        c, R = self.cfg, self.region
+        x = cur[self.name]
+        d_on = x[self.D] >= c.dis_thr
+        i_on = x[self.I] + c.tonic - c.dis_w * d_on >= 1.0
+        m_on = x[self.M] - c.inh_w * i_on[:, None] >= R.thr[self.M]
+        new = np.zeros(R.n, dtype=bool)
+        new[self.M] = m_on
+        new[self.I] = i_on
+        new[self.D] = d_on
+        R.set(new)
 
     def force(self) -> np.ndarray:
         """每块肌肉这一拍的力度 = 亮了几档。"""
@@ -163,7 +174,7 @@ class MotorArea:
         d = np.zeros(self.region.n, np.float32)
         for m in muscles:
             d[self.M[m]] += strength
-            d[self.D[m]] += 1.5
+            d[self.D[m]] += self.cfg.dis_thr + 0.5
         return d
 
     def stop(self, strength: float = 2.0) -> np.ndarray:
