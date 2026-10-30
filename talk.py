@@ -133,16 +133,19 @@ def check(t: Talker, convs, tag: str) -> None:
         for _ in range(PAUSE):
             t.tick()
     moved = sum(s is not None for s in t.said)
-    keep = []                                                   # 思考层：别人说完时的那片，停顿之后还剩多少
+    keep, ends = [], []                                         # 思考层：别人说完时的那片，停顿之后还剩多少
     for conv in convs[3:8]:
         t.listen(conv[0], pause=0)
         a0 = N(b.think.region.s).copy()
+        ends.append(a0)
         for _ in range(REPLY_GAP):
             t.tick()
         a1 = N(b.think.region.s)
         keep.append((a0 & a1).sum() / max(1, (a0 | a1).sum()))
         for _ in range(PAUSE):
             t.tick()
+    jac = lambda x, y: (x & y).sum() / max(1, (x | y).sum())    # noqa: E731
+    across = [jac(ends[i], ends[j]) for i in range(len(ends)) for j in range(i + 1, len(ends))]
     # 3. 对话：听到别人那句，会不会开口、说出的和该回的有多少重合
     spoke, ov, ex = 0, [], []
     for conv in convs[:10]:
@@ -152,7 +155,7 @@ def check(t: Talker, convs, tag: str) -> None:
         if len(ex) < 4:
             ex.append(f"别人：{conv[0]}　它：{out or '（不说话）'}　（该回：{conv[1]}）")
     print(f"[{tag}] 只听时嘴动了 {moved} 拍 | 前额叶里不是当前输入的 {np.mean(own):.2f} | "
-          f"思考层停顿后还保持 {np.mean(keep):.2f} | "
+          f"思考层停顿后还保持 {np.mean(keep):.2f}、不同句子之间 {np.mean(across):.2f} | "
           f"听到一句后开口 {spoke}/10，说出的字属于该回那句 {np.mean(ov):.2f}", flush=True)
     print(f"    学到的量（均值/最大）：{bal}", flush=True)
     for e in ex:
