@@ -8,15 +8,14 @@
       它听到的是自己的声音。全脑照常学。
 测试：别人说一句，然后安静，看嘴说出什么。
 
-  python talk.py --convs 20 --epochs 10
-语料：/root/work/corpus/chatterbot/*.yml（chatterbot 中文对话）
+  python talk.py --convs 6000            # 一段段听新对话（不反复死记同几段）
+语料：python corpus.py 合成的中文对话（chatterbot 问答 + LCCC / PersonalDialog 日常闲聊，只留短句）
 """
 from __future__ import annotations
 
 import argparse
-import glob
+import json
 import pickle
-import re
 import sys
 import time
 from pathlib import Path
@@ -27,27 +26,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from brain.brain import Brain, BrainCfg  # noqa: E402
 from world.voice import Stream, Voice  # noqa: E402
 
-CORPUS = "/root/work/corpus/chatterbot/*.yml"
+CORPUS = "/root/work/corpus/dialogs.jsonl"     # python corpus.py 生成（chatterbot + LCCC + PersonalDialog）
 SOUND, PAUSE = 3, 4          # 每个字的声音持续几拍（一句话里字连着说）；对话和对话之间停几拍
 REPLY_GAP = 6                # 训练时别人说完到模型接话的停顿（长一点：模型要自己把听到的留住；测试时什么时候开口由模型自己定）
 
 
-def load_corpus(pattern=CORPUS):
-    convs = []
-    for f in sorted(glob.glob(pattern)):
-        cur = None
-        for line in open(f, encoding="utf-8"):
-            line = line.rstrip("\n")
-            if line.startswith("- - "):
-                if cur:
-                    convs.append(cur)
-                cur = [line[4:].strip()]
-            elif line.startswith("  - ") and cur is not None:
-                cur.append(line[4:].strip())
-        if cur:
-            convs.append(cur)
-    clean = lambda s: re.sub(r"[^一-鿿A-Za-z0-9]", "", s)  # noqa: E731  标点 = 停顿，不是声音
-    return [[clean(u) for u in c if clean(u)] for c in convs]
+def load_corpus(path: str = CORPUS) -> list:
+    """corpus.py 生成的对话（每行一段：一串句子，别人和模型轮流说）。"""
+    return [json.loads(line) for line in open(path, encoding="utf-8")]
 
 
 class Talker:
@@ -165,46 +151,39 @@ def check(t: Talker, convs, tag: str) -> None:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--convs", type=int, default=0, help="用前多少段对话（0 = 全部）")
-    ap.add_argument("--epochs", type=int, default=3)
-    ap.add_argument("--check_every", type=int, default=100, help="每训练多少段对话检查一次")
-    ap.add_argument("--restructure_every", type=int, default=400, help="每训练多少段对话做一次神经元增删（很慢）")
+    ap.add_argument("--convs", type=int, default=6000, help="一共听多少段对话（从语料里依次取，每段只听一次）")
+    ap.add_argument("--check_every", type=int, default=200, help="每听多少段对话检查一次")
+    ap.add_argument("--restructure_every", type=int, default=1000, help="每听多少段对话做一次神经元增删（很慢）")
     ap.add_argument("--save", default="", help="每次检查后把整个模型存到这个文件（pickle）")
     args = ap.parse_args()
-    convs = [c for c in load_corpus() if len(c) >= 2]
-    if args.convs:
-        convs = convs[: args.convs]
-    chars = sorted({ch for c in convs for u in c for ch in u})
-    print(f"语料：{len(convs)} 段对话，{sum(len(u) for c in convs for u in c)} 字，{len(chars)} 个不同的字", flush=True)
+    pool = [c for c in load_corpus() if len(c) >= 2]
+    probe = pool[:20]                                       # 检查用的一组（也会被听到，像熟悉的对话）
+    convs = pool[: args.convs]
+    chars = sorted({ch for c in pool for u in c for ch in u})
+    print(f"语料：{len(pool)} 段对话、{len(chars)} 个不同的字；这次听前 {len(convs)} 段", flush=True)
     t = Talker(chars)
     b = t.brain
     print(f"脑：听觉区皮层 {int(b.ear.cortex.sum())}，运动皮层 {int(b.mctx.cortex.sum())}，"
           f"海马体 / 前额叶 各 {int(b.pfc.region.alive.sum())}，肌肉区 {b.mot.region.n}；"
           f"没特征的不送链：{t.warmup()} 个", flush=True)
-    probe = convs[:: max(1, len(convs) // 20)][:20]          # 检查用的一组对话（散布在整个语料里）
     check(t, probe, "训练前")
-    rng = np.random.default_rng(0)
-    done = 0
     t0 = time.perf_counter()
-    for ep in range(args.epochs):
-        for ci in rng.permutation(len(convs)):
-            conv = convs[ci]
-            for i, u in enumerate(conv):
-                if i % 2 == 0:
-                    t.listen(u, pause=REPLY_GAP if i + 1 < len(conv) else PAUSE)   # 别人说；模型过一会儿回
-                else:
-                    t.say(u)
-            done += 1
-            if done % args.restructure_every == 0:                # 很慢：隔很久才动一点点
-                info = b.restructure()
-                muted = b.mute_featureless()
-                print(f"  神经元增删：分裂 {len(info['split'])}、删除 {len(info['deleted'])}；没特征的不送链 +{muted}", flush=True)
-            if done % args.check_every == 0:
-                print(f"第 {ep + 1} 遍，已训练 {done} 段对话（{(time.perf_counter() - t0) / 60:.0f} 分钟）", flush=True)
-                check(t, probe, f"{done} 段后")
-                if args.save:
-                    with open(args.save, "wb") as f:
-                        pickle.dump((t, probe), f)
+    for done, conv in enumerate(convs, 1):
+        for i, u in enumerate(conv):
+            if i % 2 == 0:
+                t.listen(u, pause=REPLY_GAP if i + 1 < len(conv) else PAUSE)   # 别人说；模型过一会儿回
+            else:
+                t.say(u)
+        if done % args.restructure_every == 0:                    # 很慢：隔很久才动一点点
+            info = b.restructure()
+            muted = b.mute_featureless()
+            print(f"  神经元增删：分裂 {len(info['split'])}、删除 {len(info['deleted'])}；没特征的不送链 +{muted}", flush=True)
+        if done % args.check_every == 0:
+            print(f"已听 {done} 段对话（{(time.perf_counter() - t0) / 60:.0f} 分钟）", flush=True)
+            check(t, probe, f"{done} 段后")
+            if args.save:
+                with open(args.save, "wb") as f:
+                    pickle.dump((t, probe), f)
 
 
 if __name__ == "__main__":
