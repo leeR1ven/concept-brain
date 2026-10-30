@@ -90,7 +90,7 @@ class Path:
         else:
             K = min(cfg.k, len(dst_ids)) if dst_ids is not None and len(dst_ids) else 1
         self.K = K
-        self.to = np.zeros((src.n, K), dtype=np.int64)
+        self.to = np.zeros((src.n, K), dtype=np.int32)
         self.w = np.zeros((src.n, K), dtype=np.float32)
         self.ok = np.zeros((src.n, K), dtype=bool)
         self.w0 = self.w
@@ -113,7 +113,7 @@ class Path:
 
     def set_row(self, i: int, targets, w) -> None:
         self._fit()
-        t = np.asarray(targets, dtype=np.int64)[: self.K]
+        t = np.asarray(targets, dtype=np.int32)[: self.K]
         self.to[i] = 0
         self.w[i] = 0.0
         self.ok[i] = False
@@ -156,8 +156,7 @@ class Path:
         act = np.nonzero(self.src.s)[0]
         if not len(act):
             return np.zeros(self.dst.n, dtype=np.float32)
-        m = self.ok[act]
-        out = np.bincount(self.to[act][m], weights=self.w[act][m], minlength=self.dst.n)
+        out = np.bincount(self.to[act].ravel(), weights=self.w[act].ravel(), minlength=self.dst.n)   # 没用的位置权重为 0
         return (self.cfg.sign * out).astype(np.float32)
 
     def learn(self) -> None:
@@ -172,17 +171,17 @@ class Path:
         rising = self.dst.s & ~self.dst.prev
         rows = np.nonzero(self.src.prev)[0]
         if len(rows) and rising.any():                                   # i 先亮、j 后亮
-            R = rising[self.to[rows]] & self.ok[rows]
-            if R.any():
-                W, W0 = self.w[rows], self.w0[rows]
-                W += R * (c.eta / (1.0 + (W - W0) / c.w_ref))
-                self.w[rows] = W
+            r, k = np.nonzero(rising[self.to[rows]] & self.ok[rows])
+            if len(r):
+                rr = rows[r]
+                w, w0 = self.w[rr, k], self.w0[rr, k]
+                self.w[rr, k] = w + c.eta / (1.0 + (w - w0) / c.w_ref)
         rows = np.nonzero(self.src.s)[0]
-        if len(rows):                                                    # j 先亮、i 后亮（i 一直亮着也算）
-            B = self.dst.prev[self.to[rows]] & self.ok[rows]
-            if B.any():
-                W, W0 = self.w[rows], self.w0[rows]
-                self.w[rows] = np.where(B, np.maximum(W - c.eta, W0), W)
+        if len(rows) and self.dst.prev.any():                            # j 先亮、i 后亮（i 一直亮着也算）
+            r, k = np.nonzero(self.dst.prev[self.to[rows]] & self.ok[rows])
+            if len(r):
+                rr = rows[r]
+                self.w[rr, k] = np.maximum(self.w[rr, k] - c.eta, self.w0[rr, k])
 
     def decay(self) -> None:
         """整体降权：学来的部分往出生强度退。"""

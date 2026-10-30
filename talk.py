@@ -29,7 +29,7 @@ from world.voice import Stream, Voice  # noqa: E402
 
 CORPUS = "/root/work/corpus/chatterbot/*.yml"
 SOUND, PAUSE = 3, 4          # 每个字的声音持续几拍（一句话里字连着说）；对话和对话之间停几拍
-REPLY_GAP = 1                # 别人说完到模型接话的停顿（真实对话里接话间隔很短）
+REPLY_GAP = 6                # 训练时别人说完到模型接话的停顿（长一点：模型要自己把听到的留住；测试时什么时候开口由模型自己定）
 
 
 def load_corpus(pattern=CORPUS):
@@ -99,7 +99,7 @@ class Talker:
         b.learning = True
         return muted
 
-    def reply(self, prompt: str, steps: int = 40) -> str:
+    def reply(self, prompt: str, steps: int = 60) -> str:
         self.listen(prompt, pause=REPLY_GAP)
         self.said = []
         for _ in range(steps):
@@ -165,38 +165,46 @@ def check(t: Talker, convs, tag: str) -> None:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--convs", type=int, default=20, help="用前多少段对话")
-    ap.add_argument("--epochs", type=int, default=60)
-    ap.add_argument("--check_every", type=int, default=5)
-    ap.add_argument("--restructure_every", type=int, default=20)
-    ap.add_argument("--save", default="", help="训练完把整个模型存到这个文件（pickle）")
+    ap.add_argument("--convs", type=int, default=0, help="用前多少段对话（0 = 全部）")
+    ap.add_argument("--epochs", type=int, default=3)
+    ap.add_argument("--check_every", type=int, default=100, help="每训练多少段对话检查一次")
+    ap.add_argument("--restructure_every", type=int, default=400, help="每训练多少段对话做一次神经元增删（很慢）")
+    ap.add_argument("--save", default="", help="每次检查后把整个模型存到这个文件（pickle）")
     args = ap.parse_args()
-    convs = [c for c in load_corpus() if len(c) >= 2][: args.convs]
+    convs = [c for c in load_corpus() if len(c) >= 2]
+    if args.convs:
+        convs = convs[: args.convs]
     chars = sorted({ch for c in convs for u in c for ch in u})
     print(f"语料：{len(convs)} 段对话，{sum(len(u) for c in convs for u in c)} 字，{len(chars)} 个不同的字", flush=True)
     t = Talker(chars)
     b = t.brain
-    print(f"脑：听觉区皮层 {int(b.ear.cortex.sum())}，海马体 / 前额叶 各 {int(b.pfc.region.alive.sum())}，"
-          f"运动区 {b.mot.region.n}；没特征的不送链：{t.warmup()} 个", flush=True)
-    check(t, convs, "训练前")
+    print(f"脑：听觉区皮层 {int(b.ear.cortex.sum())}，运动皮层 {int(b.mctx.cortex.sum())}，"
+          f"海马体 / 前额叶 各 {int(b.pfc.region.alive.sum())}，肌肉区 {b.mot.region.n}；"
+          f"没特征的不送链：{t.warmup()} 个", flush=True)
+    probe = convs[:: max(1, len(convs) // 20)][:20]          # 检查用的一组对话（散布在整个语料里）
+    check(t, probe, "训练前")
+    rng = np.random.default_rng(0)
+    done = 0
+    t0 = time.perf_counter()
     for ep in range(args.epochs):
-        t0 = time.perf_counter()
-        for conv in convs:
+        for ci in rng.permutation(len(convs)):
+            conv = convs[ci]
             for i, u in enumerate(conv):
                 if i % 2 == 0:
-                    t.listen(u, pause=REPLY_GAP if i + 1 < len(conv) else PAUSE)   # 别人说；后面紧接着模型回
+                    t.listen(u, pause=REPLY_GAP if i + 1 < len(conv) else PAUSE)   # 别人说；模型过一会儿回
                 else:
                     t.say(u)
-        if (ep + 1) % args.restructure_every == 0:            # 很慢：隔很久才动一点点
-            info = b.restructure()
-            muted = b.mute_featureless()
-            print(f"  神经元增删：分裂 {len(info['split'])}、删除 {len(info['deleted'])}；没特征的不送链 +{muted}", flush=True)
-        if (ep + 1) % args.check_every == 0:
-            print(f"第 {ep + 1} 遍（这一遍 {time.perf_counter() - t0:.0f}s）", flush=True)
-            check(t, convs, f"第 {ep + 1} 遍后")
-    if args.save:
-        with open(args.save, "wb") as f:
-            pickle.dump((t, convs), f)
+            done += 1
+            if done % args.restructure_every == 0:                # 很慢：隔很久才动一点点
+                info = b.restructure()
+                muted = b.mute_featureless()
+                print(f"  神经元增删：分裂 {len(info['split'])}、删除 {len(info['deleted'])}；没特征的不送链 +{muted}", flush=True)
+            if done % args.check_every == 0:
+                print(f"第 {ep + 1} 遍，已训练 {done} 段对话（{(time.perf_counter() - t0) / 60:.0f} 分钟）", flush=True)
+                check(t, probe, f"{done} 段后")
+                if args.save:
+                    with open(args.save, "wb") as f:
+                        pickle.dump((t, probe), f)
 
 
 if __name__ == "__main__":
