@@ -22,6 +22,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+import torch
+
+from .net import DEV, T
 
 
 @dataclass
@@ -85,6 +88,12 @@ class Net3D:
         self.alive = np.concatenate(alive)
         self.used = self.alive.copy()                          # 空位用过了就不再用
         self.n_split = self.n_deleted = 0
+        self._sync()
+
+    def _sync(self) -> None:
+        """结构（numpy 底本）→ 每拍计算用的张量（结构改动之后调用）。"""
+        self._t = [(T(i), T(w), T(b)) for i, w, b in zip(self.idx, self.w, self.b)]
+        self._alive = T(self.alive)
 
     def encode(self, img: np.ndarray) -> np.ndarray:
         """img: H×W（或 H×W×通道）整数 0..levels → 输入线（恰好一半亮）。"""
@@ -92,22 +101,22 @@ class Net3D:
         up = img[..., None] > np.arange(self.cfg.levels)
         return np.stack([up, ~up], -1).reshape(-1)
 
-    def respond(self, lines: np.ndarray, extra: np.ndarray | None = None) -> np.ndarray:
+    def respond(self, lines, extra: torch.Tensor | None = None) -> torch.Tensor:
         """输入线 → 各层亮不亮（拼成一条，长度 self.n）。extra：外部送给每个神经元的电流，加在得分上。"""
-        h = lines.astype(np.float32)
-        out = np.zeros(self.n, dtype=bool)
-        for l, (idx, w, b, s0, cap) in enumerate(zip(self.idx, self.w, self.b, self.start, self.cap)):
+        h = T(lines, torch.float32)
+        out = torch.zeros(self.n, dtype=torch.bool, device=DEV)
+        for l, ((idx, w, b), s0, cap) in enumerate(zip(self._t, self.start, self.cap)):
             s = (h[idx] * w).sum(1) + b
             if extra is not None:
                 s = s + extra[s0:s0 + cap]
-            al = self.alive[s0:s0 + cap]
-            s[~al] = -np.inf
-            k = int(round(self.cfg.frac[l] * al.sum()))
-            on = np.zeros(cap, dtype=bool)
+            al = self._alive[s0:s0 + cap]
+            s = torch.where(al, s, torch.full_like(s, -torch.inf))
+            k = int(round(self.cfg.frac[l] * int(self.alive[s0:s0 + cap].sum())))
+            on = torch.zeros(cap, dtype=torch.bool, device=DEV)
             if k:
-                on[np.argpartition(-s, k)[:k]] = True
+                on[torch.topk(s, k).indices] = True
             out[s0:s0 + cap] = on
-            h = on.astype(np.float32)
+            h = on.to(torch.float32)
         return out
 
     # ------------------------------------------------------------ 增删
@@ -151,7 +160,7 @@ class Net3D:
         self.n_deleted += 1
 
     def restructure(self, usage: np.ndarray) -> dict:
-        """usage：这段时间每个神经元的使用率。常亮的按层分裂一部分，从不亮的删除。"""
+        """usage：这段时间每个神经元的使用率（numpy）。常亮的按层分裂一部分，从不亮的删除。"""
         c = self.cfg
         split, deleted = [], []
         for l in range(len(self.idx)):
@@ -170,4 +179,5 @@ class Net3D:
             for i in self.rng.choice(never, m, replace=False) if m else []:
                 self.delete(int(i))
                 deleted.append(int(i))
+        self._sync()
         return {"split": split, "deleted": deleted}

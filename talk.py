@@ -24,6 +24,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from brain.brain import Brain, BrainCfg  # noqa: E402
+from brain.net import N  # noqa: E402
 from world.voice import Stream, Voice  # noqa: E402
 
 CORPUS = "/root/work/corpus/dialogs.jsonl"     # python corpus.py 生成（chatterbot + LCCC + PersonalDialog）
@@ -118,8 +119,7 @@ def check(t: Talker, convs, tag: str) -> None:
     b.learning = False
     m = b.mot
     # 1. 平衡：每条可塑连接学到多少；只听别人说话时嘴是否安静
-    bal = "  ".join(f"{p.name} {np.abs(p.w - p.w0)[p.ok].mean():.4f}/{np.abs(p.w - p.w0).max():.2f}"
-                    for p in b.c.paths if p.cfg.eta > 0)
+    bal = "  ".join(f"{p.name} {p.learned()[0]:.4f}/{p.learned()[1]:.2f}" for p in b.c.paths if p.cfg.eta > 0)
     t.said = []
     own = []
     ne = b.ear.region.n
@@ -127,9 +127,9 @@ def check(t: Talker, convs, tag: str) -> None:
         for ch in conv[0]:
             for k in range(SOUND):
                 t.tick(other=ch, new_other=(k == 0))
-                on = np.nonzero(b.pfc.region.s[:ne])[0]
+                on = np.nonzero(N(b.pfc.region.s[:ne]))[0]
                 if len(on):
-                    own.append(1.0 - b.ear.region.s[on].mean())      # 前额叶亮着的里，不是当前输入对应的比例
+                    own.append(1.0 - N(b.ear.region.s)[on].mean())   # 前额叶亮着的里，不是当前输入对应的比例
         for _ in range(PAUSE):
             t.tick()
     moved = sum(s is not None for s in t.said)

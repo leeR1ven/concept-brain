@@ -21,7 +21,7 @@ import numpy as np
 
 from .areas import (Circuit, MotorArea, MotorCfg, SenseArea, SenseCfg, ThoughtArea, ThoughtCfg, hip_cfg,
                     pfc_cfg)
-from .net import Path, PathCfg
+from .net import Path, PathCfg, T
 from .net3d import Net3D, Net3DCfg
 
 
@@ -84,11 +84,12 @@ class Brain:
 
     def _sync_mirrors(self) -> None:
         """前额叶 / 海马体里对应的神经元，跟着听觉区 / 运动皮层神经元亮不亮的开关走（没特征的、删掉的不送链）。"""
-        for T in (self.hip, self.pfc):
+        for X in (self.hip, self.pfc):
             for k, A in (("ear", self.ear), ("mctx", self.mctx)):
                 o = self.off[k]
-                T.region.alive[o:o + A.region.n] = A.cortex
-            T.region.alive[self.off["motor"]:] = True
+                X.region.alive[o:o + A.region.n] = T(A.cortex)
+            X.region.alive[self.off["motor"]:] = True
+            X.region._alive_ref = None
 
     @property
     def learning(self) -> bool:

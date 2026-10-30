@@ -4,16 +4,35 @@
   1. 神经元只有亮 / 不亮。每个区亮的数量大致不变：收到电流最多的那 frac 比例的神经元亮
      （frac = 0 时改用门槛：电流 ≥ thr 才亮，运动区这种平时不动的区用）。
   2. 一出生就随机充满连接（稀疏但丰富），学习只修改它们。
-  3. 学习：i 先亮、j 后亮 → i→j 加强（越强越难涨，不封顶）；反过来 j 先亮、i 后亮 → i→j 减弱（最多减回出生强度）。
-     同一拍一起亮的不加强。
+  3. 学习：i 先亮、j 后亮 → i→j 加强（越强越难涨，不封顶）；反过来 j 先亮、i 后亮（i 一直亮着也算）→ i→j 减弱
+     （最多减回出生强度）。同一拍一起亮的不加强。
   4. 清理只靠整体降权：每隔一段时间，学来的部分整体往出生强度退（海马体退得快，皮层退得慢）。
 抑制 / 去抑制神经元发出的连接是抑制性的（sign = −1）。
+
+用 torch 存和算：有显卡（或环境变量 BRAIN_DEVICE 指定）就在显卡上，否则在 CPU 上；规则完全一样。
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 
 import numpy as np
+import torch
+
+DEV = torch.device(os.environ.get("BRAIN_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu"))
+DENSE = DEV.type == "cuda"      # 显卡上整张表一起算更快；CPU 上只碰亮着的那些更快（结果一样）
+
+
+def T(x, dtype=None) -> torch.Tensor:
+    """numpy / 列表 → 设备上的张量。"""
+    if isinstance(x, torch.Tensor):
+        return x.to(DEV) if dtype is None else x.to(DEV, dtype)
+    return torch.as_tensor(np.asarray(x), device=DEV, dtype=dtype)
+
+
+def N(x) -> np.ndarray:
+    """张量 → numpy（给读数、检查用）。"""
+    return x.detach().cpu().numpy() if isinstance(x, torch.Tensor) else np.asarray(x)
 
 
 @dataclass
@@ -26,45 +45,40 @@ class Region:
     def __init__(self, name: str, n: int, cfg: RegionCfg | None = None):
         self.name = name
         self.cfg = cfg or RegionCfg()
-        self.n = 0
-        self.s = np.zeros(0, dtype=bool)          # 这一拍
-        self.prev = np.zeros(0, dtype=bool)       # 上一拍
-        self.alive = np.zeros(0, dtype=bool)
-        self.thr = np.zeros(0, dtype=np.float32)
-        self.base = np.zeros(0, dtype=np.float32)
-        self.grow(n)
-
-    def grow(self, k: int) -> np.ndarray:
-        n0 = self.n
-        self.n += k
-        self.s = np.r_[self.s, np.zeros(k, bool)]
-        self.prev = np.r_[self.prev, np.zeros(k, bool)]
-        self.alive = np.r_[self.alive, np.ones(k, bool)]
-        self.thr = np.r_[self.thr, np.full(k, self.cfg.thr, np.float32)]
-        self.base = np.r_[self.base, np.zeros(k, np.float32)]
-        return np.arange(n0, self.n)
+        self.n = n
+        self.s = torch.zeros(n, dtype=torch.bool, device=DEV)          # 这一拍
+        self.prev = torch.zeros(n, dtype=torch.bool, device=DEV)       # 上一拍
+        self.alive = torch.ones(n, dtype=torch.bool, device=DEV)
+        self.thr = torch.full((n,), self.cfg.thr, dtype=torch.float32, device=DEV)
+        self.base = torch.zeros(n, dtype=torch.float32, device=DEV)
 
     def kill(self, ids) -> None:
+        ids = T(ids, torch.long)
         self.alive[ids] = False
-        self.s[ids] = self.prev[ids] = False
+        self.s[ids] = False
+        self.prev[ids] = False
+        self._alive_ref = None
 
-    def fire(self, current: np.ndarray) -> None:
+    def fire(self, current: torch.Tensor) -> None:
         cur = current + self.base
         if self.cfg.frac > 0:
-            k = int(round(self.cfg.frac * self.alive.sum()))
-            cur = np.where(self.alive, cur, -np.inf)
-            new = np.zeros(self.n, dtype=bool)
+            if getattr(self, "_alive_ref", None) is not self.alive:          # 活着的数目只在增删时变
+                self._alive_ref, self._n_alive = self.alive, int(self.alive.sum())
+            k = int(round(self.cfg.frac * self._n_alive))
+            new = torch.zeros(self.n, dtype=torch.bool, device=DEV)
             if k:
-                new[np.argpartition(-cur, k)[:k]] = True
+                cur = torch.where(self.alive, cur, torch.full_like(cur, -torch.inf))
+                new[torch.topk(cur, k).indices] = True
         else:
             new = (cur >= self.thr) & self.alive
         self.set(new)
 
-    def set(self, new: np.ndarray) -> None:
+    def set(self, new: torch.Tensor) -> None:
         self.prev, self.s = self.s, new
 
     def reset(self) -> None:
-        self.s[:] = self.prev[:] = False
+        self.s = torch.zeros_like(self.s)
+        self.prev = torch.zeros_like(self.prev)
 
 
 @dataclass
@@ -78,7 +92,7 @@ class PathCfg:
 
 
 class Path:
-    """src 区 → dst 区的一组连接。每个源最多 K 根，存成 (源数 × K) 的表；没用的位置 ok = False。"""
+    """src 区 → dst 区的一组连接。每个源最多 K 根，存成 (源数 × K) 的表；没用的位置 ok = False、权重 0。"""
 
     def __init__(self, name: str, src: Region, dst: Region, cfg: PathCfg, rng: np.random.Generator,
                  src_ids=None, dst_ids=None, pairs=None):
@@ -90,74 +104,62 @@ class Path:
         else:
             K = min(cfg.k, len(dst_ids)) if dst_ids is not None and len(dst_ids) else 1
         self.K = K
-        self.to = np.zeros((src.n, K), dtype=np.int32)
-        self.w = np.zeros((src.n, K), dtype=np.float32)
-        self.ok = np.zeros((src.n, K), dtype=bool)
-        self.w0 = self.w
+        to = np.zeros((src.n, K), dtype=np.int64)
+        w = np.zeros((src.n, K), dtype=np.float32)
+        ok = np.zeros((src.n, K), dtype=bool)
         if pairs is not None:
             for i, ts in pairs:
-                self.set_row(i, ts, cfg.w_init)
+                ts = np.asarray(ts)[:K]
+                to[i, :len(ts)] = ts
+                w[i, :len(ts)] = cfg.w_init
+                ok[i, :len(ts)] = True
         elif src_ids is not None:
+            dst_ids = np.asarray(dst_ids)
+            n = len(dst_ids)
             for i in src_ids:
-                self.random_row(int(i), dst_ids)
-        self.w0 = self.w.copy()
+                t = dst_ids[rng.choice(n, size=K, replace=False)] if n > K else dst_ids
+                to[i, :len(t)] = t
+                w[i, :len(t)] = rng.uniform(0, cfg.w_init, len(t))
+                ok[i, :len(t)] = True
+        self.to, self.w, self.ok = T(to), T(w), T(ok)
+        self.w0 = self.w.clone()
 
-    # ------------------------------------------------------------ 建线
-    def _fit(self) -> None:
-        """源区长了新神经元 → 表跟着加行。"""
-        extra = self.src.n - self.to.shape[0]
-        if extra > 0:
-            for name in ("to", "w", "ok", "w0"):
-                a = getattr(self, name)
-                setattr(self, name, np.r_[a, np.zeros((extra, self.K), a.dtype)])
-
-    def set_row(self, i: int, targets, w) -> None:
-        self._fit()
-        t = np.asarray(targets, dtype=np.int32)[: self.K]
-        self.to[i] = 0
-        self.w[i] = 0.0
-        self.ok[i] = False
-        self.to[i, : len(t)] = t
-        self.w[i, : len(t)] = w
-        self.ok[i, : len(t)] = True
-        if self.w0 is not self.w:
-            self.w0[i] = self.w[i]
-
-    def random_row(self, i: int, dst_ids) -> None:
-        t = self.rng.choice(dst_ids, size=min(self.K, len(dst_ids)), replace=False)
-        self.set_row(i, t, self.rng.uniform(0, self.cfg.w_init, len(t)).astype(np.float32))
-
+    # ------------------------------------------------------------ 改线（很少用：分裂、删除、没特征的退出）
     def copy_row(self, i: int, j: int) -> None:
         """j 继承 i 的出边（分裂出的子单元继承父单元）。"""
-        self._fit()
         for name in ("to", "w", "ok", "w0"):
             getattr(self, name)[j] = getattr(self, name)[i]
 
     def cut_src(self, ids) -> None:
-        self._fit()
+        ids = T(ids, torch.long)
         self.ok[ids] = False
-        self.w[ids] = self.w0[ids] = 0.0
+        self.w[ids] = 0.0
+        self.w0[ids] = 0.0
 
-    def redirect(self, old: int, new) -> None:
-        """指向 old 的连接改指 new 里随机一个；new 为空就断开。"""
+    def cut_dst(self, ids) -> None:
+        """指向 ids 的连接断开。"""
+        hit = torch.isin(self.to, T(ids, torch.long)) & self.ok
+        self.ok[hit] = False
+        self.w[hit] = 0.0
+        self.w0[hit] = 0.0
+
+    def move_dst(self, old: int, new: int, frac: float = 0.5) -> None:
+        """指向 old 的连接里，约 frac 比例改指 new。"""
         hit = (self.to == old) & self.ok
-        if not hit.any():
-            return
-        if len(new):
-            self.to[hit] = self.rng.choice(np.asarray(new), size=int(hit.sum()))
-        else:
-            self.ok[hit] = False
-            self.w[hit] = self.w0[hit] = 0.0
+        move = hit & (torch.rand(hit.shape, device=DEV) < frac)
+        self.to[move] = new
 
     # ------------------------------------------------------------ 一拍
-    def current(self) -> np.ndarray:
+    def current(self) -> torch.Tensor:
         """上一拍亮着的源（src.s 还没更新时调用）送给 dst 每个神经元的电流。"""
-        self._fit()
-        act = np.nonzero(self.src.s)[0]
-        if not len(act):
-            return np.zeros(self.dst.n, dtype=np.float32)
-        out = np.bincount(self.to[act].ravel(), weights=self.w[act].ravel(), minlength=self.dst.n)   # 没用的位置权重为 0
-        return (self.cfg.sign * out).astype(np.float32)
+        out = torch.zeros(self.dst.n, dtype=torch.float32, device=DEV)
+        if DENSE:                                   # 显卡上：整张表一起算，不用先挑出亮着的（省得来回等）
+            out.index_add_(0, self.to.reshape(-1), (self.w * self.src.s[:, None]).reshape(-1))
+        else:
+            act = self.src.s.nonzero().squeeze(1)
+            if len(act):
+                out.index_add_(0, self.to[act].reshape(-1), self.w[act].reshape(-1))   # 没用的位置权重为 0
+        return out if self.cfg.sign == 1.0 else self.cfg.sign * out
 
     def learn(self) -> None:
         """两个区都已更新完（prev = 上一拍，s = 这一拍）。i→j：
@@ -169,24 +171,32 @@ class Path:
         if c.eta <= 0:
             return
         rising = self.dst.s & ~self.dst.prev
-        rows = np.nonzero(self.src.prev)[0]
-        if len(rows) and rising.any():                                   # i 先亮、j 后亮
-            r, k = np.nonzero(rising[self.to[rows]] & self.ok[rows])
+        if DENSE:                                   # 显卡上：整张表一起算
+            fwd = self.src.prev[:, None] & rising[self.to] & self.ok
+            back = self.src.s[:, None] & self.dst.prev[self.to] & self.ok
+            w = torch.where(fwd, self.w + c.eta / (1.0 + (self.w - self.w0) / c.w_ref), self.w)
+            self.w = torch.where(back, torch.maximum(w - c.eta, self.w0), w)
+            return
+        rows = self.src.prev.nonzero().squeeze(1)
+        if len(rows) and bool(rising.any()):                             # i 先亮、j 后亮
+            r, k = (rising[self.to[rows]] & self.ok[rows]).nonzero(as_tuple=True)
             if len(r):
                 rr = rows[r]
                 w, w0 = self.w[rr, k], self.w0[rr, k]
                 self.w[rr, k] = w + c.eta / (1.0 + (w - w0) / c.w_ref)
-        rows = np.nonzero(self.src.s)[0]
-        if len(rows) and self.dst.prev.any():                            # j 先亮、i 后亮（i 一直亮着也算）
-            r, k = np.nonzero(self.dst.prev[self.to[rows]] & self.ok[rows])
+        rows = self.src.s.nonzero().squeeze(1)
+        if len(rows) and bool(self.dst.prev.any()):                      # j 先亮、i 后亮（i 一直亮着也算）
+            r, k = (self.dst.prev[self.to[rows]] & self.ok[rows]).nonzero(as_tuple=True)
             if len(r):
                 rr = rows[r]
-                self.w[rr, k] = np.maximum(self.w[rr, k] - c.eta, self.w0[rr, k])
+                self.w[rr, k] = torch.maximum(self.w[rr, k] - c.eta, self.w0[rr, k])
 
     def decay(self) -> None:
         """整体降权：学来的部分往出生强度退。"""
         if self.cfg.eta > 0 and self.cfg.gamma < 1.0:
-            self.w[:] = self.w0 + (self.w - self.w0) * self.cfg.gamma
+            self.w = self.w0 + (self.w - self.w0) * self.cfg.gamma
 
-    def learned(self) -> float:
-        return float(np.abs(self.w - self.w0)[self.ok].sum())
+    def learned(self) -> tuple[float, float]:
+        """学来的部分：平均、最大（给检查用）。"""
+        d = (self.w - self.w0).abs()[self.ok]
+        return (float(d.mean()), float(d.max())) if len(d) else (0.0, 0.0)

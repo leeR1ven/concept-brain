@@ -13,8 +13,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import numpy as np
+import torch
 
-from .net import Path, PathCfg, Region, RegionCfg
+from .net import DEV, N, Path, PathCfg, Region, RegionCfg, T
 from .net3d import Net3D
 
 
@@ -32,56 +33,57 @@ class SenseArea:
         self.cfg = c = cfg or SenseCfg()
         self.rng = np.random.default_rng(seed)
         self.region = R = Region(name, net.n)
-        R.alive[:] = net.alive
+        R.alive = T(net.alive)
         cand = np.nonzero(net.layer >= c.cortex_from_layer)[0]      # 含预留的空位：分裂出的新神经元一出生就有连接
-        self.cortex = (net.layer >= c.cortex_from_layer) & R.alive
+        self.cortex = (net.layer >= c.cortex_from_layer) & net.alive  # numpy（结构）；_cx 是每拍用的张量
+        self._cx = T(self.cortex)
         self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng, src_ids=cand, dst_ids=cand)
         self.regions, self.paths = [R], [self.inner]
-        self.usage = np.zeros(R.n)
-        self.n_seen = 0
+        self.clear_usage()
 
     def fire(self, cur: dict, lines: dict) -> None:
         """外部送来的电流（区内连接、回程、直连）加在得分上；每层亮多少由网络自己定（固定比例）。"""
         R = self.region
-        new = self.net.respond(lines[self.name], np.where(self.cortex, cur[R.name], 0.0)) & R.alive
+        new = self.net.respond(lines[self.name], torch.where(self._cx, cur[R.name], 0.0)) & R.alive
         R.set(new)
         self.usage += new
         self.n_seen += 1
 
-    def pattern(self, lines: np.ndarray) -> np.ndarray:
-        """只看外界输入、没有任何内部推动时，皮层亮哪些（量参照用）。"""
-        return self.net.respond(lines) & self.cortex
+    def pattern(self, lines) -> np.ndarray:
+        """只看外界输入、没有任何内部推动时，皮层亮哪些（numpy，量参照用）。"""
+        return N(self.net.respond(lines)) & self.cortex
 
     def featureless(self) -> np.ndarray:
-        u = self.usage / max(self.n_seen, 1)
+        u = N(self.usage) / max(self.n_seen, 1)
         return np.nonzero(self.cortex & (u > self.cfg.mute_thr))[0]
 
     def clear_usage(self) -> None:
-        self.usage = np.zeros(self.region.n)
+        self.usage = torch.zeros(self.region.n, dtype=torch.int32, device=DEV)
         self.n_seen = 0
 
     def mute(self, ids) -> None:
         """没特征的（常亮的）退出皮层：不送链、不参加可塑连接。"""
-        for i in ids:
-            self.inner.cut_src([int(i)])
-            self.inner.redirect(int(i), [])
-            self.cortex[i] = False
+        if len(ids):
+            self.inner.cut_src(ids)
+            self.inner.cut_dst(ids)
+            self.cortex[ids] = False
+            self._cx = T(self.cortex)
 
     def restructure(self) -> dict:
         """常亮的分裂、从不亮的删除（慢）。分裂出的新神经元继承父神经元学来的出边；指向父神经元的连接一半改指它。"""
         R = self.region
-        info = self.net.restructure(self.usage / max(self.n_seen, 1))
+        info = self.net.restructure(N(self.usage) / max(self.n_seen, 1))
         for p, f in info["split"]:
             R.alive[f] = True
             self.cortex[f] = bool(self.net.layer[f] >= self.cfg.cortex_from_layer)
             if self.cortex[f]:
                 self.inner.copy_row(p, f)
-                hit = (self.inner.to == p) & self.inner.ok
-                move = hit & (self.rng.random(hit.shape) < 0.5)
-                self.inner.to[move] = f
-        for d in info["deleted"]:
-            R.kill([d])
-            self.cortex[d] = False
+                self.inner.move_dst(p, f, 0.5)
+        if info["deleted"]:
+            R.kill(info["deleted"])
+            self.cortex[info["deleted"]] = False
+        self._cx = T(self.cortex)
+        R._alive_ref = None
         self.clear_usage()
         return info
 
@@ -111,8 +113,9 @@ class ThoughtArea:
         self.rng = np.random.default_rng(seed)
         self.region = R = Region(name, n, c.region)
         ids = np.arange(n) if ids is None else np.asarray(ids)
-        R.alive[:] = False
-        R.alive[ids] = True
+        alive = np.zeros(n, dtype=bool)
+        alive[ids] = True
+        R.alive = T(alive)
         self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng, src_ids=ids, dst_ids=ids)
         self.regions, self.paths = [R], [self.inner]
 
@@ -148,26 +151,29 @@ class MotorArea:
         self.I = nm * L + np.arange(nm)                  # 抑制神经元
         self.D = nm * L + nm + np.arange(nm)             # 去抑制神经元
         self.region = R = Region(name, nm * L + 2 * nm, RegionCfg(frac=0.0))   # 平时不动：用门槛
-        R.thr[self.M] = 1.0 + c.level_step * np.arange(L)[None, :]
+        thr = np.ones(R.n, dtype=np.float32)
+        thr[self.M] = 1.0 + c.level_step * np.arange(L)[None, :]
+        R.thr = T(thr)
         self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng,
                           src_ids=np.r_[self.M.reshape(-1), self.I, self.D], dst_ids=np.arange(R.n))
         self.regions, self.paths = [R], [self.inner]
+        self._M, self._I, self._D = T(self.M), T(self.I), T(self.D)
 
     def fire(self, cur: dict, lines: dict) -> None:
         c, R = self.cfg, self.region
         x = cur[self.name]
-        d_on = x[self.D] >= c.dis_thr
-        i_on = x[self.I] + c.tonic - c.dis_w * d_on >= 1.0
-        m_on = x[self.M] - c.inh_w * i_on[:, None] >= R.thr[self.M]
-        new = np.zeros(R.n, dtype=bool)
-        new[self.M] = m_on
-        new[self.I] = i_on
-        new[self.D] = d_on
+        d_on = x[self._D] >= c.dis_thr
+        i_on = x[self._I] + c.tonic - c.dis_w * d_on.float() >= 1.0
+        m_on = x[self._M] - c.inh_w * i_on.float()[:, None] >= R.thr[self._M]
+        new = torch.zeros(R.n, dtype=torch.bool, device=DEV)
+        new[self._M] = m_on
+        new[self._I] = i_on
+        new[self._D] = d_on
         R.set(new)
 
     def force(self) -> np.ndarray:
-        """每块肌肉这一拍的力度 = 亮了几档。"""
-        return self.region.s[self.M].sum(axis=1)
+        """每块肌肉这一拍的力度 = 亮了几档（numpy，给身体用）。"""
+        return N(self.region.s[self._M].sum(dim=1))
 
     def push(self, muscles, level: int | None = None) -> np.ndarray:
         """外力带着这些肌肉动：推它们的肌肉神经元 + 去抑制神经元。level：推到第几档（None = 满档）；
@@ -204,11 +210,11 @@ class Circuit:
 
     def step(self, ext: dict | None = None, lines: dict | None = None) -> None:
         """ext：外部送进各区的电流 {区名: 数组}；lines：各感觉区的输入线 {区名: 数组}。"""
-        cur = {R.name: np.zeros(R.n, np.float32) for R in self.regions}
+        cur = {R.name: torch.zeros(R.n, dtype=torch.float32, device=DEV) for R in self.regions}
         for p in self.paths:
             cur[p.dst.name] += p.current()
         for k, v in (ext or {}).items():
-            cur[k] = cur[k] + v
+            cur[k] = cur[k] + T(v, torch.float32)
         for part in self.parts:
             part.fire(cur, lines or {})
         if self.learning:
