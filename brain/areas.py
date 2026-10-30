@@ -95,7 +95,7 @@ class ThoughtCfg:
 
 def pfc_cfg() -> ThoughtCfg:
     """前额叶：亮的范围大、学得慢。出生的随机连接丰富一些，让它有自己的活动，不只是输入的复印件。"""
-    return ThoughtCfg(region=RegionCfg(frac=0.08), internal=PathCfg(k=96, w_init=0.05, eta=0.01, gamma=0.999))
+    return ThoughtCfg(region=RegionCfg(frac=0.08), internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999))
 
 
 def hip_cfg() -> ThoughtCfg:
@@ -129,7 +129,7 @@ class MotorCfg:
     tonic: float = 1.2                # 抑制神经元的基础电流（平时一直亮）
     inh_w: float = 1.5                # 抑制神经元 → 肌肉神经元
     dis_w: float = 2.0                # 去抑制神经元 → 抑制神经元
-    dis_thr: float = 2.5              # 去抑制神经元的门槛：零散的推力撤不掉抑制，要足够集中的意图或外力
+    dis_thr: float = 1.2              # 去抑制神经元的门槛：零散的推力撤不掉抑制，要几路一起（和练熟后学得到的推力相当）
     internal: PathCfg = field(default_factory=lambda: PathCfg(k=64, w_init=0.02, eta=0.05, gamma=0.99))
 
 
@@ -169,12 +169,15 @@ class MotorArea:
         """每块肌肉这一拍的力度 = 亮了几档。"""
         return self.region.s[self.M].sum(axis=1)
 
-    def push(self, muscles, strength: float = 3.0) -> np.ndarray:
-        """外力带着这些肌肉动：推它们的肌肉神经元 + 去抑制神经元。"""
+    def push(self, muscles, level: int | None = None) -> np.ndarray:
+        """外力带着这些肌肉动：推它们的肌肉神经元 + 去抑制神经元。level：推到第几档（None = 满档）；
+        一个字里力是逐拍加上去的（第 1 拍 1 档、第 2 拍 2 档……），运动区里就有了字内部的先后。"""
+        c = self.cfg
+        L = c.levels if level is None else level
         d = np.zeros(self.region.n, np.float32)
         for m in muscles:
-            d[self.M[m]] += strength
-            d[self.D[m]] += self.cfg.dis_thr + 0.5
+            d[self.M[m, :L]] += 1.0 + c.level_step * (L - 1) + 0.05
+            d[self.D[m]] += c.dis_thr + 0.5
         return d
 
     def stop(self, strength: float = 2.0) -> np.ndarray:

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import pickle
 import re
 import sys
 import time
@@ -27,7 +28,8 @@ from brain.brain import Brain, BrainCfg  # noqa: E402
 from world.voice import Stream, Voice  # noqa: E402
 
 CORPUS = "/root/work/corpus/chatterbot/*.yml"
-SOUND, PAUSE = 3, 4          # 每个字的声音持续几拍（一句话里字连着说）；句子之间停几拍
+SOUND, PAUSE = 3, 4          # 每个字的声音持续几拍（一句话里字连着说）；对话和对话之间停几拍
+REPLY_GAP = 1                # 别人说完到模型接话的停顿（真实对话里接话间隔很短）
 
 
 def load_corpus(pattern=CORPUS):
@@ -65,20 +67,19 @@ class Talker:
         self.said.append(self.saying)
         return self.saying
 
-    def listen(self, utt: str):
+    def listen(self, utt: str, pause: int = PAUSE):
         for ch in utt:
             for k in range(SOUND):
                 self.tick(other=ch, new_other=(k == 0))
-        for _ in range(PAUSE):
+        for _ in range(pause):
             self.tick()
 
     def say(self, utt: str):
         """模型的那一句：外力带着嘴说，说完推抑制神经元停下。"""
         m = self.brain.mot
         for ch in utt:
-            d = m.push(self.voice.need[ch])
-            for _ in range(SOUND):
-                self.tick(drive=d)
+            for k in range(SOUND):                                    # 力逐拍加上去
+                self.tick(drive=m.push(self.voice.need[ch], level=min(k + 1, m.cfg.levels)))
         for _ in range(2):
             self.tick(drive=m.stop())
         for _ in range(PAUSE):
@@ -94,11 +95,12 @@ class Talker:
             self.listen(chars[rng.integers(len(chars))])
         muted = b.mute_featureless()
         b.ear.clear_usage()
+        b.mctx.clear_usage()
         b.learning = True
         return muted
 
-    def reply(self, prompt: str, steps: int = 30) -> str:
-        self.listen(prompt)
+    def reply(self, prompt: str, steps: int = 40) -> str:
+        self.listen(prompt, pause=REPLY_GAP)
         self.said = []
         for _ in range(steps):
             self.tick()
@@ -145,19 +147,6 @@ def check(t: Talker, convs, tag: str) -> None:
         for _ in range(PAUSE):
             t.tick()
     moved = sum(s is not None for s in t.said)
-    # 2. 运动区的连续动作：只推模型那句的第一个字一拍，看自己接下去多少
-    cont = []
-    for conv in convs[:10]:
-        u = conv[1]
-        for _ in range(4):
-            t.tick()
-        t.said = []
-        for _ in range(SOUND):
-            t.tick(drive=m.push(t.voice.need[u[0]]))
-        for _ in range(SOUND * len(u) + 4):
-            t.tick()
-        out = "".join(x for i, x in enumerate(t.said[SOUND:]) if x and x != "~" and (i == 0 or x != t.said[SOUND + i - 1]))
-        cont.append(lcs(out, u[1:]) / max(len(u) - 1, 1))
     # 3. 对话：听到别人那句，会不会开口、说出的和该回的有多少重合
     spoke, ov, ex = 0, [], []
     for conv in convs[:10]:
@@ -166,7 +155,7 @@ def check(t: Talker, convs, tag: str) -> None:
         ov.append(overlap(out, conv[1]))
         if len(ex) < 4:
             ex.append(f"别人：{conv[0]}　它：{out or '（不说话）'}　（该回：{conv[1]}）")
-    print(f"[{tag}] 只听时嘴动了 {moved} 拍 | 前额叶里不是当前输入的 {np.mean(own):.2f} | 推第一个字后自己接下去 {np.mean(cont):.2f} | "
+    print(f"[{tag}] 只听时嘴动了 {moved} 拍 | 前额叶里不是当前输入的 {np.mean(own):.2f} | "
           f"听到一句后开口 {spoke}/10，说出的字属于该回那句 {np.mean(ov):.2f}", flush=True)
     print(f"    学到的量（均值/最大）：{bal}", flush=True)
     for e in ex:
@@ -180,6 +169,7 @@ def main():
     ap.add_argument("--epochs", type=int, default=60)
     ap.add_argument("--check_every", type=int, default=5)
     ap.add_argument("--restructure_every", type=int, default=20)
+    ap.add_argument("--save", default="", help="训练完把整个模型存到这个文件（pickle）")
     args = ap.parse_args()
     convs = [c for c in load_corpus() if len(c) >= 2][: args.convs]
     chars = sorted({ch for c in convs for u in c for ch in u})
@@ -193,7 +183,10 @@ def main():
         t0 = time.perf_counter()
         for conv in convs:
             for i, u in enumerate(conv):
-                (t.listen if i % 2 == 0 else t.say)(u)
+                if i % 2 == 0:
+                    t.listen(u, pause=REPLY_GAP if i + 1 < len(conv) else PAUSE)   # 别人说；后面紧接着模型回
+                else:
+                    t.say(u)
         if (ep + 1) % args.restructure_every == 0:            # 很慢：隔很久才动一点点
             info = b.restructure()
             muted = b.mute_featureless()
@@ -201,6 +194,9 @@ def main():
         if (ep + 1) % args.check_every == 0:
             print(f"第 {ep + 1} 遍（这一遍 {time.perf_counter() - t0:.0f}s）", flush=True)
             check(t, convs, f"第 {ep + 1} 遍后")
+    if args.save:
+        with open(args.save, "wb") as f:
+            pickle.dump((t, convs), f)
 
 
 if __name__ == "__main__":
