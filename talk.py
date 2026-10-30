@@ -29,7 +29,7 @@ from world.voice import Stream, Voice  # noqa: E402
 
 CORPUS = "/root/work/corpus/dialogs.jsonl"     # python corpus.py 生成（chatterbot + LCCC + PersonalDialog）
 SOUND, PAUSE = 3, 4          # 每个字的声音持续几拍（一句话里字连着说）；对话和对话之间停几拍
-REPLY_GAP = 6                # 训练时别人说完到模型接话的停顿（长一点：模型要自己把听到的留住；测试时什么时候开口由模型自己定）
+REPLY_GAP = 3                # 训练时别人说完到模型接话的停顿（人对话的空隙很短；测试时什么时候开口由模型自己定）
 
 
 def load_corpus(path: str = CORPUS) -> list:
@@ -45,11 +45,12 @@ class Talker:
         self.saying = None
         self.said: list = []
 
-    def tick(self, other: str | None = None, drive: np.ndarray | None = None, new_other: bool = False):
+    def tick(self, other: str | None = None, drive: np.ndarray | None = None, new_other: bool = False,
+             go: bool = False):
         """一拍：耳朵听到 别人这一拍说的 + 自己上一拍说的（连续的声音流）。返回嘴这一拍发出的。"""
         v, b = self.voice, self.brain
         heard = self.stream.tick(other, self.saying, new_other)
-        force = b.step(b.ear.net.encode(heard), drive)
+        force = b.step(b.ear.net.encode(heard), drive, go)
         self.saying = v.mouth({f"m{i}": int(f) for i, f in enumerate(force)})
         self.said.append(self.saying)
         return self.saying
@@ -62,13 +63,12 @@ class Talker:
             self.tick()
 
     def say(self, utt: str):
-        """模型的那一句：外力带着嘴说，说完推抑制神经元停下。"""
+        """模型的那一句：外力在开头推一下起动（"轮到你了"），每个字开头那一拍指出用哪几块肌肉；
+        字的保持、力度、换字、说完停下都由运动区自己的节拍完成。"""
         m = self.brain.mot
-        for ch in utt:
-            for k in range(SOUND):                                    # 力逐拍加上去
-                self.tick(drive=m.push(self.voice.need[ch], level=min(k + 1, m.cfg.levels)))
-        for _ in range(2):
-            self.tick(drive=m.stop())
+        for i, ch in enumerate(utt):
+            for k in range(SOUND):
+                self.tick(drive=m.cue(self.voice.need[ch]) if k == 0 else None, go=(i == 0 and k == 0))
         for _ in range(PAUSE):
             self.tick()
 
@@ -87,10 +87,12 @@ class Talker:
         return muted
 
     def reply(self, prompt: str, steps: int = 60) -> str:
-        self.listen(prompt, pause=REPLY_GAP)
+        self.listen(prompt, pause=0)
         self.said = []
         for _ in range(steps):
             self.tick()
+        moved = [i for i, s in enumerate(self.said) if s is not None]
+        self.latency = moved[0] if moved else None                # 别人说完后第几拍开口
         out, last = [], None
         for s in self.said:                        # 同一个音拉长几拍只算一次
             if s is not None and s != last:
@@ -133,30 +135,47 @@ def check(t: Talker, convs, tag: str) -> None:
         for _ in range(PAUSE):
             t.tick()
     moved = sum(s is not None for s in t.said)
-    keep, ends = [], []                                         # 思考层：别人说完时的那片，停顿之后还剩多少
-    for conv in convs[3:8]:
-        t.listen(conv[0], pause=0)
-        a0 = N(b.think.region.s).copy()
-        ends.append(a0)
-        for _ in range(REPLY_GAP):
-            t.tick()
-        a1 = N(b.think.region.s)
-        keep.append((a0 & a1).sum() / max(1, (a0 | a1).sum()))
-        for _ in range(PAUSE):
-            t.tick()
+    # 2. 想法：听完一句、停顿之后，思考层 / 海马体的状态还认不认得出是哪句（同一句在两种不同前文之后各听一次）
     jac = lambda x, y: (x & y).sum() / max(1, (x | y).sum())    # noqa: E731
-    across = [jac(ends[i], ends[j]) for i in range(len(ends)) for j in range(i + 1, len(ends))]
+    n = len(convs)
+    st = {"think": [[], []], "hip": [[], []]}
+    hold, ends = [], []
+    for rep in (0, 1):
+        for i, conv in enumerate(convs):
+            t.listen(convs[(i + 1 + rep) % n][1])                 # 前文
+            t.listen(conv[0], pause=0)
+            a0 = N(b.think.region.s).copy()
+            for _ in range(REPLY_GAP):
+                t.tick()
+            a1 = N(b.think.region.s).copy()
+            if rep == 0:
+                hold.append(jac(a0, a1))
+                ends.append(a0)
+            st["think"][rep].append(a1)
+            st["hip"][rep].append(N(b.hip.region.s).copy())
+            for _ in range(PAUSE):
+                t.tick()
+    across = [jac(ends[i], ends[j]) for i in range(n) for j in range(i + 1, n)]
+    dec = {k: np.mean([int(np.argmax([jac(v[1][i], v[0][j]) for j in range(n)]) == i) for i in range(n)])
+           for k, v in st.items()}
     # 3. 对话：听到别人那句，会不会开口、说出的和该回的有多少重合
-    spoke, ov, ex = 0, [], []
+    spoke, ov, ex, lat, mess = 0, [], [], [], []
     for conv in convs[:10]:
         out = t.reply(conv[0])
         spoke += bool(out.replace("~", ""))
+        if t.latency is not None:
+            lat.append(t.latency)
+        said = [s for s in t.said if s is not None]
+        if said:
+            mess.append(said.count("~") / len(said))
         ov.append(overlap(out, conv[1]))
         if len(ex) < 4:
             ex.append(f"别人：{conv[0]}　它：{out or '（不说话）'}　（该回：{conv[1]}）")
     print(f"[{tag}] 只听时嘴动了 {moved} 拍 | 前额叶里不是当前输入的 {np.mean(own):.2f} | "
-          f"思考层停顿后还保持 {np.mean(keep):.2f}、不同句子之间 {np.mean(across):.2f} | "
-          f"听到一句后开口 {spoke}/10，说出的字属于该回那句 {np.mean(ov):.2f}", flush=True)
+          f"思考层停顿后还保持 {np.mean(hold):.2f}、不同句子之间 {np.mean(across):.2f}、"
+          f"停顿后认出是哪句 思考层 {dec['think']:.2f} 海马体 {dec['hip']:.2f}（瞎猜 {1 / n:.2f}） | "
+          f"听到一句后开口 {spoke}/10（说完后第 {np.median(lat) if lat else '-'} 拍开口，含糊音占 "
+          f"{np.mean(mess) if mess else 0:.2f}），说出的字属于该回那句 {np.mean(ov):.2f}", flush=True)
     print(f"    学到的量（均值/最大）：{bal}", flush=True)
     for e in ex:
         print("    " + e, flush=True)

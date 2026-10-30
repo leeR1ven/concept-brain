@@ -11,7 +11,8 @@
   前额叶分两层，外加一个和它来回连的丘脑小区：
       接收层：上面那些"对应者"（收链；内部互相连；集中的活动经回程中继送出去）；
       思考层：前额叶自己的神经元，没有链进来、也没有回程出去。从接收层收信号，层内互相连，
-              再送回接收层（输出又返回成为上一层的输入）——慢慢学成概括 / 概念；在这里想事情不推动别的区；
+              再送回接收层（输出又返回成为上一层的输入：出生就有一条沿原路回到来源的固定连接，另有学来的）
+              ——接收层的名额由想法有关的来源填，而不是随便凑；慢慢学成概括 / 概念；在这里想事情不推动别的区；
       丘脑：和思考层一小组一小组地来回连（出生固定），给想法一个回路托着，能撑过一段间隔。
       海马体的链强（有真实输入时以输入为准，安静时空出的名额是回放）；前额叶的链弱（进不进得来看它在想什么）。
   回程：海马体 / 前额叶 → 回程中继 → 听觉区（心里听到）、运动皮层（想动）。强度是可调的数值。
@@ -26,9 +27,9 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from .areas import (Circuit, MotorArea, MotorCfg, SenseArea, SenseCfg, ThoughtArea, ThoughtCfg, hip_cfg,
+from .areas import (Circuit, MotorArea, MotorCfg, SenseArea, SenseCfg, ThoughtArea, ThoughtCfg, Unit, hip_cfg,
                     pfc_cfg)
-from .net import Path, PathCfg, Region, RegionCfg, T
+from .net import N, Path, PathCfg, Region, RegionCfg, T
 from .net3d import Net3D, Net3DCfg
 
 
@@ -41,24 +42,33 @@ class BrainCfg:
     mctx_net: Net3DCfg = field(default_factory=lambda: Net3DCfg(levels=3, zs=(20, 40, 80), frac=(0.4, 0.3, 0.2)))
     mctx: SenseCfg = field(default_factory=lambda: SenseCfg(internal=PathCfg(k=96, w_init=0.01, eta=0.03, gamma=0.999, budget=1.0)))
     hip: ThoughtCfg = field(default_factory=hip_cfg)
-    pfc: ThoughtCfg = field(default_factory=pfc_cfg)
+    pfc: ThoughtCfg = field(default_factory=lambda: ThoughtCfg(region=RegionCfg(frac=0.08, sp_beta=0.05),
+                                                               internal=pfc_cfg().internal))
     motor: MotorCfg = field(default_factory=lambda: MotorCfg(dis_thr=2.0, internal=PathCfg(k=64, w_init=0.02, eta=0.01, gamma=0.999, budget=1.0)))
     mctx_mot: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.002, eta=0.003, gamma=0.999, budget=1.5))
     chain_hip: float = 3.0
-    chain_pfc: float = 0.5
+    chain_pfc: float = 0.3
     ret_hip: float = 0.5          # 回程强度：可调旋钮
     ret_pfc: float = 0.5
     relay_span: int = 3           # 回程中继读同一位置上下各几个邻居
     relay_need: float = 3.0       # 这一小簇里至少亮几个，中继才亮
     pfc_own: int = 10000          # 前额叶思考层（自己的神经元，不对应任何区，没有链也没有回程）
-    think: ThoughtCfg = field(default_factory=lambda: ThoughtCfg(region=RegionCfg(frac=0.05),
+    think: ThoughtCfg = field(default_factory=lambda: ThoughtCfg(region=RegionCfg(frac=0.05, sp_beta=0.05),
                                                                  internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999, budget=0.5)))
     in_think: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.03, eta=0.01, gamma=0.999, budget=1.0))   # 接收层 → 思考层
-    think_in: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.01, eta=0.01, gamma=0.999, budget=1.0))   # 思考层 → 接收层
+    think_in: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.01, eta=0.01, gamma=0.999, budget=0.3))   # 思考层 → 接收层
+    w_fb: float = 0.1             # 想法回投：接收层 i → 思考层 j 的每条出生连接，都有一条固定的 j → i
     thal_group: int = 5           # 丘脑每个神经元和思考层几个神经元来回连
     thal_w: float = 0.3           # 丘脑环路的强度（托住想法的旋钮：太强会锁死，太弱撑不住）
     ear_mctx: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=1.0))
     mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=0.5))
+    fresh_w: float = 0.001        # "新鲜输入"小群：听觉皮层每个神经元（乘余量）给它的电流
+    fresh_thr: float = 0.4        #   亮的门槛（≈ 有多少新鲜的听觉特征算"有人在说话"）
+    ret_motor: float = 0.3        # 前额叶 / 海马体里肌肉区的对应者 → 回到肌肉区（两路加起来也不够自己把刚说的字再放一遍）
+    fresh_go: float = 5.0         #   它压住起动（别人在说时不开口）
+    to_go: PathCfg = field(default_factory=lambda: PathCfg(k=1, w_init=0.0, eta=0.005, gamma=0.999))  # 思考层 / 听觉 → 起动（学）
+    std_U: float = 0.5            # 输出余量（听觉区、运动皮层、肌肉区）：每亮一拍掉一半，
+    std_tau: float = 6.0          #   约 6 拍恢复——一直不变的输入推力很快变小
     decay_T: int = 100
     seed: int = 0
 
@@ -120,11 +130,13 @@ class Brain:
         self.thal = ThoughtArea("thal", n_th, ThoughtCfg(region=RegionCfg(frac=0.05),
                                                          internal=PathCfg(k=1, w_init=0.0)), seed=c.seed + 4)
         src = {"ear": ear.region, "mctx": mctx.region, "motor": mot.region}
+        for R in src.values():
+            R.cfg.std_U, R.cfg.std_tau = c.std_U, c.std_tau
         paths, relays = [], []
         for X, cg, rg in ((self.hip, c.chain_hip, c.ret_hip), (self.pfc, c.chain_pfc, c.ret_pfc)):
             for k, R in src.items():                                   # 链：每个神经元一根线到 T 里对应的那一个
-                o = self.off[k]
-                paths.append(Path(f"{k}⇒{X.name}", R, X.region, PathCfg(w_init=cg), rng,
+                o = self.off[k]                                        # （海马体照实记录：不乘余量）
+                paths.append(Path(f"{k}⇒{X.name}", R, X.region, PathCfg(w_init=cg, use_x=X is self.pfc), rng,
                                   pairs=[(int(i), [o + int(i)]) for i in self.cand[k]]))
             for k, A in (("ear", ear), ("mctx", mctx)):                # 回程：经中继，只有集中的想法回送
                 relay = Relay(f"{X.name}→{k}中继", A, self.cand[k], c.relay_need)
@@ -136,19 +148,38 @@ class Brain:
                 paths.append(Path(f"{k}中继⇒{k}", relay.region, A.region, PathCfg(w_init=rg), rng,
                                   pairs=[(int(i), [int(i)]) for i in self.cand[k]]))
         grp = np.arange(c.pfc_own) % n_th                          # 思考层第 i 个 ↔ 丘脑第 i % n_th 个
-        paths += [Path("pfc→think", self.pfc.region, self.think.region, c.in_think, rng, src_ids=ids,
-                       dst_ids=np.arange(c.pfc_own)),
+        p_in = Path("pfc→think", self.pfc.region, self.think.region, c.in_think, rng, src_ids=ids,
+                    dst_ids=np.arange(c.pfc_own))
+        to, ok = N(p_in.to), N(p_in.ok)
+        r, k = np.nonzero(ok)
+        j = to[r, k]
+        order = np.argsort(j, kind="stable")
+        cut = np.searchsorted(j[order], np.arange(c.pfc_own + 1))
+        paths += [p_in,                                            # 想法回投：沿出生连接反着送回它的来源
+                  Path("think⇒pfc", self.think.region, self.pfc.region, PathCfg(w_init=c.w_fb), rng,
+                       pairs=[(q, r[order[cut[q]:cut[q + 1]]]) for q in range(c.pfc_own)]),
                   Path("think→pfc", self.think.region, self.pfc.region, c.think_in, rng, src_ids=np.arange(c.pfc_own),
                        dst_ids=ids),
                   Path("think⇒thal", self.think.region, self.thal.region, PathCfg(w_init=c.thal_w), rng,
                        pairs=[(i, [int(grp[i])]) for i in range(c.pfc_own)]),
                   Path("thal⇒think", self.thal.region, self.think.region, PathCfg(w_init=c.thal_w), rng,
                        pairs=[(j, np.nonzero(grp == j)[0]) for j in range(n_th)])]
+        om = self.off["motor"]                                     # 前额叶 / 海马体里肌肉区神经元的对应者 → 回去（一对一）
+        paths += [Path(f"{X.name}⇒motor", X.region, mot.region, PathCfg(w_init=c.ret_motor), rng,
+                       pairs=[(om + i, [i]) for i in range(nm)]) for X in (self.hip, self.pfc)]
+        self.fresh = Unit("fresh", 1, c.fresh_thr)                 # 新鲜输入小群：有人在说话时亮 → 压住起动
+        go = mot.go
+        paths += [Path("ear⇒fresh", ear.region, self.fresh.region, PathCfg(w_init=c.fresh_w), rng,
+                       pairs=[(int(i), [0]) for i in cand_e]),
+                  Path("fresh⇒go", self.fresh.region, go, PathCfg(w_init=c.fresh_go, sign=-1.0), rng, pairs=[(0, [0])]),
+                  Path("think→go", self.think.region, go, c.to_go, rng, src_ids=np.arange(c.pfc_own), dst_ids=[0]),
+                  Path("ear→go", ear.region, go, c.to_go, rng, src_ids=cand_e, dst_ids=[0])]
         paths += [Path("mctx→motor", mctx.region, mot.region, c.mctx_mot, rng, src_ids=cand_c, dst_ids=np.arange(nm)),
                   Path("ear→mctx", ear.region, mctx.region, c.ear_mctx, rng, src_ids=cand_e, dst_ids=cand_c),
                   Path("mctx→ear", mctx.region, ear.region, c.mctx_ear, rng, src_ids=cand_c, dst_ids=cand_e)]
         self.relays = relays
-        self.c = Circuit([ear, mctx, self.hip, self.pfc, self.think, self.thal, mot] + relays, paths, decay_T=c.decay_T)
+        self.c = Circuit([ear, mctx, self.hip, self.pfc, self.think, self.thal, self.fresh, mot] + relays, paths,
+                         decay_T=c.decay_T)
         self._sync_mirrors()
 
     def _sync_mirrors(self) -> None:
@@ -176,17 +207,28 @@ class Brain:
         f[: self.mot.cfg.n_muscles] = self.mot.force()
         return self.mctx.net.encode(f.reshape(self.mH, self.mW))
 
-    def step(self, lines: np.ndarray, drive: np.ndarray | None = None) -> np.ndarray:
-        """lines：耳朵输入线；drive：外部送进运动区的电流（外力 / 本能）。返回每块肌肉的力度。"""
-        self.c.step(ext=None if drive is None else {"motor": drive},
-                    lines={"ear": lines, "mctx": self.muscle_lines()})
+    def step(self, lines: np.ndarray, drive: np.ndarray | None = None, go: bool = False) -> np.ndarray:
+        """lines：耳朵输入线；drive：外部送进运动区的电流（外力 / 本能）；go：外力推一下起动（"轮到你了"）。
+        返回每块肌肉的力度。"""
+        ext = {} if drive is None else {"motor": drive}
+        if go:
+            ext[self.mot.go.name] = np.array([self.mot.cfg.go_thr + 1.0], np.float32)
+        self.c.step(ext=ext, lines={"ear": lines, "mctx": self.muscle_lines()})
         return self.mot.force()
 
     def mute_featureless(self) -> int:
+        """没特征的神经元（几乎一直亮）不往任何地方送信号，也不收学来的连接。"""
         n = 0
         for A in (self.ear, self.mctx):
             ids = A.featureless()
             A.mute(ids)
+            for p in self.c.paths:
+                if p in A.paths or not len(ids):
+                    continue
+                if p.src is A.region:
+                    p.cut_src(ids)
+                if p.dst is A.region:
+                    p.cut_dst(ids)
             n += len(ids)
         self._sync_mirrors()
         return n

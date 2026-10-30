@@ -133,6 +133,10 @@ class MotorCfg:
     inh_w: float = 1.5                # 抑制神经元 → 肌肉神经元
     dis_w: float = 2.0                # 去抑制神经元 → 抑制神经元
     dis_thr: float = 1.2              # 去抑制神经元的门槛：零散的推力撤不掉抑制，要几路一起（和练熟后学得到的推力相当）
+    beat: int = 3                     # 节拍：一个音节几拍（= 世界里一个字的长度）
+    slots: int = 4                    # 每个节拍边界最多放开几块肌肉（一个字用几块）
+    go_w: float = 1.2                 # 起动 → 所有去抑制神经元（只在边界那一拍）
+    go_thr: float = 1.0
     internal: PathCfg = field(default_factory=lambda: PathCfg(k=64, w_init=0.02, eta=0.05, gamma=0.99))
 
 
@@ -140,7 +144,12 @@ class MotorArea:
     """肌肉控制神经元 vs 抑制神经元：同一拍里比较（抑制是即时的，不往后拖一拍）。
       去抑制神经元 D：收到的电流 ≥ dis_thr 就亮；
       抑制神经元 I：基础电流 tonic + 收到的 − dis_w·（这一拍它的 D 亮没亮）≥ 1 就亮（平时一直亮）；
-      肌肉神经元 M：收到的 − inh_w·（这一拍它的 I 亮没亮）≥ 1 + 档·level_step 就亮；亮几档 = 多大力。"""
+      肌肉神经元 M：收到的 − inh_w·（这一拍它的 I 亮没亮）≥ 1 + 档·level_step 就亮；亮几档 = 多大力。
+    "什么时候动"和"动哪些"分开（真实大脑：基底节 / 丘脑的起动信号与内容无关；鸣禽每个音节开头丘脑给一下）：
+      起动神经元 go：与内容无关，亮了给所有 D 加 go_w——只有被内容支持的那几块肌肉越过门槛（谁先过由内容定）；
+      节拍：go 一亮就开始数拍，每 beat 拍一个边界。D 只在边界上换：边界那一拍放开旧的、按内容选新的
+            （最多 slots 块，挑推力最大的），其余拍子 D 自己撑着（出生就有的保持）；边界上没有任何 D 过门槛 = 说完。
+      说话时力度按拍子加上去（第 1 拍 1 档、第 2 拍 2 档……），也是出生就有的结构，不用学。"""
 
     def __init__(self, name: str = "motor", cfg: MotorCfg | None = None, seed: int = 0):
         self.name = name
@@ -156,15 +165,33 @@ class MotorArea:
         R.thr = T(thr)
         self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng,     # 学来的连接只从肌肉神经元出发；
                           src_ids=self.M.reshape(-1), dst_ids=np.arange(R.n))     # 抑制 / 去抑制的作用是上面固定的
-        self.regions, self.paths = [R], [self.inner]
+        self.go = Region(f"{name}_go", 1, RegionCfg(frac=0.0, thr=c.go_thr))
+        self.regions, self.paths = [R, self.go], [self.inner]
         self._M, self._I, self._D = T(self.M), T(self.I), T(self.D)
+        self._lvl = T(np.arange(L))
+        self.phase, self.speaking = 0, False
 
     def fire(self, cur: dict, lines: dict) -> None:
         c, R = self.cfg, self.region
+        self.go.fire(cur[self.go.name])
         x = cur[self.name]
-        d_on = x[self._D] >= c.dis_thr
+        dx = x[self._D]
+        if bool(self.go.s.any()) or (self.speaking and self.phase == c.beat - 1):     # 节拍边界
+            d_on = dx + c.go_w >= c.dis_thr
+            if int(d_on.sum()) > c.slots:                                             # 竞争：只放开推力最大的几块
+                keep = torch.zeros_like(d_on)
+                keep[torch.topk(torch.where(d_on, dx, torch.full_like(dx, -torch.inf)), c.slots).indices] = True
+                d_on = keep
+            self.speaking, self.phase = bool(d_on.any()), 0
+        elif self.speaking:                                                            # 字的中间：撑着
+            d_on = R.s[self._D].clone()
+            self.phase += 1
+        else:
+            d_on = dx >= c.dis_thr
         i_on = x[self._I] + c.tonic - c.dis_w * d_on.float() >= 1.0
         m_on = x[self._M] - c.inh_w * i_on.float()[:, None] >= R.thr[self._M]
+        if self.speaking:                                                              # 力度按拍子加上去
+            m_on = m_on | (d_on[:, None] & (self._lvl <= self.phase)[None, :])
         new = torch.zeros(R.n, dtype=torch.bool, device=DEV)
         new[self._M] = m_on
         new[self._I] = i_on
@@ -186,11 +213,33 @@ class MotorArea:
             d[self.D[m]] += c.dis_thr + 0.5
         return d
 
+    def cue(self, muscles) -> np.ndarray:
+        """外力（教的人）在节拍边界那一拍指出这个字用哪几块肌肉：推它们的去抑制神经元。"""
+        d = np.zeros(self.region.n, np.float32)
+        for m in muscles:
+            d[self.D[m]] += self.cfg.dis_thr + 0.5
+        return d
+
+    def reset(self) -> None:
+        self.phase, self.speaking = 0, False
+
     def stop(self, strength: float = 2.0) -> np.ndarray:
         """外力让嘴停下：推所有抑制神经元。"""
         d = np.zeros(self.region.n, np.float32)
         d[self.I] += strength
         return d
+
+
+class Unit:
+    """几个门槛型神经元（电流 ≥ thr 就亮），比如"新鲜输入"小群。"""
+
+    def __init__(self, name: str, n: int, thr: float):
+        self.name = name
+        self.region = Region(name, n, RegionCfg(frac=0.0, thr=thr))
+        self.regions, self.paths = [self.region], []
+
+    def fire(self, cur: dict, lines: dict) -> None:
+        self.region.fire(cur[self.name])
 
 
 # ================================================================ 组合
@@ -220,6 +269,10 @@ class Circuit:
         if self.learning:
             for p in self.paths:
                 p.learn()
+        for R in self.regions:                      # 学完再更新余量（学习用的是传递那一拍的余量）
+            R.deplete()
+            if self.learning:
+                R.homeostasis()
         self.t += 1
         if self.learning and self.t % self.decay_T == 0:
             for p in self.paths:
@@ -228,6 +281,9 @@ class Circuit:
     def reset(self) -> None:
         for R in self.regions:
             R.reset()
+        for part in self.parts:
+            if hasattr(part, "reset"):
+                part.reset()
 
     def path(self, name: str) -> Path:
         return next(p for p in self.paths if p.name == name)

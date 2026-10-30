@@ -10,6 +10,11 @@
   5. 一个神经元从某一类连接学来的总量有上限（真实大脑里的异突触可塑性：一些输入加强时，同一个神经元的
      其他输入跟着变弱）。超过时这个神经元收到的这类连接一起按比例缩回——学到的只改变谁强谁弱，
      不会无限放大，出生就有的固定结构（环路、抑制门槛）一直有分量。
+  6. 用掉就弱（真实大脑里的短时压抑和稳态，同一条原理的两个时间尺度）：
+     - 输出余量：神经元每亮一拍，它对别人的推力就掉一截，几拍内恢复——一直不变的输入（安静、静止的身体）
+       推力很快变小，变化的、新的输入照样全力送出；学到的量也乘这个余量（越新鲜学得越多）。不是不应期：
+       它自己照样能亮。
+     - 设定点：神经元记着自己长期亮得多频繁；比本区目标比例亮得多的，慢慢变得更难赢——不会有"永远赢的一批"。
 抑制 / 去抑制神经元发出的连接是抑制性的（sign = −1）。
 
 用 torch 存和算：有显卡（或环境变量 BRAIN_DEVICE 指定）就在显卡上，否则在 CPU 上；规则完全一样。
@@ -44,6 +49,10 @@ def N(x) -> np.ndarray:
 class RegionCfg:
     frac: float = 0.1           # 每拍亮的比例（0 = 用门槛 thr）
     thr: float = 1.0
+    std_U: float = 0.0          # 输出余量：每亮一拍余量 × (1 − std_U)（0 = 没有）
+    std_tau: float = 6.0        #           余量往 1 恢复的快慢（拍）
+    sp_beta: float = 0.0        # 设定点：亮得比目标多的，每多 1 倍减 sp_beta 电流（0 = 没有）
+    sp_tau: float = 1000.0      #         记"亮得多频繁"的时间尺度（拍）
 
 
 class Region:
@@ -56,6 +65,8 @@ class Region:
         self.alive = torch.ones(n, dtype=torch.bool, device=DEV)
         self.thr = torch.full((n,), self.cfg.thr, dtype=torch.float32, device=DEV)
         self.base = torch.zeros(n, dtype=torch.float32, device=DEV)
+        self.x = torch.ones(n, dtype=torch.float32, device=DEV)                   # 输出余量
+        self.u = torch.full((n,), self.cfg.frac, dtype=torch.float32, device=DEV)  # 长期亮的频率
 
     def kill(self, ids) -> None:
         ids = T(ids, torch.long)
@@ -81,9 +92,24 @@ class Region:
     def set(self, new: torch.Tensor) -> None:
         self.prev, self.s = self.s, new
 
+    def deplete(self) -> None:
+        """这一拍送出过电流的（上一拍亮着的）余量掉一截；所有余量往 1 恢复。"""
+        c = self.cfg
+        if c.std_U > 0:
+            self.x = torch.where(self.prev, self.x * (1.0 - c.std_U), self.x)
+            self.x = self.x + (1.0 - self.x) / c.std_tau
+
+    def homeostasis(self) -> None:
+        """设定点：只罚亮得比目标比例多的那部分。"""
+        c = self.cfg
+        if c.sp_beta > 0 and c.frac > 0:
+            self.u = self.u + (self.s.float() - self.u) / c.sp_tau
+            self.base = -c.sp_beta * torch.clamp(self.u / c.frac - 1.0, min=0.0)
+
     def reset(self) -> None:
         self.s = torch.zeros_like(self.s)
         self.prev = torch.zeros_like(self.prev)
+        self.x = torch.ones_like(self.x)
 
 
 @dataclass
@@ -95,6 +121,7 @@ class PathCfg:
     w_ref: float = 0.2        # 越强越难涨：Δ = eta / (1 + 学来的部分 / w_ref)
     gamma: float = 1.0        # 整体降权：每次学来的部分 × gamma
     budget: float = 0.0       # 每个目标神经元从这类连接学来的总量上限（0 = 不限）
+    use_x: bool = True        # 推力乘源的输出余量（源区有余量时）；海马要照实记录，链到海马不乘
 
 
 class Path:
@@ -159,13 +186,20 @@ class Path:
     def current(self) -> torch.Tensor:
         """上一拍亮着的源（src.s 还没更新时调用）送给 dst 每个神经元的电流。"""
         out = torch.zeros(self.dst.n, dtype=torch.float32, device=DEV)
+        xs = self._xs()
         if DENSE:                                   # 显卡上：整张表一起算，不用先挑出亮着的（省得来回等）
-            out.index_add_(0, self.to.reshape(-1), (self.w * self.src.s[:, None]).reshape(-1))
+            a = self.src.s.float() if xs is None else self.src.s * xs
+            out.index_add_(0, self.to.reshape(-1), (self.w * a[:, None]).reshape(-1))
         else:
             act = self.src.s.nonzero().squeeze(1)
             if len(act):
-                out.index_add_(0, self.to[act].reshape(-1), self.w[act].reshape(-1))   # 没用的位置权重为 0
+                w = self.w[act] if xs is None else self.w[act] * xs[act, None]
+                out.index_add_(0, self.to[act].reshape(-1), w.reshape(-1))   # 没用的位置权重为 0
         return out if self.cfg.sign == 1.0 else self.cfg.sign * out
+
+    def _xs(self):
+        """源的输出余量（源区没有余量、或这类连接不乘时为 None）。"""
+        return self.src.x if self.cfg.use_x and self.src.cfg.std_U > 0 else None
 
     def learn(self) -> None:
         """两个区都已更新完（prev = 上一拍，s = 这一拍）。i→j：
@@ -177,10 +211,14 @@ class Path:
         if c.eta <= 0:
             return
         rising = self.dst.s & ~self.dst.prev
+        xs = self._xs()                             # 传递那一拍的余量（Circuit 在学完之后才更新余量）
         if DENSE:                                   # 显卡上：整张表一起算
             fwd = self.src.prev[:, None] & rising[self.to] & self.ok
             back = self.src.s[:, None] & self.dst.prev[self.to] & self.ok
-            w = torch.where(fwd, self.w + c.eta / (1.0 + (self.w - self.w0) / c.w_ref), self.w)
+            inc = c.eta / (1.0 + (self.w - self.w0) / c.w_ref)
+            if xs is not None:
+                inc = inc * xs[:, None]
+            w = torch.where(fwd, self.w + inc, self.w)
             self.w = torch.where(back, torch.maximum(w - c.eta, self.w0), w)
             return
         rows = self.src.prev.nonzero().squeeze(1)
@@ -189,7 +227,8 @@ class Path:
             if len(r):
                 rr = rows[r]
                 w, w0 = self.w[rr, k], self.w0[rr, k]
-                self.w[rr, k] = w + c.eta / (1.0 + (w - w0) / c.w_ref)
+                inc = c.eta / (1.0 + (w - w0) / c.w_ref)
+                self.w[rr, k] = w + (inc if xs is None else inc * xs[rr])
         rows = self.src.s.nonzero().squeeze(1)
         if len(rows) and bool(self.dst.prev.any()):                      # j 先亮、i 后亮（i 一直亮着也算）
             r, k = (self.dst.prev[self.to[rows]] & self.ok[rows]).nonzero(as_tuple=True)
