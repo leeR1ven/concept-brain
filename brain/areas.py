@@ -154,8 +154,8 @@ class MotorArea:
         thr = np.ones(R.n, dtype=np.float32)
         thr[self.M] = 1.0 + c.level_step * np.arange(L)[None, :]
         R.thr = T(thr)
-        self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng,
-                          src_ids=np.r_[self.M.reshape(-1), self.I, self.D], dst_ids=np.arange(R.n))
+        self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng,     # 学来的连接只从肌肉神经元出发；
+                          src_ids=self.M.reshape(-1), dst_ids=np.arange(R.n))     # 抑制 / 去抑制的作用是上面固定的
         self.regions, self.paths = [R], [self.inner]
         self._M, self._I, self._D = T(self.M), T(self.I), T(self.D)
 

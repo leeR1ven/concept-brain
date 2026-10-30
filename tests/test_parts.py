@@ -222,12 +222,12 @@ def motor(reps: int = 30, seed: int = 0, verbose: bool = True):
     out = []
     for w in words:
         run([None] * 6)
-        said = run([m.push(v.need[w[0]], strength=1.6)] + [None] * 16)
+        said = run([m.push(v.need[w[0]], level=1)] + [None] * 16)
         out.append((w, runs([s or "_" for s in said])))
     if verbose:
         print(f"运动区：平时（没有输入）{'放松' if all(s is None for s in rest) else '在动'}")
         for w, s in out:
-            print(f"  训练 {reps} 遍后只轻推第一个字 '{w[0]}'：说出 {s or '（没说）'}    （训练的是 {w}）")
+            print(f"  训练 {reps} 遍后只轻推第一个字（1 档） '{w[0]}'：说出 {s or '（没说）'}    （训练的是 {w}）")
     return out
 
 
