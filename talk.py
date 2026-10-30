@@ -29,7 +29,7 @@ from world.voice import Stream, Voice  # noqa: E402
 
 CORPUS = "/root/work/corpus/dialogs.jsonl"     # python corpus.py 生成（chatterbot + LCCC + PersonalDialog）
 SOUND, PAUSE = 3, 4          # 每个字的声音持续几拍（一句话里字连着说）；对话和对话之间停几拍
-REPLY_GAP = 3                # 训练时别人说完到模型接话的停顿（人对话的空隙很短；测试时什么时候开口由模型自己定）
+REPLY_GAP = 5                # 训练时别人说完到模型接话的停顿（人对话的空隙很短；测试时什么时候开口由模型自己定）
 
 
 def load_corpus(path: str = CORPUS) -> list:
@@ -158,7 +158,15 @@ def check(t: Talker, convs, tag: str) -> None:
     across = [jac(ends[i], ends[j]) for i in range(n) for j in range(i + 1, n)]
     dec = {k: np.mean([int(np.argmax([jac(v[1][i], v[0][j]) for j in range(n)]) == i) for i in range(n)])
            for k, v in st.items()}
-    # 3. 对话：听到别人那句，会不会开口、说出的和该回的有多少重合
+    # 3. 跟着说（外力推起动、每个字开头指出肌肉）：嘴真的说出该说的字了吗（训练时模型就是这样练说话的）
+    guided = []
+    for conv in convs[:5]:
+        t.listen(conv[0], pause=REPLY_GAP)
+        t.said = []
+        t.say(conv[1])
+        out = "".join(s for i, s in enumerate(t.said) if s is not None and (i == 0 or s != t.said[i - 1]))
+        guided.append(lcs(out, conv[1]) / len(conv[1]))
+    # 4. 对话：听到别人那句，会不会开口、说出的和该回的有多少重合
     spoke, ov, ex, lat, mess = 0, [], [], [], []
     for conv in convs[:10]:
         out = t.reply(conv[0])
@@ -174,6 +182,7 @@ def check(t: Talker, convs, tag: str) -> None:
     print(f"[{tag}] 只听时嘴动了 {moved} 拍 | 前额叶里不是当前输入的 {np.mean(own):.2f} | "
           f"思考层停顿后还保持 {np.mean(hold):.2f}、不同句子之间 {np.mean(across):.2f}、"
           f"停顿后认出是哪句 思考层 {dec['think']:.2f} 海马体 {dec['hip']:.2f}（瞎猜 {1 / n:.2f}） | "
+          f"跟着说说对的字 {np.mean(guided):.2f} | "
           f"听到一句后开口 {spoke}/10（说完后第 {np.median(lat) if lat else '-'} 拍开口，含糊音占 "
           f"{np.mean(mess) if mess else 0:.2f}），说出的字属于该回那句 {np.mean(ov):.2f}", flush=True)
     print(f"    学到的量（均值/最大）：{bal}", flush=True)

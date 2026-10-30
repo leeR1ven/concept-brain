@@ -42,9 +42,10 @@ class SenseArea:
         self.clear_usage()
 
     def fire(self, cur: dict, lines: dict) -> None:
-        """外部送来的电流（区内连接、回程、直连）加在得分上；每层亮多少由网络自己定（固定比例）。"""
+        """外部送来的电流（区内连接、回程、直连）加在得分上；每层亮多少由网络自己定（固定比例，或随新鲜驱动变）。"""
         R = self.region
-        new = self.net.respond(lines[self.name], torch.where(self._cx, cur[R.name], 0.0)) & R.alive
+        x = R.x if R.cfg.std_U > 0 else None
+        new = self.net.respond(lines[self.name], torch.where(self._cx, cur[R.name], 0.0), x) & R.alive
         R.set(new)
         self.usage += new
         self.n_seen += 1
@@ -176,7 +177,7 @@ class MotorArea:
         self.go.fire(cur[self.go.name])
         x = cur[self.name]
         dx = x[self._D]
-        if bool(self.go.s.any()) or (self.speaking and self.phase == c.beat - 1):     # 节拍边界
+        if (bool(self.go.s.any()) and not self.speaking) or (self.speaking and self.phase == c.beat - 1):   # 节拍边界（正说着时起动不打断）
             d_on = dx + c.go_w >= c.dis_thr
             if int(d_on.sum()) > c.slots:                                             # 竞争：只放开推力最大的几块
                 keep = torch.zeros_like(d_on)

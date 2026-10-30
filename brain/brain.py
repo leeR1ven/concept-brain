@@ -59,14 +59,17 @@ class BrainCfg:
     think_in: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.01, eta=0.01, gamma=0.999, budget=0.3))   # 思考层 → 接收层
     w_fb: float = 0.1             # 想法回投：接收层 i → 思考层 j 的每条出生连接，都有一条固定的 j → i
     thal_group: int = 5           # 丘脑每个神经元和思考层几个神经元来回连
-    thal_w: float = 0.3           # 丘脑环路的强度（托住想法的旋钮：太强会锁死，太弱撑不住）
+    thal_w: float = 0.3           # 丘脑 → 思考层的强度（托住想法的旋钮：太强会锁死，太弱撑不住）
+    thal_need: float = 2.0        # 丘脑神经元：它那组思考层神经元里至少亮几个才亮；亮了就一直亮（托住），直到有人说话
+    fresh_thal: float = 10.0      # 有人在说话（新鲜输入小群亮）时压住丘脑（压得过整组亮 + 自己撑着）：听的时候思考层跟着输入走，停下来才托住
     ear_mctx: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=1.0))
     mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=0.5))
     fresh_w: float = 0.001        # "新鲜输入"小群：听觉皮层每个神经元（乘余量）给它的电流
     fresh_thr: float = 0.4        #   亮的门槛（≈ 有多少新鲜的听觉特征算"有人在说话"）
     ret_motor: float = 0.3        # 前额叶 / 海马体里肌肉区的对应者 → 回到肌肉区（两路加起来也不够自己把刚说的字再放一遍）
     fresh_go: float = 5.0         #   它压住起动（别人在说时不开口）
-    to_go: PathCfg = field(default_factory=lambda: PathCfg(k=1, w_init=0.0, eta=0.005, gamma=0.999))  # 思考层 / 听觉 → 起动（学）
+    to_go: PathCfg = field(default_factory=lambda: PathCfg(k=1, w_init=0.0, eta=0.005, gamma=0.999, budget=2.0, back=False))
+    # ↑ 思考层 / 听觉 → 起动（学）：托住的想法也能学会"该我说了"；两路上限加起来 4 < 起动门槛 + 刹车，别人在说时永远压得住
     std_U: float = 0.5            # 输出余量（听觉区、运动皮层、肌肉区）：每亮一拍掉一半，
     std_tau: float = 6.0          #   约 6 拍恢复——一直不变的输入推力很快变小
     decay_T: int = 100
@@ -127,8 +130,7 @@ class Brain:
         self.pfc = ThoughtArea("pfc", ne + nc + nm, c.pfc, seed=c.seed + 2, ids=ids)          # 接收层
         self.think = ThoughtArea("think", c.pfc_own, c.think, seed=c.seed + 3)              # 思考层
         n_th = c.pfc_own // c.thal_group
-        self.thal = ThoughtArea("thal", n_th, ThoughtCfg(region=RegionCfg(frac=0.05),
-                                                         internal=PathCfg(k=1, w_init=0.0)), seed=c.seed + 4)
+        self.thal = Unit("thal", n_th, c.thal_need)                                     # 丘脑：托住想法的闸门
         src = {"ear": ear.region, "mctx": mctx.region, "motor": mot.region}
         for R in src.values():
             R.cfg.std_U, R.cfg.std_tau = c.std_U, c.std_tau
@@ -160,18 +162,22 @@ class Brain:
                        pairs=[(q, r[order[cut[q]:cut[q + 1]]]) for q in range(c.pfc_own)]),
                   Path("think→pfc", self.think.region, self.pfc.region, c.think_in, rng, src_ids=np.arange(c.pfc_own),
                        dst_ids=ids),
-                  Path("think⇒thal", self.think.region, self.thal.region, PathCfg(w_init=c.thal_w), rng,
+                  Path("think⇒thal", self.think.region, self.thal.region, PathCfg(w_init=1.0), rng,
                        pairs=[(i, [int(grp[i])]) for i in range(c.pfc_own)]),
                   Path("thal⇒think", self.thal.region, self.think.region, PathCfg(w_init=c.thal_w), rng,
-                       pairs=[(j, np.nonzero(grp == j)[0]) for j in range(n_th)])]
+                       pairs=[(j, np.nonzero(grp == j)[0]) for j in range(n_th)]),
+                  Path("thal⇒thal", self.thal.region, self.thal.region, PathCfg(w_init=c.thal_need), rng,   # 亮了就自己撑着
+                       pairs=[(j, [j]) for j in range(n_th)])]
         om = self.off["motor"]                                     # 前额叶 / 海马体里肌肉区神经元的对应者 → 回去（一对一）
         paths += [Path(f"{X.name}⇒motor", X.region, mot.region, PathCfg(w_init=c.ret_motor), rng,
                        pairs=[(om + i, [i]) for i in range(nm)]) for X in (self.hip, self.pfc)]
-        self.fresh = Unit("fresh", 1, c.fresh_thr)                 # 新鲜输入小群：有人在说话时亮 → 压住起动
+        self.fresh = Unit("fresh", 1, c.fresh_thr)                 # 新鲜输入小群：有人在说话时亮 → 压住起动和丘脑
         go = mot.go
         paths += [Path("ear⇒fresh", ear.region, self.fresh.region, PathCfg(w_init=c.fresh_w), rng,
                        pairs=[(int(i), [0]) for i in cand_e]),
                   Path("fresh⇒go", self.fresh.region, go, PathCfg(w_init=c.fresh_go, sign=-1.0), rng, pairs=[(0, [0])]),
+                  Path("fresh⇒thal", self.fresh.region, self.thal.region, PathCfg(w_init=c.fresh_thal, sign=-1.0), rng,
+                       pairs=[(0, np.arange(n_th))]),
                   Path("think→go", self.think.region, go, c.to_go, rng, src_ids=np.arange(c.pfc_own), dst_ids=[0]),
                   Path("ear→go", ear.region, go, c.to_go, rng, src_ids=cand_e, dst_ids=[0])]
         paths += [Path("mctx→motor", mctx.region, mot.region, c.mctx_mot, rng, src_ids=cand_c, dst_ids=np.arange(nm)),
@@ -212,7 +218,7 @@ class Brain:
         返回每块肌肉的力度。"""
         ext = {} if drive is None else {"motor": drive}
         if go:
-            ext[self.mot.go.name] = np.array([self.mot.cfg.go_thr + 1.0], np.float32)
+            ext[self.mot.go.name] = np.array([self.mot.cfg.go_thr + self.cfg.fresh_go + 1.0], np.float32)   # 外力压过刹车（和 cue 一样）
         self.c.step(ext=ext, lines={"ear": lines, "mctx": self.muscle_lines()})
         return self.mot.force()
 

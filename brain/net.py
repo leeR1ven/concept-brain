@@ -122,6 +122,7 @@ class PathCfg:
     gamma: float = 1.0        # 整体降权：每次学来的部分 × gamma
     budget: float = 0.0       # 每个目标神经元从这类连接学来的总量上限（0 = 不限）
     use_x: bool = True        # 推力乘源的输出余量（源区有余量时）；海马要照实记录，链到海马不乘
+    back: bool = True         # "后亮的源 → 先亮的目标"减弱（False：只加强，一直亮着的源也能学会"它在时目标会亮"）
 
 
 class Path:
@@ -219,7 +220,7 @@ class Path:
             if xs is not None:
                 inc = inc * xs[:, None]
             w = torch.where(fwd, self.w + inc, self.w)
-            self.w = torch.where(back, torch.maximum(w - c.eta, self.w0), w)
+            self.w = torch.where(back, torch.maximum(w - c.eta, self.w0), w) if c.back else w
             return
         rows = self.src.prev.nonzero().squeeze(1)
         if len(rows) and bool(rising.any()):                             # i 先亮、j 后亮
@@ -230,7 +231,7 @@ class Path:
                 inc = c.eta / (1.0 + (w - w0) / c.w_ref)
                 self.w[rr, k] = w + (inc if xs is None else inc * xs[rr])
         rows = self.src.s.nonzero().squeeze(1)
-        if len(rows) and bool(self.dst.prev.any()):                      # j 先亮、i 后亮（i 一直亮着也算）
+        if c.back and len(rows) and bool(self.dst.prev.any()):                      # j 先亮、i 后亮（i 一直亮着也算）
             r, k = (self.dst.prev[self.to[rows]] & self.ok[rows]).nonzero(as_tuple=True)
             if len(r):
                 rr = rows[r]

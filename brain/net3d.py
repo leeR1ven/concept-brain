@@ -39,6 +39,10 @@ class Net3DCfg:
     spare: float = 0.25                   # 每层预留的空位比例（给分裂出来的新神经元）
     on_thr: float = 0.9                   # 使用率 ≥ 它 = 常亮
     split_frac: tuple = (0.0, 0.02, 0.05, 0.1)   # 每次每层拆常亮者中的这么多（越靠近输入越少）
+    vary_from: int = 99                   # 从第几层起（0 = 第一个立体层），亮的个数跟着新鲜驱动变（99 = 都固定）
+    fresh_thr: float = 1.0                # 新鲜驱动得分 ≥ 它，算"被新鲜地驱动"（自己那格刚亮起来就够）
+    sigma: float = 0.1                    # 半饱和：被新鲜驱动的个数 = 活着的 × sigma 时，亮名额的一半
+    n_min: float = 0.15                   # 保底：至少亮名额的这么多（安静时留给"心里听见"）
 
 
 class Net3D:
@@ -88,6 +92,7 @@ class Net3D:
         self.alive = np.concatenate(alive)
         self.used = self.alive.copy()                          # 空位用过了就不再用
         self.n_split = self.n_deleted = 0
+        self.last_F = [0] * len(self.cap)                    # 每层上一拍"被新鲜驱动"的个数（量用）
         self._sync()
 
     def _sync(self) -> None:
@@ -101,17 +106,31 @@ class Net3D:
         up = img[..., None] > np.arange(self.cfg.levels)
         return np.stack([up, ~up], -1).reshape(-1)
 
-    def respond(self, lines, extra: torch.Tensor | None = None) -> torch.Tensor:
-        """输入线 → 各层亮不亮（拼成一条，长度 self.n）。extra：外部送给每个神经元的电流，加在得分上。"""
+    def respond(self, lines, extra: torch.Tensor | None = None, x: torch.Tensor | None = None) -> torch.Tensor:
+        """输入线 → 各层亮不亮（拼成一条，长度 self.n）。extra：外部送给每个神经元的电流，加在得分上。
+        x：每个神经元的输出余量（一直亮的推力变小）。给了 x，第 vary_from 层起：
+          新鲜驱动得分 = 上一层每个源的贡献 × 它的余量；亮的个数 = 名额 × F/(F + sigma·活着的)，有保底、封顶，
+          F = 新鲜驱动得分 ≥ fresh_thr 的个数 → 新的、变化的输入亮得多（强烈），不变的、安静的亮得少（平静）。
+          学来的 / 回程的电流只决定亮哪些，改变不了亮多少。"""
+        c = self.cfg
         h = T(lines, torch.float32)
         out = torch.zeros(self.n, dtype=torch.bool, device=DEV)
         for l, ((idx, w, b), s0, cap) in enumerate(zip(self._t, self.start, self.cap)):
             s = (h[idx] * w).sum(1) + b
+            al = self._alive[s0:s0 + cap]
+            n_al = int(self.alive[s0:s0 + cap].sum())
+            k = int(round(c.frac[l] * n_al))
+            if x is not None and l >= 1:
+                xp = x[self.start[l - 1]:self.start[l - 1] + self.cap[l - 1]]
+                f = (h[idx] * xp[idx] * w).sum(1) + b
+                F = int(((f >= c.fresh_thr) & al).sum())
+                self.last_F[l] = F
+                if l >= c.vary_from:
+                    k = min(k, max(round(c.n_min * k), round(k * F / (F + c.sigma * n_al))))
+                    s = f
             if extra is not None:
                 s = s + extra[s0:s0 + cap]
-            al = self._alive[s0:s0 + cap]
             s = torch.where(al, s, torch.full_like(s, -torch.inf))
-            k = int(round(self.cfg.frac[l] * int(self.alive[s0:s0 + cap].sum())))
             on = torch.zeros(cap, dtype=torch.bool, device=DEV)
             if k:
                 on[torch.topk(s, k).indices] = True
