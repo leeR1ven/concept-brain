@@ -83,10 +83,7 @@ class Ear:
         for _ in range(n):
             self.hear(self.chars[rng.integers(len(self.chars))])
         a = self.area
-        for i in a.featureless():
-            a.inner.cut_src([int(i)])
-            a.inner.redirect(int(i), [])
-            a.cortex[i] = False
+        a.mute(a.featureless())
         a.clear_usage()
         self.c.learning = True
 
@@ -95,8 +92,9 @@ SENTS = ["今天天气很好", "我们去公园散步", "你吃饭了吗", "明�
 
 
 def sense(reps: int = 80, seed: int = 0, cfg: SenseCfg | None = None, verbose: bool = True):
-    """几句话各听 reps 遍（顺序打乱），之后分别只给每句的第一个字，看听觉区想起的是不是这句话后面的字。
-    读法看整片激活：每一拍比安静时多亮的那一片，和每个字（比安静多亮的那一片）有多像。"""
+    """几句话各听 reps 遍（顺序打乱），之后分别只给每句的第一个字，看听觉区想起的范围偏向哪里。
+    读法看整片激活、看范围（不取第一名）：给开头后几拍里，比安静多亮的那一片
+    和"这句后面的字"的相似度  −  和"别的句子的字"的相似度。> 0 就是偏向自己那句。"""
     chars = sorted(set("".join(SENTS)))
     e = Ear(cfg, seed=seed, chars=chars)
     e.warmup()
@@ -114,32 +112,82 @@ def sense(reps: int = 80, seed: int = 0, cfg: SenseCfg | None = None, verbose: b
             got.append(e.decode(chars) == ch)
         for _ in range(PAUSE):
             e.tick()
-    own = []
-    lines = []
+    bias, lines = [], []
     for u in SENTS:
+        own = sorted(set(u[1:]) - {u[0]})
+        other = sorted({c for v in SENTS if v != u for c in v} - set(u))
         for _ in range(12):
             e.tick()
         base = e.area.region.s.copy()
         for _ in range(SOUND):
             e.tick(u[0])
-        seq = []
+        d = []
         for _ in range(6):
             e.tick()
             extra = e.area.region.s & ~base
-            if extra.sum() < 20:
-                seq.append("_")
-                continue
-            sims = {c: jac(extra, refs[c]) for c in chars if c != u[0]}
-            best = max(sims, key=sims.get)
-            seq.append(best)
-            own.append(best in u[1:])
-        lines.append(f"  给'{u[0]}'：{''.join(seq)}   （这句后面是 {u[1:]}）")
-    score = float(np.mean(own)) if own else 0.0
+            d.append(np.mean([jac(extra, refs[c]) for c in own]) - np.mean([jac(extra, refs[c]) for c in other]))
+        bias.append(np.mean(d))
+        lines.append(f"  给'{u[0]}'：每拍偏向自己那句 " + " ".join(f"{x:+.3f}" for x in d))
+    score = float(np.mean(bias))
     if verbose:
-        print(f"听 {reps} 遍：真实声音听得清 {np.mean(got):.2f}；想起的是自己那句后面的字 {score:.2f}"
-              f"（{len(own)} 拍有回忆；随机猜约 {np.mean([len(u) - 1 for u in SENTS]) / (len(chars) - 1):.2f}）")
+        print(f"听 {reps} 遍：真实声音听得清 {np.mean(got):.2f}；想起的范围偏向自己那句 {score:+.3f}")
         print("\n".join(lines))
     return score, float(np.mean(got))
+
+
+# ================================================================ 海马体
+def hippo(seed: int = 0, cfg=None, verbose: bool = True, after: int = 300, chain_w: float = 3.0):
+    """听觉区（不学，只当输入）→ 链（一对一）→ 海马体。几句话各只听一遍，之后给每句的开头：
+    海马体想起的范围偏不偏向自己那句；再随便听 after 拍别的字之后，还记不记得（短期记忆会忘）。
+    读法：海马体每个神经元对应听觉区的一个神经元，把亮的那片映回听觉区，和每个字的整片激活比。"""
+    from brain.areas import ThoughtArea, hip_cfg
+    from brain.net import Path, PathCfg
+    chars = sorted(set("".join(SENTS)))
+    e = Ear(SenseCfg(internal=PathCfg(eta=0.0)), seed=seed, chars=chars)
+    e.warmup()
+    ear = e.area
+    cx = np.nonzero(ear.cortex)[0]
+    hip = ThoughtArea("hip", ear.region.n, cfg or hip_cfg(), seed=seed + 1, ids=cx)
+    # 有真实输入时以输入为准：链的强度要明显大于海马体内部学来的推力；安静时空出来的名额才是回放
+    chain = Path("ear⇒hip", ear.region, hip.region, PathCfg(w_init=chain_w), np.random.default_rng(seed),
+                 pairs=[(int(i), [int(i)]) for i in cx])
+    e.c = Circuit([ear, hip], [chain])
+    refs = {c: e.ref(c) & ~e.sil for c in chars}
+    H = hip.region
+
+    def recall():
+        bias = []
+        for u in SENTS:
+            own = sorted(set(u[1:]) - {u[0]})
+            other = sorted({c for v in SENTS if v != u for c in v} - set(u))
+            for _ in range(12):
+                e.tick()
+            for _ in range(SOUND):
+                e.tick(u[0])
+            d = []
+            for _ in range(6):
+                e.tick()
+                extra = H.s & ~e.sil & ~e.ref(u[0])          # 扣掉安静本身和开头那个字本身
+                d.append(np.mean([jac(extra, refs[c]) for c in own]) - np.mean([jac(extra, refs[c]) for c in other]))
+            bias.append(float(np.mean(d)))
+        return bias
+
+    for u in SENTS:
+        e.hear(u)
+    e.c.learning = False
+    b1 = recall()
+    e.c.learning = True
+    rng = np.random.default_rng(seed + 7)
+    for _ in range(after // (SOUND + PAUSE)):
+        e.hear(chars[rng.integers(len(chars))])
+    e.c.learning = False
+    b2 = recall()
+    if verbose:
+        print(f"海马体：每句只听一遍后，给开头想起的范围偏向自己那句 {np.mean(b1):+.3f}  （各句 " +
+              " ".join(f"{x:+.3f}" for x in b1) + "）")
+        print(f"        又随便听了 {after} 拍别的之后            {np.mean(b2):+.3f}  （各句 " +
+              " ".join(f"{x:+.3f}" for x in b2) + "）")
+    return float(np.mean(b1)), float(np.mean(b2))
 
 
 if __name__ == "__main__":
@@ -147,3 +195,5 @@ if __name__ == "__main__":
     if part == "sense":
         for r in (80, 0):
             sense(r)
+    elif part == "hippo":
+        hippo()

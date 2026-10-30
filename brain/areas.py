@@ -33,9 +33,9 @@ class SenseArea:
         self.rng = np.random.default_rng(seed)
         self.region = R = Region(name, net.n)
         R.alive[:] = net.alive
+        cand = np.nonzero(net.layer >= c.cortex_from_layer)[0]      # 含预留的空位：分裂出的新神经元一出生就有连接
         self.cortex = (net.layer >= c.cortex_from_layer) & R.alive
-        cx = np.nonzero(self.cortex)[0]
-        self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng, src_ids=cx, dst_ids=cx)
+        self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng, src_ids=cand, dst_ids=cand)
         self.regions, self.paths = [R], [self.inner]
         self.usage = np.zeros(R.n)
         self.n_seen = 0
@@ -60,6 +60,31 @@ class SenseArea:
         self.usage = np.zeros(self.region.n)
         self.n_seen = 0
 
+    def mute(self, ids) -> None:
+        """没特征的（常亮的）退出皮层：不送链、不参加可塑连接。"""
+        for i in ids:
+            self.inner.cut_src([int(i)])
+            self.inner.redirect(int(i), [])
+            self.cortex[i] = False
+
+    def restructure(self) -> dict:
+        """常亮的分裂、从不亮的删除（慢）。分裂出的新神经元继承父神经元学来的出边；指向父神经元的连接一半改指它。"""
+        R = self.region
+        info = self.net.restructure(self.usage / max(self.n_seen, 1))
+        for p, f in info["split"]:
+            R.alive[f] = True
+            self.cortex[f] = bool(self.net.layer[f] >= self.cfg.cortex_from_layer)
+            if self.cortex[f]:
+                self.inner.copy_row(p, f)
+                hit = (self.inner.to == p) & self.inner.ok
+                move = hit & (self.rng.random(hit.shape) < 0.5)
+                self.inner.to[move] = f
+        for d in info["deleted"]:
+            R.kill([d])
+            self.cortex[d] = False
+        self.clear_usage()
+        return info
+
 
 # ================================================================ 前额叶 / 海马体
 @dataclass
@@ -73,17 +98,20 @@ def pfc_cfg() -> ThoughtCfg:
 
 
 def hip_cfg() -> ThoughtCfg:
-    """海马体：和前额叶一样，只是连接涨得快、降得快。"""
-    return ThoughtCfg(internal=PathCfg(k=128, w_init=0.05, eta=0.3, gamma=0.8))
+    """海马体：只管短期记忆，连接涨得快、降得快。"""
+    return ThoughtCfg(region=RegionCfg(frac=0.05), internal=PathCfg(k=96, w_init=0.01, eta=0.5, gamma=0.7))
 
 
 class ThoughtArea:
-    def __init__(self, name: str, n: int, cfg: ThoughtCfg | None = None, seed: int = 0):
+    def __init__(self, name: str, n: int, cfg: ThoughtCfg | None = None, seed: int = 0, ids=None):
+        """ids：用到的神经元（其余的位置先空着，不亮）。"""
         self.name = name
         self.cfg = c = cfg or ThoughtCfg()
         self.rng = np.random.default_rng(seed)
         self.region = R = Region(name, n, c.region)
-        ids = np.arange(n)
+        ids = np.arange(n) if ids is None else np.asarray(ids)
+        R.alive[:] = False
+        R.alive[ids] = True
         self.inner = Path(f"{name}→{name}", R, R, c.internal, self.rng, src_ids=ids, dst_ids=ids)
         self.regions, self.paths = [R], [self.inner]
 

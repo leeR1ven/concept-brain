@@ -4,7 +4,8 @@
   1. 神经元只有亮 / 不亮。每个区亮的数量大致不变：收到电流最多的那 frac 比例的神经元亮
      （frac = 0 时改用门槛：电流 ≥ thr 才亮，运动区这种平时不动的区用）。
   2. 一出生就随机充满连接（稀疏但丰富），学习只修改它们。
-  3. 学习只有一条：上一拍亮着的 i、这一拍 j 刚亮 → i→j 加强；越强越难涨，不封顶。同一拍一起亮的不加强。
+  3. 学习：i 先亮、j 后亮 → i→j 加强（越强越难涨，不封顶）；反过来 j 先亮、i 后亮 → i→j 减弱（最多减回出生强度）。
+     同一拍一起亮的不加强。
   4. 清理只靠整体降权：每隔一段时间，学来的部分整体往出生强度退（海马体退得快，皮层退得慢）。
 抑制 / 去抑制神经元发出的连接是抑制性的（sign = −1）。
 """
@@ -160,18 +161,27 @@ class Path:
         return (self.cfg.sign * out).astype(np.float32)
 
     def learn(self) -> None:
-        """两个区都已更新完（prev = 上一拍，s = 这一拍）：上一拍亮着的源 → 这一拍刚亮的目标，加强。"""
+        """两个区都已更新完（prev = 上一拍，s = 这一拍）。i→j：
+          i 先亮、j 后亮（上一拍 i 亮着，这一拍 j 刚亮）→ 加强，越强越难涨；
+          反过来 j 先亮、i 后亮（上一拍 j 亮着，这一拍 i 刚亮）→ 减弱，最多减回出生强度。
+        所以只有总是"i 在前、j 在后"的连接留得住；常亮的神经元前后什么都碰得到，两边抵消。"""
         c = self.cfg
         if c.eta <= 0:
             return
         rising = self.dst.s & ~self.dst.prev
         rows = np.nonzero(self.src.prev)[0]
-        if len(rows) and rising.any():
+        if len(rows) and rising.any():                                   # i 先亮、j 后亮
             R = rising[self.to[rows]] & self.ok[rows]
             if R.any():
                 W, W0 = self.w[rows], self.w0[rows]
                 W += R * (c.eta / (1.0 + (W - W0) / c.w_ref))
                 self.w[rows] = W
+        rows = np.nonzero(self.src.s & ~self.src.prev)[0]
+        if len(rows):                                                    # j 先亮、i 后亮
+            B = self.dst.prev[self.to[rows]] & self.ok[rows]
+            if B.any():
+                W, W0 = self.w[rows], self.w0[rows]
+                self.w[rows] = np.where(B, np.maximum(W - c.eta, W0), W)
 
     def decay(self) -> None:
         """整体降权：学来的部分往出生强度退。"""
