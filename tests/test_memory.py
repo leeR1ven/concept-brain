@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-"""记住一段连续的声音：反复听同一句话，之后只给开头的字，看听觉区能不能"在心里"顺着放下去。
+"""记住一段连续的声音：反复听一句话，之后只给开头，看听觉区能不能顺着往下放（表征坍缩），
+前额叶的大致想法是不是跟着慢慢移动。
 
-  学：反复听"今天天气很好"（别人的声音，每字 2 拍 + 1 拍安静，句末安静；中间穿插别的话）。
-  测（不学习）：只听"今"，然后一直安静；海马体 / 前额叶经回程送回听觉区（在心里听到）。
-  读：听觉区第 2、3 层每一拍的状态，和每个字真的听到时的状态比（Jaccard），最像哪个字 / 安静。
-  对照：没听过这句话的同一个脑。
+读法（宽松，看范围不逐字卡死）：
+  听觉区 —— 每一拍皮层里"比安静时多亮"的那些神经元，和每个字自己的声音特征最像哪个字；
+  前额叶 —— 每一拍前额叶亮着的那片，和听这句话时每个字那一拍前额叶亮的那片最像哪个字。
+得分：给"今"之后，放出来的字里按顺序对上"天气很好"几个（最长公共子序列）。对照：没听过这句话的脑。
 
-python tests/test_memory.py [重复遍数]
+  python tests/test_memory.py [遍数]
 """
 from __future__ import annotations
 
@@ -20,48 +21,63 @@ from talk import Talker  # noqa: E402
 
 SENT = "今天天气很好"
 OTHER = "我们去公园散步吧你吃饭了吗"
-REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 20
 
 
 def jac(x, y):
     u = (x | y).sum()
-    return (x & y).sum() / u if u else 0.0
+    return float((x & y).sum() / u) if u else 0.0
 
 
-def run(train: bool, steps: int = 24):
-    t = Talker(sorted(set(SENT + OTHER)))
-    b = t.brain
-    ear = b.sensors["ear"]
-    t.warmup()
-    deep = np.nonzero(ear._layer >= 1)[0]
-    ref = {c: ear.respond(ear.encode(t.voice.hear(c, "other")))[deep] for c in sorted(set(SENT + OTHER))}
-    ref["_"] = ear.respond(ear.encode(t.voice.hear(None, "other")))[deep]          # 安静
-    rng = np.random.default_rng(0)
-    if train:
-        for _ in range(REPS):
-            t.listen(SENT)
-            t.listen(OTHER[: rng.integers(3, 8)])
+def lcs(a: str, b: str) -> int:
+    d = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]
+    for i, x in enumerate(a):
+        for j, y in enumerate(b):
+            d[i + 1][j + 1] = d[i][j] + 1 if x == y else max(d[i][j + 1], d[i + 1][j])
+    return d[-1][-1]
+
+
+def run(reps: int, steps: int = 24, seed: int = 0, cfg=None):
+    chars = sorted(set(SENT + OTHER))
+    t = Talker(chars, cfg=cfg, seed=seed)
+    b, v = t.brain, t.voice
+    t.warmup(150)
+    cx = b.cortex
+    ref = {c: b.sheet.respond(b.sheet.encode(v.hear(c, "other")))[cx] for c in chars}
+    sil = b.sheet.respond(b.sheet.encode(v.hear(None, "other")))[cx]
+    rng = np.random.default_rng(seed)
+    for _ in range(reps):
+        t.listen(SENT)
+        t.listen("".join(rng.choice(list(OTHER), rng.integers(3, 7))))
     b.learning = False
-    for _ in range(6):
+    pref = {}
+    for _ in range(8):
         t.tick()
-    for _ in range(2):
-        t.tick(other=SENT[0])
-    out = []
+    for ch in SENT:                                   # 前额叶参照：听这句话时每个字那一拍的前额叶
+        t.tick(other=ch)
+        t.tick(other=ch)
+        pref.setdefault(ch, b.pfc.s.copy())
+        t.tick()
+    for _ in range(12):
+        t.tick()
+    t.tick(other=SENT[0])
+    t.tick(other=SENT[0])
+    ear_seq, pfc_seq = [], []
     for _ in range(steps):
         t.tick()
-        a = ear.respond(ear.encode(t.voice.hear(None, "other")), b._sense_topdown()["ear"])[deep]
-        extra = a & ~ref["_"]                       # 回程在安静之外额外点亮的
-        if extra.sum() < 3:
-            out.append(("_", int(extra.sum())))
-            continue
-        sc = {c: jac(extra, r & ~ref["_"]) for c, r in ref.items() if c != "_"}
-        best = max(sc, key=sc.get)
-        out.append((best, int(extra.sum())))
-    return out
+        extra = b.ear.s[cx] & ~sil
+        if extra.sum() < 5:
+            ear_seq.append("_")
+        else:
+            sc = {c: jac(extra, r & ~sil) for c, r in ref.items()}
+            ear_seq.append(max(sc, key=sc.get))
+        ps = {c: jac(b.pfc.s, r) for c, r in pref.items()}
+        pfc_seq.append(max(ps, key=ps.get) if max(ps.values()) > 0.05 else "_")
+    flat = "".join(c for i, c in enumerate(ear_seq) if c != "_" and (i == 0 or c != ear_seq[i - 1]))
+    return lcs(flat, SENT[1:]), "".join(ear_seq), "".join(pfc_seq)
 
 
 if __name__ == "__main__":
-    for name, tr in ((f"听过 {REPS} 遍", True), ("没听过", False)):
-        out = run(tr)
-        print(f"{name}：只给'{SENT[0]}'之后，听觉区每拍在心里听到的（_ = 安静；括号里是额外亮了几个）：")
-        print("   ", " ".join(f"{c}({n})" for c, n in out))
+    reps = int(sys.argv[1]) if len(sys.argv) > 1 else 20
+    for r in (reps, 0):
+        s, e, p = run(r)
+        print(f"听 {r:>2} 遍后只给'今'：得分 {s}/5   听觉区 {e}   前额叶 {p}")
