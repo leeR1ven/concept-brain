@@ -155,13 +155,24 @@ def main():
     ap.add_argument("--check_every", type=int, default=200, help="每听多少段对话检查一次")
     ap.add_argument("--restructure_every", type=int, default=1000, help="每听多少段对话做一次神经元增删（很慢）")
     ap.add_argument("--save", default="", help="每次检查后把整个模型存到这个文件（pickle）")
+    ap.add_argument("--set", nargs="*", default=[], help="改参数，如 sense.internal.gamma=0.99 motor.dis_thr=2.0")
     args = ap.parse_args()
     pool = [c for c in load_corpus() if len(c) >= 2]
     probe = pool[:20]                                       # 检查用的一组（也会被听到，像熟悉的对话）
     convs = pool[: args.convs]
     chars = sorted({ch for c in pool for u in c for ch in u})
     print(f"语料：{len(pool)} 段对话、{len(chars)} 个不同的字；这次听前 {len(convs)} 段", flush=True)
-    t = Talker(chars)
+    cfg = BrainCfg()
+    for kv in args.set:                                     # 批量测试参数用
+        key, val = kv.split("=")
+        *path, last = key.split(".")
+        target = cfg
+        for name in path:
+            target = getattr(target, name)
+        setattr(target, last, float(val))
+    if args.set:
+        print("参数：", " ".join(args.set), flush=True)
+    t = Talker(chars, cfg)
     b = t.brain
     print(f"脑：听觉区皮层 {int(b.ear.cortex.sum())}，运动皮层 {int(b.mctx.cortex.sum())}，"
           f"海马体 / 前额叶 各 {int(b.pfc.region.alive.sum())}，肌肉区 {b.mot.region.n}；"

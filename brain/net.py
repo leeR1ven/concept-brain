@@ -21,6 +21,8 @@ import torch
 
 DEV = torch.device(os.environ.get("BRAIN_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu"))
 DENSE = DEV.type == "cuda"      # 显卡上整张表一起算更快；CPU 上只碰亮着的那些更快（结果一样）
+if DEV.type == "cpu":
+    torch.set_num_threads(int(os.environ.get("BRAIN_THREADS", "1")))   # 批量测试时每个进程一个核
 
 
 def T(x, dtype=None) -> torch.Tensor:

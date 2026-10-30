@@ -8,8 +8,12 @@
           运动皮层 → 肌肉神经元的连接学"这个组合之后要动哪些肌肉"。
           肌肉神经元 vs 抑制神经元同一拍比较，平时抑制占上风；收到的是各路信号的总和。
   链：听觉区皮层、运动皮层、肌肉神经元的每个神经元，各一根线到海马体的一个神经元、一根到前额叶的一个神经元。
+  前额叶还有自己的神经元：没有链进来、也没有回程出去，只和前额叶内部互相连，慢慢学成概括 / 概念；
+      前额叶在它们之间想事情时不推动别的区（可以独立思考）。
       海马体的链强（有真实输入时以输入为准，安静时空出的名额是回放）；前额叶的链弱（进不进得来看它在想什么）。
-  回程：海马体 / 前额叶 → 听觉区（心里听到）、→ 运动皮层（想动）。强度是可调的数值。
+  回程：海马体 / 前额叶 → 回程中继 → 听觉区（心里听到）、运动皮层（想动）。强度是可调的数值。
+        只让集中的想法回送：每个中继读"它负责的那个神经元 + 同一位置上下相邻几个"在前额叶里对应的神经元，
+        亮够几个（想法集中在这一小簇）才亮；零散的、随便亮的不回送。焦点一换，原来那一簇散了，回程就关了。
   区间直连：听觉区 ↔ 运动皮层，出生随机、很弱，一起亮得多就变强。
   只能经肌肉输出。
 """
@@ -21,7 +25,7 @@ import numpy as np
 
 from .areas import (Circuit, MotorArea, MotorCfg, SenseArea, SenseCfg, ThoughtArea, ThoughtCfg, hip_cfg,
                     pfc_cfg)
-from .net import Path, PathCfg, T
+from .net import Path, PathCfg, Region, RegionCfg, T
 from .net3d import Net3D, Net3DCfg
 
 
@@ -41,10 +45,47 @@ class BrainCfg:
     chain_pfc: float = 0.5
     ret_hip: float = 0.5          # 回程强度：可调旋钮
     ret_pfc: float = 0.5
+    relay_span: int = 3           # 回程中继读同一位置上下各几个邻居
+    relay_need: float = 3.0       # 这一小簇里至少亮几个，中继才亮
+    pfc_own: int = 10000          # 前额叶自己的神经元（不对应任何区，没有链也没有回程）
     ear_mctx: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999))
     mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999))
     decay_T: int = 100
     seed: int = 0
+
+
+class Relay:
+    """回程中继：一群神经元，每个对应目标区的一个皮层神经元；收到的 ≥ need 才亮（门槛，不按名额）。"""
+
+    def __init__(self, name: str, area: SenseArea, cand, need: float):
+        self.name, self.area = name, area
+        self.region = Region(name, area.region.n, RegionCfg(frac=0.0, thr=need))
+        self.region.alive = T(area.cortex)
+        self.regions, self.paths = [self.region], []
+
+    def fire(self, cur: dict, lines: dict) -> None:
+        self.region.fire(cur[self.name])
+
+
+def neighbours(net: Net3D, cand, span: int) -> dict:
+    """每个皮层神经元：它自己 + 同一位置、同一层上下各 span 个（立体网络里同一位置叠着的那一列）。
+    返回 {神经元: [以它为邻居的中继们]}——前额叶里它对应的神经元，送给这些中继。"""
+    owner = {int(i): [] for i in cand}
+    for l, (s0, cap) in enumerate(zip(net.start, net.cap)):
+        Z = net.dims[l + 1][2]
+        n_born = net.dims[l + 1][0] * net.dims[l + 1][1] * Z
+        for a in range(n_born):
+            i = s0 + a
+            if i not in owner:
+                continue
+            col0 = a - a % Z
+            for b in range(max(col0, a - span), min(col0 + Z, a + span + 1)):
+                if s0 + b in owner:
+                    owner[s0 + b].append(i)          # 神经元 b 的前额叶对应者 → 中继 i
+    for i in cand:                                   # 预留的空位（分裂出来的）：只有自己
+        if not owner[int(i)]:
+            owner[int(i)] = [int(i)]
+    return owner
 
 
 class Brain:
@@ -64,22 +105,31 @@ class Brain:
         self.cand = {"ear": cand_e, "mctx": cand_c, "motor": np.arange(nm)}
         ids = np.r_[cand_e, ne + cand_c, ne + nc + np.arange(nm)]
         self.hip = ThoughtArea("hip", ne + nc + nm, c.hip, seed=c.seed + 1, ids=ids)
-        self.pfc = ThoughtArea("pfc", ne + nc + nm, c.pfc, seed=c.seed + 2, ids=ids)
+        n_mirror = ne + nc + nm
+        self.pfc = ThoughtArea("pfc", n_mirror + c.pfc_own, c.pfc, seed=c.seed + 2,
+                               ids=np.r_[ids, n_mirror + np.arange(c.pfc_own)])
+        self.pfc_own = slice(n_mirror, n_mirror + c.pfc_own)
         src = {"ear": ear.region, "mctx": mctx.region, "motor": mot.region}
-        paths = []
-        for T, cg, rg in ((self.hip, c.chain_hip, c.ret_hip), (self.pfc, c.chain_pfc, c.ret_pfc)):
+        paths, relays = [], []
+        for X, cg, rg in ((self.hip, c.chain_hip, c.ret_hip), (self.pfc, c.chain_pfc, c.ret_pfc)):
             for k, R in src.items():                                   # 链：每个神经元一根线到 T 里对应的那一个
                 o = self.off[k]
-                paths.append(Path(f"{k}⇒{T.name}", R, T.region, PathCfg(w_init=cg), rng,
+                paths.append(Path(f"{k}⇒{X.name}", R, X.region, PathCfg(w_init=cg), rng,
                                   pairs=[(int(i), [o + int(i)]) for i in self.cand[k]]))
-            for k in ("ear", "mctx"):                                  # 回程：心里听到 / 想动
+            for k, A in (("ear", ear), ("mctx", mctx)):                # 回程：经中继，只有集中的想法回送
+                relay = Relay(f"{X.name}→{k}中继", A, self.cand[k], c.relay_need)
+                relays.append(relay)
                 o = self.off[k]
-                paths.append(Path(f"{T.name}⇒{k}", T.region, src[k], PathCfg(w_init=rg), rng,
-                                  pairs=[(o + int(i), [int(i)]) for i in self.cand[k]]))
+                nb = neighbours(A.net, self.cand[k], c.relay_span)
+                paths.append(Path(f"{X.name}⇒{k}中继", X.region, relay.region, PathCfg(w_init=1.0), rng,
+                                  pairs=[(o + int(i), nb[int(i)]) for i in self.cand[k]]))
+                paths.append(Path(f"{k}中继⇒{k}", relay.region, A.region, PathCfg(w_init=rg), rng,
+                                  pairs=[(int(i), [int(i)]) for i in self.cand[k]]))
         paths += [Path("mctx→motor", mctx.region, mot.region, c.mctx_mot, rng, src_ids=cand_c, dst_ids=np.arange(nm)),
                   Path("ear→mctx", ear.region, mctx.region, c.ear_mctx, rng, src_ids=cand_e, dst_ids=cand_c),
                   Path("mctx→ear", mctx.region, ear.region, c.mctx_ear, rng, src_ids=cand_c, dst_ids=cand_e)]
-        self.c = Circuit([ear, mctx, self.hip, self.pfc, mot], paths, decay_T=c.decay_T)
+        self.relays = relays
+        self.c = Circuit([ear, mctx, self.hip, self.pfc, mot] + relays, paths, decay_T=c.decay_T)
         self._sync_mirrors()
 
     def _sync_mirrors(self) -> None:
@@ -88,8 +138,11 @@ class Brain:
             for k, A in (("ear", self.ear), ("mctx", self.mctx)):
                 o = self.off[k]
                 X.region.alive[o:o + A.region.n] = T(A.cortex)
-            X.region.alive[self.off["motor"]:] = True
+            X.region.alive[self.off["motor"]:self.off["motor"] + self.mot.region.n] = True
             X.region._alive_ref = None
+        self.pfc.region.alive[self.pfc_own] = True
+        for r in self.relays:
+            r.region.alive = T(r.area.cortex)
 
     @property
     def learning(self) -> bool:
