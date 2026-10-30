@@ -6,7 +6,10 @@
   2. 一出生就随机充满连接（稀疏但丰富），学习只修改它们。
   3. 学习：i 先亮、j 后亮 → i→j 加强（越强越难涨，不封顶）；反过来 j 先亮、i 后亮（i 一直亮着也算）→ i→j 减弱
      （最多减回出生强度）。同一拍一起亮的不加强。
-  4. 清理只靠整体降权：每隔一段时间，学来的部分整体往出生强度退（海马体退得快，皮层退得慢）。
+  4. 清理：每隔一段时间，学来的部分整体往出生强度退（海马体退得快，皮层退得慢）。
+  5. 一个神经元从某一类连接学来的总量有上限（真实大脑里的异突触可塑性：一些输入加强时，同一个神经元的
+     其他输入跟着变弱）。超过时这个神经元收到的这类连接一起按比例缩回——学到的只改变谁强谁弱，
+     不会无限放大，出生就有的固定结构（环路、抑制门槛）一直有分量。
 抑制 / 去抑制神经元发出的连接是抑制性的（sign = −1）。
 
 用 torch 存和算：有显卡（或环境变量 BRAIN_DEVICE 指定）就在显卡上，否则在 CPU 上；规则完全一样。
@@ -91,6 +94,7 @@ class PathCfg:
     eta: float = 0.0          # 先亮 → 后亮 的加强速度（0 = 固定连接，不学）
     w_ref: float = 0.2        # 越强越难涨：Δ = eta / (1 + 学来的部分 / w_ref)
     gamma: float = 1.0        # 整体降权：每次学来的部分 × gamma
+    budget: float = 0.0       # 每个目标神经元从这类连接学来的总量上限（0 = 不限）
 
 
 class Path:
@@ -194,9 +198,19 @@ class Path:
                 self.w[rr, k] = torch.maximum(self.w[rr, k] - c.eta, self.w0[rr, k])
 
     def decay(self) -> None:
-        """整体降权：学来的部分往出生强度退。"""
-        if self.cfg.eta > 0 and self.cfg.gamma < 1.0:
-            self.w = self.w0 + (self.w - self.w0) * self.cfg.gamma
+        """整体降权：学来的部分往出生强度退；每个目标神经元学来的总量超过上限就按比例缩回。"""
+        c = self.cfg
+        if c.eta <= 0:
+            return
+        L = self.w - self.w0
+        if c.gamma < 1.0:
+            L = L * c.gamma
+        if c.budget > 0:
+            tot = torch.zeros(self.dst.n, dtype=torch.float32, device=DEV)
+            tot.index_add_(0, self.to.reshape(-1), (L * self.ok).reshape(-1))
+            scale = torch.clamp(c.budget / torch.clamp(tot, min=1e-9), max=1.0)
+            L = L * scale[self.to]
+        self.w = self.w0 + L
 
     def learned(self) -> tuple[float, float]:
         """学来的部分：平均、最大（给检查用）。"""

@@ -97,12 +97,12 @@ class ThoughtCfg:
 
 def pfc_cfg() -> ThoughtCfg:
     """前额叶：亮的范围大、学得慢。出生的随机连接丰富一些，让它有自己的活动，不只是输入的复印件。"""
-    return ThoughtCfg(region=RegionCfg(frac=0.08), internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999))
+    return ThoughtCfg(region=RegionCfg(frac=0.08), internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999, budget=1.0))
 
 
 def hip_cfg() -> ThoughtCfg:
     """海马体：只管短期记忆，连接涨得快、降得快。"""
-    return ThoughtCfg(region=RegionCfg(frac=0.05), internal=PathCfg(k=96, w_init=0.01, eta=0.5, gamma=0.7))
+    return ThoughtCfg(region=RegionCfg(frac=0.05), internal=PathCfg(k=96, w_init=0.01, eta=0.5, gamma=0.7, budget=2.0))
 
 
 class ThoughtArea:

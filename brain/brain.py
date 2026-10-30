@@ -36,14 +36,14 @@ from .net3d import Net3D, Net3DCfg
 class BrainCfg:
     net3d: Net3DCfg = field(default_factory=Net3DCfg)
     # 皮层学得慢、忘得也慢（整体降权接近 1）；海马体学得快、忘得快
-    sense: SenseCfg = field(default_factory=lambda: SenseCfg(internal=PathCfg(k=96, w_init=0.01, eta=0.03, gamma=0.999)))
+    sense: SenseCfg = field(default_factory=lambda: SenseCfg(internal=PathCfg(k=96, w_init=0.01, eta=0.03, gamma=0.999, budget=1.0)))
     # 运动皮层：肌肉状态（每块肌肉的力度）排成 8×4 的图，用同一种立体网络压成"组合特征"
     mctx_net: Net3DCfg = field(default_factory=lambda: Net3DCfg(levels=3, zs=(20, 40, 80), frac=(0.4, 0.3, 0.2)))
-    mctx: SenseCfg = field(default_factory=lambda: SenseCfg(internal=PathCfg(k=96, w_init=0.01, eta=0.03, gamma=0.999)))
+    mctx: SenseCfg = field(default_factory=lambda: SenseCfg(internal=PathCfg(k=96, w_init=0.01, eta=0.03, gamma=0.999, budget=1.0)))
     hip: ThoughtCfg = field(default_factory=hip_cfg)
     pfc: ThoughtCfg = field(default_factory=pfc_cfg)
-    motor: MotorCfg = field(default_factory=lambda: MotorCfg(internal=PathCfg(k=64, w_init=0.02, eta=0.01, gamma=0.999)))
-    mctx_mot: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.002, eta=0.003, gamma=0.999))
+    motor: MotorCfg = field(default_factory=lambda: MotorCfg(dis_thr=2.0, internal=PathCfg(k=64, w_init=0.02, eta=0.01, gamma=0.999, budget=1.0)))
+    mctx_mot: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.002, eta=0.003, gamma=0.999, budget=1.5))
     chain_hip: float = 3.0
     chain_pfc: float = 0.5
     ret_hip: float = 0.5          # 回程强度：可调旋钮
@@ -52,13 +52,13 @@ class BrainCfg:
     relay_need: float = 3.0       # 这一小簇里至少亮几个，中继才亮
     pfc_own: int = 10000          # 前额叶思考层（自己的神经元，不对应任何区，没有链也没有回程）
     think: ThoughtCfg = field(default_factory=lambda: ThoughtCfg(region=RegionCfg(frac=0.05),
-                                                                 internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999)))
-    in_think: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.03, eta=0.01, gamma=0.999))   # 接收层 → 思考层
-    think_in: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.01, eta=0.01, gamma=0.999))   # 思考层 → 接收层
+                                                                 internal=PathCfg(k=96, w_init=0.05, eta=0.02, gamma=0.999, budget=0.5)))
+    in_think: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.03, eta=0.01, gamma=0.999, budget=1.0))   # 接收层 → 思考层
+    think_in: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.01, eta=0.01, gamma=0.999, budget=1.0))   # 思考层 → 接收层
     thal_group: int = 5           # 丘脑每个神经元和思考层几个神经元来回连
     thal_w: float = 0.3           # 丘脑环路的强度（托住想法的旋钮：太强会锁死，太弱撑不住）
-    ear_mctx: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999))
-    mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999))
+    ear_mctx: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=1.0))
+    mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=0.5))
     decay_T: int = 100
     seed: int = 0
 
