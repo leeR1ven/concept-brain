@@ -1,5 +1,7 @@
 # concept-brain
 
+**中文** | [English](README.en.md)
+
 模仿真实大脑、边运行边学的 AI 模型（研究原型）。设计见 [DESIGN.md](DESIGN.md)。
 
 ```bash
