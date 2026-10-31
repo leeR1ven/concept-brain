@@ -9,5 +9,9 @@ for d in $Q/tune_*; do
   if [ -d $d/result/out/runs ]; then
     for f in $d/result/out/runs/*.json; do [ -f "$f" ] && [ ! -e $T/out/runs/$(basename $f) ] && cp "$f" $T/out/runs/; done
   fi
+  if [ -d $d/result/out/life ]; then
+    mkdir -p $T/out/life
+    for f in $d/result/out/life/*.json; do [ -f "$f" ] && cp "$f" $T/out/life/; done
+  fi
   echo "$n: $st"
 done
