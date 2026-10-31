@@ -111,8 +111,9 @@ Then the GPU port into world2 and the scaling curves.
 
 **Standalone side experiment** (IDEAS #18, unrelated to the brain architecture): can a back-propagation LLM be
 converted into a Hebbian-style model that keeps learning? Only where the rule already is back-propagation, and being
-local does not stop forgetting. A frozen network with a separate episodic store did learn 10k facts with no forgetting.
-See [side/llm2hebb/](side/llm2hebb/README.md).
+local does not stop forgetting. Sparse feature codes reduce the damage to old knowledge but not the interference between
+facts. A frozen network with an entity-keyed sparse episodic store learned 10k facts with no forgetting, and replay
+mixed with ordinary text consolidated 98 % of 2k facts into the weights. See [side/llm2hebb/](side/llm2hebb/README.md).
 
 ## Run
 ```bash

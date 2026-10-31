@@ -1,0 +1,92 @@
+{"info": "start", "mode": "dev", "args": {"mode": "dev", "out": "out/store2.jsonl"}, "t": 5.1}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.6167, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.72, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.48, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.32, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.43, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.96, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.3667, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.87, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.1233, "leak_samep": 0.2767, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.72, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.32, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.96, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.87, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.6167, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.72, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.48, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.32, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.43, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.96, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.13, "leak_samep": 0.3667, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.87, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.1233, "leak_samep": 0.2767, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.72, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.99, "new_qa": 0.32, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.96, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 0, "tt": 0.8, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.87, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.97, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0133, "leak_samep": 0.58, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.96, "new_qa": 0.72, "first100": 1.0, "leak_other": 0.0133, "leak_samep": 0.4367, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.96, "new_qa": 0.32, "first100": 1.0, "leak_other": 0.0133, "leak_samep": 0.3833, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.93, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.0133, "leak_samep": 0.3167, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.84, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0133, "leak_samep": 0.2267, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.37, "new_qa": 0.85, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.37, "new_qa": 0.6, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.37, "new_qa": 0.24, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.36, "new_qa": 0.07, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.5, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.32, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.21, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.5733, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.19, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.43, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.3767, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.03, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.31, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.22, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 2, "tt": 0.8, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 63.0}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.31, "new_qa": 0.89, "first100": 1.0, "leak_other": 0.02, "leak_samep": 0.5767, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.3, "new_qa": 0.64, "first100": 1.0, "leak_other": 0.02, "leak_samep": 0.4333, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.3, "new_qa": 0.31, "first100": 1.0, "leak_other": 0.02, "leak_samep": 0.38, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.29, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.02, "leak_samep": 0.3133, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.26, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.02, "leak_samep": 0.2233, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.06, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.05, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.03, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.5, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.5733, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.43, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.3767, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.31, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.22, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 4, "tt": 0.8, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 90.7}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.17, "new_qa": 0.1, "first100": 1.0, "leak_other": 0.0267, "leak_samep": 0.58, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.17, "new_qa": 0.09, "first100": 1.0, "leak_other": 0.0267, "leak_samep": 0.4367, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.17, "new_qa": 0.05, "first100": 1.0, "leak_other": 0.0267, "leak_samep": 0.3833, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.17, "new_qa": 0.01, "first100": 1.0, "leak_other": 0.0267, "leak_samep": 0.3167, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.16, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0267, "leak_samep": 0.2267, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.01, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.01, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.01, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.01, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.5, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.01, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 0.75, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.5733, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 0.75, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.43, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 0.75, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.3767, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 0.75, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.31, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 0.75, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0033, "leak_samep": 0.22, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 1.0, "ts": 0.1, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 1.0, "ts": 0.2, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 1.0, "ts": 0.3, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 118.6}
+{"mode": "dev", "le": 8, "tt": 0.8, "te": 1.0, "ts": 0.4, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 118.6}
+{"info": "end", "gpu_gb": 3.05, "t": 118.6}
+{"info": "start", "mode": "main", "args": {"mode": "main", "n": "10000", "out": "out/store2.jsonl"}, "t": 6.0}
+{"info": "picked", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "dev": {"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}, "t": 6.0}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 10, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 55.0}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 30, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 74.4}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 100, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 97.5}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 300, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 122.2}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 1000, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "all": 1.0, "t": 158.3}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 3000, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 179.7}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 10000, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "all": 0.9983, "t": 287.4}
+{"info": "end", "gpu_gb": 6.31, "t": 287.4}

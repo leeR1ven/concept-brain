@@ -384,3 +384,26 @@ is tested on its own.
 - **Conclusion.** Do not make the slow weights learn locally in order to get continual learning. Inherit the
   pretrained network, and add fast-weight working memory, a pattern-separated, hippocampus-like episodic store and slow
   consolidation by interleaved replay. Next tests: an entity-keyed sparse store, then replay consolidation.
+
+**Round 2 results (2026-10-31, same standalone experiment).**
+- **The designer's hypothesis "dense vectors are the problem; feature neurons fix it" holds only in part.** Expanding
+  the LLM's dense vectors into sparse feature neurons before the Hebbian write cut the damage to ordinary text
+  (perplexity 1,462 → 907, knowledge 8/9 vs 3/9). The facts still overwrote each other. The reason: two *different*
+  facts ("Zhang's dog is called …", "Li's dog is called …") have more alike codes than *one* fact's two phrasings.
+  Sparse coding keeps that similarity order, and so do learned sparse features.
+- **What decides it is what the key stands for.** A separate store keyed by sparse codes of the person's name itself,
+  as in the hippocampus's dentate gyrus, sat beside a frozen LLM.
+  - It learned 10,000 facts in one shot: paraphrase 0.99, QA 0.76, leakage to other people 0, false hits on ordinary
+    text 0, with the network unchanged.
+  - Limit: it only recognises the same spelling of a name; aliases and pronouns are untested.
+- **Replay consolidation.** Each "day", the store's facts were replayed into the weights, mixed with rehearsal of older
+  facts and ordinary text.
+  - With the store removed, the weights alone kept 98 % of 2,000 facts, and 3 of the 9 knowledge probes were lost.
+  - Without rehearsal, earlier days were forgotten. Without ordinary text, the model collapsed.
+  - Note: this step trains by back-propagation, not a local rule.
+  - Side effect: afterwards the model invents a name for any unknown person, so the store must decide what is known.
+- **Scaling RWKV-7 to 1.5B does not lengthen its memory** (still 10²–10³ tokens), and it drifts faster when never
+  reset.
+- **Conclusion.** The combination that keeps learning is: a frozen inherited network, fast-weight working memory, an
+  entity-keyed sparse, hippocampus-like store, and interleaved replay consolidation. This is the brain's division of
+  labour: the hippocampus learns fast, the cortex slowly.

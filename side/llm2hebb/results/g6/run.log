@@ -1,0 +1,33 @@
+{"info": "end", "gpu_gb": 3.05, "t": 118.6}
+{"info": "start", "mode": "main", "args": {"mode": "main", "n": "10000", "out": "out/store2.jsonl"}, "t": 6.0}
+{"info": "picked", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "dev": {"mode": "dev", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "t": 35.0}, "t": 6.0}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 10, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 55.0}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 30, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 74.4}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 100, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 97.5}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 300, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 122.2}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 1000, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "all": 1.0, "t": 158.3}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 3000, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0, "corpus_fire": 0.0, "t": 179.7}
+{"mode": "main", "le": 0, "tt": 0.5, "te": 1.0, "ts": 0.0, "n": 10000, "ms_per_fact_write": 2.289, "keys_per_fact": 7.03, "new_rewrite": 1.0, "new_para": 1.0, "new_qa": 1.0, "first100": 1.0, "leak_other": 0.0, "leak_samep": 0.0033, "corpus_fire": 0.0, "all": 0.9983, "t": 287.4}
+{"info": "end", "gpu_gb": 6.31, "t": 287.4}
+overlay          30G  3.2G   27G  11% /
+RWKV-x070-World-1.5B-v3-20250127-ctx4096.pth: 200 3055062345 B 21193390 B/s
+total 4237360
+drwxr-xr-x 2 root root        166 Nov  1 01:26 .
+drwxr-xr-x 4 root root         60 Oct 31 22:29 ..
+-rw-r--r-- 1 root root  382195690 Oct 31 22:29 RWKV-x070-World-0.1B-v2.8-20241210-ctx4096.pth
+-rw-r--r-- 1 root root  901794466 Oct 31 22:31 RWKV-x070-World-0.4B-v2.9-20250107-ctx4096.pth
+-rw-r--r-- 1 root root 3055062345 Nov  1 01:26 RWKV-x070-World-1.5B-v3-20250127-ctx4096.pth
+{"info": "start", "args": {"model": "/root/v2lab/models/rwkv7/RWKV-x070-World-1.5B-v3-20250127-ctx4096.pth", "streams": "4", "length": "131072", "facts": "24", "session": "4096", "long": "262144", "tag": "w15", "out": "out/r1.jsonl"}, "L": 24, "C": 2048, "H": 32, "t": 9.1}
+{"kind": "heldout", "tag": "w15", "state": "fresh", "ce": [3.7417, 3.6437], "t": 11.4}
+{"kind": "stream", "tag": "w15", "cond": "unreset", "streams": 4, "tokens": 131072, "secs": 85.4, "fwd_tokens_per_s": 10559, "query_secs": 35.7, "ce_by_log2pos": {"0": 3.5404, "10": 3.2753, "11": 3.4566, "12": 3.4463, "13": 3.4868, "14": 3.56, "15": 3.858, "16": 5.3533}, "t": 96.8}
+{"kind": "recall", "tag": "w15", "cond": "unreset", "form": "qa", "d0-64": [0.26, 96], "d64-256": [0.062, 112], "d256-1024": [0.005, 188], "d1024-4096": [0.0, 472], "d4096-16384": [0.0, 1312], "d16384-65536": [0.0, 4464], "d65536-inf": [0.0, 1592], "after0-1_d<4096": [0.062, 536], "after1-3_d<4096": [0.0, 332], "after3-10_d<4096": null, "after10-100_d<4096": null, "t": 96.8}
+{"kind": "recall", "tag": "w15", "cond": "unreset", "form": "cloze", "d0-64": [0.302, 96], "d64-256": [0.134, 112], "d256-1024": [0.005, 188], "d1024-4096": [0.002, 472], "d4096-16384": [0.0, 1312], "d16384-65536": [0.0, 4464], "d65536-inf": [0.0, 1592], "after0-1_d<4096": [0.086, 536], "after1-3_d<4096": [0.0, 332], "after3-10_d<4096": null, "after10-100_d<4096": null, "t": 96.8}
+{"kind": "stream", "tag": "w15", "cond": "reset", "streams": 4, "tokens": 131072, "secs": 84.8, "fwd_tokens_per_s": 10526, "query_secs": 35.0, "ce_by_log2pos": {"0": 3.5404, "10": 3.2753, "11": 3.4499, "12": 3.493, "13": 3.473, "14": 3.4905, "15": 3.5095, "16": 3.4864}, "t": 181.7}
+{"kind": "recall", "tag": "w15", "cond": "reset", "form": "qa", "d0-64": [0.958, 96], "d64-256": [0.42, 112], "d256-1024": [0.202, 188], "d1024-4096": [0.036, 472], "d4096-16384": [0.0, 1312], "d16384-65536": [0.0, 4464], "d65536-inf": [0.0, 1592], "after0-1_d<4096": [0.334, 536], "after1-3_d<4096": [0.045, 332], "after3-10_d<4096": null, "after10-100_d<4096": null, "same_session": [0.342, 568], "other_session": [0.0, 7668], "t": 181.7}
+{"kind": "recall", "tag": "w15", "cond": "reset", "form": "cloze", "d0-64": [0.99, 96], "d64-256": [0.777, 112], "d256-1024": [0.378, 188], "d1024-4096": [0.108, 472], "d4096-16384": [0.0, 1312], "d16384-65536": [0.0, 4464], "d65536-inf": [0.0, 1592], "after0-1_d<4096": [0.519, 536], "after1-3_d<4096": [0.078, 332], "after3-10_d<4096": null, "after10-100_d<4096": null, "same_session": [0.535, 568], "other_session": [0.0, 7668], "t": 181.7}
+{"kind": "heldout", "tag": "w15", "state": "after1024", "ce": [[3.5153, 3.5323], [3.5283, 3.5401]], "S_norm": 42.63, "t": 183.6}
+{"kind": "heldout", "tag": "w15", "state": "after4096", "ce": [[3.4878, 3.499], [3.4819, 3.5018]], "S_norm": 42.11, "t": 185.3}
+{"kind": "heldout", "tag": "w15", "state": "after16384", "ce": [[3.533, 3.5563], [3.5296, 3.5503]], "S_norm": 39.86, "t": 188.7}
+{"kind": "heldout", "tag": "w15", "state": "after65536", "ce": [[4.1855, 4.2007], [4.1336, 4.1513]], "S_norm": 48.42, "t": 198.7}
+{"kind": "heldout", "tag": "w15", "state": "after262144", "ce": [[11.0759, 11.0906], [10.0425, 10.094]], "S_norm": 307.77, "t": 235.5}
+{"info": "end", "gpu_gb": 10.1, "t": 235.5}

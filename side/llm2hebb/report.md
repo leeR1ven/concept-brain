@@ -1,196 +1,254 @@
 (Saved by the coordinator from the agent's final reply; the harness blocked the agent's own write.)
 
-# llm2hebb: can a back-propagation LLM be converted into a Hebbian-style model that keeps learning? (IDEAS #18, standalone)
+# llm2hebb: converting a back-propagation LLM into a Hebbian-style model that keeps learning (updated full report)
 
-The harness blocked writing `report.md` ("subagents should return findings as text"), so this message is the report. Base folder: this directory (`side/llm2hebb/` in the repo).
+**Coverage.** This report covers R1–R3 from the first report plus the new tests 1, 1b, 2 and 3. Everything is standalone; no ARCH_v2 code was used.
 
-Labels: **PROVED** = argument or arithmetic, **SIMULATED** = my GPU run (file and numbers given), **CITED**, **ASSUMED**. I followed both scope changes: E1/E2/E3 were dropped, and the synth/bench copies were deleted. Only R1–R3 were run.
+The harness blocks a `report.md`, so this message is the report. Base folder: this directory (`side/llm2hebb/` in the repo).
 
-## 0. Setup and infrastructure
-- **Servers and queues.** The V100 box ran only the setup checks. All experiments ran in the A800 GPU queue (`queue_a800gpu`), one job at a time.
-- **Where the models came from.** hf-mirror.com was reachable for the API but stalled on large files (one 7 MB file took 27 min, then the host went unreachable). huggingface.co was blocked. So the public weights came from **ModelScope's copies of the same public repositories** (`Qwen/Qwen2.5-0.5B-Instruct`, `Blink_DL/rwkv-7-world`). Both servers now hold them in `~/v2lab/models/` (about 2.3 GB each).
-- **Packages.** The server has no `python3-venv`, so packages went to `~/v2lab/venv_llm/site` with `pip --target` through the server's aliyun mirror: transformers 4.46.3, tokenizers, safetensors, rwkv 0.8.32. They are used via `PYTHONPATH`.
-- **Models:**
-  - Qwen2.5-0.5B-Instruct (softmax transformer, 24 blocks) for R2 and R3.
-  - RWKV-7 World 0.4B and 0.1B (delta-rule recurrent state, multilingual) for R1.
-- **My RWKV-7 implementation.** I wrote a batched plain-torch + Triton version of RWKV-7 (`r1/rwkv7.py`). On the V100 it matches the official `rwkv` package to max |Δlogit| 4e-5. On the A800, with TF32 projections, it matches to 0.01 with identical argmax (SIMULATED, `results/env/`).
-- **Facts.** Every fact is an invented two-token name (`我的小狗叫豆米。`, `王子涵的小狗叫栗蔻`). Recall means both tokens are exactly right.
+Labels: **PROVED** = argument or arithmetic, **SIMULATED** = my GPU run (file given), **CITED**, **ASSUMED**.
 
-## 1. Literature map (CITED; about one page)
+## Setup
 
-| family | local rule | relation to the BP gradient | conditions | meaning for a pretrained LLM |
-|---|---|---|---|---|
-| delta rule | dW = η(y−p)xᵀ | **exact** for one output layer | none | any read-out can learn locally, exactly like BP |
-| predictive coding / inference learning (Whittington & Bogacz 2017; Song et al. 2020; Millidge, Tschantz & Buckley 2022; Millidge et al. 2023; Song et al. 2024) | per-layer prediction errors; activities relax; dW_l = J_Wᵀ ε_l | approaches BP at equilibrium with a small nudge; **exactly BP** with the fixed-prediction assumption (FPA) and step 1 | needs the next layer's transposed Jacobian (weight transport) and ≥ L relaxation steps; the inference landscape becomes ill-conditioned with depth and with training (Innocenti, Achour & Buckley, NeurIPS 2025, μPC) | the weights carry over exactly. But the update follows the gradient, so it inherits BP's interference. "Prospective configuration" is reported to reduce interference, in small networks only |
-| equilibrium propagation (Scellier & Bengio 2017; Laborieux et al. 2021; Laborieux & Zenke 2022) | contrastive Hebbian over a free and a nudged phase | gradient as β → 0 | needs an energy function and symmetric weights | a transformer is not an energy-based model; it would have to be re-trained as one (Hoover et al. 2023 Energy Transformer; attention as one Hopfield step, Ramsauer et al. 2021) |
-| feedback alignment / DFA (Lillicrap et al. 2016; Nøkland 2016; Launay et al. 2020) | error sent back through fixed random matrices | not the gradient; forward weights align with the feedback *during training* | works from scratch | a pretrained net is not aligned with any random feedback, so its updates start about orthogonal to the gradient |
-| target propagation (Lee et al. 2015; Meulemans et al. 2020; Ernoult et al. 2022) | each layer regresses to targets made by learned inverses | Gauss-Newton-like | needs trained inverses; scales poorly (Bartunov et al. 2018) | the inverses would have to be trained first |
-| fast weights (Ba et al. 2016; Schlag, Irie & Schmidhuber 2021; DeltaNet / Gated DeltaNet, Yang et al. 2024, 2025; RWKV-7, Peng et al. 2025; TTT, Sun et al. 2024; Titans, Behrouz et al. 2025) | S += v kᵀ, or the delta rule S += β(v − Sk)kᵀ, at every token at inference | the inference itself *is* a Hebbian/delta-rule memory | fixed-size state that decays; recall lags softmax attention (Arora et al. 2024) | the part of an LLM that already learns locally and continually. Softmax models can be linearised by a short fine-tune (T2R, Kasai et al. 2021; SUPRA, Mercat et al. 2024; LoLCATs, Zhang et al. 2024) |
-| model editing (Geva et al. 2021; ROME/MEMIT, Meng et al. 2022, 2023) | rank-one key→value write of delta-rule form | the write is local; ROME finds its target v* by BP | sequential edits degrade, then collapse: ROME after about 100–1,000 edits, MEMIT after about 1,400 (Gupta, Rao & Anumanchipalli 2024) | one-shot slow-weight writes are possible but limited in capacity |
-| episodic memory / complementary learning systems (McCloskey & Cohen 1989; McClelland et al. 1995; Kumaran et al. 2016; kNN-LM, Khandelwal et al. 2020; Memorizing Transformers, Wu et al. 2022; Larimar, Das et al. 2024) | non-parametric key→value store | — | — | one-shot learning without interference. Fine-tuning learns new facts slowly and raises hallucination (Gekhman et al. 2024); retrieval beats fine-tuning for injecting knowledge (Ovadia et al. 2024) |
+**Infrastructure.**
+- All new jobs (g4–g7) ran in `queue_a800gpu`, one at a time; the V100 is retired.
+- Models came from ModelScope's copies of the public repositories, because hf-mirror.com stalled.
+- Packages are in `~/v2lab/venv_llm/site` (installed with pip `--target`).
+- The A800 disk now holds about 6.3 GB of my models, out of 30 GB.
 
-## 2. R1: the attention/recurrent state as Hebbian memory (RWKV-7, one unbroken stream)
+**Models.**
+- Qwen2.5-0.5B-Instruct: used for R2, R3 and tests 1, 1b and 2.
+- RWKV-7 World 0.1B / 0.4B / 1.5B: used for R1 and test 3. I wrote my own RWKV-7 implementation; it matches the official package to |Δlogit| ≤ 4e-5.
 
-**PROVED (from code, checked numerically).** RWKV-7's state update is S ← S·diag(w) − (S k̂)(a⊙k̂)ᵀ + v kᵀ. That is a local, error-correcting delta rule, applied at inference with no back-propagation. Here the Hebbian equivalence is exact.
+**Facts.**
+- Invented two-token names, e.g. `王子涵的小狗叫栗蔻`. Recall means both tokens are exactly right.
+- Test 1, 1b and 2 use the same 10k facts as R3.
 
-The state has a fixed size:
-- 0.4B model: 24 × 16 × 64² = 1.57 M numbers (6.3 MB);
-- by comparison, Qwen-0.5B's KV cache grows by 12 KB per token (bf16), i.e. 12 GB per 1 M tokens.
+**Evaluation sets.**
+- Three phrasings of each question:
+  - rewrite: `X的Y叫`
+  - paraphrase: `大家都知道，X的Y叫`
+  - QA: `问：X的Y叫什么名字？\n答：X的Y叫`
+- Leakage is measured on unwritten subjects in two sets: other people, and the same person with another relation.
+- General ability is measured by corpus perplexity and by 9 world-knowledge probes. Nine probes is a coarse measure.
 
-**Protocol (SIMULATED, `r1/r1_stream.py`, results in `results/g2/r1*.json*`):**
-- 8 streams × 262,144 tokens of corpus chat, with 40 facts per stream.
-- At about 270 checkpoints the state is forked, every fact told so far is asked in two forms, and the fork is discarded (cloze `我的小狗叫`; QA `问：…叫什么名字？答：你的小狗叫`). 92,080 queries per condition.
-- Control: the same streams with the state reset every 4,096 tokens (the training context length).
+## 1. Literature map (CITED; unchanged)
 
-Recall vs delay (fraction correct; cloze / QA):
+**Exact local equivalents of back-propagation.**
+- The delta rule is exactly back-propagation for the last layer.
+- Predictive coding converges to back-propagation (Whittington & Bogacz 2017; Millidge et al. 2022, 2023). It equals back-propagation *exactly* under the fixed-prediction assumption (Song et al. 2020).
+  - Costs: the transposed Jacobians of the next layer, and at least L relaxation steps per update.
+  - Its inference landscape becomes ill-conditioned in deep, trained networks (Innocenti, Achour & Buckley, NeurIPS 2025, μPC).
 
-| model, condition | <64 tokens | 64–256 | 256–1k | 1k–4k | >4k |
-|---|---|---|---|---|---|
-| 0.4B, reset every 4k (in distribution) | 0.92 / 0.61 | 0.64 / 0.22 | 0.40 / 0.11 | 0.08 / 0.02 | 0.00 / 0.00 |
-| 0.4B, never reset (all facts) | 0.29 / 0.14 | 0.07 / 0.00 | 0.005 / 0 | 0 / 0 | 0 / 0 |
-| 0.4B, never reset, facts after 32k tokens | 0.25 / 0.11 | 0.04 / 0 | 0 / 0 | 0 / 0 | 0 / 0 |
-| 0.4B, never reset, fact in the first 8k (n = 8) | 1.00 / 0.75 | 0.75 / 0 | 0 / 0 | 0 / 0 | – |
-| 0.1B, reset | 0.97 / 0.72 | 0.81 / 0.17 | 0.34 / 0.02 | 0.02 / 0 | 0 / 0 |
-| 0.1B, never reset | 0.34 / 0.14 | 0.10 / 0.02 | 0.01 / 0 | 0 / 0 | 0 / 0 |
+**Approximations that cannot inherit a transformer as it is.**
+- Equilibrium propagation needs an energy-based network with symmetric weights (Scellier & Bengio 2017).
+- Feedback alignment and DFA work only because the forward weights *learn* to align with the feedback (Lillicrap et al. 2016; Nøkland 2016; Launay et al. 2020).
+- Target propagation needs trained inverses (Lee et al. 2015; Bartunov et al. 2018).
 
-- Recall across a reset boundary is 0.000 (n = 44,072), as expected.
-- With delay under 4k tokens, recall falls with the number of later facts: 0.44 with none, 0.18 with 1–2 (cloze, 0.4B, reset). This is confounded with delay.
+**Already Hebbian: fast weights.**
+- Linear attention, DeltaNet and RWKV-7 update their state with S += v kᵀ or the delta rule at inference (Schlag, Irie & Schmidhuber 2021; Yang et al. 2024, 2025; Peng et al. 2025).
+- The state is fixed in size, and its recall lags softmax attention (Arora et al. 2024).
 
-The never-reset state degrades. Cross-entropy on held-out text, read from the forked state (0.4B, mean of 2 streams):
+**One-shot writes into the slow weights.**
+- ROME/MEMIT write facts with a rank-one, delta-rule-form update (Meng et al. 2022, 2023).
+- Sequential edits collapse after about 10²–10³ edits (Gupta et al. 2024).
 
-| state after | fresh | 4k | 16k | 64k | 256k | 1M |
+**Complementary learning systems.**
+- The brain pairs a fast sparse hippocampus with slow interleaved cortical consolidation (McClelland, McNaughton & O'Reilly 1995; Kumaran et al. 2016).
+- LLM analogues: kNN-LM (Khandelwal et al. 2020), Memorizing Transformers (Wu et al. 2022), Larimar (Das et al. 2024).
+- Fine-tuning on new facts raises hallucination (Gekhman et al. 2024), and retrieval beats fine-tuning for injecting knowledge (Ovadia et al. 2024).
+- DG-style coding (random expansion + k-WTA) separates patterns (FlyHash: Dasgupta et al. 2017); sparse autoencoders follow Gao et al. 2024.
+
+## 2. R1: RWKV-7 fast weights in one never-reset stream (SIMULATED; `results/g2`, `results/g6`)
+
+**PROVED.** The state update S ← S·diag(w) − (Sk̂)(a⊙k̂)ᵀ + v kᵀ is a local delta rule run at inference. Here the Hebbian equivalence is exact.
+
+Recall of the cloze form against the distance in tokens between the fact and the question:
+
+| model | condition | <64 | 64–256 | 256–1k | 1k–4k | >4k | QA <64 |
+|---|---|---|---|---|---|---|---|
+| 0.1B | reset every 4k (in distribution) | 0.97 | 0.81 | 0.34 | 0.02 | 0 | 0.72 |
+| 0.4B | reset every 4k | 0.92 | 0.64 | 0.40 | 0.08 | 0 | 0.61 |
+| **1.5B** | reset every 4k | 0.99 | 0.78 | 0.38 | 0.11 | 0 | 0.96 |
+| 0.4B / **1.5B** | never reset | 0.29 / 0.30 | 0.07 / 0.13 | 0.005 / 0.005 | 0 | 0 | 0.14 / 0.26 |
+
+Held-out cross-entropy read from the never-reset state, by tokens already streamed:
+
+| model | fresh | 4k | 16k | 64k | 256k | 1M |
 |---|---|---|---|---|---|---|
-| CE | 3.93 | 3.71 | 3.75 | 4.07 | 5.85 | 9.86 |
-| state norm | — | 34 | 33 | 34 | 42 | 229 |
+| 0.1B | 4.04 | 3.94 | 3.99 | 4.49 | 5.28 | 6.71 |
+| 0.4B | 3.88 | 3.71 | 3.75 | 4.07 | 5.85 | 9.86 |
+| **1.5B** | 3.69 | 3.49 | 3.54 | 4.17 | **10.6** | – |
 
-- The 0.1B model shows the same pattern: 4.08 → 3.94 → 3.99 → 4.49 → 5.28 → 6.71.
-- CE inside the stream (0.4B) at 128k–256k tokens: 5.07 never-reset vs 3.72 with resets.
-- Throughput: 14.5k tokens/s (0.4B) and 35k tokens/s (0.1B), 8 streams.
+- **Test 3 (1.5B).** The 1.5B model has a far better QA at short delay (0.96), but the same horizon (cloze 0.38 at 256–1k tokens, 0 beyond 4k).
+- It drifts out of distribution even faster without resets: the state norm goes from 42 to 308 at 256k tokens. Inside the stream, CE at 64–128k is 5.35 never-reset vs 3.49 with resets.
+- **Reading.** Scale does not turn the fast-weight state into a long-term memory. It is a one-shot working memory of about 10²–10³ tokens, and it needs resets.
 
-**Reading.**
-- The pretrained Hebbian fast-weight state is a one-shot **working memory**. Its horizon is about 10²–10³ tokens of unrelated text.
-- It is not a long-term store, and it cannot run as one unbroken life. Beyond about 16–32k tokens (4–8× its training length) the state drifts out of distribution, general ability decays, and so does recall.
+## 3. R2: local rules on the slow weights (Qwen 0.5B; SIMULATED, `results/g1–g3`)
 
-## 3. R2: local rules on the slow weights (Qwen2.5-0.5B)
+**Cosine between each rule's update and the true gradient:**
+- predictive coding with the fixed-prediction assumption: **1.000** (exactly back-propagation);
+- standard predictive coding: diverges at every step size from 1 down to 0.03 (cos ≈ 0, update norm 10²–10¹⁵ × the gradient);
+- layer-local delta rule: 0.20 (1.00 at the top block, < 0.1 below the middle);
+- DFA: 0.00.
 
-**Cosine between each local update and the true gradient**, per layer, mean over 16 lines (SIMULATED, `results/g1/r2_cos.jsonl`, `results/g2/r2_cos2.jsonl`):
+**Online stream** (30 facts × 3 presentations, then 60 chat lines):
+- Only Adam back-propagation learned facts: 47 % after 3 presentations, 13 % after the delay; knowledge 9/9 → 3/9.
+- The local rules (layer-local delta, DFA, back-propagation on W_down only, SGD) learned ≤ 7 % at any learning rate, and still lost knowledge.
+- Being local does not remove forgetting.
 
-| rule | cos (all layers) | layers 0/6/12/18/23 | update size / gradient size | s per update |
-|---|---|---|---|---|
-| PC with FPA (T = 24, step 1) | **1.000** | 0.999/1/1/1/1 | 1.00 | 1.9 |
-| standard PC, γ 0.5/0.2/0.1/0.03, β 0.01–1, T 6–192 | −0.01 … 0.04 | ≈ 0 | 10² … 10¹⁵ (relaxation diverges) | 0.65–12.9 |
-| layer-local delta rule on W_down (logit-lens error, no inter-layer messages) | 0.20 | 0.03/0.04/0.08/0.32/**1.00** | — | 0.10 |
-| DFA (random feedback) on W_down | −0.005 | ≈ 0 everywhere | — | 0.07 |
+## 4. R3: one-shot Hebbian rank-one writes into W_down (SIMULATED; `results/g1–g3`)
+- Best write: layer 18, output-embedding target, whitened keys.
+  - newest-100 accuracy: 0.40 / 0.04 / 0.03 at n = 10 / 100 / 10k;
+  - first-100 retained: 0 from n = 300 on;
+  - perplexity: 836 → 1302 at 10k writes;
+  - leakage to other subjects: about 1.0.
+- Sequential fine-tuning is worse: perplexity reaches 61k after 100 facts and 4.8 M after 1k.
 
-- PC-FPA *is* BP, computed by local messages, so its learning trajectory is identical to BP-SGD (PROVED, and checked to cos 1.000).
-- Standard PC diverged at every step size I could afford (γ ≥ 0.03, up to 192 steps ≈ 100× the cost of BP). This matches μPC's report that the PC inference landscape is ill-conditioned for deep, trained networks.
+## 5. Test 1: an entity-keyed DG episodic store next to frozen Qwen (SIMULATED; `r23/store.py`, `store2.py`; `results/g4`, `results/g7`)
 
-**Online stream:** 30 facts × 3 presentations, each followed by a chat line, then 60 more chat lines; one update per line (SIMULATED, `results/g2/`, `results/g3/r2_online.jsonl`). Columns:
-- cloze after 1 / 3 presentations / after the delay;
-- corpus perplexity p0 → p3 → after the delay;
-- world-knowledge cloze (9 items the base model gets right; p0 = 1.0) at p3 and after the delay.
+**v1: contextual keys** (the residual at the person's and the subject's last token, layers 4–16, DG or dense).
 
-| method, lr | cloze 1 / 3 / delay | perplexity 836 → p3 → delay | knowledge p3 / delay | ms per update |
-|---|---|---|---|---|
-| BP-Adam 1e-5 | 0.07 / **0.47** / 0.13 | 1117 → 703 | 0.33 / 0.33 | 93 |
-| BP-Adam 3e-6 | 0 / 0.20 / 0.07 | 595 → 507 | 0.78 / 0.78 | 100 |
-| BP-Adam 3e-5 | 0.03 / 0.13 / 0 | 4425 → 2245 | 0 / 0 | 97 |
-| BP-SGD 1e-4 / 1e-3 | 0.03 / 0.07 at p3 | 851 / 1161 | 0.33 / 0 | 74–86 |
-| BP-SGD ≥ 0.01 (and PC-FPA, which is identical) | 0 | 4.7k–159k (destroyed) | 0 | 74–86 |
-| BP on W_down only, 1e-3 / 1e-2 | 0 / 0.03 | 1173 / 5494 | 0 | 50–70 |
-| layer-local delta 1e-3 (1e-2 destroys) | 0 / 0.03 / 0 | 2141 → 3847 | 0.22 | 64–76 |
-| DFA 1e-5 (1e-4 destroys) | 0 / 0 / 0 | 1027 → 1794 | 0.44 / 0.22 | 41 |
+It failed. Keys of the same subject in two phrasings were less alike than keys of different subjects in one phrasing:
+- strict thresholds: paraphrase and QA ≈ 0.00–0.03, leakage 0 at 100 facts but 0.27 (DG) / 0.73 (dense) at 10k;
+- loose thresholds (layer 4): paraphrase 0.90 and QA 0.89, but leakage 1.00.
 
-**Reading.**
-- No local rule learned the facts without damaging old knowledge.
-- The gradient-exact local rule (PC-FPA) has exactly BP's learning and forgetting.
-- The truly local rules (layer-local delta, DFA) learn about nothing, yet still erase world knowledge.
-- Only BP-Adam learned facts: 47 % after 3 presentations. It lost most of them within 60 chat lines (13 %) and lost two-thirds of the knowledge probes.
-- So being local does not remove catastrophic forgetting. The cause is dense, shared weights trained on a non-stationary stream.
-- Caveats: one seed per setting, and the lr grid is coarse.
+**v2: token-level entity keys.**
+- Every subject token (about 5 tokens) is DG-coded from the input embeddings: N 16,384, k = 32, so about 7 keys per fact.
+- A fact is recognised when all its subject-token keys find a match.
+- It fires where a layer-18 site key matches (threshold ts). Text gets a one-token prefix, so no content token sits at position 0.
 
-## 4. R3: one-shot Hebbian rank-one writes into an MLP layer (no BP at write time)
+Store v2, layer 0, ts = 0.1:
 
-The rule: W_down ← W_down + (v* − W k) k̃ᵀ / (kᵀ k̃), with k̃ = k (pure delta), C⁻¹k (ROME-style whitening), or the top-64 entries of k (sparse key).
-- **Key:** the MLP input at the predicting position ("last") or at the subject's last token ("subj").
-- **Target v\*:** either the model's own in-context representation (layer-l residual with the fact in context minus without it), or the name's output embedding scaled to s·|h|.
+| n | rewrite | para | QA | first 100 | all | leak: other people | leak: same person, other relation | false hits, corpus | fires on an entity mentioned without a question | fires on non-answer positions of the QA prompt |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 10 | 1.00 | 1.00 | 0.60 | 1.00 | – | 0 | 0 | 0 | 0 | 0.065 |
+| 100 | 1.00 | 1.00 | 0.83 | 1.00 | – | 0 | 0 | 0 | 0 | 0.071 |
+| 1,000 | 1.00 | 1.00 | 0.80 | 1.00 | 1.00 | 0 | 0 | 0 | 0 | 0.072 |
+| 3,000 | 1.00 | 1.00 | 0.85 | 1.00 | – | 0 | 0 | 0 | 0 | 0.072 |
+| **10,000** | **1.00** | **0.99** | **0.76** | **1.00** | **0.998** | **0.00** | **0.003** | **0.000** | **0.00** | 0.064 |
 
-**Single writes** (40 dev facts, each written alone into the original model; `results/g1/r3_dev.jsonl`):
-- In-context targets do almost nothing. Rewrite efficacy is 0 at layers 3–15 and 0.40 at layer 18 with gain 2.
-- Subject-site keys give 0 at every layer: without BP to find v*, the subject token does not carry the name.
-- Output-embedding target, s = 2, layers 15/18: efficacy 1.00, paraphrase 0.90–1.00, QA 0.58–1.00. But specificity collapses: other subjects' prompts keep their prediction in only 0.00–0.30 of cases, and 0.63–1.00 of them now produce a written name.
-- s = 0.5 at layer 18: efficacy 0.68–0.75, specificity 0.77–0.85, leakage 0.10–0.14.
-- Whitening (C⁻¹) always helps specificity.
+- **The site gate trades QA against false fires inside the question.**
+  - ts 0.2: QA 0.35, 0.048 false fires; ts 0.3: QA 0.10, 0.032.
+  - With the gate off (ts 0): QA 1.00, but the store fires at every position after any mention of the entity (1.00) — useless.
+- **Contextual entity layers fail on paraphrase.** Layer 2: paraphrase 0.37; layers 4–8: paraphrase 0.00.
+- **Cost:** 1.6 ms per write; the network never changes, so perplexity and knowledge do not change.
+- **Result: all four targets are met at 10k facts** (para ≥ 0.8, QA ≥ 0.6, leakage ≤ 0.05, false hits ≈ 0).
+- **Caveats.**
+  - Inside the QA prompt the store fires wrongly at about 6 % of the other positions, mostly the first `叫`. Corpus text and plain mentions produce no false hits.
+  - The match is essentially lexical identity of the entity. It works because every phrasing repeats the entity string; aliases and pronouns would not match (ASSUMED, not tested).
 
-**Sequential writes** (`results/g2`, `results/g3`). Columns: accuracy on the newest 100 facts after n writes; the first 100 facts; perplexity; knowledge (9 items); cost per fact.
+## 6. Test 1b: the designer's hypothesis "dense vectors are the problem; feature neurons fix it" (SIMULATED; `r23/sparse.py`, `results/g5`)
 
-| run | n = 10 | 30 | 100 | 1k | 10k | first 100 at 1k | perplexity (836) | knowledge at the end | ms per fact |
-|---|---|---|---|---|---|---|---|---|---|
-| Hebbian, layer 18, s 1, whitened | 0.40 | 0.10 | 0.04 | 0.05 | 0.03 | 0.00 | 956 at 1k, 1302 at 10k | 1/9 | 0.6 + 1.5 forward |
-| Hebbian, s 1, pure delta | 0.10 | 0.07 | 0.01 | 0.01 | 0.02 | 0.00 | 1988 / 2527 | 3/9 | 0.3 |
-| Hebbian, s 1, sparse key (top 64) | 0.10 | 0.07 | 0.01 | 0.02 | 0.02 | 0.00 | 3934 / **232,691** (collapse) | 0 | 0.5 |
-| Hebbian, s 0.5, whitened (to 3k) | 0.20 | 0.07 | 0.04 | 0.01 | – | 0.00 | 859 / 880 at 3k | 7/9 | 0.45 |
-| Hebbian, in-context target, gain 2, whitened (to 3k) | 0.10 | 0.03 | 0.01 | 0.01 | – | 0.00 | 882 / 904 | 5/9 | 0.5 |
-| sequential FT, layer 18 only (Adam 5e-4, ≤ 10 steps) | 0.30 | 0.13 | 0.05 | 0.03 | – | 0.00 | 9,199 at 30, **44,690** at 1k | 0 | 190–350 |
-| sequential FT, all layers (Adam 1e-5) | 0.40 | 0.10 | 0.02 | 0.04 | – | 0.00 | 61k at 100, **4.8 M** at 1k | 0 | 250–420 |
-| **episodic key→value store** (same keys, network frozen, nearest neighbour, θ 0.98) | 1.00 | 1.00 | 1.00 | 1.00 | **1.00** | **1.00** | unchanged (frozen); false hits on ordinary text 0.0 % | 9/9 | 1.5 |
+**Setup.**
+- A new layer W_new is added in parallel with layer 18's MLP output: residual += W_new·s(k).
+- s(k) is the sparse code of the dense MLP key: a random projection to N units + k-WTA, a dense projection (no k-WTA), or a top-k sparse autoencoder trained here.
+  - The autoencoder: 16,384 features, k = 64, trained on 190k tokens; it explains 0.80 of the held-out variance, and 99 % of its features are alive.
+- Facts are written one-shot with the delta rule, towards the name's output-embedding direction.
+- The sites are the name-predicting positions; the last row also writes at the subject site.
 
-The episodic store has a weakness: paraphrase is 0.6 at n = 10 (θ 0.8) but only 0.06 at 10k, and QA is ≤ 0.1. Leakage to other subjects grows with n (θ 0.98: 0.07 at n = 10, 0.92 at 10k).
+Key overlap at the predicting site (cosine; Jaccard in brackets), and the write results:
 
-**Where it collapses.**
-- One layer's Hebbian writes stop holding new facts after about 30 writes. The earliest facts are overwritten within 100–300 writes.
-- General ability decays slowly with whitening (+14 % perplexity at 1k writes, +56 % at 10k), and catastrophically with sparse keys.
-- Back-prop fine-tuning destroys general ability within 30–100 facts.
+| code | active fraction | overlap: different facts, same relation | other relation | same fact, own paraphrase | newest at n = 10 / 100 / 1k / 10k | first 100 at n = 300 | para / QA at n = 10 | leakage at 100 / 10k | perplexity at 10k | knowledge at 10k |
+|---|---|---|---|---|---|---|---|---|---|---|
+| dense projection | 100 % | 0.94 | 0.65 | 0.87 | 0.20 / 0.01 / 0.01 / 0.02 | 0.01 | 0.10 / 0.10 | 1.00 / 1.00 | 1,462 | 3/9 |
+| random projection 64k | 10 % | 0.84 (0.65) | 0.49 | 0.72 | 0.30 / 0.04 / 0.04 / 0.04 | 0.01 | 0.10 / 0.10 | 1.00 / 1.00 | 1,199 | 5/9 |
+| random projection 64k | 2 % | 0.75 (0.56) | 0.33 | 0.57 | 0.80 / 0.11 / 0.16 / 0.13 | 0.01 | 0.20 / 0.10 | 0.99 / 0.84 | 1,002 | 4/9 |
+| random projection 64k | 0.5 % | 0.68 (0.49) | 0.23 | 0.48 | 0.90 / 0.16 / 0.21 / 0.20 | 0.02 | 0.20 / 0.10 | 0.91 / 0.87 | 925 | 8/9 |
+| random projection 64k | 0.1 % | 0.63 (0.45) | 0.17 | 0.40 | 1.00 / 0.21 / 0.26 / 0.28 | 0.03 | 0.10 / 0.10 | 0.94 / 0.87 | 907 | 8/9 |
+| random projection 16k | 1 % | 0.71 (0.51) | 0.27 | 0.52 | 0.90 / 0.14 / 0.17 / 0.20 | 0.01 | 0.20 / 0.10 | 0.97 / 0.85 | 1,164 | 3/9 |
+| sparse autoencoder 16k | 0.4 % | 0.94 (0.65) | 0.72 | 0.87 | 0.20 / 0.01 / 0.01 / 0.02 | 0.01 | 0.10 / 0.10 | 1.00 / 1.00 | 997 | 3/9 |
+| random projection 0.5 % + subject site | 0.5 % | (as 0.5 %) | | | 0.90 / 0.14 / 0.21 / 0.22 | 0.01 | 0.20 / 0.10 | 0.95 / 0.87 | 1,008 | 6/9 |
 
-**Why (PROVED).** The write makes W′k = v* hold exactly, and shifts the output for any other key k′ by (v* − Wk)(k̃·k′)/(k̃·k). All the "X的Y叫" keys are nearly parallel, so writes overwrite each other almost at once. And a 4,864-dimensional key space cannot hold more than 4,864 independent exact associations.
+R3's dense write directly into W_down scored newest 0.40 / 0.04 / 0.05 / 0.03, with perplexity 1,302 at 10k.
 
-## 5. Direct answer to the designer
+**How many facts fit before collapse** (largest n with newest-facts accuracy ≥ 0.5): dense under 10; 2 % and 0.5 % codes about 10; 0.1 % code about 30.
 
-**Can a back-prop LLM be converted, equivalently, into a Hebbian-style model?**
-- **What it computes: yes, exactly.** Keep the weights. A predictive-coding network with zero errors has the same forward pass (PROVED).
-- **How it learns: exact only in two places.**
-  - The output layer: the delta rule *is* back-propagation there.
-  - Predictive coding with the fixed-prediction assumption reproduces back-propagation exactly (cos 1.000 per layer, SIMULATED). But that is back-propagation sent through local messages: it needs the transposed Jacobians and L sequential steps.
-- **Everything cheaper or more local is far from the gradient** on a pretrained 24-block model:
-  - the layer-local delta rule: cos 0.20, about 0.05 below the middle layers;
-  - DFA: cos 0.00;
-  - standard predictive coding: its relaxation diverged.
-- **"Recomputing" the weights as if Hebbian learning had grown them is impossible.** Different rules grow different weights, and there is no map back. It is also unnecessary: the weights can simply be inherited.
-- **One part is already exactly Hebbian:** the state of delta-rule LLMs (RWKV-7, DeltaNet).
+**Verdict: the hypothesis holds only in part.**
+- **What sparse codes fix.** Writes interfere far less with *ordinary text*: perplexity after 10k writes is 907 vs 1,462, knowledge 8/9 vs 3/9. The first few one-shot facts are learned better (n = 10: 1.00 vs 0.20).
+- **What they do not fix.**
+  - Facts still overwrite each other: newest-100 ≤ 0.28 and first-100 ≈ 0 at every sparsity.
+  - Paraphrase ≤ 0.2, QA ≤ 0.1, and leakage to other subjects 0.84–1.0.
+- **The mechanism is overlap.** In the dense code, two *different* facts of the same relation (0.94) are more alike than one fact's own two phrasings (0.87). Random sparse coding shrinks every overlap, but it keeps that order at every sparsity (0.1 %: 0.63 vs 0.40), because it preserves similarity (LSH). The learned autoencoder keeps the dense similarities almost unchanged (0.94 / 0.87).
+- **Entity-specific keying is also needed.** When the key is the entity's own identity (test 1 v2), the same 10k facts reach para 0.99, QA 0.76 and leakage 0.00. What the key is *about* matters more than whether it is sparse.
+- Contextual codes of the entity (layers 2–8) fail as well, even when sparse.
 
-**After conversion, does it keep learning?** No, not from the conversion itself.
-- A local rule that matches the gradient forgets exactly as back-propagation does. A local rule that does not match it learns nothing and still damages old knowledge (R2).
-- The Hebbian fast-weight state learns in one shot, but it forgets after hundreds of tokens, and it degrades after about 16–32k tokens without a reset (R1).
-- One-shot Hebbian writes into the slow weights work once or a few times, then overwrite each other because the keys overlap (R3).
-- The limits are interference from shared codes, finite capacity and decay — not the non-locality of back-propagation.
-- The one thing that learned 10,000 facts in one shot with **zero forgetting and zero damage** was a separate episodic key→value store on a frozen network. It failed on paraphrase and specificity because its keys were not specific to the subject.
+## 7. Test 2: replay consolidation of the store into the weights (SIMULATED; `r23/consolidate.py`, `results/g4`)
 
-## 6. Recommendation
-- **Do not convert the slow weights to local learning** in order to get continual learning: it is either back-propagation in disguise or it does not learn.
-- **Most promising combination: inherit, then add the brain's complementary systems.**
-  - A frozen (inherited) pretrained network.
-  - **R1** fast weights as working memory, with periodic reset or renormalisation (or a model trained for unbounded streams).
-  - An **episodic store** for one-shot long-term facts, with **pattern-separated keys**: subject- or entity-specific, a sparse random expansion + k-WTA, several keys per fact.
-  - Slow consolidation into the weights by **interleaved replay**, or by small whitened rank-one batches spread across layers with capacity management.
-- So: R1 + episodic store + slow consolidation. R3 alone or R2 alone is not viable.
+**Protocol.**
+- Facts arrive in 20 "days" of 100 (2,000 facts).
+- After each day, replay trains all decoder layers with back-propagation: Adam, 150 steps per day.
+- Each step's minibatch holds 8 new facts, 8 older facts recalled from the store (rehearsal), and 16 ordinary-text sequences (interleaving).
+- The tests use the **weights alone**, with the store removed.
+
+Results at n = 2,000:
+
+| condition | all facts | first 100 | today's para / QA | perplexity (836 at start) | knowledge | neighbour subjects that now get an invented name |
+|---|---|---|---|---|---|---|
+| **replay, lr 1e-5: new + rehearsal + ordinary text** | **0.976** | **1.00** | 0.85 / 0.54 | **477** | **6/9** | 1.00 |
+| same, lr 3e-5 | 0.943 | 0.98 | 0.79 / 0.67 | 709 | 1/9 | 1.00 |
+| no ordinary text | 0.972 | 0.98 | 0.84 / 0.72 | 8,801 | 3/9 | 1.00 |
+| no rehearsal | 0.082 | 0.00 | 0.38 / 0.14 | 450 | 0/9 | 1.00 |
+| new facts only | 0.090 | 0.00 | 0.72 / 0.63 | 930,638 | 0/9 | 1.00 |
+| plain sequential fine-tuning (R3, all layers) at n = 1,000 | 0.005 | 0.00 | 0.03 / 0.04 | 4.8 M | 0/9 | 1.00 |
+
+The replay run over time (lr 1e-5):
+
+| facts so far | all facts | knowledge | perplexity |
+|---|---|---|---|
+| 100 | 1.00 | 9/9 | 354 |
+| 500 | 0.994 | 7/9 | 315 |
+| 1,000 | 0.983 | 6/9 | 331 |
+| 2,000 | 0.976 | 6/9 | 477 |
+
+**What each part of replay does.**
+- Without rehearsal, the previous day's facts drop to 0.11 within one day.
+- Without ordinary text, general ability collapses (perplexity × 10).
+- With both, 98 % of the facts survive in the weights alone.
+- Perplexity falls because training on the chat corpus is partly domain adaptation.
+- Cost: 0.45 s of training per fact (300 ms per step), vs 1.6 ms for a store write.
+
+**Side effect.** After consolidation the network outputs an invented name for *any* unseen `X的Y叫` (leakage 1.00). The store has leakage 0. This matches the finding that fine-tuning on new facts raises hallucination (Gekhman et al. 2024). The store must therefore stay the authority on which facts exist, or the replay needs negative examples ("unknown").
+
+## 8. Direct answer to the designer (updated)
+- **Exact conversion.**
+  - What the network computes: yes — keep the weights.
+  - The last layer's learning rule: yes — the delta rule is back-propagation there.
+  - Predictive coding with the fixed-prediction assumption: yes, measured cos 1.000. But that is back-propagation sent through local messages, and it forgets in exactly the same way.
+- **Cheaper local rules** are about orthogonal to the gradient (cos 0–0.2) or unstable. They do not learn, yet they still damage old knowledge.
+- **The fast-weight state is already Hebbian, exactly.** It is working memory of about 10²–10³ tokens at every size (0.1–1.5B), and it degrades without resets.
+- **Hebbian writes into the slow weights interfere.** Sparse feature codes reduce the damage to ordinary text, but not the facts overwriting each other: different facts' keys stay more alike than one fact's own paraphrases.
+- **The new hypothesis (dense vs feature neurons).** Sparsity is necessary but not sufficient. The decisive factor is entity-specific keying.
+- **What works: a complementary-learning-systems design.**
+  1. An inherited frozen network.
+  2. An entity-keyed sparse episodic store. It learns in one shot with zero forgetting: 10k facts, para 0.99, QA 0.76, leakage 0.
+  3. Interleaved replay, which consolidates 98 % of 2k facts into the weights while keeping perplexity and losing 3 of 9 knowledge probes.
+  4. Plain sequential fine-tuning, by contrast, collapses within 100 facts.
+
+## 9. Recommendation
+- **Use** a frozen (inherited) network + RWKV-style fast weights for the current context (with resets) + the entity-keyed DG store as the long-term one-shot memory + slow interleaved replay into the weights.
+- **Keep the store as the gate on what exists**: answer from the store and suppress names for unknown entities. Consolidation causes hallucination.
 - **Next tests:**
-  1. An entity-keyed, DG-style sparse store on the same 10k facts. Target: paraphrase ≥ 0.8 and leakage ≤ 0.05.
-  2. Replay consolidation of that store into the weights, interleaved with old text, measuring forgetting.
-  3. RWKV-7 1.5B (it is on ModelScope) or a state-normalised variant, to see whether the fast-weight horizon grows.
+  - aliases and pronouns as entity keys (a learned entity code, or a coreference step);
+  - a sharper answer-site gate, e.g. a site key per relation;
+  - "unknown" negatives during replay, to cut the 1.00 leakage after consolidation;
+  - consolidating with fewer replays or LoRA, to lower the knowledge loss.
 
-## 7. Files
+## 10. Files
 All paths are relative to this directory:
-- **R1 code:** `r1/rwkv7.py`, `r1/r1_stream.py`, `r1/check_rwkv.py`
-- **R2/R3 code:** `r23/common.py`, `r23/facts.py`, `r23/r2.py`, `r23/r3.py` (modes `dev`, `seq`, `ft`, `knn`), `r23/pick.py`
-- **Results:** `results/g1/`, `results/g2/`, `results/g3/`, `results/env/` (`jsonl` files + `run.log`)
-- **Tables:** `tables.py` prints the markdown tables from the results.
-- **Literature map:** `lit_map.md`
-- **Job scripts:** `jobs/llm2hebb_*/job.sh`
+- **Code:** `r1/rwkv7.py`, `r1/r1_stream.py`, `r23/r2.py`, `r23/r3.py`, `r23/store.py`, `r23/store2.py`, `r23/sparse.py`, `r23/consolidate.py`
+- **Results:**
+  - `results/g4/store.jsonl`, `results/g4/consolidate.jsonl`
+  - `results/g5/sparse.jsonl`
+  - `results/g6/store2.jsonl`, `results/g6/r1.jsonl` (1.5B)
+  - `results/g7/store2b.jsonl`
+  - earlier runs in `results/g1–g3`
+- **Job scripts:** `jobs/llm2hebb_g4` … `jobs/llm2hebb_g7`
 
 ## summary_zh
-1. 能"等价转换"的只有两处。一是前向计算：权重直接继承，结果完全相同。二是学习规则里的输出层：增量规则就是反向传播。用局部消息实现的预测编码（固定预测假设）可以精确等于反向传播（实测与真梯度余弦 1.000），但它本质上就是反向传播，同样会遗忘。真正局部、又便宜的规则在预训练的深层模型上与梯度几乎无关：逐层局部增量规则余弦约 0.2，随机反馈约 0；标准预测编码的推断过程直接发散。
-2. 局部本身并不消除灾难性遗忘。在线学习新事实时，只有反向传播 Adam 学会了（三次后 47%），但 60 句闲聊后只剩 13%，常识也丢了三分之二。各种局部规则基本学不会，却同样损伤旧知识。
-3. RWKV-7 的状态本身就是赫布（增量规则）快权重：新事实一次就记住，但只能保持几百个词元；不重置运行超过约 1.6–3.2 万词元后，状态漂移，模型变差（到 100 万词元时交叉熵从 3.9 升到 9.9）。
-4. 往 MLP 里做一次性赫布秩一写入：单条可以写进去，但几十条后就互相覆盖，因为键高度相似。反向传播逐条微调会在 30–100 条内把模型搞坏。
-5. 唯一在一万条事实上做到一次学会、零遗忘、不伤旧知识的，是一个冻结网络旁边的独立情节记忆（键→值存储）。不过它的键不够区分主语，换个说法问就答不上。
-6. 建议：不要指望"把权重改成赫布学习"来实现持续学习。应当继承预训练网络，配上快权重工作记忆、模式分离的海马式情节记忆，以及交错回放的慢速巩固。下一步测试：按实体做键的稀疏记忆，以及回放巩固。
+1. 把反向传播大模型"等价"转成赫布式模型：前向计算和输出层可以精确等价；用局部消息实现的预测编码与反向传播完全一致（余弦 1.000），但遗忘也一样。更便宜、更局部的规则与梯度几乎无关，学不会新事实，却照样损伤旧知识。
+2. RWKV-7 的状态本身就是精确的赫布快权重，但从 0.1B 到 1.5B 都只能记住几百到一千个词元；不重置运行就会漂移，模型变差（1.5B 在 26 万词元时交叉熵从 3.7 升到 10.6）。
+3. 设计者的新假设"稠密向量是问题，特征神经元能解决"只对了一部分。稀疏特征编码明显减少了对普通文本的伤害（困惑度 1462→907，常识保留 8/9），但事实之间仍然互相覆盖，泄漏 0.84–1.0。原因是不同事实的键比同一事实两种说法的键更相似（稠密 0.94 对 0.87），稀疏化保留了这个顺序；训练出来的稀疏自编码器也不例外。
+4. 真正起作用的是"按实体本身做键"：用实体词元的稀疏码（齿状回式）做索引的情节记忆，一万条事实一次学会、零遗忘，换说法 0.99、问答 0.76、泄漏 0、普通文本误触发 0。代价是只认同一实体字符串，别名还没测。
+5. 每天把记忆交错回放进权重（新事实 + 旧事实复习 + 普通文本）后，只靠权重就保住了 2000 条中的 98%，困惑度没坏，常识丢了 3/9。没有复习就忘掉旧事实；没有普通文本模型就崩溃；逐条微调 100 条内就崩溃。副作用是巩固后模型会给没见过的人编名字，所以要靠记忆来判断"知道与否"。
+6. 建议：冻结继承的网络 + 快权重工作记忆（定期重置）+ 按实体做键的稀疏海马式记忆 + 交错回放的慢速巩固。
