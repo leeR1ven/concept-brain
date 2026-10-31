@@ -88,6 +88,8 @@ class Cfg:
     learn: bool = True
     learn_z: bool = True
     use_fwd: bool = True       # babble memory (forward model, lookup form)
+    ghold_mode: str = 'latch'  # 'latch' (gated copy) | 'loop' (reverberating hold: leaky k-WTA + learned recurrence)
+    loop: dict = field(default_factory=dict)   # LoopPFC parameters (reverb_sweep.py) incl. amp, reset, learn_first, hold_learn
     own_M: str = 'zero'        # 'zero' | 'rpe'
 
 
@@ -173,6 +175,20 @@ class PredAgent:
         self.H2s = np.zeros(c.NH, bool)
         self._ucode, self._bcode = {}, {}
         self.lesion = set()
+        self.loopPFC = None
+        if c.ghold_mode == 'loop':
+            from reverb_sweep import LoopPFC
+            lp = dict(c.loop)
+            self.loop_ld = dict(amp=lp.pop('amp', 3.0), reset=lp.pop('reset', 1.0), learn_first=lp.pop('learn_first', False))
+            self.loop_hold_learn = lp.pop('hold_learn', False)
+            self.loop_dis = lp.pop('dis', 0.0)
+            self.loop_cont = bool(lp.pop('cont', 0))          # continuous update: the line flows in, no reset/load
+            self.loop_nov = float(lp.pop('nov', 0.0))
+            self.loop_amp_own = float(lp.pop('amp_own', 0.0))
+            self.loop_learn_in = bool(lp.pop('learn_in', 0))
+            self.loop_learn_win = int(lp.pop('learn_win', 10))   # settle-learning: first ticks after an input only
+            self.loop_quiet = 999
+            self.loopPFC = LoopPFC(seed=c.seed + 31, **lp)
         self.reset_state()
         self.t = 0
         self.babbling = False
@@ -450,7 +466,12 @@ class PredAgent:
             self.stats['learn_steps'] += 1
         if who == 'other' and not self.start:
             # BG gate: the completed line of another speaker is loaded into the held working memory
-            self.ghold = self.gline.copy()
+            if self.loopPFC is not None:
+                if not self.loop_cont:
+                    self.ghold = self.loopPFC.load(self.gline.astype(np.float32), learn=self.c.learn, **self.loop_ld).copy()
+                    self.loop_quiet = 0
+            else:
+                self.ghold = self.gline.copy()
             self.B = np.zeros(self.c.zmax, bool)
             self.B[self.line_chars] = True
             self.gtopic_v = self.c.topic_leak * self.gtopic_v + self.ghold
@@ -646,6 +667,27 @@ class PredAgent:
                     self.end_event('other')
         else:
             self.clock = -1
+        # ---- reverberating PFC: one free step per tick (no input; the gate is closed between loads)
+        if self.loopPFC is not None:
+            d = np.zeros(self.c.NG, F32)
+            if self.loop_dis > 0:
+                d[self.rng.choice(self.c.NG, self.loopPFC.k, replace=False)] = self.loop_dis
+            hearing = False
+            if self.loop_cont and self.gline.any():
+                if self.line_by == 'self':
+                    gain = self.loop_amp_own                 # my own speech is predicted (efference copy): weak input
+                else:
+                    novelty = 1.0 - (self.gline & self.loopPFC.R.A.s).sum() / max(int(self.gline.sum()), 1)
+                    gain = self.loop_ld['amp'] * ((1.0 - self.loop_nov) + self.loop_nov * novelty)
+                if gain > 0:
+                    d = d + F32(gain) * self.gline.astype(F32); hearing = True
+            self.loop_quiet = 0 if hearing else self.loop_quiet + 1
+            learn_now = self.c.learn and (self.loop_learn_in if hearing else
+                                          (self.loop_hold_learn and self.loop_quiet <= self.loop_learn_win))
+            s_new = self.loopPFC.step(d, learn=learn_now)
+            if not np.array_equal(s_new, self.ghold):
+                self.ghold = s_new.copy()
+                self.predict()
         # ---- body (babbling: an innate spontaneous beat plays bouts of random 4-muscle sets when idle)
         if self.babbling and not self.body.SPK and not self.body.CD.any() and not self.bab_plan:
             n = int(self.rng.integers(self.bab_bout[0], self.bab_bout[1] + 1))

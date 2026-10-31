@@ -1,0 +1,39 @@
+REVERBERATING PFC HOLD — parameter map (draft notes for the inline report)
+
+Setup (reverb_sweep.py): N 2048, leaky k-WTA, learned recurrence by PR (state target), fan-in 1000; inputs = the 147
+realistic bench line codes (8-unit unigram + bigram codes, frame chars shared; mean pairwise input Jaccard 0.06-0.09),
+heard with a Zipf frequency; 1,500 training lines; weak random distractors during holds; 51 settings mapped.
+
+Why M6 collapsed (mechanism, SIMULATED):
+1. learning on the first tick of a load, whose source is the OLD thought -> every line wired to the one before; over
+   1,500 random pairs everything links to the shared/frequent units = one generic basin.  Removing only this:
+   decode 0.03 -> 0.77 at 60 ticks.
+2. more active units than the line drives (k 120 vs ~59): free slots are filled by what the old thought / frequent
+   lines predict -> mixing.  k ~ line size (40-60) brings held-state overlap down to the inputs' own (0.05-0.11).
+3. a fast set point (tau 500) suppresses the units being held -> no hold (M6b).  A slow one (tau 20,000) only helps
+   once 1 and 2 are fixed.
+4. learning WHILE a line is heard (old and new mixed) collapses the continuous regime too (J60 0.54-1.00); learning in
+   the settled state after the input (settle-learning) does not.
+
+Gated regime (reset + load; the designer rejects it, kept for reference): k40 + frame-feature normalisation: decode
+0.97/0.97/0.87/0.80 at 10/30/60/120, overlap 0.05 (inputs 0.06), replacement +0.00, period-2 0; long holds stay (0.92
+at 500); favourites only with free slots (k120: 67 % of long silences end near top-10 % lines, but overlap 0.36).
+
+Continuous regime (no reset; the line flows in char by char; others' speech enters strongly, own speech not):
+  collapse:   amp <= 2, or learning while hearing, or k >> line size
+  sticky:     leak 0.9 with amp 2-4 -> takeover 0.2-0.6 (the old thought's potential ~10x its drive wins)
+  balanced:   leak 0.8, amp 4-6, k ~ line size, settle-learning -> takeover 0.83-0.97 at 3 ticks, hold >= 0.83 for
+              120 ticks, line n-1 kept as context 0.10-0.27 (chance 0.05), overlap ~ inputs, period-2 ~ 0
+  favourites: + fast fatigue (0.2, tau 50) -> 33 % of 500-tick silences end near top-10 % frequent lines (chance 10 %),
+              hold 0.80 at 60, takeover 0.67
+Recommended: k 60, amp 4, leak 0.8, fatigue 0.1/100, settle-learning (first 10 silent ticks): takeover 0.87/0.87/0.87
+(3/6/10 ticks after the line), context n-1 0.27/0.27/0.23, hold 0.83/0.83/0.83 (30/60/120), overlap 0.09 (inputs 0.06),
+J(60,500) 0.94, period-2 -0.001.
+Period-2 index over all 51 settings: -0.031 ... +0.002 (never alternates: the leak).
+
+BENCH (seed 0, pruned agent, A600 -> babble -> B800 -> C800 -> D600; only the PFC hold differs)
+latch:            B 0.13 (held .05 seen .21)  C 0.29 (held .18 seen .39)  D 0.09 (held .04 seen .11)
+continuous loop:  B 0.10 (held .02 seen .20)  C 0.26 (held .14 seen .36)  D [pending]
+likely cause: learning by listening -- the overheard reply flows into the thought while heard (context = prompt
+fading + reply so far), but my own reply barely enters it (context = prompt) -> train/use mismatch; the latch holds
+the prompt through any reply.  Next: gate the input gain by the predictor's surprise (predicted replies barely enter).

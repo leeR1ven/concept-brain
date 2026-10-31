@@ -18,8 +18,11 @@ for kv in [x for x in args.set.split(',') if x]:
     k, v = kv.split('=')
     if k.startswith('use.'):
         cfg.use[k[4:]] = bool(int(v))
+    elif k.startswith('loop.'):
+        cfg.loop[k[5:]] = (v == 'True') if v in ('True', 'False') else (float(v) if '.' in v else int(v))
     else:
-        cur = getattr(cfg, k); setattr(cfg, k, type(cur)(v) if not isinstance(cur, bool) else bool(int(v)))
+        cur = getattr(cfg, k)
+        setattr(cfg, k, v if isinstance(cur, str) else (bool(int(v)) if isinstance(cur, bool) else type(cur)(v)))
 T = Timer()
 w = DiagWorld('A', seed=args.seed, tutor='model')
 a = new_agent(w, cfg); a.log_events = []
