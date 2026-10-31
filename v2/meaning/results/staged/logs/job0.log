@@ -1,0 +1,20 @@
+[vb s0 1s] start proto=frozen nS=1000 world={'eye_layout': 'retino'} train={'eye_layout': 'retino', 'held_frac': 0.0} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False, 'ral': 1, 'ral_other': 1, 'say_rec': 1, 'say_loc': 1, 'scene_held': 1, 'val_veto': 0.2, 'dip': 1, 'act_T': 60, 'soc_feats': 1, 'rec_fix': 1}
+[vb s0 48s] A: categories 67 programs 67
+[vb s0 705s] after stage 1 (B): B 0.9353 (held 0.8448)  C 0.3962 (held 0.15)  D 0.0 (held 0.0) | online {'B': 0.9102} | mix 47925 hip 4248 | ral {'lines': 4248, 'after_own': 2617, 'contingent': 1575, 'cont_reward': 1575, 'cont_overlap': 0, 'answered': 2143, 'cancel': 2143, 'commit': 2105, 'unresolved': 530, 'strict_cancel': 0, 'cut': 2142, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 611, 'cont_answered_items': 1799, 'other_answered': 137, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[vb s0 1417s] after stage 2 (BC): B 0.9882 (held 0.9828)  C 0.9119 (held 0.8)  D 0.0 (held 0.0) | online {'B': 0.9667, 'C': 0.8312} | mix 47925 hip 8057 | ral {'lines': 8057, 'after_own': 5227, 'contingent': 3152, 'cont_reward': 3152, 'cont_overlap': 0, 'answered': 4165, 'cancel': 4165, 'commit': 3892, 'unresolved': 740, 'strict_cancel': 0, 'cut': 4164, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 1200, 'cont_answered_items': 3359, 'other_answered': 137, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[vb s0 2141s] after stage 3 (BCDD): B 0.8941 (held 0.7586)  C 0.8994 (held 0.75)  D 0.4 (held 0.5455) | online {'B': 0.964, 'C': 0.9237, 'D': 0.3379} | mix 47925 hip 10000 | ral {'lines': 11641, 'after_own': 7774, 'contingent': 4303, 'cont_reward': 4303, 'cont_overlap': 0, 'answered': 6248, 'cancel': 6248, 'commit': 5393, 'unresolved': 1090, 'strict_cancel': 0, 'cut': 6247, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 1663, 'cont_answered_items': 4315, 'other_answered': 137, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[vb s0 2321s] drift C: 0.8994 -> 0.956 after 300 untutored dialogues
+[vb s0 2629s] drift C: -> 0.9623 after 900 untutored dialogues
+[vb s0 2629s] score {'F': 0.7312, 'RET': -0.0269, 'H': 0.6847, 'DR': 0.956, 'J': 1.1279, 'J2': 1.6414} | role {'n': 410, 'ok': 0.8024, 'other': 0.0293, 'echo': 0.0537, 'partner': 0.0683, 'silent': 0.0463, 'role_conf': 0.122} | refs all {'agent': np.float64(0.8024), 'echo': 0.061, 'const_best': 0.4122, 'prior': np.float64(0.239)} held {'agent': np.float64(0.7167), 'echo': 0.0, 'const_best': 0.525, 'prior': np.float64(0.2333)} | comp {'vr_name|what|seen': [46, 34, 46], 'vr_name|what|held': [24, 16, 14], 'attend|where|seen': [32, 25, 28], 'attend|where|held': [17, 17, 17], 'attend|colour|seen': [19, 17, 17], 'attend|colour|held': [9, 9, 5], 'attend|count|seen': [25, 23, 23], 'attend|count|held': [10, 10, 10]}
+[vb s0 2629s] done viol=0 secs=2628.8
+[vb s0] meaning meta: {"layer": {"tag": "end", "units": 47925, "alive_units": 47925, "synapses": 242820, "ever_active": 24177, "learn_events": 340285, "mean_active": 362.4, "cache_hit": 0.445, "pruned": 3060982, "regrown": 3060982, "items_coded": 140}, "clears": 0}
+run_mean rc=0 2629s
+[post vb s0 0s rss 186MB] loaded MeanCore mix n 47925
+[post vb s0 20s rss 358MB] held-out probe B: slot 0.82/50 (echo 0.00, const 0.34), what 0.68/60 (echo 0.00, const 0.33), where 1.00/57 (echo 0.00, const 0.35)
+[post vb s0 37s rss 526MB] held-out probe C: colour 0.81/27 (echo 0.00, const 0.26), count 1.00/29 (echo 0.00, const 0.38), offer 1.00/40 (echo 0.00, const 1.00), taste 0.17/24 (echo 0.00, const 1.00)
+[post vb s0 59s rss 533MB] held-out probe D: check 0.50/78 (echo 0.00, const 0.51)
+[post vb s0 91s rss 533MB] fault clean: ALL 0.7765 B 0.8941 C 0.8994 D 0.4
+[post vb s0 125s rss 533MB] fault rand: ALL 0.4424 B 0.5353 C 0.4843 D 0.2286
+[post vb s0 158s rss 533MB] fault sim: ALL 0.4147 B 0.5353 C 0.4528 D 0.1619
+[post vb s0 158s rss 533MB] done
+post rc=0 2788s

@@ -1,0 +1,166 @@
+{
+"tag": "vrn",
+"seed": 3,
+"rm": {
+"train": 1,
+"prune": 1,
+"age": 20000,
+"regrow": 1,
+"alloc": "flat"
+},
+"mean": "rand2",
+"mk": {
+"hipcue": 1,
+"hipnorm": 1
+},
+"secs": 2610.9,
+"layer": {
+"tag": "end",
+"units": 47925,
+"alive_units": 47925,
+"synapses": 242820,
+"ever_active": 28143,
+"learn_events": 341380,
+"mean_active": 363.5,
+"cache_hit": 0.441,
+"pruned": 2843164,
+"regrown": 2843164,
+"items_coded": 140
+},
+"clears": 0,
+"codes": [
+{
+"stage": 0,
+"lines": 0,
+"n_codes": 256,
+"stats": {
+"within": 0.02,
+"between": 0.018,
+"purity": 0.294,
+"all_pairs": 0.016,
+"n": 34,
+"n_codes": 256
+},
+"drift_from_prev": null
+},
+{
+"stage": 1,
+"lines": 0,
+"n_codes": 256,
+"stats": {
+"within": 0.02,
+"between": 0.018,
+"purity": 0.294,
+"all_pairs": 0.016,
+"n": 34,
+"n_codes": 256
+},
+"drift_from_prev": 0.0
+},
+{
+"stage": 2,
+"lines": 0,
+"n_codes": 256,
+"stats": {
+"within": 0.02,
+"between": 0.018,
+"purity": 0.294,
+"all_pairs": 0.016,
+"n": 34,
+"n_codes": 256
+},
+"drift_from_prev": 0.0
+},
+{
+"stage": 3,
+"lines": 0,
+"n_codes": 256,
+"stats": {
+"within": 0.019,
+"between": 0.018,
+"purity": 0.22,
+"all_pairs": 0.016,
+"n": 41,
+"n_codes": 256
+},
+"drift_from_prev": 0.0
+}
+],
+"mstats": {
+"lines": 0,
+"occ": 0,
+"recomputes": 0,
+"changes": 0,
+"lines_changed": 0,
+"placeholders": 0
+},
+"groups": {
+"obj1": [
+2,
+8,
+13,
+17,
+23,
+25,
+28,
+34,
+38,
+43
+],
+"obj2": [
+3,
+9,
+14,
+18,
+24,
+26,
+29,
+35,
+37,
+39,
+44,
+47
+],
+"col1": [
+10,
+27,
+33,
+49,
+61,
+64
+],
+"col2": [
+11
+],
+"cnt1": [
+6,
+36,
+57
+],
+"cnt2": [
+7
+],
+"slot1": [
+31,
+40,
+42
+],
+"slot2": [
+32,
+41
+],
+"name1": [
+13
+],
+"name2": [
+10,
+69,
+73,
+78,
+79,
+80,
+84,
+89
+]
+}
+}

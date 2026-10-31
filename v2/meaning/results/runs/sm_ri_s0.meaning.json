@@ -1,0 +1,157 @@
+{
+"tag": "sm_ri",
+"seed": 0,
+"rm": {
+"train": 1,
+"prune": 1,
+"age": 20000,
+"regrow": 1,
+"alloc": "flat"
+},
+"mean": "ri",
+"mk": {
+"hipcue": 1
+},
+"secs": 52.6,
+"layer": {
+"tag": "end",
+"units": 47925,
+"alive_units": 47925,
+"synapses": 242820,
+"ever_active": 14269,
+"learn_events": 5763,
+"mean_active": 310.8,
+"cache_hit": 0.58,
+"pruned": 0,
+"regrown": 0,
+"items_coded": 69
+},
+"clears": 13,
+"codes": [
+{
+"stage": 0,
+"lines": 43,
+"n_codes": 51,
+"stats": {
+"within": 0.019,
+"between": 0.017,
+"purity": 0.407,
+"all_pairs": 0.017,
+"n": 27,
+"n_codes": 51
+},
+"drift_from_prev": null
+},
+{
+"stage": 1,
+"lines": 91,
+"n_codes": 54,
+"stats": {
+"within": 0.023,
+"between": 0.016,
+"purity": 0.467,
+"all_pairs": 0.017,
+"n": 30,
+"n_codes": 54
+},
+"drift_from_prev": 0.1238
+},
+{
+"stage": 2,
+"lines": 142,
+"n_codes": 58,
+"stats": {
+"within": 0.041,
+"between": 0.02,
+"purity": 0.667,
+"all_pairs": 0.022,
+"n": 30,
+"n_codes": 58
+},
+"drift_from_prev": 0.1748
+},
+{
+"stage": 3,
+"lines": 208,
+"n_codes": 67,
+"stats": {
+"within": 0.106,
+"between": 0.027,
+"purity": 0.758,
+"all_pairs": 0.029,
+"n": 33,
+"n_codes": 67
+},
+"drift_from_prev": 0.1379
+}
+],
+"mstats": {
+"lines": 208,
+"occ": 742,
+"recomputes": 14,
+"changes": 238,
+"lines_changed": 469,
+"placeholders": 67
+},
+"groups": {
+"obj1": [
+4,
+8,
+12,
+16,
+18,
+29,
+45,
+47,
+49,
+51
+],
+"obj2": [
+5,
+9,
+13,
+17,
+19,
+25,
+30,
+43,
+46,
+48,
+50,
+52
+],
+"col1": [
+26,
+31,
+57
+],
+"col2": [
+27
+],
+"cnt1": [
+10,
+22
+],
+"cnt2": [
+11
+],
+"slot1": [
+6,
+14,
+53
+],
+"slot2": [
+7,
+15
+],
+"name1": [
+18
+],
+"name2": [
+57,
+60,
+63,
+64
+]
+}
+}

@@ -117,6 +117,16 @@ listening, babbling and conversing.
   - Speed: about 250 agent-ticks/s at 64 agents, far below the 30k target. Today's agent does too little and too
     sequential work per event (awake recall is 70 % of the time). Numpy on server CPUs stays the sweep engine; the GPU
     version waits for the scaled-up model.
+- **Learned meaning layer** ([v2/meaning/report.md](v2/meaning/report.md), Step 4; IDEAS #3, #5, #14). Every syllable
+  gets, besides its fixed sound code, a code learned from context with a local rule, so syllables used in the same
+  places become alike. The code feeds the random layer and the hippocampal cue.
+  - Module test: foods and toys never heard in "X好不好吃" go from 0.50 (chance) to 1.00 on 10/10 seeds, including words
+    first heard late in life. Swapping the two classes' codes flips every answer.
+  - The old failure was mostly hippocampal recall by identity overlap, not the code; the meaning cue in the DG, weighted
+    like the identity cue, fixes it.
+  - Bench (v2.1 + random layer, 5 paired seeds): J 1.18 → 1.23, up on every seed, no drift cost. A random-code control
+    gets about half the gain, because no bench task needs a class; the bench needs one ("X能不能吃").
+  - No fault-tolerance gain; a 4× layer loses 0.11 J.
 - **Open-world hearing** ([v2/hearing/report.md](v2/hearing/report.md), first part of Step 6). ARCH_v2.1's ear needed
   exact silence, so in world2 at noise σ 1 it heard 0 lines, and the bench at σ 1 scored J 0. A local front end, behind
   `h_*` keys, fixes this: an adaptive noise floor (every silence trigger becomes relative), a syllable clock that
@@ -129,12 +139,12 @@ listening, babbling and conversing.
   - Open: the brake stays on in crowds, so agents rarely speak there; far speech fragments in noise; σ 2 works only in
     part; trust-weighted listening needs voice identity.
 
-**Next** (review round 2 plan, Steps 0–6; items 1–4 are ARCH_v2.1 and the hearing part of item 7 is done):
+**Next** (review round 2 plan, Steps 0–6; items 1–4 are ARCH_v2.1, item 5 and the hearing part of item 7 are done):
 1. honest measurement;
 2. role-aware learning with the self in the loop;
 3. comprehension feeds production;
 4. a signed value loop;
-5. a learned meaning layer on random connections from birth (in progress, with the ARCH_v2.2 merge);
+5. a learned meaning layer on random connections from birth (done; merging into ARCH_v2.2);
 6. slow consolidation;
 7. open-world hearing (done) and an action loop.
 

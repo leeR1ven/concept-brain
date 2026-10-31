@@ -1,0 +1,235 @@
+{
+"tag": "sn1",
+"seed": 0,
+"mean": {
+"mode": "ri",
+"hipcue": 1,
+"hipnorm": 1
+},
+"fault": {
+"clean": {
+"B": {
+"all": 0.9118,
+"seen": 0.9464,
+"held": 0.8448,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 1.0,
+"what": 0.8714,
+"where": 0.8776
+}
+},
+"C": {
+"all": 0.8868,
+"seen": 0.8824,
+"held": 0.9,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.5714,
+"count": 0.9429,
+"offer": 1.0,
+"ritual": 0.8621,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.5524,
+"seen": 0.4699,
+"held": 0.8636,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.9,
+"name": 0.7647,
+"oneshot": 0.0
+}
+},
+"ALL": 0.8157
+},
+"rand": {
+"B": {
+"all": 0.5353,
+"seen": 0.5179,
+"held": 0.569,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.6863,
+"what": 0.3571,
+"where": 0.6327
+}
+},
+"C": {
+"all": 0.4403,
+"seen": 0.4034,
+"held": 0.55,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.25,
+"count": 0.8,
+"offer": 0.3696,
+"ritual": 0.0345,
+"taste": 0.8095
+}
+},
+"D": {
+"all": 0.2667,
+"seen": 0.2651,
+"held": 0.2727,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.44,
+"name": 0.3529,
+"oneshot": 0.0
+}
+},
+"ALL": 0.4355
+},
+"sim": {
+"B": {
+"all": 0.5824,
+"seen": 0.5804,
+"held": 0.5862,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.6863,
+"what": 0.4143,
+"where": 0.7143
+}
+},
+"C": {
+"all": 0.3899,
+"seen": 0.4118,
+"held": 0.325,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.4286,
+"count": 0.6286,
+"offer": 0.2174,
+"ritual": 0.1034,
+"taste": 0.7143
+}
+},
+"D": {
+"all": 0.2381,
+"seen": 0.1928,
+"held": 0.4091,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.46,
+"name": 0.1176,
+"oneshot": 0.0
+}
+},
+"ALL": 0.4286
+},
+"sim_mean_cos": 0.623,
+"sim_examples": {
+"一": [
+"在",
+0.638
+],
+"三": [
+"明",
+0.657
+],
+"上": [
+"机",
+0.598
+],
+"不": [
+"里",
+0.669
+],
+"两": [
+"吃",
+0.652
+],
+"个": [
+"黄",
+0.58
+],
+"中": [
+"兔",
+0.568
+],
+"丽": [
+"帽",
+0.631
+],
+"么": [
+"鞋",
+0.626
+],
+"乌": [
+"龟",
+0.651
+],
+"书": [
+"番",
+0.665
+],
+"亮": [
+"晚",
+0.751
+]
+}
+},
+"secs": 86.7,
+"rss_mb": 443
+}

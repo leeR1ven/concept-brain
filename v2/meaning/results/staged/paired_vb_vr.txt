@@ -1,0 +1,79 @@
+vb -> vr, seeds [0, 1, 2]
+  J                1.128->1.166 1.365->1.167 1.308->1.331 | A 1.267 B 1.221 delta -0.046±0.108 (mixed)
+  J2               1.641->1.817 2.042->1.720 1.975->2.035 | A 1.886 B 1.857 delta -0.029±0.213 (mixed)
+  F                0.731->0.737 0.891->0.789 0.853->0.852 | A 0.825 B 0.793 delta -0.032±0.050 (mixed)
+  RET              -0.027->-0.033 0.000->-0.081 -0.009->-0.009 | A -0.012 B -0.041 delta -0.029±0.037 (mixed)
+  H                0.685->0.869 0.902->0.737 0.889->0.939 | A 0.825 B 0.848 delta +0.023±0.144 (mixed)
+  DR               0.956->0.912 0.993->0.940 0.952->0.994 | A 0.967 B 0.949 delta -0.018±0.043 (mixed)
+  loss300          -0.057->-0.031 -0.013->-0.093 0.012->-0.006 | A -0.019 B -0.043 delta -0.024±0.043 (mixed)
+  loss900          -0.063->-0.006 0.066->-0.080 0.000->-0.006 | A 0.001 B -0.031 delta -0.032±0.085 (mixed)
+  role             0.122->0.095 0.050->0.041 0.049->0.047 | A 0.074 B 0.061 delta -0.013±0.010 (-)
+  held_vs_const    0.717->0.842 0.906->0.720 0.883->0.928 | A 0.835 B 0.830 delta -0.006±0.132 (mixed)
+  viol             0.000->0.000 0.000->0.000 0.000->0.000 | A 0.000 B 0.000 delta +0.000±0.000 (mixed)
+  ritual           1.000->1.000 1.000->0.931 1.000->1.000 | A 1.000 B 0.977 delta -0.023±0.033 (mixed)
+  colour           0.786->0.714 0.931->0.828 0.850->0.975 | A 0.856 B 0.839 delta -0.017±0.101 (mixed)
+  check            0.560->0.940 0.914->0.938 0.956->1.000 | A 0.810 B 0.959 delta +0.150±0.163 (+)
+  what_h           0.583->0.667 1.000->1.000 0.952->1.000 | A 0.845 B 0.889 delta +0.044±0.034 (mixed)
+  slot_h           0.765->0.882 0.765->0.471 0.273->0.455 | A 0.601 B 0.603 delta +0.002±0.211 (mixed)
+  where_h          1.000->0.824 1.000->0.684 1.000->1.000 | A 1.000 B 0.836 delta -0.164±0.129 (mixed)
+  offer_h          1.000->0.929 1.000->1.000 1.000->1.000 | A 1.000 B 0.976 delta -0.024±0.034 (mixed)
+  taste_h          0.143->0.714 0.889->0.000 1.000->1.000 | A 0.677 B 0.571 delta -0.106±0.601 (mixed)
+  colour_h         0.556->0.889 0.778->0.778 0.800->0.900 | A 0.711 B 0.856 delta +0.144±0.140 (mixed)
+  count_h          1.000->0.900 1.000->0.875 1.000->0.938 | A 1.000 B 0.904 delta -0.096±0.026 (-)
+  check_h          0.545->0.955 0.880->0.880 0.920->1.000 | A 0.782 B 0.945 delta +0.163±0.177 (mixed)
+  Pheld_mean       0.748->0.838 0.909->0.728 0.823->0.856 | A 0.827 B 0.807 delta -0.019±0.117 (mixed)
+  Pwhat_h          0.683->0.733 0.983->1.000 0.897->0.810 | A 0.854 B 0.848 delta -0.007±0.058 (mixed)
+  Pslot_h          0.820->0.880 0.683->0.512 0.341->0.318 | A 0.615 B 0.570 delta -0.044±0.095 (mixed)
+  Pwhere_h         1.000->0.912 1.000->0.706 1.000->1.000 | A 1.000 B 0.873 delta -0.127±0.123 (mixed)
+  Poffer_h         1.000->1.000 1.000->0.973 1.000->1.000 | A 1.000 B 0.991 delta -0.009±0.013 (mixed)
+  Ptaste_h         0.167->0.417 0.955->0.227 1.000->1.000 | A 0.707 B 0.548 delta -0.159±0.414 (mixed)
+  Pcolour_h        0.815->0.889 0.892->0.811 0.417->0.792 | A 0.708 B 0.830 delta +0.123±0.189 (mixed)
+  Pcount_h         1.000->1.000 1.000->0.727 1.000->1.000 | A 1.000 B 0.909 delta -0.091±0.129 (mixed)
+  Pcheck_h         0.500->0.872 0.760->0.867 0.927->0.927 | A 0.729 B 0.889 delta +0.160±0.156 (mixed)
+  f_clean          0.776->0.776 0.903->0.801 0.874->0.878 | A 0.851 B 0.819 delta -0.032±0.049 (mixed)
+  f_rand           0.442->0.452 0.513->0.492 0.522->0.615 | A 0.493 B 0.519 delta +0.027±0.048 (mixed)
+  f_sim            0.415->0.438 0.580->0.487 0.554->0.617 | A 0.516 B 0.514 delta -0.002±0.066 (mixed)
+  drop_rand        0.334->0.325 0.390->0.309 0.351->0.263 | A 0.359 B 0.299 delta -0.059±0.036 (-)
+  drop_sim         0.362->0.339 0.323->0.314 0.320->0.261 | A 0.335 B 0.305 delta -0.030±0.021 (-)
+  les_lay_off_all  B only: -0.319 -0.239 -0.302 | mean -0.287
+  les_lay_off_check_h B only: -0.364 -0.440 -0.560 | mean -0.455
+  les_lay_off_held B only: -0.472 -0.289 -0.493 | mean -0.418
+  les_lay_off_offer_h B only: -0.357 -0.143 0.000 | mean -0.167
+  les_lay_off_taste_h B only: -0.571 0.000 -1.000 | mean -0.524
+  les_lay_off_what_h B only: -0.583 -0.923 -0.952 | mean -0.820
+  les_lay_off_where_h B only: -0.353 -0.105 -0.500 | mean -0.319
+  les_norec_all    B only: 0.007 0.013 -0.002 | mean 0.006
+  les_norec_check_h B only: 0.045 0.080 0.000 | mean 0.042
+  les_norec_held   B only: 0.024 0.050 0.000 | mean 0.025
+  les_norec_offer_h B only: 0.000 0.000 0.000 | mean 0.000
+  les_norec_taste_h B only: 0.000 0.111 0.000 | mean 0.037
+  les_norec_what_h B only: -0.042 0.000 -0.048 | mean -0.030
+  les_norec_where_h B only: 0.118 0.000 0.000 | mean 0.039
+  les_off_all      B only: -0.287 -0.292 -0.211 | mean -0.263
+  les_off_check_h  B only: -0.455 -0.520 -0.320 | mean -0.431
+  les_off_held     B only: -0.487 -0.390 -0.337 | mean -0.405
+  les_off_offer_h  B only: -0.572 -0.857 0.000 | mean -0.476
+  les_off_taste_h  B only: -0.571 0.000 -1.000 | mean -0.524
+  les_off_what_h   B only: -0.542 -0.846 -0.667 | mean -0.685
+  les_off_where_h  B only: 0.118 -0.158 -0.167 | mean -0.069
+  les_shuffle_all  B only: -0.436 -0.380 -0.307 | mean -0.374
+  les_shuffle_check_h B only: -0.773 -0.640 -0.520 | mean -0.644
+  les_shuffle_held B only: -0.683 -0.498 -0.473 | mean -0.551
+  les_shuffle_offer_h B only: -0.857 -1.000 -0.308 | mean -0.722
+  les_shuffle_taste_h B only: -0.714 0.000 -1.000 | mean -0.571
+  les_shuffle_what_h B only: -0.667 -0.692 -1.000 | mean -0.786
+  les_shuffle_where_h B only: -0.118 -0.474 -0.167 | mean -0.253
+  c_within         B only: 0.019 0.015 0.014 | mean 0.016
+  c_between        B only: 0.016 0.016 0.018 | mean 0.017
+  c_purity         B only: 0.341 0.122 0.195 | mean 0.219
+  c_all            B only: 0.016 0.016 0.016 | mean 0.016
+  secs             2628.800->2643.100 2720.100->2872.200 2420.700->2596.500 | A 2589.867 B 2703.933 delta +114.067±71.206 (+)
+  code drift between stages s0: 0.00/0.00/0.00
+  code drift between stages s1: 0.00/0.00/0.00
+  code drift between stages s2: 0.00/0.00/0.00
+  ref Ptaste_const: 1.000
+  ref Poffer_const: 1.000
+  ref Pwhat_const: 0.354
+  ref Pwhere_const: 0.372
+  ref Pslot_const: 0.349
+  ref Pcheck_const: 0.550

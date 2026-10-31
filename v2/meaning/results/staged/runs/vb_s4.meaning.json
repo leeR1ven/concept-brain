@@ -1,0 +1,28 @@
+{
+"tag": "vb",
+"seed": 4,
+"rm": {
+"train": 1,
+"prune": 1,
+"age": 20000,
+"regrow": 1,
+"alloc": "flat"
+},
+"mean": "none",
+"mk": {},
+"secs": 2462.7,
+"layer": {
+"tag": "end",
+"units": 47925,
+"alive_units": 47925,
+"synapses": 242820,
+"ever_active": 25135,
+"learn_events": 340457,
+"mean_active": 367.7,
+"cache_hit": 0.445,
+"pruned": 3017345,
+"regrown": 3017345,
+"items_coded": 140
+},
+"clears": 0
+}

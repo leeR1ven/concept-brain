@@ -1,0 +1,45 @@
+[sm_oracle s0 1s] start proto=frozen nS=15 world={'eye_layout': 'retino'} train={'eye_layout': 'retino', 'held_frac': 0.0} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False, 'ral': 1, 'ral_other': 1, 'say_rec': 1, 'say_loc': 1, 'scene_held': 1, 'val_veto': 0.2, 'dip': 1, 'act_T': 60, 'soc_feats': 1, 'rec_fix': 1}
+[sm_oracle s0 9s] A: categories 51 programs 51
+[sm_oracle s0 19s] after stage 1 (B): B 0.0 (held 0.0)  C 0.0 (held 0.0)  D 0.0 (held 0.0) | online {'B': 0.1154} | mix 47925 hip 91 | ral {'lines': 91, 'after_own': 24, 'contingent': 3, 'cont_reward': 3, 'cont_overlap': 0, 'answered': 40, 'cancel': 40, 'commit': 51, 'unresolved': 48, 'strict_cancel': 0, 'cut': 39, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 0, 'cont_answered_items': 0, 'other_answered': 15, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[sm_oracle s0 30s] after stage 2 (BC): B 0.3 (held 0.5)  C 0.3333 (held 0.0)  D 0.0 (held 0.0) | online {'B': 0.2, 'C': 0.4167} | mix 47925 hip 142 | ral {'lines': 142, 'after_own': 58, 'contingent': 10, 'cont_reward': 10, 'cont_overlap': 0, 'answered': 67, 'cancel': 67, 'commit': 74, 'unresolved': 64, 'strict_cancel': 0, 'cut': 66, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 6, 'cont_answered_items': 13, 'other_answered': 15, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[sm_oracle s0 42s] after stage 3 (BCDD): B 0.3 (held 0.5)  C 0.5556 (held 0.0)  D 0.25 (held 0.0) | online {'B': 0.1538, 'C': 0.4286, 'D': 0.2} | mix 47925 hip 208 | ral {'lines': 208, 'after_own': 97, 'contingent': 16, 'cont_reward': 16, 'cont_overlap': 0, 'answered': 103, 'cancel': 103, 'commit': 105, 'unresolved': 89, 'strict_cancel': 0, 'cut': 102, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 10, 'cont_answered_items': 19, 'other_answered': 15, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[sm_oracle s0 47s] drift C: 0.5556 -> 0.3333 after 6 untutored dialogues
+[sm_oracle s0 50s] drift C: -> 0.1111 after 12 untutored dialogues
+[sm_oracle s0 50s] score {'F': 0.3685, 'RET': 0.0, 'H': 0.1667, 'DR': 0.3333, 'J': 0.4935, 'J2': 0.6185} | role {'n': 22, 'silent': 0.1818, 'partner': 0.1364, 'ok': 0.4091, 'other': 0.1818, 'echo': 0.0909, 'role_conf': 0.2273} | refs all {'agent': 0.4091, 'echo': 0.0, 'const_best': 0.6364, 'prior': 0.3182} held {'agent': 0.2857, 'echo': 0.0, 'const_best': 0.8571, 'prior': 0.4286} | comp {'vr_name|what|seen': [3, 1, 1], 'vr_name|what|held': [1, 0, 0], 'attend|where|seen': [2, 1, 0], 'attend|where|held': [3, 3, 2], 'attend|colour|seen': [3, 1, 1], 'attend|colour|held': [1, 0, 0]}
+[sm_oracle s0 50s] done viol=0 secs=49.9
+[sm_oracle s0] meaning meta: {"layer": {"tag": "end", "units": 47925, "alive_units": 47925, "synapses": 242820, "ever_active": 12594, "learn_events": 5789, "mean_active": 311.0, "cache_hit": 0.607, "pruned": 0, "regrown": 0, "items_coded": 69}, "clears": 2, "mstats": {"lines": 0, "occ": 0, "recomputes": 0, "changes": 0, "lines_changed": 0, "placeholders": 0}}
+[sm_oracle s0] codes after stage 0: {'within': 1.0, 'between': 0.456, 'purity': 1.0, 'all_pairs': 0.024, 'n': 27, 'n_codes': 256} drift None
+[sm_oracle s0] codes after stage 1: {'within': 1.0, 'between': 0.456, 'purity': 1.0, 'all_pairs': 0.025, 'n': 30, 'n_codes': 256} drift 0.0115
+[sm_oracle s0] codes after stage 2: {'within': 1.0, 'between': 0.456, 'purity': 1.0, 'all_pairs': 0.025, 'n': 30, 'n_codes': 256} drift 0.0
+[sm_oracle s0] codes after stage 3: {'within': 1.0, 'between': 0.456, 'purity': 1.0, 'all_pairs': 0.027, 'n': 33, 'n_codes': 256} drift 0.0105
+[post sm_oracle s0 0s rss 109MB] loaded MeanCore mix n 47925
+[post sm_oracle s0 3s rss 283MB] fault clean: ALL 0.3913 B 0.3 C 0.5556 D 0.25
+[post sm_oracle s0 5s rss 288MB] fault rand: ALL 0.2174 B 0.2 C 0.2222 D 0.25
+[post sm_oracle s0 7s rss 288MB] fault sim: ALL 0.2609 B 0.2 C 0.2222 D 0.5
+[post sm_oracle s0 9s rss 363MB] lesion off: B 0.1 C 0.2222 D 0.25 | held B 0.25 C 0.0 D 0.0
+[post sm_oracle s0 11s rss 363MB] lesion shuffle: B 0.3 C 0.5556 D 0.25 | held B 0.5 C 0.0 D 0.0
+[post sm_oracle s0 13s rss 363MB] lesion intact: B 0.3 C 0.5556 D 0.25
+[post sm_oracle s0 13s rss 363MB] done
+[sm_ri s0 1s] start proto=frozen nS=15 world={'eye_layout': 'retino'} train={'eye_layout': 'retino', 'held_frac': 0.0} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False, 'ral': 1, 'ral_other': 1, 'say_rec': 1, 'say_loc': 1, 'scene_held': 1, 'val_veto': 0.2, 'dip': 1, 'act_T': 60, 'soc_feats': 1, 'rec_fix': 1}
+[sm_ri s0 9s] A: categories 51 programs 51
+[sm_ri s0 20s] after stage 1 (B): B 0.2 (held 0.0)  C 0.0 (held 0.0)  D 0.0 (held 0.0) | online {'B': 0.0385} | mix 47925 hip 91 | ral {'lines': 91, 'after_own': 22, 'contingent': 1, 'cont_reward': 1, 'cont_overlap': 0, 'answered': 38, 'cancel': 38, 'commit': 53, 'unresolved': 52, 'strict_cancel': 0, 'cut': 37, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 0, 'cont_answered_items': 0, 'other_answered': 15, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[sm_ri s0 31s] after stage 2 (BC): B 0.1 (held 0.0)  C 0.4444 (held 0.5)  D 0.0 (held 0.0) | online {'B': 0.0, 'C': 0.0833} | mix 47925 hip 142 | ral {'lines': 142, 'after_own': 51, 'contingent': 2, 'cont_reward': 2, 'cont_overlap': 0, 'answered': 65, 'cancel': 65, 'commit': 76, 'unresolved': 74, 'strict_cancel': 0, 'cut': 64, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 1, 'cont_answered_items': 2, 'other_answered': 15, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[sm_ri s0 44s] after stage 3 (BCDD): B 0.1 (held 0.0)  C 0.3333 (held 0.0)  D 0.25 (held 0.0) | online {'B': 0.0769, 'C': 0.4286, 'D': 0.0667} | mix 47925 hip 208 | ral {'lines': 208, 'after_own': 92, 'contingent': 6, 'cont_reward': 6, 'cont_overlap': 0, 'answered': 104, 'cancel': 104, 'commit': 104, 'unresolved': 98, 'strict_cancel': 0, 'cut': 103, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 4, 'cont_answered_items': 9, 'other_answered': 15, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[sm_ri s0 49s] drift C: 0.3333 -> 0.2222 after 6 untutored dialogues
+[sm_ri s0 52s] drift C: -> 0.2222 after 12 untutored dialogues
+[sm_ri s0 53s] score {'F': 0.2278, 'RET': -0.1056, 'H': 0.0, 'DR': 0.2222, 'J': 0.2305, 'J2': 0.2305} | role {'n': 22, 'silent': 0.4091, 'other': 0.2273, 'partner': 0.0455, 'ok': 0.2273, 'echo': 0.0909, 'role_conf': 0.1364} | refs all {'agent': 0.2273, 'echo': 0.0, 'const_best': 0.6364, 'prior': 0.3182} held {'agent': 0.0, 'echo': 0.0, 'const_best': 0.8571, 'prior': 0.4286} | comp {'vr_name|what|seen': [3, 1, 1], 'vr_name|what|held': [1, 0, 0], 'attend|where|seen': [2, 1, 0], 'attend|where|held': [3, 3, 0], 'attend|colour|seen': [3, 1, 0], 'attend|colour|held': [1, 0, 0]}
+[sm_ri s0 53s] done viol=0 secs=52.4
+[sm_ri s0] meaning meta: {"layer": {"tag": "end", "units": 47925, "alive_units": 47925, "synapses": 242820, "ever_active": 14269, "learn_events": 5763, "mean_active": 310.8, "cache_hit": 0.58, "pruned": 0, "regrown": 0, "items_coded": 69}, "clears": 13, "mstats": {"lines": 208, "occ": 742, "recomputes": 14, "changes": 238, "lines_changed": 469, "placeholders": 67}}
+[sm_ri s0] codes after stage 0: {'within': 0.019, 'between': 0.017, 'purity': 0.407, 'all_pairs': 0.017, 'n': 27, 'n_codes': 51} drift None
+[sm_ri s0] codes after stage 1: {'within': 0.023, 'between': 0.016, 'purity': 0.467, 'all_pairs': 0.017, 'n': 30, 'n_codes': 54} drift 0.1238
+[sm_ri s0] codes after stage 2: {'within': 0.041, 'between': 0.02, 'purity': 0.667, 'all_pairs': 0.022, 'n': 30, 'n_codes': 58} drift 0.1748
+[sm_ri s0] codes after stage 3: {'within': 0.106, 'between': 0.027, 'purity': 0.758, 'all_pairs': 0.029, 'n': 33, 'n_codes': 67} drift 0.1379
+[post sm_ri s0 0s rss 109MB] loaded MeanCore mix n 47925
+[post sm_ri s0 3s rss 283MB] fault clean: ALL 0.2174 B 0.1 C 0.3333 D 0.25
+[post sm_ri s0 5s rss 283MB] fault rand: ALL 0.1304 B 0.1 C 0.2222 D 0.0
+[post sm_ri s0 7s rss 283MB] fault sim: ALL 0.1739 B 0.1 C 0.2222 D 0.25
+[post sm_ri s0 10s rss 359MB] lesion off: B 0.1 C 0.3333 D 0.25 | held B 0.0 C 0.0 D 0.0
+[post sm_ri s0 12s rss 359MB] lesion shuffle: B 0.1 C 0.3333 D 0.25 | held B 0.0 C 0.0 D 0.0
+[post sm_ri s0 14s rss 359MB] lesion intact: B 0.1 C 0.3333 D 0.25
+[post sm_ri s0 14s rss 359MB] done
+EXIT

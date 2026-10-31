@@ -1,0 +1,110 @@
+gen_probe_mean.py layer=mix seed=0 n=900 tag=v2 out=out/gp1/layer_mix_s0.jsonl
+gen_probe_mean.py layer=rand mean=none seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s0.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s0.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s0.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s0.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s0.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s0.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s0.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s0.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s0.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=0 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s0.jsonl
+gen_probe_mean.py layer=mix seed=1 n=900 tag=v2 out=out/gp1/layer_mix_s1.jsonl
+gen_probe_mean.py layer=rand mean=none seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s1.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s1.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s1.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s1.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s1.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s1.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s1.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s1.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s1.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=1 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s1.jsonl
+gen_probe_mean.py layer=mix seed=2 n=900 tag=v2 out=out/gp1/layer_mix_s2.jsonl
+gen_probe_mean.py layer=rand mean=none seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s2.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s2.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s2.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s2.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s2.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s2.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s2.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s2.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s2.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=2 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s2.jsonl
+gen_probe_mean.py layer=mix seed=3 n=900 tag=v2 out=out/gp1/layer_mix_s3.jsonl
+gen_probe_mean.py layer=rand mean=none seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s3.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s3.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s3.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s3.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s3.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s3.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s3.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s3.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s3.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=3 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s3.jsonl
+gen_probe_mean.py layer=mix seed=4 n=900 tag=v2 out=out/gp1/layer_mix_s4.jsonl
+gen_probe_mean.py layer=rand mean=none seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s4.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s4.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s4.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s4.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s4.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s4.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s4.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s4.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s4.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=4 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s4.jsonl
+gen_probe_mean.py layer=mix seed=5 n=900 tag=v2 out=out/gp1/layer_mix_s5.jsonl
+gen_probe_mean.py layer=rand mean=none seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s5.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s5.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s5.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s5.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s5.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s5.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s5.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s5.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s5.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=5 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s5.jsonl
+gen_probe_mean.py layer=mix seed=6 n=900 tag=v2 out=out/gp1/layer_mix_s6.jsonl
+gen_probe_mean.py layer=rand mean=none seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s6.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s6.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s6.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s6.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s6.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s6.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s6.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s6.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s6.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=6 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s6.jsonl
+gen_probe_mean.py layer=mix seed=7 n=900 tag=v2 out=out/gp1/layer_mix_s7.jsonl
+gen_probe_mean.py layer=rand mean=none seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s7.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s7.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s7.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s7.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s7.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s7.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s7.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s7.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s7.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=7 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s7.jsonl
+gen_probe_mean.py layer=mix seed=8 n=900 tag=v2 out=out/gp1/layer_mix_s8.jsonl
+gen_probe_mean.py layer=rand mean=none seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s8.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s8.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s8.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s8.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s8.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s8.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s8.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s8.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s8.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=8 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s8.jsonl
+gen_probe_mean.py layer=mix seed=9 n=900 tag=v2 out=out/gp1/layer_mix_s9.jsonl
+gen_probe_mean.py layer=rand mean=none seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_none_s9.jsonl
+gen_probe_mean.py layer=rand mean=rand2 mean_hipcue=1 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_rand2_mean_hipcue_1_s9.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_s9.jsonl
+gen_probe_mean.py layer=rand mean=oracle2 mean_hipcue=1 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_oracle2_mean_hipcue_1_s9.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_s9.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_s9.jsonl
+gen_probe_mean.py layer=rand mean=ri mean_hipcue=1 mean_max_swap=0 mean_init=none seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_ri_mean_hipcue_1_mean_max_swap_0_mean_init_none_s9.jsonl
+gen_probe_mean.py layer=rand mean=tc mean_hipcue=1 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_tc_mean_hipcue_1_s9.jsonl
+gen_probe_mean.py layer=rand mean=cl mean_hipcue=1 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_cl_mean_hipcue_1_s9.jsonl
+gen_probe_mean.py layer=rand mean=hip mean_hipcue=1 seed=9 n=900 tag=v2 out=out/gp1/layer_rand_mean_hip_mean_hipcue_1_s9.jsonl

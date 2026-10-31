@@ -1,0 +1,401 @@
+{
+"tag": "sm_oracle",
+"seed": 0,
+"mean": {
+"mode": "oracle2",
+"hipcue": 1
+},
+"fault": {
+"clean": {
+"B": {
+"all": 0.3,
+"seen": 0.1667,
+"held": 0.5,
+"n": 10,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.0,
+"what": 0.25,
+"where": 0.4
+}
+},
+"C": {
+"all": 0.5556,
+"seen": 0.7143,
+"held": 0.0,
+"n": 9,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.25,
+"offer": 0.75,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.25,
+"seen": 0.3333,
+"held": 0.0,
+"n": 4,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"check": 0.5,
+"name": 0.0,
+"oneshot": 0.0
+}
+},
+"ALL": 0.3913
+},
+"rand": {
+"B": {
+"all": 0.2,
+"seen": 0.0,
+"held": 0.5,
+"n": 10,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.0,
+"what": 0.0,
+"where": 0.4
+}
+},
+"C": {
+"all": 0.2222,
+"seen": 0.2857,
+"held": 0.0,
+"n": 9,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.25,
+"offer": 0.0,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.25,
+"seen": 0.0,
+"held": 1.0,
+"n": 4,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"check": 0.5,
+"name": 0.0,
+"oneshot": 0.0
+}
+},
+"ALL": 0.2174
+},
+"sim": {
+"B": {
+"all": 0.2,
+"seen": 0.0,
+"held": 0.5,
+"n": 10,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.0,
+"what": 0.0,
+"where": 0.4
+}
+},
+"C": {
+"all": 0.2222,
+"seen": 0.2857,
+"held": 0.0,
+"n": 9,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.0,
+"offer": 0.25,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.5,
+"seen": 0.3333,
+"held": 1.0,
+"n": 4,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"check": 1.0,
+"name": 0.0,
+"oneshot": 0.0
+}
+},
+"ALL": 0.2609
+},
+"sim_mean_cos": 0.623,
+"sim_examples": {
+"一": [
+"在",
+0.638
+],
+"三": [
+"明",
+0.657
+],
+"上": [
+"机",
+0.598
+],
+"不": [
+"里",
+0.669
+],
+"两": [
+"吃",
+0.652
+],
+"个": [
+"黄",
+0.58
+],
+"中": [
+"兔",
+0.568
+],
+"丽": [
+"帽",
+0.631
+],
+"么": [
+"鞋",
+0.626
+],
+"乌": [
+"龟",
+0.651
+],
+"书": [
+"番",
+0.665
+],
+"亮": [
+"晚",
+0.751
+]
+}
+},
+"secs": 13.0,
+"rss_mb": 363,
+"lesion": {
+"off": {
+"B": {
+"all": 0.1,
+"seen": 0.0,
+"held": 0.25,
+"n": 10,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.0,
+"what": 0.0,
+"where": 0.2
+},
+"held_tasks": {
+"what": 0.0,
+"where": 0.3333
+}
+},
+"C": {
+"all": 0.2222,
+"seen": 0.2857,
+"held": 0.0,
+"n": 9,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.25,
+"offer": 0.0,
+"taste": 1.0
+},
+"held_tasks": {
+"colour": 0.0,
+"offer": 0.0
+}
+},
+"D": {
+"all": 0.25,
+"seen": 0.3333,
+"held": 0.0,
+"n": 4,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"check": 0.5,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.0
+}
+}
+},
+"shuffle": {
+"B": {
+"all": 0.3,
+"seen": 0.1667,
+"held": 0.5,
+"n": 10,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.0,
+"what": 0.25,
+"where": 0.4
+},
+"held_tasks": {
+"what": 0.0,
+"where": 0.6667
+}
+},
+"C": {
+"all": 0.5556,
+"seen": 0.7143,
+"held": 0.0,
+"n": 9,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.25,
+"offer": 0.75,
+"taste": 1.0
+},
+"held_tasks": {
+"colour": 0.0,
+"offer": 0.0
+}
+},
+"D": {
+"all": 0.25,
+"seen": 0.3333,
+"held": 0.0,
+"n": 4,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"check": 0.5,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.0
+}
+}
+},
+"intact": {
+"B": {
+"all": 0.3,
+"seen": 0.1667,
+"held": 0.5,
+"n": 10,
+"tasks": {
+"slot": 0.0,
+"what": 0.25,
+"where": 0.4
+},
+"held_tasks": {
+"what": 0.0,
+"where": 0.6667
+}
+},
+"C": {
+"all": 0.5556,
+"seen": 0.7143,
+"held": 0.0,
+"n": 9,
+"tasks": {
+"colour": 0.25,
+"offer": 0.75,
+"taste": 1.0
+},
+"held_tasks": {
+"colour": 0.0,
+"offer": 0.0
+}
+},
+"D": {
+"all": 0.25,
+"seen": 0.3333,
+"held": 0.0,
+"n": 4,
+"tasks": {
+"check": 0.5,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.0
+}
+}
+}
+}
+}

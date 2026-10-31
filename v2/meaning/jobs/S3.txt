@@ -1,0 +1,4 @@
+full_mean.py tag=vb seed=4 post=hfl rm=1 mean=none ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1
+full_mean.py tag=vm seed=4 post=hfl rm=1 mean=ri mean_hipcue=1 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1
+full_mean.py tag=vr seed=0 post=hfl rm=1 mean=rand2 mean_hipcue=1 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1
+full_mean.py tag=vo seed=0 post=hfl rm=1 mean=oracle2 mean_hipcue=1 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1

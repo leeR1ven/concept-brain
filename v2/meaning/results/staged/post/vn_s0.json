@@ -1,0 +1,799 @@
+{
+"tag": "vn",
+"seed": 0,
+"mean": {
+"mode": "ri",
+"hipcue": 1,
+"hipnorm": 1
+},
+"heldout": {
+"B": {
+"slot": {
+"seen": {
+"n": 41,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.2195,
+"const_str": "小猫",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 50,
+"acc": 0.88,
+"echo": 0.0,
+"const": 0.34,
+"const_str": "是苹果",
+"silent": 0.12,
+"sub_prompt": 0.0
+}
+},
+"what": {
+"seen": {
+"n": 52,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.2308,
+"const_str": "是饼干",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 60,
+"acc": 0.8333,
+"echo": 0.0,
+"const": 0.3333,
+"const_str": "是香蕉",
+"silent": 0.0,
+"sub_prompt": 0.15
+}
+},
+"where": {
+"seen": {
+"n": 49,
+"acc": 0.9388,
+"echo": 0.0,
+"const": 0.3878,
+"const_str": "中间",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 57,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.3509,
+"const_str": "在左边",
+"silent": 0.0,
+"sub_prompt": 0.0
+}
+},
+"_mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"C": {
+"colour": {
+"seen": {
+"n": 31,
+"acc": 0.871,
+"echo": 0.0,
+"const": 0.2581,
+"const_str": "是红色",
+"silent": 0.032,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 27,
+"acc": 0.8889,
+"echo": 0.0,
+"const": 0.2593,
+"const_str": "是白色",
+"silent": 0.0,
+"sub_prompt": 0.0
+}
+},
+"count": {
+"seen": {
+"n": 40,
+"acc": 0.9,
+"echo": 0.0,
+"const": 0.425,
+"const_str": "一个",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 29,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.3793,
+"const_str": "一个",
+"silent": 0.0,
+"sub_prompt": 0.0
+}
+},
+"offer": {
+"seen": {
+"n": 29,
+"acc": 1.0,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "要",
+"silent": 0.0,
+"sub_prompt": 0.759
+},
+"held": {
+"n": 40,
+"acc": 0.975,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "要",
+"silent": 0.0,
+"sub_prompt": 0.925
+}
+},
+"ritual": {
+"seen": {
+"n": 62,
+"acc": 1.0,
+"echo": 0.8387,
+"const": 0.3387,
+"const_str": "早",
+"silent": 0.0,
+"sub_prompt": 0.839
+}
+},
+"taste": {
+"seen": {
+"n": 13,
+"acc": 1.0,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "好吃",
+"silent": 0.0,
+"sub_prompt": 1.0
+},
+"held": {
+"n": 24,
+"acc": 1.0,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "好吃",
+"silent": 0.0,
+"sub_prompt": 1.0
+}
+},
+"_mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"D": {
+"before": {
+"seen": {
+"n": 24,
+"acc": 0.0,
+"echo": 0.0,
+"const": 0.1667,
+"const_str": "是西瓜",
+"silent": 0.583,
+"sub_prompt": 0.0
+}
+},
+"check": {
+"seen": {
+"n": 60,
+"acc": 0.9,
+"echo": 0.0,
+"const": 0.5833,
+"const_str": "对",
+"silent": 0.017,
+"sub_prompt": 0.5
+},
+"held": {
+"n": 78,
+"acc": 0.8974,
+"echo": 0.0,
+"const": 0.5128,
+"const_str": "不对",
+"silent": 0.103,
+"sub_prompt": 0.474
+}
+},
+"name": {
+"seen": {
+"n": 24,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.25,
+"const_str": "你叫小军",
+"silent": 0.0,
+"sub_prompt": 0.0
+}
+},
+"oneshot": {
+"seen": {
+"n": 38,
+"acc": 0.0,
+"echo": 0.0,
+"const": 0.1053,
+"const_str": "乌龟",
+"silent": 0.0,
+"sub_prompt": 1.0
+}
+},
+"_mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+}
+},
+"secs": 323.4,
+"rss_mb": 666,
+"fault": {
+"clean": {
+"B": {
+"all": 0.9294,
+"seen": 0.9554,
+"held": 0.8793,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.9608,
+"what": 0.9286,
+"where": 0.898
+}
+},
+"C": {
+"all": 0.956,
+"seen": 0.958,
+"held": 0.95,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.8571,
+"count": 0.9429,
+"offer": 0.9783,
+"ritual": 1.0,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.5905,
+"seen": 0.506,
+"held": 0.9091,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.94,
+"name": 0.8824,
+"oneshot": 0.0
+}
+},
+"ALL": 0.8571
+},
+"rand": {
+"B": {
+"all": 0.5647,
+"seen": 0.5982,
+"held": 0.5,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.5686,
+"what": 0.3714,
+"where": 0.8367
+}
+},
+"C": {
+"all": 0.4717,
+"seen": 0.4286,
+"held": 0.6,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.6786,
+"count": 0.8,
+"offer": 0.2174,
+"ritual": 0.0345,
+"taste": 0.8095
+}
+},
+"D": {
+"all": 0.2667,
+"seen": 0.241,
+"held": 0.3636,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.5,
+"name": 0.1765,
+"oneshot": 0.0
+}
+},
+"ALL": 0.4585
+},
+"sim": {
+"B": {
+"all": 0.5353,
+"seen": 0.5714,
+"held": 0.4655,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.5098,
+"what": 0.3714,
+"where": 0.7959
+}
+},
+"C": {
+"all": 0.4717,
+"seen": 0.4622,
+"held": 0.5,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.6071,
+"count": 0.7143,
+"offer": 0.2609,
+"ritual": 0.1034,
+"taste": 0.8571
+}
+},
+"D": {
+"all": 0.2857,
+"seen": 0.2048,
+"held": 0.5909,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.54,
+"name": 0.1765,
+"oneshot": 0.0
+}
+},
+"ALL": 0.4516
+},
+"sim_mean_cos": 0.623,
+"sim_examples": {
+"一": [
+"在",
+0.638
+],
+"三": [
+"明",
+0.657
+],
+"上": [
+"机",
+0.598
+],
+"不": [
+"里",
+0.669
+],
+"两": [
+"吃",
+0.652
+],
+"个": [
+"黄",
+0.58
+],
+"中": [
+"兔",
+0.568
+],
+"丽": [
+"帽",
+0.631
+],
+"么": [
+"鞋",
+0.626
+],
+"乌": [
+"龟",
+0.651
+],
+"书": [
+"番",
+0.665
+],
+"亮": [
+"晚",
+0.751
+]
+}
+},
+"lesion": {
+"lay_off": {
+"B": {
+"all": 0.5176,
+"seen": 0.5714,
+"held": 0.4138,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.1961,
+"what": 0.5286,
+"where": 0.8367
+},
+"held_tasks": {
+"slot": 0.0,
+"what": 0.375,
+"where": 0.8824
+}
+},
+"C": {
+"all": 0.7044,
+"seen": 0.7143,
+"held": 0.675,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.5714,
+"count": 0.8857,
+"offer": 0.6957,
+"ritual": 0.4483,
+"taste": 0.9524
+},
+"held_tasks": {
+"colour": 0.5556,
+"count": 1.0,
+"offer": 0.4286,
+"taste": 0.8571
+}
+},
+"D": {
+"all": 0.4,
+"seen": 0.3012,
+"held": 0.7727,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.84,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.7727
+}
+}
+},
+"off": {
+"B": {
+"all": 0.5,
+"seen": 0.5446,
+"held": 0.4138,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.1569,
+"what": 0.5429,
+"where": 0.7959
+},
+"held_tasks": {
+"slot": 0.0,
+"what": 0.4167,
+"where": 0.8235
+}
+},
+"C": {
+"all": 0.6981,
+"seen": 0.7143,
+"held": 0.65,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.5714,
+"count": 0.8857,
+"offer": 0.7391,
+"ritual": 0.4483,
+"taste": 0.8095
+},
+"held_tasks": {
+"colour": 0.5556,
+"count": 1.0,
+"offer": 0.5,
+"taste": 0.5714
+}
+},
+"D": {
+"all": 0.4,
+"seen": 0.3012,
+"held": 0.7727,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.84,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.7727
+}
+}
+},
+"shuffle": {
+"B": {
+"all": 0.4529,
+"seen": 0.5179,
+"held": 0.3276,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.2353,
+"what": 0.5143,
+"where": 0.5918
+},
+"held_tasks": {
+"slot": 0.0,
+"what": 0.4583,
+"where": 0.4706
+}
+},
+"C": {
+"all": 0.5912,
+"seen": 0.6387,
+"held": 0.45,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.0,
+"count": 0.7143,
+"offer": 0.8696,
+"ritual": 0.5862,
+"taste": 0.5714
+},
+"held_tasks": {
+"colour": 0.0,
+"count": 0.8,
+"offer": 0.7143,
+"taste": 0.0
+}
+},
+"D": {
+"all": 0.3905,
+"seen": 0.2771,
+"held": 0.8182,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.82,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.8182
+}
+}
+},
+"norec": {
+"B": {
+"all": 0.9294,
+"seen": 0.9554,
+"held": 0.8793,
+"n": 170,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.9804,
+"what": 0.9143,
+"where": 0.898
+},
+"held_tasks": {
+"slot": 0.9412,
+"what": 0.75,
+"where": 1.0
+}
+},
+"C": {
+"all": 0.9371,
+"seen": 0.958,
+"held": 0.875,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.8214,
+"count": 0.9429,
+"offer": 0.9348,
+"ritual": 1.0,
+"taste": 1.0
+},
+"held_tasks": {
+"colour": 0.7778,
+"count": 1.0,
+"offer": 0.7857,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.4571,
+"seen": 0.3373,
+"held": 0.9091,
+"n": 105,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.96,
+"name": 0.0,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.9091
+}
+}
+},
+"intact": {
+"B": {
+"all": 0.9294,
+"seen": 0.9554,
+"held": 0.8793,
+"n": 170,
+"tasks": {
+"slot": 0.9608,
+"what": 0.9286,
+"where": 0.898
+},
+"held_tasks": {
+"slot": 0.8824,
+"what": 0.7917,
+"where": 1.0
+}
+},
+"C": {
+"all": 0.956,
+"seen": 0.958,
+"held": 0.95,
+"n": 159,
+"tasks": {
+"colour": 0.8571,
+"count": 0.9429,
+"offer": 0.9783,
+"ritual": 1.0,
+"taste": 1.0
+},
+"held_tasks": {
+"colour": 0.8889,
+"count": 1.0,
+"offer": 0.9286,
+"taste": 1.0
+}
+},
+"D": {
+"all": 0.5905,
+"seen": 0.506,
+"held": 0.9091,
+"n": 105,
+"tasks": {
+"before": 0.0,
+"check": 0.94,
+"name": 0.8824,
+"oneshot": 0.0
+},
+"held_tasks": {
+"check": 0.9091
+}
+}
+}
+}
+}

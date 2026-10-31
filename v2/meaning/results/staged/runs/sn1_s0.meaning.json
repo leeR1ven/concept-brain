@@ -1,0 +1,166 @@
+{
+"tag": "sn1",
+"seed": 0,
+"rm": {
+"train": 1,
+"prune": 1,
+"age": 20000,
+"regrow": 1,
+"alloc": "flat"
+},
+"mean": "ri",
+"mk": {
+"hipcue": 1,
+"hipnorm": 1
+},
+"secs": 1291.7,
+"layer": {
+"tag": "end",
+"units": 47925,
+"alive_units": 47925,
+"synapses": 242820,
+"ever_active": 25307,
+"learn_events": 175820,
+"mean_active": 359.6,
+"cache_hit": 0.447,
+"pruned": 1568998,
+"regrown": 1568998,
+"items_coded": 133
+},
+"clears": 198,
+"codes": [
+{
+"stage": 0,
+"lines": 517,
+"n_codes": 67,
+"stats": {
+"within": 0.346,
+"between": 0.06,
+"purity": 0.882,
+"all_pairs": 0.068,
+"n": 34,
+"n_codes": 67
+},
+"drift_from_prev": null
+},
+{
+"stage": 1,
+"lines": 2391,
+"n_codes": 67,
+"stats": {
+"within": 0.355,
+"between": 0.059,
+"purity": 0.882,
+"all_pairs": 0.066,
+"n": 34,
+"n_codes": 67
+},
+"drift_from_prev": 0.0634
+},
+{
+"stage": 2,
+"lines": 4227,
+"n_codes": 67,
+"stats": {
+"within": 0.265,
+"between": 0.047,
+"purity": 0.941,
+"all_pairs": 0.064,
+"n": 34,
+"n_codes": 67
+},
+"drift_from_prev": 0.1381
+},
+{
+"stage": 3,
+"lines": 6037,
+"n_codes": 131,
+"stats": {
+"within": 0.31,
+"between": 0.054,
+"purity": 0.78,
+"all_pairs": 0.033,
+"n": 41,
+"n_codes": 131
+},
+"drift_from_prev": 0.0485
+}
+],
+"mstats": {
+"lines": 6037,
+"occ": 23035,
+"recomputes": 305,
+"changes": 770,
+"lines_changed": 1378,
+"placeholders": 131
+},
+"groups": {
+"obj1": [
+4,
+8,
+12,
+16,
+18,
+29,
+45,
+47,
+49,
+55
+],
+"obj2": [
+5,
+9,
+13,
+17,
+19,
+25,
+30,
+43,
+46,
+48,
+50,
+56
+],
+"col1": [
+26,
+31,
+51,
+61,
+62,
+66
+],
+"col2": [
+27
+],
+"cnt1": [
+10,
+22,
+65
+],
+"cnt2": [
+11
+],
+"slot1": [
+6,
+14,
+57
+],
+"slot2": [
+7,
+15
+],
+"name1": [
+18
+],
+"name2": [
+61,
+70,
+71,
+73,
+79,
+82,
+83,
+88
+]
+}
+}

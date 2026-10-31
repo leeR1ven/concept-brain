@@ -1,0 +1,40 @@
+gen_probe_mean.py layer=mix seed=0 n=900 out=out/gp1/layer_mix_s0.jsonl
+gen_probe_mean.py layer=rand mean=none seed=0 n=900 out=out/gp1/layer_rand_mean_none_s0.jsonl
+gen_probe_mean.py layer=rand mean=rand2 seed=0 n=900 out=out/gp1/layer_rand_mean_rand2_s0.jsonl
+gen_probe_mean.py layer=rand mean=oracle seed=0 n=900 out=out/gp1/layer_rand_mean_oracle_s0.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=0 n=900 out=out/gp1/layer_rand_mean_ri_s0.jsonl
+gen_probe_mean.py layer=rand mean=tc seed=0 n=900 out=out/gp1/layer_rand_mean_tc_s0.jsonl
+gen_probe_mean.py layer=rand mean=cl seed=0 n=900 out=out/gp1/layer_rand_mean_cl_s0.jsonl
+gen_probe_mean.py layer=rand mean=hip seed=0 n=900 out=out/gp1/layer_rand_mean_hip_s0.jsonl
+gen_probe_mean.py layer=mix seed=1 n=900 out=out/gp1/layer_mix_s1.jsonl
+gen_probe_mean.py layer=rand mean=none seed=1 n=900 out=out/gp1/layer_rand_mean_none_s1.jsonl
+gen_probe_mean.py layer=rand mean=rand2 seed=1 n=900 out=out/gp1/layer_rand_mean_rand2_s1.jsonl
+gen_probe_mean.py layer=rand mean=oracle seed=1 n=900 out=out/gp1/layer_rand_mean_oracle_s1.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=1 n=900 out=out/gp1/layer_rand_mean_ri_s1.jsonl
+gen_probe_mean.py layer=rand mean=tc seed=1 n=900 out=out/gp1/layer_rand_mean_tc_s1.jsonl
+gen_probe_mean.py layer=rand mean=cl seed=1 n=900 out=out/gp1/layer_rand_mean_cl_s1.jsonl
+gen_probe_mean.py layer=rand mean=hip seed=1 n=900 out=out/gp1/layer_rand_mean_hip_s1.jsonl
+gen_probe_mean.py layer=mix seed=2 n=900 out=out/gp1/layer_mix_s2.jsonl
+gen_probe_mean.py layer=rand mean=none seed=2 n=900 out=out/gp1/layer_rand_mean_none_s2.jsonl
+gen_probe_mean.py layer=rand mean=rand2 seed=2 n=900 out=out/gp1/layer_rand_mean_rand2_s2.jsonl
+gen_probe_mean.py layer=rand mean=oracle seed=2 n=900 out=out/gp1/layer_rand_mean_oracle_s2.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=2 n=900 out=out/gp1/layer_rand_mean_ri_s2.jsonl
+gen_probe_mean.py layer=rand mean=tc seed=2 n=900 out=out/gp1/layer_rand_mean_tc_s2.jsonl
+gen_probe_mean.py layer=rand mean=cl seed=2 n=900 out=out/gp1/layer_rand_mean_cl_s2.jsonl
+gen_probe_mean.py layer=rand mean=hip seed=2 n=900 out=out/gp1/layer_rand_mean_hip_s2.jsonl
+gen_probe_mean.py layer=mix seed=3 n=900 out=out/gp1/layer_mix_s3.jsonl
+gen_probe_mean.py layer=rand mean=none seed=3 n=900 out=out/gp1/layer_rand_mean_none_s3.jsonl
+gen_probe_mean.py layer=rand mean=rand2 seed=3 n=900 out=out/gp1/layer_rand_mean_rand2_s3.jsonl
+gen_probe_mean.py layer=rand mean=oracle seed=3 n=900 out=out/gp1/layer_rand_mean_oracle_s3.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=3 n=900 out=out/gp1/layer_rand_mean_ri_s3.jsonl
+gen_probe_mean.py layer=rand mean=tc seed=3 n=900 out=out/gp1/layer_rand_mean_tc_s3.jsonl
+gen_probe_mean.py layer=rand mean=cl seed=3 n=900 out=out/gp1/layer_rand_mean_cl_s3.jsonl
+gen_probe_mean.py layer=rand mean=hip seed=3 n=900 out=out/gp1/layer_rand_mean_hip_s3.jsonl
+gen_probe_mean.py layer=mix seed=4 n=900 out=out/gp1/layer_mix_s4.jsonl
+gen_probe_mean.py layer=rand mean=none seed=4 n=900 out=out/gp1/layer_rand_mean_none_s4.jsonl
+gen_probe_mean.py layer=rand mean=rand2 seed=4 n=900 out=out/gp1/layer_rand_mean_rand2_s4.jsonl
+gen_probe_mean.py layer=rand mean=oracle seed=4 n=900 out=out/gp1/layer_rand_mean_oracle_s4.jsonl
+gen_probe_mean.py layer=rand mean=ri seed=4 n=900 out=out/gp1/layer_rand_mean_ri_s4.jsonl
+gen_probe_mean.py layer=rand mean=tc seed=4 n=900 out=out/gp1/layer_rand_mean_tc_s4.jsonl
+gen_probe_mean.py layer=rand mean=cl seed=4 n=900 out=out/gp1/layer_rand_mean_cl_s4.jsonl
+gen_probe_mean.py layer=rand mean=hip seed=4 n=900 out=out/gp1/layer_rand_mean_hip_s4.jsonl

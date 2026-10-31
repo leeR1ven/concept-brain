@@ -1,0 +1,30 @@
+{
+"tag": "sb4",
+"seed": 1,
+"rm": {
+"train": 1,
+"prune": 1,
+"age": 20000,
+"regrow": 1,
+"alloc": "flat",
+"scale": 4,
+"alpha": 0.0025
+},
+"mean": "none",
+"mk": {},
+"secs": 2805.6,
+"layer": {
+"tag": "end",
+"units": 191655,
+"alive_units": 191655,
+"synapses": 971052,
+"ever_active": 33712,
+"learn_events": 177689,
+"mean_active": 362.8,
+"cache_hit": 0.443,
+"pruned": 7287355,
+"regrown": 7287355,
+"items_coded": 140
+},
+"clears": 0
+}

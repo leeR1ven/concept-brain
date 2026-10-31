@@ -2,7 +2,7 @@
 """Make an A800 runner job: copy the hearing code (+ v21copy with its bench copy; + world2 if asked) into
 gpu/queue_a800/hearing_<label>/, write jobs.txt (one command per line, P at a time) and job.sh, then touch SUBMIT.
 usage: python3 submit_h.py <label> <P> <minutes> <jobsfile> [w2]"""
-(Coordinator job tooling, kept as a record: it expects the scratch layout with v21copy/ beside it.)
+# (Coordinator job tooling, kept as a record: it expects the scratch layout with v21copy/ beside it.)
 import os, shutil, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 label, P, mins, jf = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]

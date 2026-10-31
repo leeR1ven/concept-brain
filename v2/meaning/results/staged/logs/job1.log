@@ -1,0 +1,27 @@
+[vm s0 1s] start proto=frozen nS=1000 world={'eye_layout': 'retino'} train={'eye_layout': 'retino', 'held_frac': 0.0} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False, 'ral': 1, 'ral_other': 1, 'say_rec': 1, 'say_loc': 1, 'scene_held': 1, 'val_veto': 0.2, 'dip': 1, 'act_T': 60, 'soc_feats': 1, 'rec_fix': 1}
+[vm s0 48s] A: categories 67 programs 67
+[vm s0 717s] after stage 1 (B): B 0.9294 (held 0.7931)  C 0.6667 (held 0.4)  D 0.0095 (held 0.0) | online {'B': 0.9152} | mix 47925 hip 4248 | ral {'lines': 4248, 'after_own': 2730, 'contingent': 1579, 'cont_reward': 1579, 'cont_overlap': 0, 'answered': 2165, 'cancel': 2165, 'commit': 2083, 'unresolved': 504, 'strict_cancel': 0, 'cut': 2164, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 703, 'cont_answered_items': 2089, 'other_answered': 137, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[vm s0 1435s] after stage 2 (BC): B 0.9706 (held 0.931)  C 0.9245 (held 0.8)  D 0.0 (held 0.0) | online {'B': 0.9902, 'C': 0.8351} | mix 47925 hip 8057 | ral {'lines': 8057, 'after_own': 5263, 'contingent': 3176, 'cont_reward': 3176, 'cont_overlap': 0, 'answered': 4211, 'cancel': 4211, 'commit': 3846, 'unresolved': 670, 'strict_cancel': 0, 'cut': 4210, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 1190, 'cont_answered_items': 3459, 'other_answered': 137, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[vm s0 2174s] after stage 3 (BCDD): B 0.9059 (held 0.8103)  C 0.9308 (held 0.925)  D 0.419 (held 0.8182) | online {'B': 0.9812, 'C': 0.9237, 'D': 0.4455} | mix 47925 hip 10000 | ral {'lines': 11641, 'after_own': 7984, 'contingent': 4416, 'cont_reward': 4416, 'cont_overlap': 0, 'answered': 6233, 'cancel': 6233, 'commit': 5408, 'unresolved': 992, 'strict_cancel': 0, 'cut': 6232, 'own_stored': 0, 'init_relearn': 0, 'cont_answered': 1889, 'cont_answered_items': 5134, 'other_answered': 137, 'q_kept': 0, 'q_pos': 0, 'q_neg': 0}
+[vm s0 2357s] drift C: 0.9308 -> 0.956 after 300 untutored dialogues
+[vm s0 2665s] drift C: -> 0.9434 after 900 untutored dialogues
+[vm s0 2665s] score {'F': 0.7519, 'RET': -0.0117, 'H': 0.8512, 'DR': 0.956, 'J': 1.1978, 'J2': 1.8362} | role {'n': 410, 'ok': 0.8439, 'other': 0.0317, 'partner': 0.0439, 'echo': 0.061, 'silent': 0.0195, 'role_conf': 0.1049} | refs all {'agent': np.float64(0.8439), 'echo': 0.061, 'const_best': 0.4122, 'prior': np.float64(0.2317)} held {'agent': np.float64(0.85), 'echo': 0.0, 'const_best': 0.525, 'prior': np.float64(0.2333)} | comp {'vr_name|what|seen': [46, 34, 46], 'vr_name|what|held': [24, 16, 17], 'attend|where|seen': [32, 25, 27], 'attend|where|held': [17, 17, 17], 'attend|colour|seen': [19, 17, 14], 'attend|colour|held': [9, 9, 6], 'attend|count|seen': [25, 23, 23], 'attend|count|held': [10, 10, 10]}
+[vm s0 2665s] done viol=0 secs=2664.5
+[vm s0] meaning meta: {"layer": {"tag": "end", "units": 47925, "alive_units": 47925, "synapses": 242820, "ever_active": 26204, "learn_events": 345761, "mean_active": 361.0, "cache_hit": 0.451, "pruned": 3290408, "regrown": 3290408, "items_coded": 140}, "clears": 231, "mstats": {"lines": 11641, "occ": 44949, "recomputes": 586, "changes": 795, "lines_changed": 1398, "placeholders": 138}}
+[vm s0] codes after stage 0: {'within': 0.346, 'between': 0.06, 'purity': 0.882, 'all_pairs': 0.068, 'n': 34, 'n_codes': 67} drift None
+[vm s0] codes after stage 1: {'within': 0.349, 'between': 0.057, 'purity': 0.882, 'all_pairs': 0.065, 'n': 34, 'n_codes': 67} drift 0.0644
+[vm s0] codes after stage 2: {'within': 0.264, 'between': 0.046, 'purity': 0.941, 'all_pairs': 0.06, 'n': 34, 'n_codes': 67} drift 0.1567
+[vm s0] codes after stage 3: {'within': 0.319, 'between': 0.051, 'purity': 0.902, 'all_pairs': 0.03, 'n': 41, 'n_codes': 138} drift 0.056
+run_mean rc=0 2665s
+[post vm s0 0s rss 188MB] loaded MeanCore mix n 47925
+[post vm s0 19s rss 363MB] held-out probe B: slot 0.92/50 (echo 0.00, const 0.34), what 0.73/60 (echo 0.00, const 0.33), where 1.00/57 (echo 0.00, const 0.35)
+[post vm s0 37s rss 534MB] held-out probe C: colour 0.78/27 (echo 0.00, const 0.26), count 1.00/29 (echo 0.00, const 0.38), offer 0.95/40 (echo 0.00, const 1.00), taste 0.79/24 (echo 0.00, const 1.00)
+[post vm s0 59s rss 542MB] held-out probe D: check 0.78/78 (echo 0.00, const 0.51)
+[post vm s0 92s rss 542MB] fault clean: ALL 0.7972 B 0.9059 C 0.9308 D 0.419
+[post vm s0 126s rss 542MB] fault rand: ALL 0.5184 B 0.6824 C 0.4591 D 0.3429
+[post vm s0 161s rss 542MB] fault sim: ALL 0.5092 B 0.6882 C 0.4654 D 0.2857
+[post vm s0 192s rss 671MB] lesion off: B 0.6294 C 0.7296 D 0.3048 | held B 0.431 C 0.675 D 0.5
+[post vm s0 227s rss 671MB] lesion shuffle: B 0.9059 C 0.9308 D 0.419 | held B 0.8103 C 0.925 D 0.8182
+[post vm s0 261s rss 671MB] lesion intact: B 0.9059 C 0.9308 D 0.419
+[post vm s0 261s rss 671MB] done
+post rc=0 2926s

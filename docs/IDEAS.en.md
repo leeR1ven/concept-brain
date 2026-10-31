@@ -161,6 +161,21 @@ not start from an empty model and add connections one at a time.
   Every conjunction layer collapses to 0 the same way, and the reviewer's fix works on the random layer too.
 - **GPU-friendly:** 64 agents batched run about 12,000 events per second.
 
+**Meaning layer result (2026-10-31, `v2/meaning/report.md`).**
+- A learned meaning code was added on top of the random layer. Besides its fixed sound code, every syllable gets a code
+  learned from context, so syllables used in the same places (for example after 吃) get similar codes. The rule is
+  local and learns all through life.
+- **Class generalisation works in the module test.** Foods and toys never heard in "X好不好吃": 0.50 (chance) → 1.00 on
+  10/10 seeds, also for words first heard in the last 20 % of life. Swapping the food and toy codes flips every answer,
+  so the answers really come from meaning.
+- **The key finding:** the old failure was mostly the hippocampus, not the code. It recalled an old exchange about the
+  other class by identity overlap and offered that answer. Adding the meaning code to the hippocampal cue, weighted
+  like the identity cue, fixed it.
+- **Bench** (v2.1 + random layer, 5 paired seeds): J 1.18 → 1.23, up on every seed, no drift cost. But no bench task
+  needs a class: a control with random codes in place of meaning gets about half the gain. To credit meaning itself the
+  bench needs a class task, such as "X能不能吃".
+- **Scaling does not pay:** a 4× layer loses 0.11 J with meaning and is flat without it. Not before the world grows.
+
 ## 6. Speaking is caused by thinking; outside signals only influence thinking
 
 **Implementation and evidence** (`v2/think/report.md`). The fixed "start on tick 4 after the partner stops" was replaced
@@ -249,6 +264,11 @@ error makes the meaning wrong. People take in neuron signals, which are fault to
 
 Because the representation itself tolerates errors, local and approximate adjustments are enough; precise global
 gradients are not needed.
+
+**Result (2026-10-31, `v2/meaning/report.md`).** Meaning codes do not give fault tolerance. One misheard syllable costs
+0.34 → 0.32 on the bench (mixed across seeds) and more in the module test. Meaning codes make different words alike;
+mishearing turns one word into another, which is a different problem. Tolerance has to come from the syllable
+recognition level, such as lower confidence for unclear sound or an item clean-up there. Still open.
 
 ## 15. PFC excitability works like context length
 
