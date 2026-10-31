@@ -1,0 +1,1 @@
+{"tag": "a_n1", "seed": 0, "n_items": 138, "pairs": 9453, "template_jaccard_mean": 0.204, "code_overlap_mean": 0.112, "corr": 0.431, "by_template_jaccard": [[0, 0.2, 4766, 0.085], [0.2, 0.3, 4077, 0.133], [0.3, 0.4, 592, 0.184], [0.4, 0.5, 18, 0.229], [0.5, 0.6, 0, null], [0.6, 1.01, 0, null]], "similar_cos_mean": 0.623, "similar_cos_q": [0.584, 0.614, 0.675]}

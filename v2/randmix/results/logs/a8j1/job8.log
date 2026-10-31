@@ -1,0 +1,23 @@
+[a_n1H s0 1s] start base=think stages=['B', 'BC', 'BCDD'] nS=1000 world={'eye_layout': 'retino'} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False} rm={}
+[a_n1H s0 23s] A: categories 67 programs 67
+[a_n1H s0 23s] size {'stage': 'A', 't': 23.0, 'rss_mb': 182, 'learn_events': 10250, 'tag': 'A', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 23413, 'mean_active': 415.9, 'cache_hit': 0.741, 'pruned': 0, 'regrown': 0, 'items_coded': 69}
+[a_n1H s0 324s] after stage 1 (B): B 0.8941 (held 0.6897)  C 0.2264 (held 0.1)  D 0.0667 (held 0.0) | online {'B': 0.9012} | mix 48229 hip 4248 recalls 24656 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 4010, 'lat': [6.0, 6.0]} | t {'released': 3113, 'blocked_nogo': 3828, 'closed_other': 1834, 'closed_tmax': 90, 'scene_opened': 1300, 'scene_spoke': 0, 'reply_spoke': 2528}
+[a_n1H s0 324s] size {'stage': 'B', 't': 323.8, 'rss_mb': 397, 'learn_events': 135163, 'tag': 'B', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 25380, 'mean_active': 444.8, 'cache_hit': 0.672, 'pruned': 0, 'regrown': 0, 'items_coded': 69}
+[a_n1H s0 741s] after stage 2 (BC): B 0.8941 (held 0.7069)  C 0.9371 (held 0.8)  D 0.0381 (held 0.0) | online {'B': 0.9843, 'C': 0.8758} | mix 48229 hip 8057 recalls 47912 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 8116, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 5848, 'blocked_nogo': 6409, 'closed_other': 3356, 'closed_tmax': 123, 'scene_opened': 2300, 'scene_spoke': 0, 'reply_spoke': 4998}
+[a_n1H s0 741s] size {'stage': 'BC', 't': 741.2, 'rss_mb': 484, 'learn_events': 261068, 'tag': 'BC', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 26944, 'mean_active': 443.0, 'cache_hit': 0.612, 'pruned': 0, 'regrown': 0, 'items_coded': 69}
+[a_n1H s0 1193s] after stage 3 (BCDD): B 0.6882 (held 0.3448)  C 0.9119 (held 0.8)  D 0.4857 (held 0.5455) | online {'B': 0.9327, 'C': 0.9359, 'D': 0.5117} | mix 48229 hip 10000 recalls 69448 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 12270, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 8398, 'blocked_nogo': 8832, 'closed_other': 4968, 'closed_tmax': 152, 'scene_opened': 3394, 'scene_spoke': 0, 'reply_spoke': 7391}
+[a_n1H s0 1193s] size {'stage': 'BCDD', 't': 1193.3, 'rss_mb': 504, 'learn_events': 378934, 'tag': 'BCDD', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 30004, 'mean_active': 437.2, 'cache_hit': 0.591, 'pruned': 0, 'regrown': 0, 'items_coded': 140}
+[a_n1H s0 1310s] drift C: 0.9119 -> 0.6164 after 300 untutored dialogues
+[a_n1H s0 1310s] done viol=0 secs=1309.6
+run_rm rc=0 1310s
+[post a_n1H s0 0s rss 179MB] loaded RandCore mix n 48229
+[post a_n1H s0 14s rss 347MB] held-out probe B: slot 0.06/50 (echo 0.00, const 0.34), what 0.25/60 (echo 0.00, const 0.33), where 0.65/57 (echo 0.00, const 0.35)
+[post a_n1H s0 27s rss 511MB] held-out probe C: colour 0.93/27 (echo 0.00, const 0.26), count 0.93/29 (echo 0.00, const 0.38), offer 0.93/40 (echo 0.00, const 1.00), taste 0.33/24 (echo 0.00, const 1.00)
+[post a_n1H s0 43s rss 517MB] held-out probe D: check 0.58/78 (echo 0.00, const 0.51)
+[post a_n1H s0 67s rss 517MB] fault clean: ALL 0.7212 B 0.6882 C 0.9119 D 0.4857
+[post a_n1H s0 91s rss 519MB] fault rand: ALL 0.4424 B 0.4824 C 0.5535 D 0.2095
+[post a_n1H s0 116s rss 519MB] fault sim: ALL 0.3871 B 0.4353 C 0.478 D 0.1714
+[post a_n1H s0 234s rss 628MB] drift: 0.9119 -> 0.6164 after 300
+[post a_n1H s0 438s rss 628MB] drift: -> 0.2767 after 900
+[post a_n1H s0 438s rss 628MB] done
+post rc=0 1748s

@@ -1,0 +1,10 @@
+[post d_mix s0 0s rss 192MB] loaded SynthCore mix n 48632
+[post d_mix s0 16s rss 340MB] held-out probe B: slot 0.04/50 (echo 0.00, const 0.34), what 0.17/60 (echo 0.00, const 0.33), where 0.02/57 (echo 0.00, const 0.35)
+[post d_mix s0 29s rss 487MB] held-out probe C: colour 0.81/27 (echo 0.00, const 0.26), count 0.52/29 (echo 0.00, const 0.38), offer 0.05/40 (echo 0.00, const 1.00), taste 0.00/24 (echo 0.00, const 1.00)
+[post d_mix s0 46s rss 487MB] held-out probe D: check 0.13/78 (echo 0.00, const 0.51)
+[post d_mix s0 73s rss 492MB] fault clean: ALL 0.659 B 0.6647 C 0.8113 D 0.419
+[post d_mix s0 99s rss 546MB] fault rand: ALL 0.371 B 0.3765 C 0.5094 D 0.1524
+[post d_mix s0 124s rss 546MB] fault sim: ALL 0.3618 B 0.3471 C 0.5094 D 0.1619
+[post d_mix s0 243s rss 546MB] drift: 0.8113 -> 0.5157 after 300
+[post d_mix s0 472s rss 546MB] drift: -> 0.3522 after 900
+[post d_mix s0 472s rss 546MB] done

@@ -1,0 +1,10 @@
+[post c0_n1H s1 0s rss 203MB] loaded RandCore mix n 72169
+[post c0_n1H s1 18s rss 393MB] held-out probe B: slot 0.24/41 (echo 0.00, const 0.37), what 0.43/60 (echo 0.00, const 0.33), where 1.00/34 (echo 0.00, const 0.38)
+[post c0_n1H s1 36s rss 584MB] held-out probe C: colour 0.92/37 (echo 0.00, const 0.27), count 1.00/33 (echo 0.00, const 0.42), offer 0.76/37 (echo 0.00, const 1.00), taste 0.09/22 (echo 0.00, const 1.00)
+[post c0_n1H s1 57s rss 592MB] held-out probe D: check 0.40/75 (echo 0.00, const 0.63)
+[post c0_n1H s1 89s rss 592MB] fault clean: ALL 0.8014 B 0.8797 C 0.9205 D 0.5565
+[post c0_n1H s1 121s rss 592MB] fault rand: ALL 0.4388 B 0.4937 C 0.5894 D 0.1855
+[post c0_n1H s1 153s rss 592MB] fault sim: ALL 0.455 B 0.5 C 0.543 D 0.2903
+[post c0_n1H s1 317s rss 593MB] drift: 0.9205 -> 0.6821 after 300
+[post c0_n1H s1 630s rss 595MB] drift: -> 0.4503 after 900
+[post c0_n1H s1 630s rss 595MB] done

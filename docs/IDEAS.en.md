@@ -139,6 +139,28 @@ not start from an empty model and add connections one at a time.
   - tolerance to misheard syllables;
   - memory and speed.
 
+**Result (2026-10-31, `v2/randmix/report.md`).**
+- **The idea works.** MIX adds a unit whenever it meets a new combination. In its place we put a conjunction layer that
+  exists in full from birth. The layer has a fixed size and never grows, with 0 mechanics errors.
+- **The best form gives every pair type the same number of random units**, because at birth the model cannot know which
+  combinations it will need. It adds use-it-or-lose-it pruning with regrowth. Paired by seed against ARCH_v2:
+  - default protocol: J 0.83 → 0.95, better on 4/4 seeds;
+  - frozen held-out protocol: J 1.00 → 1.09, better on 5/5 seeds;
+  - cost: colour drops from 0.86 to 0.74.
+- **Overproduce, then prune, also holds.** Born with 1.5× the units and then pruned, the layer ends with about a
+  quarter of its units, and scores the same or slightly better. No new unit becomes active after stage B, a critical
+  period. These gains are about 0.03–0.07, inside single-seed noise, but they have the same sign on every seed.
+- **Random alone does not help.** A fixed random layer with MIX's allocation loses 0.05, and 4× or 16× the size brings
+  nothing.
+- **No improvement in:**
+  - fault tolerance: one misheard syllable still costs about 30 %. This needs clean-up in the syllable recogniser, not
+    a different conjunction layer;
+  - forgetting without a tutor;
+  - meaning-based generalisation ("things of this kind are edible"), which needs learned word codes first.
+- **Confirmed again:** low held-out scores come from the learning target (the next line is learned as the answer).
+  Every conjunction layer collapses to 0 the same way, and the reviewer's fix works on the random layer too.
+- **GPU-friendly:** 64 agents batched run about 12,000 events per second.
+
 ## 6. Speaking is caused by thinking; outside signals only influence thinking
 
 **Implementation and evidence** (`v2/think/report.md`). The fixed "start on tick 4 after the partner stops" was replaced

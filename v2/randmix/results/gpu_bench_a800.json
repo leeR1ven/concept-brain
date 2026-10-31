@@ -1,0 +1,126 @@
+{
+ "gpu": "NVIDIA A800 80GB PCIe",
+ "torch": "2.4.0+cu121",
+ "rows": [
+  {
+   "scale": 1.0,
+   "alpha": 0.01,
+   "N": 48229,
+   "B": 1,
+   "active": 480.0,
+   "act_ms": 0.427,
+   "act_thr_ms": 0.155,
+   "act_readout_learn_ms": 0.966,
+   "agent_events_per_s": 1035,
+   "gpu_mem_gb": 0.04
+  },
+  {
+   "scale": 1.0,
+   "alpha": 0.01,
+   "N": 48229,
+   "B": 16,
+   "active": 477.75,
+   "act_ms": 1.026,
+   "act_thr_ms": 0.357,
+   "act_readout_learn_ms": 1.762,
+   "agent_events_per_s": 9083,
+   "gpu_mem_gb": 0.56
+  },
+  {
+   "scale": 1.0,
+   "alpha": 0.01,
+   "N": 48229,
+   "B": 64,
+   "active": 478.359375,
+   "act_ms": 3.726,
+   "act_thr_ms": 1.2,
+   "act_readout_learn_ms": 5.327,
+   "agent_events_per_s": 12014,
+   "gpu_mem_gb": 2.25
+  },
+  {
+   "scale": 4.0,
+   "alpha": 0.01,
+   "N": 191924,
+   "B": 1,
+   "active": 1909.0,
+   "act_ms": 0.516,
+   "act_thr_ms": 0.168,
+   "act_readout_learn_ms": 1.135,
+   "agent_events_per_s": 881,
+   "gpu_mem_gb": 2.25
+  },
+  {
+   "scale": 4.0,
+   "alpha": 0.01,
+   "N": 191924,
+   "B": 16,
+   "active": 1902.375,
+   "act_ms": 3.648,
+   "act_thr_ms": 1.2,
+   "act_readout_learn_ms": 4.644,
+   "agent_events_per_s": 3446,
+   "gpu_mem_gb": 2.25
+  },
+  {
+   "scale": 4.0,
+   "alpha": 0.01,
+   "N": 191924,
+   "B": 64,
+   "active": 1897.90625,
+   "act_ms": 12.831,
+   "act_thr_ms": 4.539,
+   "act_readout_learn_ms": null,
+   "agent_events_per_s": 4988,
+   "gpu_mem_gb": 2.6
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.0025,
+   "N": 766896,
+   "B": 1,
+   "active": 1921.0,
+   "act_ms": 1.108,
+   "act_thr_ms": 0.417,
+   "act_readout_learn_ms": 1.646,
+   "agent_events_per_s": 607,
+   "gpu_mem_gb": 2.6
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.0025,
+   "N": 766896,
+   "B": 16,
+   "active": 1921.0,
+   "act_ms": 13.033,
+   "act_thr_ms": 4.397,
+   "act_readout_learn_ms": null,
+   "agent_events_per_s": 1228,
+   "gpu_mem_gb": 2.61
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.01,
+   "N": 766896,
+   "B": 1,
+   "active": 7607.0,
+   "act_ms": 1.101,
+   "act_thr_ms": 0.346,
+   "act_readout_learn_ms": 1.731,
+   "agent_events_per_s": 578,
+   "gpu_mem_gb": 2.61
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.01,
+   "N": 766896,
+   "B": 16,
+   "active": 7581.375,
+   "act_ms": 12.853,
+   "act_thr_ms": 4.511,
+   "act_readout_learn_ms": null,
+   "agent_events_per_s": 1245,
+   "gpu_mem_gb": 2.61
+  }
+ ]
+}

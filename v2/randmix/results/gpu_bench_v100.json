@@ -1,0 +1,126 @@
+{
+ "gpu": "Tesla V100-PCIE-32GB",
+ "torch": "2.4.0+cu121",
+ "rows": [
+  {
+   "scale": 1.0,
+   "alpha": 0.01,
+   "N": 48229,
+   "B": 1,
+   "active": 480.0,
+   "act_ms": 2.896,
+   "act_thr_ms": 1.094,
+   "act_readout_learn_ms": 10.558,
+   "agent_events_per_s": 95,
+   "gpu_mem_gb": 0.04
+  },
+  {
+   "scale": 1.0,
+   "alpha": 0.01,
+   "N": 48229,
+   "B": 16,
+   "active": 477.75,
+   "act_ms": 3.716,
+   "act_thr_ms": 1.357,
+   "act_readout_learn_ms": 7.969,
+   "agent_events_per_s": 2008,
+   "gpu_mem_gb": 0.56
+  },
+  {
+   "scale": 1.0,
+   "alpha": 0.01,
+   "N": 48229,
+   "B": 64,
+   "active": 478.359375,
+   "act_ms": 3.943,
+   "act_thr_ms": 1.13,
+   "act_readout_learn_ms": 7.706,
+   "agent_events_per_s": 8305,
+   "gpu_mem_gb": 2.25
+  },
+  {
+   "scale": 4.0,
+   "alpha": 0.01,
+   "N": 191924,
+   "B": 1,
+   "active": 1909.0,
+   "act_ms": 2.34,
+   "act_thr_ms": 0.882,
+   "act_readout_learn_ms": 5.51,
+   "agent_events_per_s": 181,
+   "gpu_mem_gb": 2.25
+  },
+  {
+   "scale": 4.0,
+   "alpha": 0.01,
+   "N": 191924,
+   "B": 16,
+   "active": 1902.375,
+   "act_ms": 3.722,
+   "act_thr_ms": 1.868,
+   "act_readout_learn_ms": 7.807,
+   "agent_events_per_s": 2049,
+   "gpu_mem_gb": 2.25
+  },
+  {
+   "scale": 4.0,
+   "alpha": 0.01,
+   "N": 191924,
+   "B": 64,
+   "active": 1897.90625,
+   "act_ms": 20.357,
+   "act_thr_ms": 6.633,
+   "act_readout_learn_ms": null,
+   "agent_events_per_s": 3144,
+   "gpu_mem_gb": 2.6
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.0025,
+   "N": 766896,
+   "B": 1,
+   "active": 1921.0,
+   "act_ms": 2.655,
+   "act_thr_ms": 0.506,
+   "act_readout_learn_ms": 2.985,
+   "agent_events_per_s": 335,
+   "gpu_mem_gb": 2.6
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.0025,
+   "N": 766896,
+   "B": 16,
+   "active": 1921.0,
+   "act_ms": 20.5,
+   "act_thr_ms": 6.253,
+   "act_readout_learn_ms": null,
+   "agent_events_per_s": 780,
+   "gpu_mem_gb": 2.61
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.01,
+   "N": 766896,
+   "B": 1,
+   "active": 7607.0,
+   "act_ms": 1.274,
+   "act_thr_ms": 0.617,
+   "act_readout_learn_ms": 3.116,
+   "agent_events_per_s": 321,
+   "gpu_mem_gb": 2.61
+  },
+  {
+   "scale": 16.0,
+   "alpha": 0.01,
+   "N": 766896,
+   "B": 16,
+   "active": 7581.375,
+   "act_ms": 21.398,
+   "act_thr_ms": 7.067,
+   "act_readout_learn_ms": null,
+   "agent_events_per_s": 748,
+   "gpu_mem_gb": 2.61
+  }
+ ]
+}

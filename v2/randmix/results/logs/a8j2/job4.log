@@ -1,0 +1,23 @@
+[d_mix s3 1s] start base=think stages=['B', 'BC', 'BCDD'] nS=1000 world={'eye_layout': 'retino'} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False} rm=None
+[d_mix s3 17s] A: categories 67 programs 66
+[d_mix s3 17s] size {'stage': 'A', 't': 16.5, 'rss_mb': 108, 'learn_events': 10379, 'units': 23476, 'synapses': 46952}
+[d_mix s3 215s] after stage 1 (B): B 0.7035 (held 0.1346)  C 0.3595 (held 0.0882)  D 0.0 (held 0.0) | online {'B': 0.7415} | mix 27460 hip 3993 recalls 23737 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 4070, 'lat': [6.0, 6.0]} | t {'released': 3095, 'blocked_nogo': 3111, 'closed_other': 1703, 'closed_tmax': 63, 'scene_opened': 1300, 'scene_spoke': 0, 'reply_spoke': 2396, 'blocked_init_min': 1}
+[d_mix s3 215s] size {'stage': 'B', 't': 215.3, 'rss_mb': 259, 'learn_events': 131898, 'units': 27460, 'synapses': 54920}
+[d_mix s3 488s] after stage 2 (BC): B 0.7093 (held 0.0385)  C 0.8431 (held 0.4706)  D 0.0 (held 0.0) | online {'B': 0.8294, 'C': 0.7728} | mix 34946 hip 7469 recalls 45545 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 8058, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 5849, 'blocked_nogo': 5131, 'closed_other': 3035, 'closed_tmax': 99, 'scene_opened': 2300, 'scene_spoke': 0, 'reply_spoke': 4690, 'blocked_init_min': 1}
+[d_mix s3 488s] size {'stage': 'BC', 't': 487.8, 'rss_mb': 328, 'learn_events': 253097, 'units': 34946, 'synapses': 69892}
+[d_mix s3 833s] after stage 3 (BCDD): B 0.7093 (held 0.0385)  C 0.8497 (held 0.4118)  D 0.5041 (held 0.3226) | online {'B': 0.8024, 'C': 0.8538, 'D': 0.4471} | mix 48129 hip 10000 recalls 66993 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 12338, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 8229, 'blocked_nogo': 7882, 'closed_other': 4706, 'closed_tmax': 154, 'scene_opened': 3409, 'scene_spoke': 0, 'reply_spoke': 6822, 'blocked_init_min': 1}
+[d_mix s3 833s] size {'stage': 'BCDD', 't': 832.6, 'rss_mb': 388, 'learn_events': 374154, 'units': 48129, 'synapses': 96258}
+[d_mix s3 919s] drift C: 0.8497 -> 0.5033 after 300 untutored dialogues
+[d_mix s3 919s] done viol=0 secs=918.7
+run_rm rc=0 919s
+[post d_mix s3 0s rss 192MB] loaded SynthCore mix n 48129
+[post d_mix s3 12s rss 341MB] held-out probe B: slot 0.00/47 (echo 0.00, const 0.30), what 0.21/52 (echo 0.00, const 0.38), where 0.04/52 (echo 0.00, const 0.44)
+[post d_mix s3 23s rss 489MB] held-out probe C: colour 0.58/36 (echo 0.00, const 0.25), count 0.33/21 (echo 0.00, const 0.43), offer 0.10/29 (echo 0.00, const 1.00), taste 0.00/21 (echo 0.00, const 1.00)
+[post d_mix s3 37s rss 489MB] held-out probe D: check 0.43/61 (echo 0.00, const 0.56)
+[post d_mix s3 58s rss 494MB] fault clean: ALL 0.7009 B 0.7093 C 0.8497 D 0.5041
+[post d_mix s3 80s rss 547MB] fault rand: ALL 0.4911 B 0.5581 C 0.5556 D 0.3171
+[post d_mix s3 101s rss 547MB] fault sim: ALL 0.4621 B 0.5407 C 0.4902 D 0.3171
+[post d_mix s3 185s rss 547MB] drift: 0.8497 -> 0.5033 after 300
+[post d_mix s3 341s rss 547MB] drift: -> 0.3268 after 900
+[post d_mix s3 341s rss 547MB] done
+post rc=0 1260s

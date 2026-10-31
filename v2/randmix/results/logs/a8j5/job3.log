@@ -1,0 +1,23 @@
+[c_flat s3 1s] start base=think stages=['B', 'BC', 'BCDD'] nS=1000 world={'eye_layout': 'retino'} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False} rm={'train': 1, 'prune': 1, 'age': 20000, 'regrow': 1, 'alloc': 'flat'}
+[c_flat s3 46s] A: categories 67 programs 66
+[c_flat s3 46s] size {'stage': 'A', 't': 45.9, 'rss_mb': 122, 'learn_events': 10379, 'tag': 'A', 'units': 47925, 'alive_units': 47925, 'synapses': 242820, 'ever_active': 15121, 'mean_active': 378.2, 'cache_hit': 0.454, 'pruned': 0, 'regrown': 0, 'items_coded': 69}
+[c_flat s3 613s] after stage 1 (B): B 0.75 (held 0.1731)  C 0.2353 (held 0.0588)  D 0.0488 (held 0.0) | online {'B': 0.7012} | mix 47925 hip 3993 recalls 23737 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 4070, 'lat': [6.0, 6.0]} | t {'released': 3032, 'blocked_nogo': 3190, 'closed_other': 1735, 'closed_tmax': 65, 'scene_opened': 1300, 'scene_spoke': 0, 'reply_spoke': 2245}
+[c_flat s3 613s] size {'stage': 'B', 't': 612.6, 'rss_mb': 285, 'learn_events': 132725, 'tag': 'B', 'units': 47925, 'alive_units': 47925, 'synapses': 242820, 'ever_active': 21905, 'mean_active': 401.4, 'cache_hit': 0.421, 'pruned': 1151082, 'regrown': 1151082, 'items_coded': 69}
+[c_flat s3 1316s] after stage 2 (BC): B 0.7558 (held 0.2115)  C 0.6601 (held 0.3529)  D 0.0 (held 0.0) | online {'B': 0.8106, 'C': 0.6785} | mix 47925 hip 7469 recalls 45545 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 8058, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 5662, 'blocked_nogo': 5430, 'closed_other': 3142, 'closed_tmax': 106, 'scene_opened': 2300, 'scene_spoke': 0, 'reply_spoke': 4349}
+[c_flat s3 1316s] size {'stage': 'BC', 't': 1316.2, 'rss_mb': 343, 'learn_events': 255552, 'tag': 'BC', 'units': 47925, 'alive_units': 47925, 'synapses': 242820, 'ever_active': 24133, 'mean_active': 401.9, 'cache_hit': 0.422, 'pruned': 2220781, 'regrown': 2220781, 'items_coded': 69}
+[c_flat s3 2076s] after stage 3 (BCDD): B 0.6977 (held 0.0769)  C 0.8562 (held 0.5882)  D 0.6098 (held 0.4516) | online {'B': 0.8084, 'C': 0.7783, 'D': 0.5171} | mix 47925 hip 10000 recalls 66993 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 12338, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 8161, 'blocked_nogo': 7907, 'closed_other': 4753, 'closed_tmax': 150, 'scene_opened': 3409, 'scene_spoke': 0, 'reply_spoke': 6508}
+[c_flat s3 2076s] size {'stage': 'BCDD', 't': 2076.5, 'rss_mb': 385, 'learn_events': 377707, 'tag': 'BCDD', 'units': 47925, 'alive_units': 47925, 'synapses': 242820, 'ever_active': 26193, 'mean_active': 400.2, 'cache_hit': 0.424, 'pruned': 3238289, 'regrown': 3238289, 'items_coded': 140}
+[c_flat s3 2249s] drift C: 0.8562 -> 0.5817 after 300 untutored dialogues
+[c_flat s3 2249s] done viol=0 secs=2249.0
+run_rm rc=0 2249s
+[post c_flat s3 0s rss 181MB] loaded RandCore mix n 47925
+[post c_flat s3 22s rss 347MB] held-out probe B: slot 0.02/47 (echo 0.00, const 0.30), what 0.27/52 (echo 0.00, const 0.38), where 0.06/52 (echo 0.00, const 0.44)
+[post c_flat s3 43s rss 515MB] held-out probe C: colour 0.44/36 (echo 0.00, const 0.25), count 0.52/21 (echo 0.00, const 0.43), offer 0.79/29 (echo 0.00, const 1.00), taste 0.05/21 (echo 0.00, const 1.00)
+[post c_flat s3 69s rss 522MB] held-out probe D: check 0.69/61 (echo 0.00, const 0.56)
+[post c_flat s3 106s rss 522MB] fault clean: ALL 0.7277 B 0.6977 C 0.8562 D 0.6098
+[post c_flat s3 146s rss 522MB] fault rand: ALL 0.4129 B 0.4128 C 0.4444 D 0.374
+[post c_flat s3 183s rss 522MB] fault sim: ALL 0.4353 B 0.4535 C 0.5033 D 0.3252
+[post c_flat s3 361s rss 522MB] drift: 0.8562 -> 0.5817 after 300
+[post c_flat s3 647s rss 528MB] drift: -> 0.3137 after 900
+[post c_flat s3 647s rss 528MB] done
+post rc=0 2896s

@@ -1,0 +1,57 @@
+{
+ "device": "cuda",
+ "torch": "2.4.0+cu121",
+ "numpy": "2.1.2",
+ "cases": {
+  "scale0.25_alpha0.01_train0": {
+   "N": 12422,
+   "active": 127.5,
+   "identical": 1.0,
+   "jaccard_min": 1.0,
+   "numpy_ms": 0.416,
+   "torch_ms": 3.841,
+   "w_maxdiff": 0.0,
+   "hebb_batches": 0
+  },
+  "scale0.25_alpha0.01_train1": {
+   "N": 12422,
+   "active": 124.7,
+   "identical": 1.0,
+   "jaccard_min": 1.0,
+   "numpy_ms": 0.415,
+   "torch_ms": 3.387,
+   "w_maxdiff": 0.0,
+   "hebb_batches": 4
+  },
+  "scale1.0_alpha0.01_train0": {
+   "N": 48229,
+   "active": 455.1,
+   "identical": 1.0,
+   "jaccard_min": 1.0,
+   "numpy_ms": 0.861,
+   "torch_ms": 3.236,
+   "w_maxdiff": 0.0,
+   "hebb_batches": 0
+  },
+  "scale4.0_alpha0.01_train0": {
+   "N": 191924,
+   "active": 1820.8,
+   "identical": 1.0,
+   "jaccard_min": 1.0,
+   "numpy_ms": 3.037,
+   "torch_ms": 3.515,
+   "w_maxdiff": 0.0,
+   "hebb_batches": 0
+  },
+  "scale16.0_alpha0.0025_train0": {
+   "N": 766896,
+   "active": 1830.2,
+   "identical": 1.0,
+   "jaccard_min": 1.0,
+   "numpy_ms": 14.34,
+   "torch_ms": 4.807,
+   "w_maxdiff": 0.0,
+   "hebb_batches": 0
+  }
+ }
+}

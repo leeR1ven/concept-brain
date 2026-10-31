@@ -89,6 +89,13 @@ listening, babbling and conversing.
     answer is learned as the answer. A local fix raised J from 0.70 to 0.93 on one seed (drift loss 0.43 → 0.03),
     pending more seeds.
 
+- **Random connections from birth** ([v2/randmix/report.md](v2/randmix/report.md), IDEAS #5). MIX adds a unit per
+  new combination. We replaced it with a random conjunction layer that exists in full from birth, then trained and
+  pruned it (use it or lose it).
+  - With equal populations per pair type: J 0.83 → 0.95 (4/4 seeds) on the default protocol, 1.00 → 1.09 (5/5) on the
+    frozen held-out protocol. Colour drops.
+  - Random alone does not help: a fixed random layer with MIX's allocation loses 0.05, and 4×/16× brings nothing.
+  - No gain in fault tolerance, drift or meaning-based generalisation.
 - **GPU port** ([v2/gpuport/report.md](v2/gpuport/report.md)): a batched torch version of ARCH_v2 reproduces the numpy
   agent bit for bit (185,817 ticks on seed 1; the short and stage-1 protocols on 5 seeds). The only change is that ties in
   the DG k-WTA are broken by unit index.

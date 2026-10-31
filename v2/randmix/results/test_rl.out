@@ -1,0 +1,7 @@
+scale 1.0 fan 3 alpha 0.01: N 48229 active 479 build 0.1s act 1.16 ms | J(same frame) 0.20 J(same filler) 0.42 J(misheard) 0.72
+scale 1.0 fan 6 alpha 0.01: N 48229 active 485 build 0.1s act 2.14 ms | J(same frame) 0.14 J(same filler) 0.36 J(misheard) 0.58
+scale 1.0 fan 3 alpha 0.03: N 48229 active 1370 build 0.1s act 1.12 ms | J(same frame) 0.25 J(same filler) 0.48 J(misheard) 0.78
+scale 4.0 fan 3 alpha 0.01: N 191924 active 1894 build 0.2s act 4.65 ms | J(same frame) 0.19 J(same filler) 0.42 J(misheard) 0.72
+scale 4.0 fan 6 alpha 0.01: N 191924 active 1921 build 0.6s act 9.03 ms | J(same frame) 0.15 J(same filler) 0.38 J(misheard) 0.63
+scale 4.0 fan 3 alpha 0.03: N 191924 active 5477 build 0.2s act 5.90 ms | J(same frame) 0.24 J(same filler) 0.49 J(misheard) 0.77
+dict MIX: keys 300 | J(same frame) 0.10 J(same filler) 0.40 J(misheard) 0.75

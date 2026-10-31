@@ -1,0 +1,5 @@
+[post c0_n1H s2 0s rss 202MB] loaded RandCore mix n 72169
+[post c0_n1H s2 18s rss 392MB] held-out probe B: slot 0.07/44 (echo 0.00, const 0.34), what 0.26/58 (echo 0.00, const 0.40), where 0.55/47 (echo 0.00, const 0.38)
+[post c0_n1H s2 36s rss 582MB] held-out probe C: colour 1.00/24 (echo 0.00, const 0.29), count 1.00/34 (echo 0.00, const 0.41), offer 0.92/36 (echo 0.00, const 1.00), taste 0.72/25 (echo 0.00, const 1.00)
+[post c0_n1H s2 58s rss 588MB] held-out probe D: check 0.69/55 (echo 0.00, const 0.51)
+[post c0_n1H s2 58s rss 588MB] done

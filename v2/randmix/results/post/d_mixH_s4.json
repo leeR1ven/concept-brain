@@ -1,0 +1,516 @@
+{
+"tag": "d_mixH",
+"seed": 4,
+"heldout": {
+"B": {
+"slot": {
+"seen": {
+"n": 49,
+"acc": 0.9796,
+"echo": 0.0,
+"const": 0.1837,
+"const_str": "是苹果",
+"silent": 0.02,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 43,
+"acc": 0.0465,
+"echo": 0.0,
+"const": 0.3023,
+"const_str": "是鸭子",
+"silent": 0.442,
+"sub_prompt": 0.0
+}
+},
+"what": {
+"seen": {
+"n": 61,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.1639,
+"const_str": "是葡萄",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 54,
+"acc": 0.5,
+"echo": 0.0,
+"const": 0.3704,
+"const_str": "是饼干",
+"silent": 0.0,
+"sub_prompt": 0.056
+}
+},
+"where": {
+"seen": {
+"n": 46,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.413,
+"const_str": "中间",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 49,
+"acc": 0.4286,
+"echo": 0.0,
+"const": 0.3673,
+"const_str": "右边",
+"silent": 0.49,
+"sub_prompt": 0.0
+}
+},
+"_mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"C": {
+"colour": {
+"seen": {
+"n": 28,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.25,
+"const_str": "是绿色",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 33,
+"acc": 0.8485,
+"echo": 0.0,
+"const": 0.2424,
+"const_str": "是白色",
+"silent": 0.061,
+"sub_prompt": 0.091
+}
+},
+"count": {
+"seen": {
+"n": 22,
+"acc": 1.0,
+"echo": 0.0,
+"const": 0.5455,
+"const_str": "一个",
+"silent": 0.0,
+"sub_prompt": 0.0
+},
+"held": {
+"n": 29,
+"acc": 0.9655,
+"echo": 0.0,
+"const": 0.3793,
+"const_str": "一个",
+"silent": 0.0,
+"sub_prompt": 0.0
+}
+},
+"offer": {
+"seen": {
+"n": 41,
+"acc": 1.0,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "要",
+"silent": 0.0,
+"sub_prompt": 1.0
+},
+"held": {
+"n": 47,
+"acc": 0.7234,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "要",
+"silent": 0.255,
+"sub_prompt": 0.723
+}
+},
+"ritual": {
+"seen": {
+"n": 64,
+"acc": 0.6719,
+"echo": 0.875,
+"const": 0.2812,
+"const_str": "你好",
+"silent": 0.25,
+"sub_prompt": 0.547
+}
+},
+"taste": {
+"seen": {
+"n": 16,
+"acc": 1.0,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "好吃",
+"silent": 0.0,
+"sub_prompt": 1.0
+},
+"held": {
+"n": 17,
+"acc": 0.1176,
+"echo": 0.0,
+"const": 1.0,
+"const_str": "好吃",
+"silent": 0.824,
+"sub_prompt": 0.118
+}
+},
+"_mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"D": {
+"before": {
+"seen": {
+"n": 21,
+"acc": 0.0,
+"echo": 0.0,
+"const": 0.1429,
+"const_str": "是西瓜",
+"silent": 0.286,
+"sub_prompt": 0.0
+}
+},
+"check": {
+"seen": {
+"n": 88,
+"acc": 0.9318,
+"echo": 0.0,
+"const": 0.5227,
+"const_str": "对",
+"silent": 0.0,
+"sub_prompt": 0.58
+},
+"held": {
+"n": 67,
+"acc": 0.8955,
+"echo": 0.0,
+"const": 0.5224,
+"const_str": "对",
+"silent": 0.06,
+"sub_prompt": 0.463
+}
+},
+"name": {
+"seen": {
+"n": 26,
+"acc": 0.7692,
+"echo": 0.0,
+"const": 0.3077,
+"const_str": "你叫小美",
+"silent": 0.115,
+"sub_prompt": 0.0
+}
+},
+"oneshot": {
+"seen": {
+"n": 31,
+"acc": 0.0,
+"echo": 0.0,
+"const": 0.0968,
+"const_str": "是猴子",
+"silent": 0.0,
+"sub_prompt": 0.774
+}
+},
+"_mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+}
+},
+"secs": 409.3,
+"rss_mb": 546,
+"fault": {
+"clean": {
+"B": {
+"all": 0.8092,
+"seen": 1.0,
+"held": 0.3696,
+"n": 152,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.7447,
+"what": 0.8197,
+"where": 0.8636
+}
+},
+"C": {
+"all": 0.8742,
+"seen": 0.9194,
+"held": 0.7143,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.9231,
+"count": 1.0,
+"offer": 0.9545,
+"ritual": 0.6774,
+"taste": 0.7391
+}
+},
+"D": {
+"all": 0.5614,
+"seen": 0.4842,
+"held": 0.9474,
+"n": 114,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.8939,
+"name": 0.7143,
+"oneshot": 0.0
+}
+},
+"ALL": 0.7671
+},
+"rand": {
+"B": {
+"all": 0.5395,
+"seen": 0.6604,
+"held": 0.2609,
+"n": 152,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.5532,
+"what": 0.541,
+"where": 0.5227
+}
+},
+"C": {
+"all": 0.4654,
+"seen": 0.4839,
+"held": 0.4,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.8077,
+"count": 0.6,
+"offer": 0.2273,
+"ritual": 0.2903,
+"taste": 0.5652
+}
+},
+"D": {
+"all": 0.3596,
+"seen": 0.3158,
+"held": 0.5789,
+"n": 114,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.6212,
+"name": 0.0,
+"oneshot": 0.0
+}
+},
+"ALL": 0.4635
+},
+"sim": {
+"B": {
+"all": 0.5592,
+"seen": 0.6981,
+"held": 0.2391,
+"n": 152,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"slot": 0.6596,
+"what": 0.5574,
+"where": 0.4545
+}
+},
+"C": {
+"all": 0.5157,
+"seen": 0.5403,
+"held": 0.4286,
+"n": 159,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"colour": 0.7692,
+"count": 0.7429,
+"offer": 0.4091,
+"ritual": 0.1613,
+"taste": 0.5652
+}
+},
+"D": {
+"all": 0.3246,
+"seen": 0.3053,
+"held": 0.4211,
+"n": 114,
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+},
+"tasks": {
+"before": 0.0,
+"check": 0.5606,
+"name": 0.0,
+"oneshot": 0.0
+}
+},
+"ALL": 0.48
+},
+"sim_mean_cos": 0.631,
+"sim_examples": {
+"一": [
+"皮",
+0.583
+],
+"三": [
+"吗",
+0.656
+],
+"上": [
+"葡",
+0.637
+],
+"不": [
+"大",
+0.61
+],
+"两": [
+"拜",
+0.568
+],
+"个": [
+"是",
+0.679
+],
+"中": [
+"铅",
+0.619
+],
+"丽": [
+"小",
+0.6
+],
+"么": [
+"蛋",
+0.628
+],
+"乌": [
+"虎",
+0.569
+],
+"书": [
+"电",
+0.581
+],
+"亮": [
+"朵",
+0.794
+]
+}
+},
+"drift": {
+"before": {
+"all": 0.8742,
+"tasks": {
+"colour": 0.9231,
+"count": 1.0,
+"offer": 0.9545,
+"ritual": 0.6774,
+"taste": 0.7391
+},
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"after300": {
+"all": 0.6792,
+"tasks": {
+"colour": 0.5769,
+"count": 0.8286,
+"offer": 0.6136,
+"ritual": 0.9355,
+"taste": 0.3478
+},
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"after900": {
+"all": 0.2767,
+"tasks": {
+"colour": 0.2308,
+"count": 0.2857,
+"offer": 0.2955,
+"ritual": 0.3226,
+"taste": 0.2174
+},
+"mech": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+},
+"mech_untutored": {
+"overlap": 0,
+"garble": 0,
+"not3": 0,
+"extra": 0
+}
+}
+}

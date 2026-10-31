@@ -1,0 +1,23 @@
+[c_n1 s4 1s] start base=think stages=['B', 'BC', 'BCDD'] nS=1000 world={'eye_layout': 'retino'} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rebind': 1, 'ct': True, 'init_min_tau': 10, 'hip_rho': 2.0, 'ctx': False} rm={'train': 1, 'prune': 1, 'age': 20000, 'regrow': 1}
+[c_n1 s4 30s] A: categories 67 programs 67
+[c_n1 s4 30s] size {'stage': 'A', 't': 30.1, 'rss_mb': 132, 'learn_events': 10216, 'tag': 'A', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 22944, 'mean_active': 420.4, 'cache_hit': 0.462, 'pruned': 0, 'regrown': 0, 'items_coded': 69}
+[c_n1 s4 465s] after stage 1 (B): B 0.6974 (held 0.0)  C 0.5094 (held 0.2571)  D 0.0 (held 0.0) | online {'B': 0.707} | mix 48229 hip 3991 recalls 23783 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 4082, 'lat': [6.0, 6.0]} | t {'released': 3018, 'blocked_nogo': 3388, 'closed_other': 1749, 'closed_tmax': 85, 'scene_opened': 1300, 'scene_spoke': 0, 'reply_spoke': 2309}
+[c_n1 s4 465s] size {'stage': 'B', 't': 465.3, 'rss_mb': 297, 'learn_events': 133980, 'tag': 'B', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 30431, 'mean_active': 445.9, 'cache_hit': 0.423, 'pruned': 1257277, 'regrown': 1257277, 'items_coded': 69}
+[c_n1 s4 988s] after stage 2 (BC): B 0.6974 (held 0.0)  C 0.9308 (held 0.7143)  D 0.0 (held 0.0) | online {'B': 0.8188, 'C': 0.7987} | mix 48229 hip 7438 recalls 45495 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 8032, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 5697, 'blocked_nogo': 5423, 'closed_other': 3105, 'closed_tmax': 113, 'scene_opened': 2299, 'scene_spoke': 0, 'reply_spoke': 4530}
+[c_n1 s4 988s] size {'stage': 'BC', 't': 987.8, 'rss_mb': 351, 'learn_events': 257229, 'tag': 'BC', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 32786, 'mean_active': 442.9, 'cache_hit': 0.423, 'pruned': 2402893, 'regrown': 2402893, 'items_coded': 69}
+[c_n1 s4 1637s] after stage 3 (BCDD): B 0.6974 (held 0.0652)  C 0.805 (held 0.3429)  D 0.4825 (held 0.5789) | online {'B': 0.7949, 'C': 0.9179, 'D': 0.339} | mix 48229 hip 10000 recalls 65999 mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 12148, 'lat': [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0]} | t {'released': 8011, 'blocked_nogo': 7964, 'closed_other': 4721, 'closed_tmax': 147, 'scene_opened': 3391, 'scene_spoke': 0, 'reply_spoke': 6600}
+[c_n1 s4 1637s] size {'stage': 'BCDD', 't': 1636.8, 'rss_mb': 393, 'learn_events': 374213, 'tag': 'BCDD', 'units': 48229, 'alive_units': 48229, 'synapses': 286083, 'ever_active': 34331, 'mean_active': 437.5, 'cache_hit': 0.426, 'pruned': 3469769, 'regrown': 3469769, 'items_coded': 140}
+[c_n1 s4 1806s] drift C: 0.805 -> 0.566 after 300 untutored dialogues
+[c_n1 s4 1806s] done viol=0 secs=1805.6
+run_rm rc=0 1806s
+[post c_n1 s4 0s rss 179MB] loaded RandCore mix n 48229
+[post c_n1 s4 21s rss 350MB] held-out probe B: slot 0.00/43 (echo 0.00, const 0.30), what 0.06/54 (echo 0.00, const 0.37), where 0.02/49 (echo 0.00, const 0.37)
+[post c_n1 s4 42s rss 515MB] held-out probe C: colour 0.67/33 (echo 0.00, const 0.24), count 0.52/29 (echo 0.00, const 0.38), offer 0.40/47 (echo 0.00, const 1.00), taste 0.00/17 (echo 0.00, const 1.00)
+[post c_n1 s4 68s rss 521MB] held-out probe D: check 0.48/67 (echo 0.00, const 0.52)
+[post c_n1 s4 104s rss 521MB] fault clean: ALL 0.68 B 0.6974 C 0.805 D 0.4825
+[post c_n1 s4 140s rss 521MB] fault rand: ALL 0.3365 B 0.3355 C 0.4654 D 0.1579
+[post c_n1 s4 176s rss 521MB] fault sim: ALL 0.3835 B 0.3816 C 0.5346 D 0.1754
+[post c_n1 s4 369s rss 524MB] drift: 0.805 -> 0.566 after 300
+[post c_n1 s4 666s rss 526MB] drift: -> 0.1887 after 900
+[post c_n1 s4 666s rss 526MB] done
+post rc=0 2472s
