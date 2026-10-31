@@ -71,8 +71,19 @@ listening, babbling and conversing.
 - The speech mechanics (never talking over a partner, starting on time, clean 3-tick syllables) stay at 0 errors in every
   run.
 
-**Next:** synthesize one unified design → port it to GPU so one model drives many bodies → long multi-agent life in
-world2, using the designer's 3-D visual network on real images → scaling curves (1× / 4× / 16×).
+- **Unified design ARCH_v2** ([v2/synth/ARCH_v2.md](v2/synth/ARCH_v2.md)). It starts from the tuned setting and adds
+  one part at a time, each compared on at least two seeds:
+  - kept: the speech intention, a **continuous thought** (a new line pushes the old content down; nothing is cleared;
+    long silences drift to favourite topics), innate retinotopic attention, and recency in recall;
+  - removed: the fixed slow-context layer, which was harmful.
+  - Overall score 0.73 → **0.83** (held-out seeds 0.74 → 0.82); colour / count 0.15 / 0.45 → 0.93 / 0.76.
+  - In one unbroken life: free replies 0.20 → 0.34, last tenth of life 0.25 → 0.47, about 1,900 self-initiated
+    utterances, 0 overlaps.
+  - Still open: drift without a teacher, thinking that improves answers, one-shot naming, generalisation (≈ 0.2).
+
+**Next:** port ARCH_v2 to GPU so one model drives many bodies → long multi-agent life in world2 → connectivity
+(local / small-world / full) and PFC excitability sweeps → scaling curves (1× / 4× / 16×) → the innate social-value
+pathway, and later the designer's 3-D visual network on real images.
 
 ## Run
 ```bash

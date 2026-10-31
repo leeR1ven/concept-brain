@@ -1,0 +1,50 @@
+[B] full                             ALL (0.67, 312, 0.049) pool (209, 312) {'spoke': 0.888, 'lat_mean': 6.03, 'lat_ok': 6.01, 'lat_bad': 6.1, 'overlap': 0, 'garble': 0} slot=0.711 what=0.621 where=0.694
+[C] full                             ALL (0.803, 295, 0.231) pool (237, 295) {'spoke': 0.841, 'lat_mean': 6.11, 'lat_ok': 6.08, 'lat_bad': 6.91, 'overlap': 0, 'garble': 0} colour=0.898 count=0.828 offer=0.713 ritual=0.914 taste=0.682
+[D] full                             ALL (0.381, 197, 0.306) pool (136, 286) {'spoke': 0.895, 'lat_mean': 6.67, 'lat_ok': 6.65, 'lat_bad': 6.7, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.448 oneshot=0.0
+[B] GEN (cortex readout)             ALL (0.045, 312, 0) pool (14, 312) {'spoke': 0.644, 'lat_mean': 6.08, 'lat_ok': 6.07, 'lat_bad': 6.08, 'overlap': 0, 'garble': 0} slot=0.011 what=0.0 where=0.133
+[C] GEN (cortex readout)             ALL (0.271, 295, 0.062) pool (80, 295) {'spoke': 0.451, 'lat_mean': 6.17, 'lat_ok': 6.03, 'lat_bad': 6.4, 'overlap': 0, 'garble': 0} colour=0.041 count=0.031 offer=0.15 ritual=0.862 taste=0.318
+[D] GEN (cortex readout)             ALL (0.056, 197, 0) pool (13, 286) {'spoke': 0.549, 'lat_mean': 6.85, 'lat_ok': 6.62, 'lat_bad': 6.87, 'overlap': 0, 'garble': 0} before=0.0 check=0.0 name=0.379 oneshot=0.0
+[B] BG copy gate (prompt)            ALL (0.484, 312, 0.117) pool (151, 312) {'spoke': 0.567, 'lat_mean': 6.08, 'lat_ok': 6.05, 'lat_bad': 6.27, 'overlap': 0, 'garble': 0} slot=0.711 what=0.153 where=0.694
+[C] BG copy gate (prompt)            ALL (0.631, 295, 0.231) pool (186, 295) {'spoke': 0.681, 'lat_mean': 6.08, 'lat_ok': 6.05, 'lat_bad': 6.47, 'overlap': 0, 'garble': 0} colour=0.898 count=0.828 offer=0.637 ritual=0.138 taste=0.682
+[D] BG copy gate (prompt)            ALL (0.381, 197, 0.278) pool (129, 286) {'spoke': 0.801, 'lat_mean': 6.85, 'lat_ok': 6.67, 'lat_bad': 7.09, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.448 oneshot=0.0
+[B] hippocampal recall routes        ALL (0.667, 312, 0.029) pool (208, 312) {'spoke': 0.859, 'lat_mean': 6.08, 'lat_ok': 6.06, 'lat_bad': 6.17, 'overlap': 0, 'garble': 0} slot=0.7 what=0.621 where=0.694
+[C] hippocampal recall routes        ALL (0.8, 295, 0.215) pool (236, 295) {'spoke': 0.82, 'lat_mean': 6.11, 'lat_ok': 6.08, 'lat_bad': 7.17, 'overlap': 0, 'garble': 0} colour=0.898 count=0.844 offer=0.688 ritual=0.914 taste=0.682
+[D] hippocampal recall routes        ALL (0.32, 197, 0.278) pool (128, 286) {'spoke': 0.825, 'lat_mean': 6.67, 'lat_ok': 6.66, 'lat_bad': 6.69, 'overlap': 0, 'garble': 0} before=0.0 check=0.638 name=0.103 oneshot=0.0
+[B] whole hippocampus                ALL (0.66, 312, 0.029) pool (206, 312) {'spoke': 0.856, 'lat_mean': 6.08, 'lat_ok': 6.03, 'lat_bad': 6.23, 'overlap': 0, 'garble': 0} slot=0.689 what=0.613 where=0.694
+[C] whole hippocampus                ALL (0.793, 295, 0.246) pool (234, 295) {'spoke': 0.81, 'lat_mean': 6.13, 'lat_ok': 6.11, 'lat_bad': 7.0, 'overlap': 0, 'garble': 0} colour=0.939 count=0.844 offer=0.713 ritual=0.81 taste=0.682
+[D] whole hippocampus                ALL (0.33, 197, 0.306) pool (130, 286) {'spoke': 0.857, 'lat_mean': 6.67, 'lat_ok': 6.62, 'lat_bad': 6.74, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.103 oneshot=0.0
+[B] learned attention (word->slot)   ALL (0.25, 312, 0.01) pool (78, 312) {'spoke': 0.846, 'lat_mean': 6.09, 'lat_ok': 6.04, 'lat_bad': 6.12, 'overlap': 0, 'garble': 0} slot=0.0 what=0.621 where=0.01
+[C] learned attention (word->slot)   ALL (0.475, 295, 0) pool (140, 295) {'spoke': 0.692, 'lat_mean': 6.27, 'lat_ok': 6.09, 'lat_bad': 6.69, 'overlap': 0, 'garble': 0} colour=0.0 count=0.0 offer=0.713 ritual=0.914 taste=0.682
+[D] learned attention (word->slot)   ALL (0.381, 197, 0.306) pool (93, 286) {'spoke': 0.906, 'lat_mean': 6.67, 'lat_ok': 6.81, 'lat_bad': 6.59, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.448 oneshot=0.0
+[B] comparator / primes              ALL (0.365, 312, 0.184) pool (114, 312) {'spoke': 0.622, 'lat_mean': 6.29, 'lat_ok': 6.31, 'lat_bad': 6.28, 'overlap': 0, 'garble': 0} slot=0.711 what=0.395 where=0.01
+[C] comparator / primes              ALL (0.431, 295, 0) pool (127, 295) {'spoke': 0.651, 'lat_mean': 6.27, 'lat_ok': 6.06, 'lat_bad': 6.66, 'overlap': 0, 'garble': 0} colour=0.0 count=0.0 offer=0.55 ritual=0.914 taste=0.682
+[D] comparator / primes              ALL (0.223, 197, 0) pool (85, 286) {'spoke': 0.766, 'lat_mean': 6.91, 'lat_ok': 6.68, 'lat_bad': 7.06, 'overlap': 0, 'garble': 0} before=0.0 check=0.33 name=0.448 oneshot=0.0
+[B] visual recognition VR            ALL (0.619, 312, 0.029) pool (193, 312) {'spoke': 0.872, 'lat_mean': 6.04, 'lat_ok': 6.01, 'lat_bad': 6.11, 'overlap': 0, 'garble': 0} slot=0.678 what=0.516 where=0.694
+[C] visual recognition VR            ALL (0.82, 295, 0.292) pool (242, 295) {'spoke': 0.831, 'lat_mean': 6.1, 'lat_ok': 6.1, 'lat_bad': 6.33, 'overlap': 0, 'garble': 0} colour=0.939 count=0.875 offer=0.713 ritual=0.914 taste=0.682
+[D] visual recognition VR            ALL (0.391, 197, 0.417) pool (137, 286) {'spoke': 0.881, 'lat_mean': 6.65, 'lat_ok': 6.66, 'lat_bad': 6.65, 'overlap': 0, 'garble': 0} before=0.0 check=0.681 name=0.448 oneshot=0.0
+[B] scene focus F                    ALL (0.058, 312, 0) pool (18, 312) {'spoke': 0.538, 'lat_mean': 6.18, 'lat_ok': 6.22, 'lat_bad': 6.18, 'overlap': 0, 'garble': 0} slot=0.0 what=0.0 where=0.184
+[C] scene focus F                    ALL (0.373, 295, 0) pool (110, 295) {'spoke': 0.715, 'lat_mean': 6.66, 'lat_ok': 6.55, 'lat_bad': 6.78, 'overlap': 0, 'garble': 0} colour=0.0 count=0.078 offer=0.463 ritual=0.914 taste=0.341
+[D] scene focus F                    ALL (0.127, 197, 0.028) pool (39, 286) {'spoke': 0.794, 'lat_mean': 7.36, 'lat_ok': 7.15, 'lat_bad': 7.4, 'overlap': 0, 'garble': 0} before=0.0 check=0.117 name=0.448 oneshot=0.029
+[B] slow context CTX                 ALL (0.66, 312, 0.019) pool (206, 312) {'spoke': 0.888, 'lat_mean': 6.04, 'lat_ok': 6.01, 'lat_bad': 6.1, 'overlap': 0, 'garble': 0} slot=0.678 what=0.621 where=0.694
+[C] slow context CTX                 ALL (0.803, 295, 0.262) pool (237, 295) {'spoke': 0.841, 'lat_mean': 6.12, 'lat_ok': 6.1, 'lat_bad': 6.73, 'overlap': 0, 'garble': 0} colour=0.939 count=0.828 offer=0.713 ritual=0.879 taste=0.682
+[D] slow context CTX                 ALL (0.442, 197, 0.361) pool (147, 286) {'spoke': 0.899, 'lat_mean': 6.65, 'lat_ok': 6.65, 'lat_bad': 6.66, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.862 oneshot=0.0
+[B] learned brake P_oth              ALL (0.67, 312, 0.049) pool (209, 312) {'spoke': 0.888, 'lat_mean': 6.03, 'lat_ok': 6.01, 'lat_bad': 6.1, 'overlap': 0, 'garble': 0} slot=0.711 what=0.621 where=0.694
+[C] learned brake P_oth              ALL (0.803, 295, 0.231) pool (237, 295) {'spoke': 0.841, 'lat_mean': 6.08, 'lat_ok': 6.04, 'lat_bad': 6.91, 'overlap': 0, 'garble': 0} colour=0.898 count=0.828 offer=0.713 ritual=0.914 taste=0.682
+[D] learned brake P_oth              ALL (0.36, 197, 0.306) pool (132, 286) {'spoke': 0.864, 'lat_mean': 6.64, 'lat_ok': 6.6, 'lat_bad': 6.68, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.31 oneshot=0.0
+[B] learned eagerness V_go           ALL (0.67, 312, 0.049) pool (209, 312) {'spoke': 0.888, 'lat_mean': 6.06, 'lat_ok': 6.01, 'lat_bad': 6.21, 'overlap': 0, 'garble': 0} slot=0.711 what=0.621 where=0.694
+[C] learned eagerness V_go           ALL (0.803, 295, 0.231) pool (237, 295) {'spoke': 0.841, 'lat_mean': 6.17, 'lat_ok': 6.13, 'lat_bad': 7.09, 'overlap': 0, 'garble': 0} colour=0.898 count=0.828 offer=0.713 ritual=0.914 taste=0.682
+[D] learned eagerness V_go           ALL (0.381, 197, 0.306) pool (136, 286) {'spoke': 0.895, 'lat_mean': 6.7, 'lat_ok': 6.76, 'lat_bad': 6.63, 'overlap': 0, 'garble': 0} before=0.0 check=0.66 name=0.448 oneshot=0.0
+
+pooled over BCD:
+  full                             0.652 (582/893)  drop +0.000
+  GEN (cortex readout)             0.120 (107/893)  drop +0.532
+  BG copy gate (prompt)            0.522 (466/893)  drop +0.130
+  hippocampal recall routes        0.640 (572/893)  drop +0.011
+  whole hippocampus                0.638 (570/893)  drop +0.013
+  learned attention (word->slot)   0.348 (311/893)  drop +0.303
+  comparator / primes              0.365 (326/893)  drop +0.287
+  visual recognition VR            0.640 (572/893)  drop +0.011
+  scene focus F                    0.187 (167/893)  drop +0.465
+  slow context CTX                 0.661 (590/893)  drop -0.009
+  learned brake P_oth              0.647 (578/893)  drop +0.004
+  learned eagerness V_go           0.652 (582/893)  drop +0.000

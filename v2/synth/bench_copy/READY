@@ -1,0 +1,1 @@
+v1.2: full API + options (eye_layout='retino', mouth_vocab='lexicon'); selftest 29/29 PASS (incl. tick-identical ARCH_v1 cross-check); the bar (3 seeds) + baselines in README 'Reference numbers'. NOTE: D task 'before' redesigned 02:56 (older copies: solvable by repeating the last answer) - recopy world.py.

@@ -1,0 +1,2 @@
+[think_retabs s0 1s] start base=think stages=['B', 'BC', 'BCDD'] nS=1000 world={'eye_layout': 'retino'} kw={'recall_n': 8, 'eta_recall': 0.2, 'rec_pow': 0.0, 'hip_cap': 10000, 'hip_ndg': 6000, 'hip_kdg': 120, 'floor': 0.3, 'policy': 'free', 'ior': 0, 'think_k': 3, 'urg_gate': False, 'brake_now': True, 'late_release': False, 'u_reply': 0.15, 'u_R1': 1.0, 'own_tail': True, 'rel': False}
+Terminated

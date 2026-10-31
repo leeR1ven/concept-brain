@@ -15,7 +15,8 @@ python tests/test_parts.py sense     # 听觉区单独验证：听得清 / 记�
 - `world/voice.py` 声音世界（每个字一个声音，自己 / 别人略有差异；嘴部肌肉）
 
 ## v2（进行中）
-新一代架构的整体审查、共享测试台和三个独立原型在 [v2/](v2/README.md)；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。
+新一代架构的整体审查、共享测试台、三个独立原型和合成后的统一架构 ARCH_v2 在 [v2/](v2/README.md)
+（统一架构综合分 0.42→0.83，在新种子上 0.82；详见 [v2/synth/ARCH_v2.md](v2/synth/ARCH_v2.md)）；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。
 设计者的核心思想及验证情况见 [docs/IDEAS.md](docs/IDEAS.md)。
 
 许可证：MIT（见 [LICENSE](LICENSE)）。
