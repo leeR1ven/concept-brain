@@ -105,6 +105,35 @@ output layer links to the input layer by Hebbian learning.
 - On the corpus, a local learner already finds word classes; for example, the nearest neighbours of 我 (I) are 你 / 他 / 她
   (you / he / she).
 
+**Designer's addendum (2026-10-31): like a child, first grow many random connections, then train on top of them.** Do
+not start from an empty model and add connections one at a time.
+- **Today:**
+  - ARCH_v2's conjunction layer (MIX) does exactly the latter: it recruits one new unit for every new exact
+    combination.
+  - The reviewers found that this is why it behaves like a lookup table:
+    - one misheard syllable changes every key it appears in;
+    - no unit stands for "this sentence frame, whatever the filler";
+    - the unit count keeps growing, so a bigger model only memorises more combinations.
+- **Why random connections from birth help:**
+  - The size is fixed from birth: a bigger model just means generating more units, and it suits the GPU.
+  - Codes are distributed and overlapping, so a misheard syllable changes only a few inputs (fault tolerance, #14).
+  - Random wiring naturally produces mixed units: some see only the frame, some only the filler, some both. The
+    frame-only units are what carries a frame over to a word never heard in it.
+- **It matches the brain:**
+  - Synapses in the infant cortex are overproduced and peak in early childhood, at about 50 % above the adult level.
+    They are then pruned by use: connections that are used stay and strengthen, unused ones are removed (Huttenlocher
+    1979; Changeux & Danchin 1976).
+  - Pruning also gives a clean-up that needs no sleep.
+- **Caution:** fixed random connections alone are not enough. v1 was a fixed random net with a Hebbian readout, and it
+  was at chance on never-heard sentences. Training must continue on top of the random connections: units that fire
+  together strengthen their links, and long-unused links are pruned.
+- **Plan:** replace ARCH_v2's MIX with "random at birth + trained on top + pruned", and compare it with today's
+  one-unit-per-combination version on the same bench:
+  - held-out items per task;
+  - drift without a teacher;
+  - tolerance to misheard syllables;
+  - memory and speed.
+
 ## 6. Speaking is caused by thinking; outside signals only influence thinking
 
 **Implementation and evidence** (`v2/think/report.md`). The fixed "start on tick 4 after the partner stops" was replaced
