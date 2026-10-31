@@ -441,21 +441,31 @@ class CareMixin:
         self.last_asked[i][item] = self.t
         if ex.get('point') is not None:
             yield ('point', ex['point'])
+        fov = self.fovea and ex.get('point') is not None          # fovea mode: when does the pointed cell enter it?
+        if fov:
+            self._fov_watch[i] = dict(cell=ex['point'], t0=self.t,
+                                      hit=self.t if self.front_cell(i) == ex['point'] else None)
         try:
             yield _say(prompt, to=i, kind='q')
             t_end = self.t
             rec['t_prompt_end'] = t_end
+            if fov:
+                rec['fovea_at_prompt_end'] = self.front_cell(i) == ex['point']
             self._hook_prompt(i, dict(kind='q', exkind=kind, task=ex['task'], prompt=prompt, item=item,
                                       acceptable=list(ex['acceptable']), eye_hash=eh, cg=cg.pid))
             if kind == 'model':
                 yield ('wait', p['gap_model'])
                 yield _say(ex['model'], to=i, kind='model', teach=(item, prompt, ex['model']))
                 res = yield ('listen', [i], dict(min_gap=p['model_wait']))
+                if fov:
+                    self._fovea_tags(rec, i, ex['point'])
                 rec['reply'] = ''
                 rec['model_reply'] = ex['model']
                 rec['after_model_reply'] = res[i]['reply']
             else:
                 res = yield ('listen', [i], {})
+                if fov:
+                    self._fovea_tags(rec, i, ex['point'])
                 R = res[i]
                 rec.update(reply=R['reply'], t_first=R['first'], stop=R['stop'], garble=R.get('garble', 0),
                            overlap=R.get('overlap', 0),
@@ -471,7 +481,17 @@ class CareMixin:
         finally:
             if ex.get('point') is not None:
                 self._point(cg, None)
+            if fov:
+                self._fov_watch[i] = None
         return rec
+
+    def _fovea_tags(self, rec, i, cell):
+        """fovea mode, at the close of the answer window: was the pointed cell brought into the fovea, and when."""
+        fw = self._fov_watch[i]
+        rec['fovea_hit'] = fw is not None and fw['hit'] is not None
+        rec['fovea_wait'] = (fw['hit'] - fw['t0']) if rec['fovea_hit'] else None
+        rec['fovea_at_start'] = rec['fovea_hit'] and fw['hit'] == fw['t0']
+        rec['fovea_at_close'] = self.front_cell(i) == cell
 
     def _t_question(self, cg, i):
         """a question about the here-and-now (what the agent can see or holds), with pointing."""

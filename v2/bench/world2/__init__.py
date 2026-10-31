@@ -9,6 +9,6 @@
 """
 from .core import World2, DEFAULTS, MOTOR, N_ACT, N_MOTOR, N_MOUTH, phys  # noqa: F401
 from .agents import (PerAgent, MouthOnly, Explore, Silent, RandomActor, Echo, Lookup, Oracle, Namer,  # noqa: F401
-                     REFERENCES)
+                     Looker, REFERENCES)
 from .metrics import evaluate, headline  # noqa: F401
 from . import lex  # noqa: F401

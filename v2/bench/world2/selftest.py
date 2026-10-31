@@ -19,7 +19,7 @@ sys.path.insert(0, BENCH)
 
 import numpy as np  # noqa: E402
 
-from world2 import World2, PerAgent, Silent, RandomActor, Echo, Lookup, Oracle, Namer, evaluate, lex  # noqa: E402
+from world2 import World2, PerAgent, Silent, RandomActor, Echo, Lookup, Oracle, Namer, Looker, evaluate, lex  # noqa: E402
 from world2.core import (DIRS, N_ACT, N_MOUTH, MOTOR, cell_of, xy_of, phys, INAUD, SOUND, VOID)  # noqa: E402
 from world2.lex import EYE_B, E_KIND, E_COL, E_CNT, E_SIZE, E_PTR, KIND_ID, KINDS  # noqa: E402
 
@@ -508,6 +508,123 @@ def t_speed():
           best >= 1e5, f'{best:,.0f} ticks/s')
 
 
+# ------------------------------------------------------------------------------------------ uniform eye regression
+UNIFORM_V1 = {   # md5 of (log, eye at t = 12,000, evaluate()) recorded with world2 v1 before the fovea option existed
+    'oracle': (Oracle, 4, 0, 60000, 'b62e2686963099080eb997c8fa83d2a0', '2388598e8b06aca458ce97b6746b2d29',
+               'bc8bacef5db47e9051bb63ab1f7fea09'),
+    'random': (RandomActor, 4, 1, 30000, 'c4abfc75d41b24bd0483f0cce2097471', '23da07951961f2e324803d620143063c',
+               'db755c66594ba76ef07be75b856d0af7'),
+    'silent16': (Silent, 16, 2, 60000, '9fd3cbf5b43634f5bc0e73ff3146f735', 'f4ba51caa4f73cf297d6be2d78325cdd',
+                 'ce68d12d687b06af100c305e10936a1a'),
+    'namer': (Namer, 4, 0, 30000, 'c9a8e113565bb159c5b837bf4b69e10f', 'e9e2162942c4530de831d0f6812fb2a6',
+              '487cc46dfe86c6bc42c39e6e7ec91595'),
+}
+
+
+def _md5(x):
+    return hashlib.md5(json.dumps(x, ensure_ascii=False, default=str, sort_keys=True).encode()).hexdigest()
+
+
+def t_uniform_regression():
+    bad = []
+    for nm, (mk, n, seed, ticks, h_log, h_eye, h_res) in UNIFORM_V1.items():
+        w = World2(n_agents=n, seed=seed)
+        a = mk(n)
+        w.run(a, ticks=12000)
+        eye = hashlib.md5(w.EYE.tobytes()).hexdigest()
+        log = w.run(a, ticks=ticks - 12000)
+        res = hashlib.md5(json.dumps(evaluate(log), default=str, sort_keys=True).encode()).hexdigest()
+        if (_md5(log), eye, res) != (h_log, h_eye, h_res):
+            bad.append(nm)
+    check('the default uniform eye is unchanged: logs, eyes and evaluate() bit-identical to world2 v1 (4 lives)',
+          not bad, f'differ: {bad}' if bad else 'oracle, random, 16 silent, namer')
+
+
+# ------------------------------------------------------------------------------------------ foveated eye
+def t_fovea():
+    L = lex
+    nm = len(L.MID_K)
+    mid = {k: L.FB + i * L.MB for i, k in enumerate(L.MID_K)}
+    outr = {k: L.FB + nm * L.MB + i * L.OB for i, k in enumerate(L.OUT_K)}
+    w = quiet_world(1, eye_mode='fovea')
+    move(w, 0, 10, 9, head=1)                                    # living room, facing east
+    w._spawn(KIND_ID['苹果'], cell=cell_of(11, 9), colour=0, count=2, size=1)    # in front: the fovea
+    w._spawn(KIND_ID['香蕉'], cell=cell_of(10, 10), colour=1, count=3, size=0)   # right side (row 0, +1): medium
+    w._spawn(KIND_ID['皮球'], cell=cell_of(13, 9), colour=2, count=1, size=0)    # 3 ahead: outer
+    w.run(w.agents, ticks=4)                                      # (after the 3 ticks of 'motion' of the new objects)
+    E = w.EYE[0].astype(int)
+    fc = w.fcodes
+    f = E[:L.FB]
+    fov_ok = E.shape[0] == 512 and f[L.F_KIND + fc.kind[KIND_ID['苹果']]].all() and f[L.F_KIND:L.F_KIND + 60].sum() == 8 \
+        and f[L.F_COL:L.F_COL + 2].all() and f[L.F_CNT + 2:L.F_CNT + 4].all() and f[L.F_SIZE + 2:L.F_SIZE + 4].all() \
+        and f[L.F_CLS:L.F_CLS + 2].all() and f[L.F_TER + L.T_L] == 1
+    m = E[mid[3]:mid[3] + L.MB]
+    mid_ok = m[L.M_CLS:L.M_CLS + 2].all() and m[L.M_COL + 1] == 1 and m.sum() == 4     # food + yellow + floor
+    o = E[outr[17]:outr[17] + L.OB]
+    out_ok = o[L.O_OBJ] == 1 and o[L.O_FLOOR] == 1 and o.sum() == 2
+    ov = max(len(np.intersect1d(a, b)) for i, a in enumerate(fc.kind) for b in fc.kind[i + 1:])
+    check('fovea: the cell in front in full detail at a higher resolution (kind 8 of 60, colour / count / size x 2, '
+          'class, terrain); the 8 cells around: class + colour (+ terrain, person, pointing); outer: something there',
+          fov_ok and mid_ok and out_ok and ov <= 2, f'fovea {fov_ok}, medium {mid_ok}, outer {out_ok}, kind codes overlap '
+          f'<= {ov} of 8 (uniform eye: <= 2 of 4); eye {E.shape[0]} units (uniform 1600)')
+    # pointing is visible in every ring; a person in the outer ring is seen as an adult; motion lasts 3 ticks
+    w._point(w.cgs[0], cell_of(13, 9))
+    w._point(w.cgs[1], cell_of(10, 10))
+    w._move_person(w.N + 2, cell_of(14, 9))                      # 奶奶 enters the outer ring (4 ahead)
+    w.run(w.agents, ticks=1)
+    E = w.EYE[0].astype(int)
+    o4 = E[outr[22]:outr[22] + L.OB]
+    ptr_ok = E[outr[17] + L.O_PTR] == 1 and E[mid[3] + L.M_PTR:mid[3] + L.M_PTR + 2].all()
+    per_ok = o4[L.O_PERSON] == 1 and o4[L.O_ADULT] == 1 and o4[L.O_MOTION] == 1
+    w.run(w.agents, ticks=3)
+    mot_off = w.EYE[0, outr[22] + L.O_MOTION] == 0 and w.EYE[0, outr[22] + L.O_PERSON] == 1
+    # turning brings the banana (right side) into the fovea; the apple leaves it
+    w._point(w.cgs[0], None)
+    ag = _Plan(1, {0: [(0, mot('turn_right'))]})
+    w.attach(ag)
+    w.run(ag, ticks=2)
+    f2 = w.EYE[0, :L.FB]
+    turn_ok = f2[L.F_KIND + fc.kind[KIND_ID['香蕉']]].all() and f2[L.F_KIND:L.F_KIND + 60].sum() == 8 and \
+        f2[L.F_PTR:L.F_PTR + 2].all()
+    check('fovea: caregiver pointing is visible in every ring, a person in the periphery is seen (adult) and its motion '
+          'for 3 ticks; turning brings an object into the fovea (active vision with the existing motor units)',
+          ptr_ok and per_ok and mot_off and turn_ok, f'pointing {ptr_ok}, person + motion {per_ok}, motion off after 3 '
+          f'ticks {mot_off}, turn -> fovea {turn_ok}')
+    # the eye mode changes only what the agents see: same world for agents that do not use the eye
+    keys = {'new_situation', 'fovea_hit', 'fovea_wait', 'fovea_at_start', 'fovea_at_close', 'fovea_at_prompt_end'}
+    strip = lambda log: [{k: v for k, v in r.items() if k not in keys} for r in log]     # noqa: E731
+    la = World2(n_agents=4, seed=3).run(Oracle(4), ticks=60000)
+    lb = World2(n_agents=4, seed=3, eye_mode='fovea').run(Oracle(4), ticks=60000)
+    check('fovea: the world is the same (caregivers, content, timing) -- an eye-independent agent lives the same life',
+          strip(la) == strip(lb), f'{len(la)} records compared without the eye-derived tags')
+    # anti-cheat in fovea mode, and pointing can be followed from the eye alone
+    res = {}
+    for nmx, mk in (('echo', Echo), ('lookup', Lookup), ('oracle', Oracle), ('silent', Silent), ('looker', Looker)):
+        w = World2(n_agents=4, seed=1, eye_mode='fovea')
+        res[nmx] = evaluate(w.run(mk(4), ticks=150000))
+    G = lambda nmx, g: res[nmx]['groups'][g]['acc'] or 0.0                               # noqa: E731
+    Cm = lambda nmx: res[nmx]['comprehension']['ALL']['success'] or 0.0                  # noqa: E731
+    ok = all(G(n, g) == 0 for n in ('echo', 'lookup') for g in ('scene', 'held_out', 'memory')) and \
+        Cm('echo') == 0 and Cm('lookup') == 0 and \
+        all(res['oracle']['groups'][g]['acc'] == 1.0 for g in ('scene', 'held_out', 'memory', 'social')) and Cm('oracle') >= 0.95
+    check('fovea: anti-cheat holds (echo and lookup 0 on scene, held-out, memory, requests; oracle 1.0 and >= 0.95)', ok,
+          f"oracle scene {G('oracle', 'scene'):.2f} (n={res['oracle']['groups']['scene']['n']}) memory "
+          f"{G('oracle', 'memory'):.2f} requests {Cm('oracle'):.2f}; lookup scene {G('lookup', 'scene'):.2f}")
+    av_s, av_l = res['silent']['active_vision'], res['looker']['active_vision']
+    check('fovea: caregiver pointing can be followed from the eye alone (Looker: obs only) -- the pointed cell reaches '
+          'the fovea far more often than by chance', av_l['reached'] >= 0.6 and av_l['reached'] >= 2 * av_s['reached'],
+          f"pointed cell in the fovea by the window's end: Looker {av_l['reached']:.2f} (median {av_l['median_wait']} ticks), "
+          f"silent {av_s['reached']:.2f}")
+    best = 0.0
+    for _ in range(2):
+        w = World2(n_agents=16, seed=0, eye_mode='fovea')
+        t0 = time.time()
+        w.run(Silent(16), ticks=150000)
+        best = max(best, 150000 / (time.time() - t0))
+    check('fovea: speed with 16 trivial agents >= 0.9e5 ticks/s (measured, no target; uniform eye >= 1e5)', best >= 9e4,
+          f'{best:,.0f} ticks/s')
+
+
 def t_bench_unchanged():
     md5 = {'life.py': '4d60a4adaef703df58b3d6f6063f15f8', 'life_refs.py': '5f89f739822a01ec0f0222362ed8cc13',
            'selftest.py': '1e72bc3770b58a2f2c09445e7040bea2', 'README.md': '4124d67d3bfd190fe4b8e114df92a530'}
@@ -520,8 +637,8 @@ def t_bench_unchanged():
 
 if __name__ == '__main__':
     t0 = time.time()
-    for f in (t_bench_unchanged, t_physics, t_ear, t_voices, t_body, t_eye, t_night, t_determinism, t_life,
-              t_initiative, t_speed):
+    for f in (t_bench_unchanged, t_uniform_regression, t_physics, t_ear, t_voices, t_body, t_eye, t_night,
+              t_determinism, t_life, t_initiative, t_speed, t_fovea):
         f()
     n_ok = sum(ok for _, ok in RESULTS)
     out(f'\n{n_ok}/{len(RESULTS)} checks passed in {time.time() - t0:.0f} s')

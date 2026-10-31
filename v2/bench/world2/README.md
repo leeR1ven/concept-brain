@@ -1,6 +1,7 @@
 # world2 — an open house + garden where many models live with scripted caregivers (v1)
 
-Status: v1 works end to end; `selftest.py` 25/25 PASS (~40 s); reference numbers below and in `checks/refs.out`.
+Status: v1 works end to end; `selftest.py` 32/32 PASS (~65 s); reference numbers below and in `checks/refs.out`;
+option `eye_mode='fovea'` (a foveated eye, below; the default uniform eye is bit-identical to v1).
 numpy only, Python 3.10+. world2 is a new package inside `arch/v2/bench/`; it **imports** the bench's `physics.py` (the
 real model's Voice / Stream, mouth rule) and `metrics.py` (echo-free, parrot) and changes no bench file (v1.2 and life
 mode untouched; selftest checks it). Design rationale: `DESIGN.md`.
@@ -64,7 +65,7 @@ bench's warm-up stream); never read world internals; the `bench_*` hooks are for
 | key | shape, dtype | content |
 |---|---|---|
 | `ear` | (N, 8, 6) int64 | the bench's ear window per agent (2 slices/tick). One shared sound field: every speaking person is a source; levels − ceil((d−2)/2) beyond 2 cells, −2 between rooms, nothing beyond 8 cells (6 between rooms); max mix incl. own voice (bench `self` offset). 妈妈 = bench `other`, 爸爸 = `other2`, 奶奶 / every agent: own fixed offsets. A new view each sound tick (valid ≥ 1,024 ticks) |
-| `eye` | (N, 1600) uint8 | egocentric 5×5 view: rows 0–4 ahead (row 0 = own row; own cell = block 2, front cell = block 7), columns −2..+2; walls occlude; 25 blocks × 64 units, same code in every block (below). All zero at night |
+| `eye` | (N, 1600) uint8 (`eye_mode='fovea'`: (N, 512), see below) | egocentric 5×5 view: rows 0–4 ahead (row 0 = own row; own cell = block 2, front cell = block 7), columns −2..+2; walls occlude; 25 blocks × 64 units, same code in every block (below). All zero at night |
 | `touch` | (N, 16) uint8 | 0–11 held kind (3 of 12), 12–13 held size; 14 bump (1 tick after a blocked move); 15 hand change (1 tick) |
 | `taste` | (N, 8) uint8 | 3 of 8 per food kind, for 6 ticks after eating |
 | `hunger` | (N,) float32 | 0–1; +1 per 20,000 ticks; −0.5 per item eaten (start 0.3) |
@@ -74,6 +75,27 @@ Eye block (64 units): 0–11 terrain one-hot (wall, door, kitchen / living / bed
 stove, shelf, tree); 12–35 object kind (4 of 24, fixed per kind, pairwise overlap ≤ 2); 36–41 colour; 42–44 count;
 45–46 size; 47 held (the object code belongs to the object held by the person here); 48 adult, 49 child; 50–61 person
 identity (3 of 12); 62–63 pointed at by a caregiver. A person's cell shows the person and what it holds.
+
+## Foveated eye (`eye_mode='fovea'`; option — the default `'uniform'` is unchanged, bit for bit)
+`World2(..., eye_mode='fovea')` gives `obs['eye']` of shape (N, 512) uint8: more units at the centre, fewer at the edge.
+| part (units) | cells | units each | content |
+|---|---|---|---|
+| fovea (0–127) | the cell in front (view index 7, where take / put act) | 128 | terrain 12, class 4×2, **kind 8 of 60** (pairwise overlap ≤ 2 of 8; uniform eye: 4 of 24, ≤ 2 of 4), colour 6×2, count 3×2, size 2×2, held 2, adult, child, identity 5 of 20, pointed 2 |
+| medium (128–383) | the 8 cells around it: view 1 2 3 6 8 11 12 13 (rows 0–2 × columns −1..+1, incl. the own cell 2), in this order | 32 | terrain 12, class 4×2 (food, animal, toy animal, thing), colour 6, adult, child, held, pointed 2 |
+| outer (384–511) | the other 16 cells: view 0 4 5 9 10 14–24, in this order | 8 | obstacle (wall, furniture, tree), door, floor, object, person, adult, motion (something moved into or out of the cell in the last 3 ticks), pointed |
+- Gaze = the body's heading and position: turning or stepping brings a cell into the fovea. The existing motor units
+  suffice (no new action units); occlusion, darkness at night and pointing work as in the uniform eye. Kind and person
+  identity, count and size are seen only in the fovea; the periphery tells *something / which class / what colour /
+  someone / pointed at / moving*; touch still gives the held kind.
+- Only what the agents see changes: caregivers, content and timing are the same (an eye-independent agent lives exactly
+  the same life in both modes — selftest). Caregivers do not wait for the child to look.
+- Fovea-mode records of pointed questions add `fovea_at_start`, `fovea_at_prompt_end`, `fovea_hit` (the pointed cell
+  entered the fovea before the answer window closed), `fovea_wait` (ticks from the start of pointing), `fovea_at_close`;
+  `evaluate()` adds `active_vision` (shares, median wait, accuracy when reached / not).
+- Reference `Looker` (obs only: the documented layout + the motor order): a pointed cell seen in the periphery → it plans
+  a path inside its visible 5×5 frame to a cell next to it and turns to face it.
+- Later (not built): the designer's foveated 3-D visual network (local3d-similarity: FOVEATED.md, foveated.py) as the
+  real eye.
 
 ## Caregivers 妈妈 爸爸 奶奶 (scripted generators; every line generated from the world state)
 - **Activities**: teach an agent (an episode, weight 0.6), tidy (0.14), chat with another caregiver (0.12), rest (0.14,
@@ -139,11 +161,12 @@ and `stability_flags`. `headline(res)`: one line.
 `Silent`, `RandomActor` (random motor units p = 0.1 / tick, random 4-muscle babbles p = 0.01), `Echo` (repeats every
 question, request and greeting addressed to it), `Lookup` (prompt + exact eye input → the reply it heard taught for
 exactly that), `Namer` (every 300 quiet ticks names a random visible object), `Oracle` (answers from the world state,
-carries out requests by path planning). The last four are privileged (world hooks).
+carries out requests by path planning); `Echo`, `Lookup`, `Namer`, `Oracle` are privileged (world hooks). Fovea mode:
+`Looker` (obs only; follows pointing into its fovea, never speaks).
 
 ## Reference numbers (`refs.py`; raw: `results/*.json`, `checks/refs.out`)
 
-world2 reference runs: 10.0 days per run, seeds [0, 1, 2], 4 agents (and 16 agents for seed 0).
+world2 reference runs (eye_mode='uniform'): 10.0 days per run, seeds [0, 1, 2], 4 agents (and 16 agents for seed 0).
 
 ### Table (4 agents, mean ± sd over seeds)
 
@@ -166,30 +189,74 @@ Oracle per task (seed 0): check 1.00 (n=140), colour 1.00 (n=182), count 1.00 (n
 
 | agent | ticks/s | free acc | scene | held-out | memory | requests | questions per agent per day | initiative | a2a |
 |---|---|---|---|---|---|---|---|---|---|
-| silent | 131,643 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 10.4 | 0 | 0 |
-| random | 10,190 | 0.00 | 0.00 | 0.00 | 0.00 | 0.05 | 11.1 | 43832 | 19919 |
-| echo | 64,327 | 0.31 | 0.00 | 0.00 | 0.00 | 0.00 | 10.2 | 488 | 5 |
-| lookup | 112,578 | 0.09 | 0.00 | 0.00 | 0.00 | 0.00 | 10.7 | 0 | 0 |
-| namer | 26,359 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 11.0 | 3370 | 0 |
-| oracle | 58,328 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 13.6 | 0 | 0 |
+| silent | 119,165 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 10.4 | 0 | 0 |
+| random | 9,580 | 0.00 | 0.00 | 0.00 | 0.00 | 0.05 | 11.1 | 43832 | 19919 |
+| echo | 61,166 | 0.31 | 0.00 | 0.00 | 0.00 | 0.00 | 10.2 | 488 | 5 |
+| lookup | 107,897 | 0.09 | 0.00 | 0.00 | 0.00 | 0.00 | 10.7 | 0 | 0 |
+| namer | 26,367 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 11.0 | 3370 | 0 |
+| oracle | 52,699 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 13.6 | 0 | 0 |
 
 ### Speed (trivial agents, 5 days = 150,000 ticks each, best of 2)
 
 | agents | ticks/s | us/tick |
 |---|---|---|
-| 1 | 192,102 | 5.2 |
-| 4 | 145,346 | 6.9 |
-| 16 | 118,436 | 8.4 |
-| 64 | 72,718 | 13.8 |
+| 1 | 191,522 | 5.2 |
+| 4 | 128,999 | 7.8 |
+| 16 | 116,680 | 8.6 |
+| 64 | 72,164 | 13.9 |
 
-## Selftest (`python3 selftest.py` → `checks/selftest.out`, 25 checks, ~40 s)
+## Reference numbers, foveated eye (`refs.py --eye fovea`; raw: `results_fovea/*.json`, `checks/refs_fovea.out`)
+
+world2 reference runs (eye_mode='fovea'): 10.0 days per run, seeds [0, 1, 2], 4 agents (and 16 agents for seed 0).
+
+The world does not change with the eye: every agent whose behaviour ignores the eye (silent, random, echo, namer, oracle) lives exactly the same life and has exactly the same scores as with the uniform eye (full table in `checks/refs_fovea.out`); lookup (keys on the eye) scores 0 on scene, held-out, memory and requests in both. The `Looker` (obs only) shows that pointing can be followed into the fovea with the existing motor units:
+
+### Active vision (fovea mode, 4 agents, mean over seeds): pointed questions whose pointed cell was in the fovea
+
+| agent | pointed questions / run | in the fovea at the start | reached before the window closed | of those not at the start | median ticks to reach |
+|---|---|---|---|---|---|
+| silent | 653 | 0.12±0.05 | 0.12±0.05 | 0.00±0.00 | - |
+| random | 638 | 0.15±0.02 | 0.26±0.01 | 0.13±0.01 | 22.33±0.94 |
+| echo | 660 | 0.12±0.05 | 0.12±0.05 | 0.00±0.00 | - |
+| lookup | 686 | 0.12±0.05 | 0.12±0.05 | 0.00±0.00 | - |
+| namer | 646 | 0.10±0.05 | 0.10±0.05 | 0.00±0.00 | - |
+| oracle | 1062 | 0.15±0.01 | 0.15±0.01 | 0.00±0.00 | - |
+| looker | 554 | 0.30±0.01 | 0.67±0.03 | 0.53±0.06 | 5.00±1.41 |
+
+Oracle per task (seed 0): check 1.00 (n=140), colour 1.00 (n=182), count 1.00 (n=143), goodnight 1.00 (n=43), greet 1.00 (n=120), holding 1.00 (n=93), myname 1.00 (n=109), novel 1.00 (n=157), offer 1.00 (n=140), person 1.00 (n=149), room 1.00 (n=123), size 1.00 (n=120), what 1.00 (n=103), where 1.00 (n=188), who 1.00 (n=96), ALL 1.00 (n=1906)
+
+### 16 agents (seed 0)
+
+| agent | ticks/s | free acc | scene | held-out | memory | requests | questions per agent per day | initiative | a2a |
+|---|---|---|---|---|---|---|---|---|---|
+| silent | 110,769 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 10.4 | 0 | 0 |
+| random | 8,644 | 0.00 | 0.00 | 0.00 | 0.00 | 0.05 | 11.1 | 43832 | 19919 |
+| echo | 62,874 | 0.31 | 0.00 | 0.00 | 0.00 | 0.00 | 10.2 | 488 | 5 |
+| lookup | 101,580 | 0.08 | 0.00 | 0.00 | 0.00 | 0.00 | 10.4 | 0 | 0 |
+| namer | 27,010 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 11.0 | 3370 | 0 |
+| oracle | 52,511 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 13.6 | 0 | 0 |
+| looker | 20,300 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 10.6 | 0 | 0 |
+
+### Speed (trivial agents, 5 days = 150,000 ticks each, best of 2)
+
+| agents | ticks/s | us/tick |
+|---|---|---|
+| 1 | 176,760 | 5.7 |
+| 4 | 120,909 | 8.3 |
+| 16 | 102,715 | 9.7 |
+| 64 | 60,373 | 16.6 |
+
+## Selftest (`python3 selftest.py` → `checks/selftest.out`, 32 checks, ~65 s)
 Bench untouched; Voice / mouth rule = the bench's (3,970 chars); voices; the ear next to 妈妈 = the bench Stream
 bit for bit; attenuation (louder nearer, silent beyond range, walls); own voice one tick later, agents hear each other;
 mouth / onset rule; motor semantics, busy, bump; take / eat (reward, hunger, taste) / give; eye codes, pointing,
 turning, occlusion, terrain of untouched cells; nights dark and silent; determinism; batched == PerAgent; anti-cheat
 (echo and lookup 0 on scene, held-out, memory, requests; oracle 1.0 on every group, ≥ 0.95 on requests); random actor
 at chance; held-out pairs never answered; here-and-now pointing; memory probe delays; all request types; caregivers
-say one line at a time and the oracle never talks over its partner; fair attention; initiative reactions; agent-agent turns; speed ≥ 10⁵ ticks/s with 16 trivial agents.
+say one line at a time and the oracle never talks over its partner; fair attention; initiative reactions; agent-agent turns; speed ≥ 10⁵ ticks/s with 16 trivial agents. Uniform eye bit-identical to v1 (stored md5 of 4 lives:
+logs, mid-day eyes, `evaluate()`). Fovea: centre detail / medium / outer codes; pointing in every ring, a person and
+its motion in the periphery; turning brings an object into the fovea; same world as the uniform eye; anti-cheat; the
+Looker follows pointing; speed (≥ 0.9·10⁵ ticks/s; measured ≈1.0–1.07·10⁵).
 
 ## Deviations from the task and the draft, known limits
 - Eye block 64 units (draft 48); doors 3 wide; caregivers step over objects and nudge a blocking child (both needed:
@@ -202,8 +269,11 @@ say one line at a time and the oracle never talks over its partner; fair attenti
 - Speed: active agents cost more (16 random babbling / moving agents ≈ 9,000 ticks/s ≈ 0.1 ms per tick for the world:
   still far below any learning agent's step).
 - The agent-only-uses-obs rule cannot be enforced by the world.
+- `evaluate()`: in v1 the vocabulary count could differ between Python processes (tied word lengths followed Python's
+  string hashing); the word order is deterministic now and every other key is unchanged (checked under 3 hash seeds).
 
 ## Files
 `core.py` (mechanics, event loop, caregiver op driver), `care.py` (caregiver scripts, reactions), `lex.py` (lexicon,
-layout, held-out sets, codes), `agents.py` (wrappers, references), `metrics.py`, `selftest.py`, `refs.py` (reference
-runs + speed → `results/*.json`, `checks/refs.out`), `DESIGN.md`, `TASK.md`.
+layout, held-out sets, codes incl. the fovea's), `agents.py` (wrappers, references), `metrics.py`, `selftest.py`,
+`refs.py` (reference runs + speed → `results/*.json`, `checks/refs.out`; `--eye fovea` → `results_fovea/`,
+`checks/refs_fovea.out`), `DESIGN.md`, `TASK.md`.

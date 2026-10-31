@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Reference runs and speed table for world2.
 
-    python3 refs.py [days] [seeds]      (default 10 days, seeds 0 1 2; ~3 min)  -> results/*.json, checks/refs.out
+    python3 refs.py [days] [seeds] [--eye fovea]   (default 10 days, seeds 0 1 2; ~6 min)
+        uniform eye -> results/*.json, checks/refs.out;  --eye fovea -> results_fovea/*.json, checks/refs_fovea.out
 """
 import json
 import os
@@ -16,10 +17,17 @@ import numpy as np  # noqa: E402
 
 from world2 import World2, REFERENCES, evaluate, headline  # noqa: E402
 
-DAYS = float(sys.argv[1]) if len(sys.argv) > 1 else 10.0
-SEEDS = [int(x) for x in sys.argv[2:]] or [0, 1, 2]
-NAMES = ['silent', 'random', 'echo', 'lookup', 'namer', 'oracle']
-os.makedirs(os.path.join(HERE, 'results'), exist_ok=True)
+ARGS = [a for a in sys.argv[1:]]
+EYE = 'uniform'
+if '--eye' in ARGS:
+    EYE = ARGS[ARGS.index('--eye') + 1]
+    del ARGS[ARGS.index('--eye'):ARGS.index('--eye') + 2]
+DAYS = float(ARGS[0]) if ARGS else 10.0
+SEEDS = [int(x) for x in ARGS[1:]] or [0, 1, 2]
+NAMES = ['silent', 'random', 'echo', 'lookup', 'namer', 'oracle'] + (['looker'] if EYE == 'fovea' else [])
+RES_DIR = 'results' if EYE == 'uniform' else 'results_' + EYE
+OUT_FILE = 'refs.out' if EYE == 'uniform' else f'refs_{EYE}.out'
+os.makedirs(os.path.join(HERE, RES_DIR), exist_ok=True)
 os.makedirs(os.path.join(HERE, 'checks'), exist_ok=True)
 LINES = []
 
@@ -30,7 +38,7 @@ def out(s):
 
 
 def run(nm, n, seed, days):
-    w = World2(n_agents=n, seed=seed)
+    w = World2(n_agents=n, seed=seed, eye_mode=EYE)
     ticks = int(days * (w.p['day_ticks'] + w.p['night_ticks']))
     t0 = time.time()
     log = w.run(REFERENCES[nm](n), ticks=ticks)
@@ -47,12 +55,13 @@ def run(nm, n, seed, days):
     res['secs'] = round(dt, 1)
     res['ticks_per_s'] = round(ticks / dt)
     res['diag'] = dict(w.diag)
-    json.dump(res, open(os.path.join(HERE, 'results', f'{nm}_n{n}_s{seed}.json'), 'w', encoding='utf-8'),
+    json.dump(res, open(os.path.join(HERE, RES_DIR, f'{nm}_n{n}_s{seed}.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, default=str)
     return res
 
 
-out(f'# world2 reference runs: {DAYS} days per run, seeds {SEEDS}, 4 agents (and 16 agents for seed {SEEDS[0]})')
+out(f'# world2 reference runs (eye_mode={EYE!r}): {DAYS} days per run, seeds {SEEDS}, 4 agents (and 16 agents for seed '
+    f'{SEEDS[0]})')
 allres = {}
 for seed in SEEDS:
     for nm in NAMES:
@@ -98,6 +107,16 @@ out('\nInput to the agents (seed %d, mean over agents): ' % SEEDS[0] + ', '.join
     f"{nm} n={n}: {allres[(nm, n, SEEDS[0])]['input']['lines_to_agent_per_day']:.0f} caregiver lines addressed per agent "
     f"per day, caregiver speech audible {100 * allres[(nm, n, SEEDS[0])]['input']['audible_share_of_daytime']:.0f} % of "
     f"daytime" for nm in ('silent', 'oracle') for n in (4, 16)))
+if EYE == 'fovea':
+    out('\n## Active vision (fovea mode, 4 agents, mean over seeds): pointed questions whose pointed cell was in the fovea\n')
+    out('| agent | pointed questions / run | in the fovea at the start | reached before the window closed | of those not '
+        'at the start | median ticks to reach |')
+    out('|---|---|---|---|---|---|')
+    for nm in NAMES:
+        av = [allres[(nm, 4, s)].get('active_vision') or {} for s in SEEDS]
+        out(f"| {nm} | {np.mean([a.get('n', 0) for a in av]):.0f} | {ms([a.get('in_fovea_at_start') for a in av])} | "
+            f"{ms([a.get('reached') for a in av])} | {ms([a.get('reached_if_not_at_start') for a in av])} | "
+            f"{ms([a.get('median_wait') for a in av])} |")
 o = allres[('oracle', 4, SEEDS[0])]
 out('\nOracle per task (seed %d): ' % SEEDS[0] + ', '.join(f"{t} {f(v.get('acc'))} (n={v['n']})" for t, v in o['tasks'].items()))
 out('\n## 16 agents (seed %d)\n' % SEEDS[0])
@@ -116,11 +135,11 @@ from world2 import Silent  # noqa: E402
 for n in (1, 4, 16, 64):
     best = 0
     for _ in range(2):
-        w = World2(n_agents=n, seed=0)
+        w = World2(n_agents=n, seed=0, eye_mode=EYE)
         t0 = time.time()
         w.run(Silent(n), ticks=150000)
         best = max(best, 150000 / (time.time() - t0))
     out(f'| {n} | {best:,.0f} | {1e6 / best:.1f} |')
-with open(os.path.join(HERE, 'checks', 'refs.out'), 'w', encoding='utf-8') as fh:
+with open(os.path.join(HERE, 'checks', OUT_FILE), 'w', encoding='utf-8') as fh:
     fh.write('\n'.join(LINES) + '\n')
 out('REFS DONE')

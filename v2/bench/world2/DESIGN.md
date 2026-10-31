@@ -46,6 +46,24 @@ the hands of the person in front (give); eat = one item of the held food. Innate
   −0.5 per item eaten. reward (N,): eating (= hunger before), praise / thanks for answers and requests (+1),
   imitation of a naming (+0.5), an appropriate initiative answered (+1), an acceptable greeting reply (+1).
 
+## Foveated eye (option `eye_mode='fovea'`, added after v1; the uniform eye stays the default, bit for bit)
+The designer's request: more detail at the centre, less at the edge, so that an agent has a reason to look.
+- The fovea = the cell in front (where take / put act). Gaze = body heading and position, so the existing motor units
+  are the gaze: turning (3 ticks) or stepping brings a cell into the fovea. A separate eye movement was not added
+  (it would change the action vector); the designer's foveated 3-D visual network (local3d-similarity) is the planned
+  real eye of a later version.
+- Detail falls off in two rings: fovea 128 units (kind 8 of 60 with overlap ≤ 2 of 8, colour / count / size doubled,
+  identity 5 of 20), the 8 cells around it 32 units (class food / animal / toy animal / thing, colour, adult / child,
+  held, pointing, terrain), the 16 outer cells 8 units (obstacle / door / floor, object, person, adult, motion for 3
+  ticks, pointing). 512 units in all (uniform: 1,600). What can only be identified in the fovea: which kind, which
+  person, count, size; colour and class are peripheral; pointing and motion are seen everywhere (cues to look).
+- The world does not change with the eye mode: same caregivers, content and timing (selftest: identical lives for an
+  eye-independent agent). Caregivers point at objects anywhere in the 5×5 view and do not wait for the child to look;
+  fovea records tag whether and when the pointed cell reached the fovea (`active_vision` in `evaluate()`).
+- Reference `Looker` (obs only) shows that pointing can be followed with the existing body (pointed cell in the fovea
+  before the answer window closes: 0.67 vs 0.12 by chance); numbers in README. Speed with 16 trivial agents ≈1.0·10⁵
+  ticks/s (uniform ≈1.2·10⁵).
+
 ## Caregivers (scripted generators, every line generated from the current state)
 妈妈 爸爸 奶奶. Activities (weights 0.6 / 0.14 / 0.12 / 0.14): teach an agent (an episode), tidy, chat with each other,
 rest (150–700 ticks on an open cell); 奶奶 cooks at meal times; bedtime: 睡觉了 + 晚安 to the agents in earshot.

@@ -1,4 +1,5 @@
 [PASS] the bench is untouched: v1.2 core modules == v1.2/, life mode files unchanged (world2 only imports them)
+[PASS] the default uniform eye is unchanged: logs, eyes and evaluate() bit-identical to world2 v1 (4 lives)  (oracle, random, 16 silent, namer)
 [PASS] physics: the bench Voice (3,970 corpus chars: sounds, muscle sets, self offset) and its mouth rule  (3970 chars, 2,000 random muscle sets, 0 decode mismatches)
 [PASS] physics: voices 妈妈 = bench other (original sound), 爸爸 = bench other2, 奶奶 and every agent own offsets
 [PASS] ear: an agent next to 妈妈 hears exactly the bench Stream window (other voice, 2 slices/tick, 3 ticks/char)  (24 ticks compared, 0 differ)
@@ -22,6 +23,12 @@
 [PASS] many agents: attention rotates fairly (every agent gets >= half the questions of the most-asked one)  ({0: 407, 1: 399, 2: 396, 3: 400})
 [PASS] initiative: naming a visible object while a caregiver hears earns a reply (对是X) and reward from the nearest caregiver, whoever speaks; alone / repeated: nothing  ({'naming': 186, 'alone': 463, 'repeat': 135, 'unattended': 2, 'other': 1}; rewarded agents [0, 1, 2, 3] by ['奶奶', '妈妈', '爸爸'])
 [PASS] agent-agent talk: an utterance answered by another agent in earshot within 30 ticks is an agent-agent turn (a far agent speaking at the same time is not)  ([{'type': 'a2a', 't': 15, 'src': 0, 'dst': 1, 'gap': 12}])
-[PASS] speed: 16 trivial agents >= 1e5 world ticks/s on one core (best of 2 runs of 150,000 ticks = 5 days)  (123,595 ticks/s)
+[PASS] speed: 16 trivial agents >= 1e5 world ticks/s on one core (best of 2 runs of 150,000 ticks = 5 days)  (119,901 ticks/s)
+[PASS] fovea: the cell in front in full detail at a higher resolution (kind 8 of 60, colour / count / size x 2, class, terrain); the 8 cells around: class + colour (+ terrain, person, pointing); outer: something there  (fovea True, medium True, outer True, kind codes overlap <= 2 of 8 (uniform eye: <= 2 of 4); eye 512 units (uniform 1600))
+[PASS] fovea: caregiver pointing is visible in every ring, a person in the periphery is seen (adult) and its motion for 3 ticks; turning brings an object into the fovea (active vision with the existing motor units)  (pointing True, person + motion True, motion off after 3 ticks True, turn -> fovea True)
+[PASS] fovea: the world is the same (caregivers, content, timing) -- an eye-independent agent lives the same life  (2194 records compared without the eye-derived tags)
+[PASS] fovea: anti-cheat holds (echo and lookup 0 on scene, held-out, memory, requests; oracle 1.0 and >= 0.95)  (oracle scene 1.00 (n=551) memory 1.00 requests 1.00; lookup scene 0.00)
+[PASS] fovea: caregiver pointing can be followed from the eye alone (Looker: obs only) -- the pointed cell reaches the fovea far more often than by chance  (pointed cell in the fovea by the window's end: Looker 0.66 (median 4.0 ticks), silent 0.15)
+[PASS] fovea: speed with 16 trivial agents >= 0.9e5 ticks/s (measured, no target; uniform eye >= 1e5)  (106,356 ticks/s)
 
-25/25 checks passed in 35 s
+32/32 checks passed in 64 s

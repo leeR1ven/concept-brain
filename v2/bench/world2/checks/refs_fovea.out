@@ -1,0 +1,80 @@
+# world2 reference runs (eye_mode='fovea'): 10.0 days per run, seeds [0, 1, 2], 4 agents (and 16 agents for seed 0)
+silent  n=4 seed 0: 118,867 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1287 acc 0.00 | scene 0.00 (n=618) held-out 0.00 memory 0.00 (n=443) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=535) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+random  n=4 seed 0:  23,704 ticks/s | world2 4 agents, 299978 ticks (10 days): free 1430 acc 0.00 | scene 0.00 (n=845) held-out 0.00 memory 0.00 (n=406) social 0.00 | comprehension 0.07 (fetch 0.04 give 0.25 come 0.16, n=414) | initiative 10606 (appropriate 2, reward 2) | vocab 0.0 | a2a 1369 | talk over partner 1190 ticks / 421 interruptions (any caregiver 2207) | latency 18.0 | flags none
+echo    n=4 seed 0:  77,419 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1310 acc 0.12 | scene 0.00 (n=632) held-out 0.00 memory 0.00 (n=430) social 1.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=517) | initiative 517 (appropriate 0, reward 0) | vocab 3.0 | a2a 8 | talk over partner 0 ticks / 0 interruptions (any caregiver 1649) | latency 6.0 | flags none
+lookup  n=4 seed 0: 112,573 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1345 acc 0.03 | scene 0.00 (n=657) held-out 0.00 memory 0.00 (n=473) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=504) | initiative 0 (appropriate 0, reward 0) | vocab 2.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 12) | latency 6.0 | flags none
+namer   n=4 seed 0:  33,705 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1203 acc 0.00 | scene 0.00 (n=563) held-out 0.00 memory 0.00 (n=396) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=523) | initiative 819 (appropriate 240, reward 218) | vocab 24.8 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+oracle  n=4 seed 0:  60,390 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1906 acc 1.00 | scene 1.00 (n=1134) held-out 1.00 memory 1.00 (n=603) social 1.00 | comprehension 1.00 (fetch 1.00 give 1.00 come 1.00, n=648) | initiative 0 (appropriate 0, reward 0) | vocab 60.8 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 1467) | latency 6.0 | flags none
+looker  n=4 seed 0:  24,936 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1396 acc 0.00 | scene 0.00 (n=615) held-out 0.00 memory 0.00 (n=486) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=512) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+silent  n=4 seed 1: 121,147 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1303 acc 0.00 | scene 0.00 (n=613) held-out 0.00 memory 0.00 (n=410) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=556) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+random  n=4 seed 1:  23,791 ticks/s | world2 4 agents, 299978 ticks (10 days): free 1395 acc 0.00 | scene 0.00 (n=842) held-out 0.00 memory 0.00 (n=375) social 0.00 | comprehension 0.06 (fetch 0.05 give 0.03 come 0.13, n=455) | initiative 10624 (appropriate 3, reward 3) | vocab 0.0 | a2a 1565 | talk over partner 1181 ticks / 414 interruptions (any caregiver 2428) | latency 19.0 | flags none
+echo    n=4 seed 1:  72,874 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1306 acc 0.12 | scene 0.00 (n=609) held-out 0.00 memory 0.00 (n=423) social 1.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=552) | initiative 552 (appropriate 0, reward 0) | vocab 3.0 | a2a 5 | talk over partner 0 ticks / 0 interruptions (any caregiver 1214) | latency 6.0 | flags none
+lookup  n=4 seed 1: 112,117 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1302 acc 0.04 | scene 0.00 (n=667) held-out 0.00 memory 0.00 (n=406) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=533) | initiative 0 (appropriate 0, reward 0) | vocab 2.5 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 27) | latency 6.0 | flags none
+namer   n=4 seed 1:  33,653 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1396 acc 0.00 | scene 0.00 (n=673) held-out 0.00 memory 0.00 (n=481) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=511) | initiative 796 (appropriate 329, reward 329) | vocab 22.2 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+oracle  n=4 seed 1:  61,358 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1863 acc 1.00 | scene 1.00 (n=1111) held-out 1.00 memory 1.00 (n=581) social 1.00 | comprehension 1.00 (fetch 1.00 give 1.00 come 1.00, n=599) | initiative 0 (appropriate 0, reward 0) | vocab 58.8 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 965) | latency 6.0 | flags none
+looker  n=4 seed 1:  22,643 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1338 acc 0.00 | scene 0.00 (n=637) held-out 0.00 memory 0.00 (n=470) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.02, n=519) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+silent  n=4 seed 2: 126,682 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1291 acc 0.00 | scene 0.00 (n=660) held-out 0.00 memory 0.00 (n=424) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=478) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+random  n=4 seed 2:  23,361 ticks/s | world2 4 agents, 299978 ticks (10 days): free 1394 acc 0.00 | scene 0.00 (n=803) held-out 0.00 memory 0.00 (n=402) social 0.00 | comprehension 0.08 (fetch 0.05 give 0.18 come 0.16, n=424) | initiative 10625 (appropriate 0, reward 0) | vocab 0.0 | a2a 1268 | talk over partner 1058 ticks / 368 interruptions (any caregiver 1846) | latency 18.0 | flags none
+echo    n=4 seed 2:  76,981 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1238 acc 0.13 | scene 0.00 (n=629) held-out 0.00 memory 0.00 (n=410) social 1.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=497) | initiative 497 (appropriate 0, reward 0) | vocab 2.8 | a2a 1 | talk over partner 0 ticks / 0 interruptions (any caregiver 783) | latency 6.0 | flags none
+lookup  n=4 seed 2: 119,023 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1303 acc 0.05 | scene 0.00 (n=629) held-out 0.00 memory 0.00 (n=450) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=479) | initiative 0 (appropriate 0, reward 0) | vocab 2.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 12) | latency 6.0 | flags none
+namer   n=4 seed 2:  33,487 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1268 acc 0.00 | scene 0.00 (n=629) held-out 0.00 memory 0.00 (n=431) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=495) | initiative 1103 (appropriate 309, reward 305) | vocab 27.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+oracle  n=4 seed 2:  63,441 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1896 acc 1.00 | scene 1.00 (n=1157) held-out 1.00 memory 1.00 (n=562) social 1.00 | comprehension 1.00 (fetch 0.99 give 1.00 come 1.00, n=613) | initiative 0 (appropriate 0, reward 0) | vocab 62.8 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 1863) | latency 6.0 | flags none
+looker  n=4 seed 2:  23,268 ticks/s | world2 4 agents, 294000 ticks (10 days): free 1345 acc 0.00 | scene 0.00 (n=665) held-out 0.00 memory 0.00 (n=448) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=494) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+silent  n=16 seed 0: 110,769 ticks/s | world2 16 agents, 294000 ticks (10 days): free 1662 acc 0.00 | scene 0.00 (n=574) held-out 0.00 memory 0.00 (n=427) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=496) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+random  n=16 seed 0:   8,644 ticks/s | world2 16 agents, 299987 ticks (10 days): free 1776 acc 0.00 | scene 0.00 (n=905) held-out 0.00 memory 0.00 (n=347) social 0.00 | comprehension 0.05 (fetch 0.04 give 0.11 come 0.13, n=379) | initiative 43832 (appropriate 6, reward 3) | vocab 0.0 | a2a 19919 | talk over partner 1164 ticks / 416 interruptions (any caregiver 6745) | latency 19.0 | flags none
+echo    n=16 seed 0:  62,874 ticks/s | world2 16 agents, 294000 ticks (10 days): free 1629 acc 0.31 | scene 0.00 (n=586) held-out 0.00 memory 0.00 (n=414) social 1.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=488) | initiative 488 (appropriate 0, reward 0) | vocab 3.0 | a2a 5 | talk over partner 0 ticks / 0 interruptions (any caregiver 1049) | latency 6.0 | flags none
+lookup  n=16 seed 0: 101,580 ticks/s | world2 16 agents, 294000 ticks (10 days): free 1670 acc 0.08 | scene 0.00 (n=548) held-out 0.00 memory 0.00 (n=440) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=492) | initiative 0 (appropriate 0, reward 0) | vocab 1.2 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 46) | latency 6.0 | flags none
+namer   n=16 seed 0:  27,010 ticks/s | world2 16 agents, 294000 ticks (10 days): free 1755 acc 0.00 | scene 0.00 (n=638) held-out 0.00 memory 0.00 (n=420) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=520) | initiative 3370 (appropriate 533, reward 519) | vocab 12.4 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+oracle  n=16 seed 0:  52,511 ticks/s | world2 16 agents, 294000 ticks (10 days): free 2176 acc 1.00 | scene 1.00 (n=1014) held-out 1.00 memory 1.00 (n=571) social 1.00 | comprehension 0.99 (fetch 0.97 give 1.00 come 1.00, n=615) | initiative 0 (appropriate 0, reward 0) | vocab 38.1 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 1473) | latency 6.0 | flags none
+looker  n=16 seed 0:  20,300 ticks/s | world2 16 agents, 294000 ticks (10 days): free 1697 acc 0.00 | scene 0.00 (n=721) held-out 0.00 memory 0.00 (n=396) social 0.00 | comprehension 0.00 (fetch 0.00 give 0.00 come 0.00, n=518) | initiative 0 (appropriate 0, reward 0) | vocab 0.0 | a2a 0 | talk over partner 0 ticks / 0 interruptions (any caregiver 0) | latency None | flags none
+
+## Table (4 agents, mean ± sd over seeds)
+
+| agent | free acc | scene (new) | held-out | memory | social | requests | fetch | give | come | appropriate initiatives /agent/day | vocabulary /agent | a2a turns /day | talk over partner (ticks/day) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| silent | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 |
+| random | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.07±0.01 | 0.05±0.01 | 0.15±0.09 | 0.15±0.01 | 0.04±0.03 | 0.00±0.00 | 140.07±12.33 | 114.30±6.02 |
+| echo | 0.13±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 1.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 2.92±0.12 | 0.47±0.29 | 0.00±0.00 |
+| lookup | 0.04±0.01 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 2.17±0.24 | 0.00±0.00 | 0.00±0.00 |
+| namer | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 7.32±0.95 | 24.67±1.94 | 0.00±0.00 | 0.00±0.00 |
+| oracle | 1.00±0.00 | 1.00±0.00 | 1.00±0.00 | 1.00±0.00 | 1.00±0.00 | 1.00±0.00 | 1.00±0.01 | 1.00±0.00 | 1.00±0.00 | 0.00±0.00 | 60.75±1.63 | 0.00±0.00 | 0.00±0.00 |
+| looker | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.01±0.01 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 |
+
+Scored items per run (seed 0, 4 agents, 10.0 days): silent: free 1287, scene 618, held-out 69, memory 443, requests 535, random: free 1430, scene 845, held-out 144, memory 406, requests 414, echo: free 1310, scene 632, held-out 38, memory 430, requests 517, lookup: free 1345, scene 657, held-out 67, memory 473, requests 504, namer: free 1203, scene 563, held-out 66, memory 396, requests 523, oracle: free 1906, scene 1134, held-out 170, memory 603, requests 648, looker: free 1396, scene 615, held-out 128, memory 486, requests 512
+
+Input to the agents (seed 0, mean over agents): silent n=4: 94 caregiver lines addressed per agent per day, caregiver speech audible 12 % of daytime, silent n=16: 25 caregiver lines addressed per agent per day, caregiver speech audible 7 % of daytime, oracle n=4: 153 caregiver lines addressed per agent per day, caregiver speech audible 20 % of daytime, oracle n=16: 38 caregiver lines addressed per agent per day, caregiver speech audible 14 % of daytime
+
+## Active vision (fovea mode, 4 agents, mean over seeds): pointed questions whose pointed cell was in the fovea
+
+| agent | pointed questions / run | in the fovea at the start | reached before the window closed | of those not at the start | median ticks to reach |
+|---|---|---|---|---|---|
+| silent | 653 | 0.12±0.05 | 0.12±0.05 | 0.00±0.00 | - |
+| random | 638 | 0.15±0.02 | 0.26±0.01 | 0.13±0.01 | 22.33±0.94 |
+| echo | 660 | 0.12±0.05 | 0.12±0.05 | 0.00±0.00 | - |
+| lookup | 686 | 0.12±0.05 | 0.12±0.05 | 0.00±0.00 | - |
+| namer | 646 | 0.10±0.05 | 0.10±0.05 | 0.00±0.00 | - |
+| oracle | 1062 | 0.15±0.01 | 0.15±0.01 | 0.00±0.00 | - |
+| looker | 554 | 0.30±0.01 | 0.67±0.03 | 0.53±0.06 | 5.00±1.41 |
+
+Oracle per task (seed 0): check 1.00 (n=140), colour 1.00 (n=182), count 1.00 (n=143), goodnight 1.00 (n=43), greet 1.00 (n=120), holding 1.00 (n=93), myname 1.00 (n=109), novel 1.00 (n=157), offer 1.00 (n=140), person 1.00 (n=149), room 1.00 (n=123), size 1.00 (n=120), what 1.00 (n=103), where 1.00 (n=188), who 1.00 (n=96), ALL 1.00 (n=1906)
+
+## 16 agents (seed 0)
+
+| agent | ticks/s | free acc | scene | held-out | memory | requests | questions per agent per day | initiative | a2a |
+|---|---|---|---|---|---|---|---|---|---|
+| silent | 110,769 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 10.4 | 0 | 0 |
+| random | 8,644 | 0.00 | 0.00 | 0.00 | 0.00 | 0.05 | 11.1 | 43832 | 19919 |
+| echo | 62,874 | 0.31 | 0.00 | 0.00 | 0.00 | 0.00 | 10.2 | 488 | 5 |
+| lookup | 101,580 | 0.08 | 0.00 | 0.00 | 0.00 | 0.00 | 10.4 | 0 | 0 |
+| namer | 27,010 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 11.0 | 3370 | 0 |
+| oracle | 52,511 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 13.6 | 0 | 0 |
+| looker | 20,300 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 10.6 | 0 | 0 |
+
+## Speed (trivial agents, 5 days = 150,000 ticks each, best of 2)
+
+| agents | ticks/s | us/tick |
+|---|---|---|
+| 1 | 176,760 | 5.7 |
+| 4 | 120,909 | 8.3 |
+| 16 | 102,715 | 9.7 |
+| 64 | 60,373 | 16.6 |

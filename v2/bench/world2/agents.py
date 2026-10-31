@@ -140,6 +140,74 @@ class RandomActor:
         return A
 
 
+class Looker:
+    """eye_mode='fovea' reference that uses ONLY obs (the documented retinotopic layout and the motor order): when a
+    pointed cell is seen outside the fovea it plans, inside its visible 5 x 5 frame, a path over the cells its eye shows
+    as free to a cell next to the pointed one, walks there (forward / back / sideways) and turns to face it, so that the
+    pointed cell comes into the fovea.  It never speaks."""
+
+    def __init__(self, n_agents):
+        from . import lex as L
+        self.N = n_agents
+        self.A = np.zeros((n_agents, N_ACT), np.float32)
+        nm = len(L.MID_K)
+        self.f_ptr = L.F_PTR
+        ks = list(L.MID_K) + list(L.OUT_K)
+        self.rc = [(k // 5, k % 5 - 2) for k in ks]
+        self.ptr_cols = [L.FB + i * L.MB + L.M_PTR for i in range(nm)] + \
+            [L.FB + nm * L.MB + i * L.OB + L.O_PTR for i in range(len(L.OUT_K))]
+        walk_t = [L.T_DOOR, L.T_K, L.T_L, L.T_B, L.T_G]
+        # per view cell: (units meaning walkable terrain, units meaning blocked: object / person / obstacle)
+        self.cells = {(1, 0): ([L.F_TER + x for x in walk_t],
+                               list(range(L.F_CLS, L.F_CLS + 8)) + [L.F_ADULT, L.F_CHILD])}
+        for i, k in enumerate(L.MID_K):
+            b = L.FB + i * L.MB
+            self.cells[(k // 5, k % 5 - 2)] = ([b + L.M_TER + x for x in walk_t],
+                                              list(range(b + L.M_CLS, b + L.M_CLS + 8)) + [b + L.M_ADULT, b + L.M_CHILD])
+        for i, k in enumerate(L.OUT_K):
+            b = L.FB + nm * L.MB + i * L.OB
+            self.cells[(k // 5, k % 5 - 2)] = ([b + L.O_DOOR, b + L.O_FLOOR], [b + L.O_OBST, b + L.O_OBJ, b + L.O_PERSON])
+        self.order = sorted(range(len(ks)), key=lambda x: (self.rc[x][0] + abs(self.rc[x][1]), abs(self.rc[x][1])))
+        self.unit = {a: N_MOUTH + MOTOR.index(a) for a in MOTOR}
+        self.step_act = {(1, 0): 'forward', (-1, 0): 'back', (0, 1): 'right', (0, -1): 'left'}
+
+    def _free(self, e):
+        return {rc: bool(e[w].any()) and not e[b].any() for rc, (w, b) in self.cells.items() if rc != (0, 0)}
+
+    def _act(self, e, target):
+        tr, tc = target
+        free = self._free(e)
+        goals = {(tr + dr, tc + dc) for dr, dc in self.step_act}
+        if (0, 0) in goals:                                   # next to it: turn to face it
+            return {(0, 1): 'turn_right', (0, -1): 'turn_left'}.get((tr, tc))
+        goals = {x for x in goals if free.get(x)}
+        prev = {(0, 0): None}
+        q = collections.deque([(0, 0)])
+        while q:
+            cur = q.popleft()
+            if cur in goals:
+                while prev[cur] != (0, 0):
+                    cur = prev[cur]
+                return self.step_act[cur]
+            for d in self.step_act:
+                nx = (cur[0] + d[0], cur[1] + d[1])
+                if nx not in prev and free.get(nx):
+                    prev[nx] = cur
+                    q.append(nx)
+        return 'turn_right' if tc > 0 else 'turn_left' if tc < 0 else None
+
+    def step(self, obs):
+        A, E = self.A, obs['eye']
+        A[:, N_MOUTH:] = 0
+        P = E[:, self.ptr_cols]
+        for j in np.flatnonzero(P.any(1) & (E[:, self.f_ptr] == 0)).tolist():
+            x = next(x for x in self.order if P[j, x])
+            act = self._act(E[j], self.rc[x])
+            if act is not None:
+                A[j, self.unit[act]] = 1.0
+        return A
+
+
 # ------------------------------------------------------------------------------------------ privileged references
 class Scripted:
     """says planned texts through the mouth (exact muscle sets, force 1-2-3 per char, first syllable LATENCY ticks
@@ -332,4 +400,4 @@ class Oracle(Scripted):
 
 
 REFERENCES = {'silent': Silent, 'random': RandomActor, 'echo': Echo, 'lookup': Lookup, 'oracle': Oracle,
-              'namer': Namer}
+              'namer': Namer, 'looker': Looker}

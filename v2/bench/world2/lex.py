@@ -204,3 +204,93 @@ def all_lexicon_texts():
               '给你', '怎么了', '我在这里', '吃饭了', '我把', '放在', '了', '饿', '我饿了', '要吃', '我要吃', '你说呢',
               '嗯', '好', '好了', '还没有', '饭好了吗', '睡觉了', '的', '吃了', '没有']
     return words + frames
+
+
+# ------------------------------------------------------------------------------------------ foveated eye (option)
+# eye_mode='fovea': the cell in front of the agent (view index 7, where take / put act) is seen in full detail at a
+# higher resolution, the 8 cells around it at medium detail, the 16 outer cells at low detail.  Gaze = the body's
+# heading and position: turning or stepping brings a cell into the fovea (active vision).
+FOV_K = VIEW_FRONT                                    # 7
+MID_K = (1, 2, 3, 6, 8, 11, 12, 13)                   # rows 0-2 x columns -1..+1 around it (incl. the own cell, 2)
+OUT_K = tuple(k for k in range(N_VIEW) if k != FOV_K and k not in MID_K)     # the 16 outer cells
+FB, MB, OB = 128, 32, 8                               # units per fovea / medium / outer block
+EYE_N_FOVEA = FB + len(MID_K) * MB + len(OUT_K) * OB  # 512
+# fovea block (128): 0-11 terrain | 12-19 class (4 x 2) | 20-79 kind (8 of 60) | 80-91 colour (6 x 2) | 92-97 count
+# (3 x 2) | 98-101 size (2 x 2) | 102-103 held | 104 adult, 105 child | 106-125 identity (5 of 20) | 126-127 pointed
+F_TER, F_CLS, F_KIND, F_COL, F_CNT, F_SIZE, F_HELD, F_ADULT, F_CHILD, F_ID, F_PTR = \
+    0, 12, 20, 80, 92, 98, 102, 104, 105, 106, 126
+# medium block (32): 0-11 terrain | 12-19 class (4 x 2) | 20-25 colour | 26 adult, 27 child | 28 held | 29-30 pointed
+M_TER, M_CLS, M_COL, M_ADULT, M_CHILD, M_HELD, M_PTR = 0, 12, 20, 26, 27, 28, 29
+# outer block (8): 0 obstacle (wall, furniture, tree) | 1 door | 2 floor / grass | 3 object | 4 person | 5 adult |
+# 6 motion (something moved into or out of the cell in the last 3 ticks) | 7 pointed
+O_OBST, O_DOOR, O_FLOOR, O_OBJ, O_PERSON, O_ADULT, O_MOTION, O_PTR = range(8)
+CLASSES = ('food', 'animal', 'toy animal', 'thing')
+TOY_ANIMALS = {'熊猫', '兔子', '老虎', '狮子', '猴子', '大象', '青蛙', '乌龟', '蝴蝶', '蜜蜂'}
+
+
+def kind_class(k):
+    """coarse class of a kind (what the periphery can tell): 0 food, 1 animal, 2 toy animal, 3 thing."""
+    name = KINDS[k]
+    if name in EDIBLE:
+        return 0
+    if name in ANIMALS:
+        return 1
+    if name in TOY_ANIMALS:
+        return 2
+    return 3
+
+
+class FoveaCodes:
+    """the fovea's finer codes (own rng: the uniform eye's codes are untouched)."""
+
+    def __init__(self, seed, n_persons):
+        r = np.random.default_rng([int(seed), 54])
+        self.kind = _sparse_codes(r, len(KINDS), 60, 8, 2)                 # kind identity: 8 of 60, overlap <= 2
+        self.ident = _sparse_codes(r, n_persons, 20, 5, 3)                 # person identity: 5 of 20
+        self.cls = [kind_class(k) for k in range(len(KINDS))]
+
+    def blocks(self, key):
+        """(fovea 128, medium 32, outer 8) blocks of a cell state key = (terrain, object key, person key, pointed)."""
+        ter, okey, pkey, ptr = key
+        f = np.zeros(FB, np.uint8)
+        m = np.zeros(MB, np.uint8)
+        o = np.zeros(OB, np.uint8)
+        if ter < 12:
+            f[F_TER + ter] = 1
+            m[M_TER + ter] = 1
+            if ter == T_DOOR:
+                o[O_DOOR] = 1
+            elif ter in (T_K, T_L, T_B, T_G):
+                o[O_FLOOR] = 1
+            else:
+                o[O_OBST] = 1
+        objs = [okey] if okey is not None else []
+        if pkey is not None and pkey[1] is not None:
+            objs.append(pkey[1])
+        for kind, colour, count, size in objs:
+            cl = self.cls[kind]
+            f[F_CLS + 2 * cl:F_CLS + 2 * cl + 2] = 1
+            f[F_KIND + self.kind[kind]] = 1
+            f[F_COL + 2 * colour:F_COL + 2 * colour + 2] = 1
+            f[F_CNT + 2 * (count - 1):F_CNT + 2 * count] = 1
+            f[F_SIZE + 2 * size:F_SIZE + 2 * size + 2] = 1
+            m[M_CLS + 2 * cl:M_CLS + 2 * cl + 2] = 1
+            m[M_COL + colour] = 1
+            o[O_OBJ] = 1
+        if pkey is not None:
+            pid, held = pkey
+            adult = pid >= len(self.ident) - 3            # the last three persons are the caregivers
+            f[F_ADULT if adult else F_CHILD] = 1
+            f[F_ID + self.ident[pid]] = 1
+            m[M_ADULT if adult else M_CHILD] = 1
+            o[O_PERSON] = 1
+            if adult:
+                o[O_ADULT] = 1
+            if held is not None:
+                f[F_HELD:F_HELD + 2] = 1
+                m[M_HELD] = 1
+        if ptr:
+            f[F_PTR:F_PTR + 2] = 1
+            m[M_PTR:M_PTR + 2] = 1
+            o[O_PTR] = 1
+        return f, m, o

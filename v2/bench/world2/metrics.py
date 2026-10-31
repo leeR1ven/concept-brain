@@ -25,7 +25,9 @@ FREE = ('probe', 'recast', 'social')
 ENC_BINS = (0, 1, 2, 3, 5, 9, 10 ** 9)
 DELAY_BINS = (0, 300, 1000, 3000, 10000, 30000, 100000, 10 ** 9)
 WORDS = sorted(set(lex.KINDS + lex.COLOURS + lex.COUNTS + lex.ROOMS + lex.CAREGIVERS + lex.AGENT_NAMES +
-                   ['大', '小', '是', '不是', '要', '你好', '早上好', '晚安']), key=len, reverse=True)
+                   ['大', '小', '是', '不是', '要', '你好', '早上好', '晚安']), key=lambda w: (-len(w), w))
+# (longest first; ties by the string itself -- v1 sorted by length only, so ties followed Python's per-process string
+# hashing and the vocabulary count could differ between processes)
 
 
 def _mean(x):
@@ -191,6 +193,16 @@ def evaluate(log, bins=10, per_agent=True):
                        hunger_mean=_mean(last.get('hunger', [])), eats=len(eats))
     lat = collections.Counter(r['latency'] for r in free if r.get('latency') is not None)
     out['latency'] = dict(hist=dict(sorted(lat.items())), median=float(np.median(list(lat.elements()))) if lat else None)
+    # eye_mode='fovea': pointed questions -- was the pointed cell brought into the fovea (active vision)?
+    pq = [r for r in free if 'fovea_hit' in r]
+    if pq:
+        waits = [r['fovea_wait'] for r in pq if r['fovea_hit'] and not r['fovea_at_start']]
+        out['active_vision'] = dict(
+            n=len(pq), in_fovea_at_start=_mean([r['fovea_at_start'] for r in pq]),
+            reached=_mean([r['fovea_hit'] for r in pq]), in_fovea_at_close=_mean([r['fovea_at_close'] for r in pq]),
+            reached_if_not_at_start=_mean([r['fovea_hit'] for r in pq if not r['fovea_at_start']]),
+            median_wait=float(np.median(waits)) if waits else None,
+            acc_if_reached=_acc([r for r in pq if r['fovea_hit']]), acc_if_not=_acc([r for r in pq if not r['fovea_hit']]))
     # imitation of naming statements / model replies
     st = [r for r in q if r['kind'] == 'statement']
     md = [r for r in q if r['kind'] == 'model']

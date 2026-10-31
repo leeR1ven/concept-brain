@@ -210,6 +210,7 @@ DEFAULTS = dict(
     mouth_vocab=None,                        # None | 'lexicon' | list of chars (bench option)
     min_mem_delay=300,                       # memory probes: the fact was last told / seen >= this many ticks ago
     mem_spacing=3000,                        # ... and the same item was not asked to this agent in the last 3000 ticks
+    eye_mode='uniform',                      # 'uniform' (25 x 64) | 'fovea' (front cell 128 + 8 x 32 + 16 x 8 = 512)
 )
 
 
@@ -369,6 +370,28 @@ class World2(CareMixin):
         self._mperm = self.motor_perm.tolist()
         self.EYE = np.zeros((N, N_VIEW * EYE_B), np.uint8)
         self._E3 = self.EYE.reshape(N, N_VIEW, EYE_B)
+        if p['eye_mode'] not in ('uniform', 'fovea'):
+            raise ValueError(p['eye_mode'])
+        self.fovea = p['eye_mode'] == 'fovea'
+        self._mot_next = 10 ** 18                         # earliest expiry of a motion mark (fovea mode only)
+        if self.fovea:
+            self.EYE = np.zeros((N, lex.EYE_N_FOVEA), np.uint8)
+            self._E3 = None
+            self.fcodes = lex.FoveaCodes(self.seed, P)
+            self._ctab_f = np.zeros((1024, lex.FB), np.uint8)
+            self._ctab_m = np.zeros((1024, lex.MB), np.uint8)
+            self._ctab_o = np.zeros((1024, lex.OB), np.uint8)
+            self._mot_until = np.zeros(NC, np.int64)
+            self._motq = collections.deque()
+            self._fmid = np.array(lex.MID_K)
+            self._fout = np.array(lex.OUT_K)
+            nm = len(lex.MID_K)
+            self._fslot = {lex.FOV_K: (0, lex.FB, 0)}
+            for i, k in enumerate(lex.MID_K):
+                self._fslot[k] = (lex.FB + i * lex.MB, lex.MB, 1)
+            for i, k in enumerate(lex.OUT_K):
+                self._fslot[k] = (lex.FB + nm * lex.MB + i * lex.OB, lex.OB, 2)
+            self._fov_watch = [None] * N
         self._seek = [None] * NC                          # cell -> {agent: view index} for agents that see it
         self._vcells = [[] for _ in range(N)]             # cells agent i currently sees
         self.TOUCH = np.zeros((N, TOUCH_N), np.uint8)
@@ -532,6 +555,12 @@ class World2(CareMixin):
             if key[3]:
                 b[lex.E_PTR:lex.E_PTR + 2] = 1
             self._ctab[sid] = b
+            if self.fovea:
+                if sid >= len(self._ctab_f):
+                    self._ctab_f = np.concatenate([self._ctab_f, np.zeros_like(self._ctab_f)])
+                    self._ctab_m = np.concatenate([self._ctab_m, np.zeros_like(self._ctab_m)])
+                    self._ctab_o = np.concatenate([self._ctab_o, np.zeros_like(self._ctab_o)])
+                self._ctab_f[sid], self._ctab_m[sid], self._ctab_o[sid] = self.fcodes.blocks(key)
             self._cstate[key] = sid
             self._n_cs += 1
         self.CS[c] = sid
@@ -544,6 +573,8 @@ class World2(CareMixin):
     def _eyes(self):
         """update the eyes: a full gather for agents that moved / turned; for every other agent only the 64-unit
         blocks of the changed cells it sees (self._seek[c] = {agent: view index})."""
+        if self.fovea:
+            return self._eyes_fovea()
         if self.night:
             self._chg = []
             self._ochg = []
@@ -606,6 +637,110 @@ class World2(CareMixin):
         self._ochg = []
         self._moved = set()
 
+    def _motion(self, c):
+        """fovea mode: something moved into or out of cell c (seen as motion in the outer ring for 3 ticks)."""
+        u = self.t + 3
+        self._mot_until[c] = u
+        self._motq.append((u, c))
+        if u < self._mot_next:
+            self._mot_next = u
+
+    def _eyes_fovea(self):
+        """eye_mode='fovea': block 0 = the cell in front (128 units), then the 8 cells around it (32 each), then the 16
+        outer cells (8 each, + motion).  Same incremental scheme as the uniform eye."""
+        t = self.t
+        q, mu = self._motq, self._mot_until
+        while q and q[0][0] <= t:
+            u, c = q.popleft()
+            if mu[c] == u:                                # the cell's latest motion mark just expired
+                self._chg.append(c)
+        self._mot_next = q[0][0] if q else 10 ** 18
+        if self.night:
+            self._chg = []
+            self._ochg = []
+            self._moved = set()
+            return
+        moved = self._moved
+        seek = self._seek
+        E = self.EYE
+        FB, MB, nm = lex.FB, lex.MB, len(lex.MID_K)
+        if moved:
+            ii = sorted(moved)
+            ids = self.S.VIEW[self.pos[ii], self.head[ii]]
+            cs = self.CS[ids]
+            n = len(ii)
+            E[ii, :FB] = self._ctab_f[cs[:, lex.FOV_K]]
+            E[ii, FB:FB + nm * MB] = self._ctab_m[cs[:, self._fmid]].reshape(n, -1)
+            ob = self._ctab_o[cs[:, self._fout]]
+            ob[:, :, lex.O_MOTION] = mu[ids[:, self._fout]] > t
+            E[ii, FB + nm * MB:] = ob.reshape(n, -1)
+            OBJ = self.OBJ
+            for k, i in enumerate(ii):
+                cells = ids[k].tolist()
+                for c in self._vcells[i]:
+                    dct = seek[c]
+                    if dct is not None:
+                        dct.pop(i, None)
+                for kk, c in enumerate(cells):
+                    if c != VOID:
+                        dct = seek[c]
+                        if dct is None:
+                            dct = seek[c] = {}
+                        dct[i] = kk
+                self._vcells[i] = cells
+                new = {o for o in [OBJ[c] for c in cells] if o}
+                old = self._vis[i]
+                if old != new:
+                    su = self.seen_until[i]
+                    for o in old - new:
+                        su[o] = t - 1
+                    self._vis[i] = new
+                fw = self._fov_watch[i]
+                if fw is not None and fw['hit'] is None and cells[lex.FOV_K] == fw['cell']:
+                    fw['hit'] = t
+        if self._chg:
+            ctf, ctm, cto, CS, slot = self._ctab_f, self._ctab_m, self._ctab_o, self.CS, self._fslot
+            done = set()
+            for c in self._chg:
+                dct = seek[c]
+                if not dct or c in done:
+                    continue
+                done.add(c)
+                sid = CS[c]
+                for a, k in dct.items():
+                    if a in moved:
+                        continue
+                    st, sz, ring = slot[k]
+                    if ring == 0:
+                        E[a, st:st + sz] = ctf[sid]
+                    elif ring == 1:
+                        E[a, st:st + sz] = ctm[sid]
+                    else:
+                        row = cto[sid]
+                        if mu[c] > t:
+                            row = row.copy()
+                            row[lex.O_MOTION] = 1
+                        E[a, st:st + sz] = row
+            if self._ochg:
+                for c, o, added in self._ochg:
+                    dct = seek[c]
+                    if not dct:
+                        continue
+                    for a in dct:
+                        if a in moved:
+                            continue
+                        if added:
+                            self._vis[a].add(o)
+                        elif o in self._vis[a]:
+                            self._vis[a].discard(o)
+                            self.seen_until[a][o] = t - 1
+        self._chg = []
+        self._ochg = []
+        self._moved = set()
+
+    def front_cell(self, i):
+        return int(self.pos[i]) + DIRS[int(self.head[i])]
+
     def view_cells(self, i):
         return self.S.VIEW[self.pos[i], self.head[i]]
 
@@ -634,6 +769,8 @@ class World2(CareMixin):
         self.o_holder[o] = -1
         self.o_tmove[o] = self.t
         self._cell_changed(c)
+        if self.fovea:
+            self._motion(c)
 
     def _lift(self, o):
         c = self.o_cell[o]
@@ -643,6 +780,8 @@ class World2(CareMixin):
             self.o_cell[o] = -1
             self.o_tmove[o] = self.t
             self._cell_changed(c)
+            if self.fovea:
+                self._motion(c)
 
     def _give_to(self, pid, o):
         """object o goes into the hands of person pid (empty hands)."""
@@ -701,6 +840,9 @@ class World2(CareMixin):
         self.pos[pid] = c
         self._cell_changed(old)
         self._cell_changed(c)
+        if self.fovea:
+            self._motion(old)
+            self._motion(c)
         if pid < self.N:
             self._moved.add(pid)
             self._aver += 1
@@ -712,6 +854,9 @@ class World2(CareMixin):
         self.pos[a], self.pos[b] = cb, ca
         self._cell_changed(ca)
         self._cell_changed(cb)
+        if self.fovea:
+            self._motion(ca)
+            self._motion(cb)
         for x in (a, b):
             if x < self.N:
                 self._moved.add(x)
@@ -1131,6 +1276,8 @@ class World2(CareMixin):
                 self.OBJ[c] = 0
                 self._ochg.append((c, o, False))
                 self._cell_changed(c)
+                if self.fovea:
+                    self._motion(c)
                 self._place(o, n)
         self._schedule(self.t + int(r.integers(30, 120)), self._animal, o)
 
@@ -1694,7 +1841,7 @@ class World2(CareMixin):
                 self._sound(t)
             elif self._snd_vecs is not _NO_SND:
                 self._snd_vecs = _NO_SND
-            if self._chg or self._moved:
+            if self._chg or self._moved or t >= self._mot_next:
                 self._eyes()
             A = step(obs)
             if self._pulse:
