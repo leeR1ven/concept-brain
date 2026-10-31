@@ -1,0 +1,2 @@
+5000 dialogues, PR predictor, context x1+x2                   : next-char top-1 0.175 (n=21289, 125s)
+5000 dialogues, PR predictor, context x1+x2+R                 : next-char top-1 0.183 (n=21289, 2163s)

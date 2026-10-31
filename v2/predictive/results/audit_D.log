@@ -1,0 +1,11 @@
+lesion none       ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 29s
+lesion floor=0.12 ALL acc 0.122 held 0.0 seen 0.156 | before 0.00 check 0.18 name 0.36 oneshot 0.00 57s
+lesion Brec       ALL acc 0.082 held 0.0 seen 0.104 | before 0.00 check 0.13 name 0.21 oneshot 0.00 78s
+lesion H2         ALL acc 0.112 held 0.0 seen 0.143 | before 0.00 check 0.20 name 0.21 oneshot 0.00 108s
+lesion H          ALL acc 0.082 held 0.0 seen 0.104 | before 0.00 check 0.18 name 0.07 oneshot 0.00 139s
+lesion gate       ALL acc 0.071 held 0.0 seen 0.091 | before 0.00 check 0.10 name 0.21 oneshot 0.00 168s
+lesion S          ALL acc 0.112 held 0.0 seen 0.143 | before 0.00 check 0.15 name 0.36 oneshot 0.00 196s
+lesion go         ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 228s
+lesion fwd        ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 257s
+lesion ghold      ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 287s
+lesion C2         ALL acc 0.082 held 0.0 seen 0.104 | before 0.00 check 0.13 name 0.21 oneshot 0.00 313s

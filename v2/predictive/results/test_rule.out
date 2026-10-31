@@ -1,0 +1,10 @@
+[PASS] T1 weight = P(target | source): q=0.2 -> p=0.207  q=0.5 -> p=0.498  q=0.9 -> p=0.903   (criterion |p-q| < 0.05; net.py counts have no such fixed point)
+[PASS] T2 predicted -> no more strengthening: PR w after 10/100/1000 events 0.9718/1.0000/1.0000; net.py count 0.484/1.822/6.133 (keeps growing)
+[PASS] T3 predicted-but-absent weakens below 0 (learned inhibition): signed: p(Y|A)=1.00 p(Y|A+C)=0.00 w(C->Y)=-1.00;  excitatory-only: p(Y|A)=0.73 p(Y|A+C)=0.73 (the exception cannot be stored)
+[PASS] T4 constant source -> bounded base-rate weight: |w(const)| max over targets: 0.147 at 1k, 0.130 at 3k, 0.130 at 6k events; mean w(const) +0.094 (base rate 0.10 shared with the context weights)
+[PASS] T5/T7 held source learns the onset; reverse order gets nothing: held S 0..9, Y@6: p(Y)=1.00 w=+1.00  fresh S@5, Y@6: p(Y)=1.00 w=+1.00  reverse Y@6, S 7..9: p(Y)=0.00 w=+0.00   (net.py exact: held 0.000, fresh 0.712, reverse 0.000 -- skeptic S5)
+[PASS] T6 credit across a delay needs the trace: lam=0.0: 1.00/0.00/0.00/0.00  lam=0.5: 1.00/0.82/0.17/0.01  lam=0.8: 1.00/0.98/0.89/0.65   (p(Y|S) - p(Y|no S) at delay 1/2/4/6 ticks, a random distractor in between)
+[PASS] T8 third factor: M=0 freezes; own targets need the RPE: M=0 froze: True;  M=1 (own output as target): reward 0.12  M=r: reward 1.00  M=delta=r-V: reward 1.00  (chance 0.25; M=1 = self-reinforcement drift, the minimal verifier's 你->的/了)
+[PASS] T9 one-shot storage on sparse codes (N 2000, k 40, 200 labels): M=100: PR eta=1 1.00, PR exc-only 1.00, count 1.00  M=300: PR eta=1 1.00, PR exc-only 1.00, count 1.00  M=1000: PR eta=1 1.00, PR exc-only 0.91, count 1.00  M=3000: PR eta=1 1.00, PR exc-only 0.30, count 1.00
+[PASS] T9b one-shot storage, correlated codes (half from a shared core) + Zipf labels: M=300: PR eta=1 0.99, PR eta=0.3 x3 1.00, PR exc-only 0.97, count 0.21  M=1000: PR eta=1 0.96, PR eta=0.3 x3 1.00, PR exc-only 0.68, count 0.17  M=3000: PR eta=1 0.83, PR eta=0.3 x3 0.96, PR exc-only 0.34, count 0.17   (criterion: PR beats counts by > 0.1 at M=1000)
+SUMMARY: 9/9 passed

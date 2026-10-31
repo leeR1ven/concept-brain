@@ -1,0 +1,37 @@
+A listen {'events': 3656, 'units': 67, 'purity': 1.0, 'chars_seen': 67, 'lex': 77, 'lex_covered': 65, 'lex_with_program': 0, 'programs': 0, 'programs_say_their_char': 0, 'split_chars': 0} 42s
+babble {'events': 3656, 'units': 67, 'purity': 1.0, 'chars_seen': 67, 'lex': 77, 'lex_covered': 65, 'lex_with_program': 65, 'programs': 67, 'programs_say_their_char': 67, 'split_chars': 0} {'events_other': 3656, 'events_own': 0, 'recruits': 67, 'links': 67, 'learn_steps': 4622} 105s
+[B] free n=816 acc 0.14 (held 0.04 n=430, seen 0.24, scene 0.14) first 0.36 echo-free 0.14 parrot 0.26 | overlap 0 lat 6.0 not3 0/1943 garble 0 extra 0 stop {'self': 659, 'silent': 157} 315s
+   slot     n  266 acc 0.12 first 0.15 held 0.02857142857142857 seen 0.21428571428571427
+   what     n  294 acc 0.08 first 0.39 held 0.00641025641025641 seen 0.16666666666666666
+   where    n  256 acc 0.22 first 0.55 held 0.09701492537313433 seen 0.36065573770491804
+   ALL      n  816 acc 0.14 first 0.36 held 0.04186046511627907 seen 0.24352331606217617
+   SCENE    n  816 acc 0.14 first 0.36 held 0.04186046511627907 seen 0.24352331606217617
+   after_model {'n': 2189, 'spoke': 0.0, 'imitation_exact': 0.0, 'acc': 0.0, 'jumped_in': 0.0} 
+   learning {'n': 386, 'acc_early': 0.1640625, 'acc_late': 0.28125, 'same_items': 24, 'same_items_early': 0.1466435185185185, 'same_items_late': 0.3286901755651756} 
+   one_shot {'n': 0, 'acc': None, 'retention': {}}
+   units 67 programs 67 {'events_other': 22940, 'events_own': 1943, 'recruits': 67, 'links': 67, 'learn_steps': 29100} next-char prediction acc (last 3000 heard chars) 0.769 episodes stored 6000
+[C] free n=769 acc 0.34 (held 0.18 n=356, seen 0.48, scene 0.19) first 0.37 echo-free 0.23 parrot 0.57 | overlap 0 lat 6.0 not3 0/2549 garble 0 extra 0 stop {'self': 520, 'silent': 249} 534s
+   colour   n  181 acc 0.12 first 0.12 held 0.06451612903225806 seen 0.17045454545454544
+   count    n  155 acc 0.28 first 0.30 held 0.18518518518518517 seen 0.3783783783783784
+   offer    n  213 acc 0.57 first 0.62 held 0.25 seen 0.8807339449541285
+   ritual   n   84 acc 0.26 first 0.31 held None seen 0.2619047619047619
+   taste    n  136 acc 0.40 first 0.41 held 0.20512820512820512 seen 0.6724137931034483
+   ALL      n  769 acc 0.34 first 0.37 held 0.17696629213483145 seen 0.48426150121065376
+   SCENE    n  336 acc 0.19 first 0.20 held 0.1206896551724138 seen 0.2654320987654321
+   NOSCENE  n  433 acc 0.46 first 0.49 held 0.23076923076923078 seen 0.6254980079681275
+   after_model {'n': 2289, 'spoke': 0.1743119266055046, 'imitation_exact': 0.1712538226299694, 'acc': 0.1712538226299694, 'jumped_in': 0.0} 
+   learning {'n': 413, 'acc_early': 0.3795620437956204, 'acc_late': 0.5620437956204379, 'same_items': 31, 'same_items_early': 0.4059139784946237, 'same_items_late': 0.5009984639016897} 
+   one_shot {'n': 0, 'acc': None, 'retention': {}}
+   units 67 programs 67 {'events_other': 44100, 'events_own': 4492, 'recruits': 67, 'links': 67, 'learn_steps': 55607} next-char prediction acc (last 3000 heard chars) 0.736 episodes stored 6000
+[D] free n=675 acc 0.09 (held 0.07 n=142, seen 0.10, scene 0.09) first 0.48 echo-free 0.08 parrot 0.61 | overlap 0 lat 6.0 not3 0/1879 garble 0 extra 0 stop {'self': 593, 'silent': 82} 706s
+   before   n   98 acc 0.01 first 0.05 held None seen 0.01020408163265306
+   check    n  246 acc 0.21 first 0.21 held 0.07042253521126761 seen 0.3942307692307692
+   name     n   82 acc 0.12 first 0.73 held None seen 0.12195121951219512
+   oneshot  n  249 acc 0.00 first 0.85 held None seen 0.0
+   ALL      n  675 acc 0.09 first 0.48 held 0.07042253521126761 seen 0.0975609756097561
+   SCENE    n  593 acc 0.09 first 0.45 held 0.07042253521126761 seen 0.09312638580931264
+   NOSCENE  n   82 acc 0.12 first 0.73 held None seen 0.12195121951219512
+   after_model {'n': 993, 'spoke': 0.016112789526686808, 'imitation_exact': 0.0, 'acc': 0.0, 'jumped_in': 0.0} 
+   learning {'n': 533, 'acc_early': 0.06779661016949153, 'acc_late': 0.11864406779661017, 'same_items': 58, 'same_items_early': 0.058045977011494256, 'same_items_late': 0.08464696223316912} 
+   one_shot {'n': 249, 'acc': 0.0, 'retention': {'0-300': {'n': 40, 'acc': 0.0}, '300-1000': {'n': 2, 'acc': 0.0}, '1000-3000': {'n': 1, 'acc': 0.0}, '3000-10000': {'n': 8, 'acc': 0.0}, '10000-1000000000': {'n': 198, 'acc': 0.0}}}
+   units 138 programs 138 {'events_other': 59265, 'events_own': 6945, 'recruits': 138, 'links': 67, 'learn_steps': 74754, 'links_fwd': 71} next-char prediction acc (last 3000 heard chars) 0.727 episodes stored 6000

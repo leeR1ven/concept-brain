@@ -1,0 +1,7 @@
+   147 distinct bench lines; input codes: mean active 59, mean pairwise Jaccard 0.091
+   learning at load only: generic index (held-state Jaccard between different lines) 0.045 vs input 0.068 | 20-way decode after silence 10:0.97 60:0.00 120:0.00 240:0.05 480:0.03 | replacement: extra overlap new-vs-old -0.029 | period-2 index -0.0809 | drift J(probe before, after 1k lines) 0.01
+   learning ON during the hold too: generic index (held-state Jaccard between different lines) 0.048 vs input 0.055 | 20-way decode after silence 10:0.80 60:0.00 120:0.00 240:0.10 480:0.03 | replacement: extra overlap new-vs-old -0.004 | period-2 index -0.0754 | drift J(probe before, after 1k lines) 0.01
+   held at once (load L lines in a row, no reset, k = 60 L, leak 0.97): fraction of the L lines among the top-L of 20 after 60 ticks: L=1:0.90 L=2:0.85 L=3:0.82 L=4:0.74 L=6:0.64
+[FAIL] M6 reverberation checklist (learning on during holds; set point beta 0.5): criteria: held states no more alike than their inputs (+0.05); 20-way decode >= 0.9 after 120 ticks of silence; clean replacement (extra overlap <= 0.05); period-2 index <= 0; drift J >= 0.8 after 1k lines
+   (M6b: 306s)
+SUMMARY: 0/1 passed

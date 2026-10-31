@@ -1,0 +1,111 @@
+RESULTS NOTES (running log; the full report is returned inline)
+
+RULE (test_rule.out) 9/9 PASS: T1 p->P(y|x) 0.207/0.498/0.903; T2 w 1.0000 at 100 & 1000 events (net.py 1.82->6.13);
+T3 signed p(Y|A)=1.00 p(Y|A+C)=0.00 w(C->Y)=-1.00, exc-only 0.73/0.73; T4 const |w| 0.13 stable; T5/T7 held 1.00 (net.py 0),
+reverse 0; T6 lam 0: 1.00/0/0/0, lam .8: 1.00/.98/.89/.65 (delays 1/2/4/6); T8 M=1 own drift reward .12, M=r 1.00, M=r-V 1.00;
+T9b correlated+Zipf one-shot M=1000: PR .96, PR x3 1.00, exc-only .68, counts .17.
+MODULES: M1 (pre-set) FAIL only on 50%-cue update (0.05); M1b PASS: fan-in 1000, 100/300 patterns complete 1.00/0.97, hold@16 1.00,
+gated update 1.00, spontaneous -> stored patterns only, max|w| <= 0.1 (no budget); fan-in 100: 0.07 at 100 patterns.
+M2 FAIL (pre-set): CA3 recurrence lowers half-cue recall (1000 ep: 0.07 vs 0.68 without); DG->readout one-shot: 1000 ep oldest 1.00
+full / 0.68 half; 3000 ep 0.98 / 0.42; newest of 5 competitors 1.00.  M4 PASS (gate = reset + load): leaky+recurrence hold 1.00
+(60 ticks, distractors), no period-2 100 %, replacement J 0.14, 20-way decode 1.00; leaky no recurrence hold 0.02; no leak:
+period-2 in 36 % of holds.  M5 PASS drift J 1.00 after 1,000 lines.
+BENCH bugs found+fixed in my agent: CD-as-own-voice (clock suspended at a GO that never became speech -> model replies misheard);
+hub unit from babble self-supervision (98 % of babbles); babble coverage (140k ticks = 89 % of gestures; full 170k needed);
+Go target "quick reply only" silenced D probes -> "quick reply OR floor left open 30 ticks".
+SERVER: ~12x slower per process (thread oversubscription + 0.6x cores); job 1 timed out after babbling.
+
+DESIGN SUMMARY FOR THE REPORT (see DESIGN.md for the tables)
+- one unit type (binary, leaky potential, k-WTA), one rule PR (signed via local interneurons, error-driven, normalised at
+  learning time, presynaptic traces, broadcast M, per-path plasticity factors), every area predicts its own driven activity.
+- speaking = saying the prediction (program score = ZP prediction of its sound unit; END = ZP's line-end prediction).
+- learned parts on the bench agent: Z units (perception), programs (babbling links), babble memory (forward model), ZP paths
+  (x1, x2, start, Gline, Ghold, Gtopic, B, V, V2, C2, H, H2, Brec, Bnext, S), copy gates gB/gR/gN, Go unit, episode cells.
+- fixed: ear0/FEAT0, perceptual clock, body, recruitment thresholds, babbling CPG + habituation, line latch codes, PFC load gate,
+  random conjunction wiring (V2, C2, H, H2, R), gated mirror, Go windows, novelty gate, sleep schedule.
+
+MAIN RUN (seed 0, model tutor, bench v1.2 snapshot, A600 -> private babble 170k ticks -> B1500 -> C1500 -> D1200), main_s0.json
+A: 67 units / 67 chars, purity 1.00, 0 splits; babble: 67 programs, all say their char; D: +71 novel units, all linked by
+the babble memory (links_fwd 71).  Next-char prediction on heard speech: 0.79 (B) 0.78 (C) 0.76 (D).
+B 0.13 (seen 0.25 held 0.02): slot 0.13 (seen 0.23) | what 0.09 (0.17) | where 0.18 (0.34)   [bar 0.12 prior 0.14 ngram 0.13]
+C 0.31 (seen 0.47 held 0.13): offer 0.49 (0.83/0.13) taste 0.38 (0.67/0.15) ritual 0.27 count 0.24 colour 0.14 [bar .19 prior .31 ngram .54]
+D 0.09: before 0.01, check 0.20 (seen 0.40), name 0.11 (first 0.67), oneshot 0.00 (first 0.94) [bar .21 prior .24 ngram .16]
+learning in use (seen items, first -> last third): B 0.17 -> 0.30, C 0.34 -> 0.56, D 0.07 -> 0.12 (bar: B .13->.11, C .34->.23)
+mechanics all stages: overlap 0, latency 6, 0/6281 syllables not 3 ticks, 0 garble, 0 extra turns; after-model imitation C 0.17
+silence = the speaking floor (C: colour 8/15, taste 5/9 silent with best p < 0.3)
+M6 FAIL: reverberating PFC with realistic codes: generic index 1.00 vs input 0.06; decode 0.45@10 0.15@60; replacement fails;
+period-2 index -0.02 (no alternation); drift J 0.17-0.21; held-at-once (accumulating, no reset): L=1 .90, 2 .85, 3 .82, 4 .74, 6 .64.
+
+AUDIT (main_s0 agent, same content per lesion, learning on): B 120 dialogues, C 120, D 150
+B none 0.135 (held .067 seen .227; slot .21 what .10 where .12); floor=0.12 0.154 (held .10; where .18)
+[remaining rows in audit_B.log / audit_C.log / audit_D.log]
+
+AUDIT B (n~52 probes, none 0.135): floor=0.12 .154 | x1+x2 .173 | start .115 | gline .115 | ghold .115 | gtopic .115 | B .135 |
+V .135 (identical replies) | V2 .135 (identical) | C2 .096 | H .135 (slot .21->.07, where .12->.23) | H2 .212 | Brec .115 |
+gate .135 | S .135 | go .135 (identical) | fwd .135 (identical)
+AUDIT C (n~55, none 0.164): floor=0.12 .255 | x1+x2 .182 | start .182 | ... | V2 .164 (identical) | C2 .164 (identical) |
+H .255 | H2 .182 | [rest in audit_C.log]
+WEIGHTS: V 615 learned rows mean|w| .004; V2 11,085 rows mean .0009; C2 14,095 rows .0008; H 2,363 rows .0075; H2 1,554 .0073
+
+FULL AUDIT LOGS
+-- B
+lesion none       ALL acc 0.135 held 0.067 seen 0.227 | slot 0.21 what 0.10 where 0.12 25s
+lesion floor=0.12 ALL acc 0.154 held 0.1 seen 0.227 | slot 0.21 what 0.10 where 0.18 52s
+lesion x1+x2      ALL acc 0.173 held 0.033 seen 0.364 | slot 0.29 what 0.10 where 0.18 79s
+lesion start      ALL acc 0.115 held 0.067 seen 0.182 | slot 0.29 what 0.05 where 0.06 104s
+lesion gline      ALL acc 0.115 held 0.1 seen 0.136 | slot 0.21 what 0.05 where 0.12 130s
+lesion ghold      ALL acc 0.115 held 0.067 seen 0.182 | slot 0.14 what 0.05 where 0.18 155s
+lesion gtopic     ALL acc 0.115 held 0.067 seen 0.182 | slot 0.21 what 0.05 where 0.12 179s
+lesion B          ALL acc 0.135 held 0.1 seen 0.182 | slot 0.21 what 0.05 where 0.18 204s
+lesion V          ALL acc 0.135 held 0.067 seen 0.227 | slot 0.21 what 0.10 where 0.12 229s
+lesion V2         ALL acc 0.135 held 0.067 seen 0.227 | slot 0.21 what 0.10 where 0.12 251s
+lesion C2         ALL acc 0.096 held 0.067 seen 0.136 | slot 0.21 what 0.05 where 0.06 275s
+lesion H          ALL acc 0.135 held 0.1 seen 0.182 | slot 0.07 what 0.10 where 0.23 303s
+lesion H2         ALL acc 0.212 held 0.033 seen 0.455 | slot 0.29 what 0.19 where 0.18 328s
+lesion Brec       ALL acc 0.115 held 0.033 seen 0.227 | slot 0.29 what 0.05 where 0.06 346s
+lesion gate       ALL acc 0.135 held 0.067 seen 0.227 | slot 0.29 what 0.05 where 0.12 372s
+lesion S          ALL acc 0.135 held 0.067 seen 0.227 | slot 0.21 what 0.14 where 0.06 397s
+lesion go         ALL acc 0.135 held 0.067 seen 0.227 | slot 0.21 what 0.10 where 0.12 426s
+lesion fwd        ALL acc 0.135 held 0.067 seen 0.227 | slot 0.21 what 0.10 where 0.12 453s
+-- C
+lesion none       ALL acc 0.164 held 0.029 seen 0.381 | colour 0.00 count 0.17 offer 0.46 ritual 0.00 taste 0.17 25s
+lesion floor=0.12 ALL acc 0.255 held 0.147 seen 0.429 | colour 0.11 count 0.33 offer 0.46 ritual 0.00 taste 0.25 50s
+lesion x1+x2      ALL acc 0.182 held 0.029 seen 0.429 | colour 0.00 count 0.17 offer 0.55 ritual 0.00 taste 0.17 75s
+lesion start      ALL acc 0.182 held 0.029 seen 0.429 | colour 0.00 count 0.17 offer 0.55 ritual 0.00 taste 0.17 100s
+lesion gline      ALL acc 0.164 held 0.029 seen 0.381 | colour 0.00 count 0.17 offer 0.46 ritual 0.00 taste 0.17 125s
+lesion ghold      ALL acc 0.200 held 0.029 seen 0.476 | colour 0.06 count 0.17 offer 0.55 ritual 0.00 taste 0.17 150s
+lesion gtopic     ALL acc 0.182 held 0.029 seen 0.429 | colour 0.00 count 0.17 offer 0.55 ritual 0.00 taste 0.17 174s
+lesion B          ALL acc 0.145 held 0.059 seen 0.286 | colour 0.00 count 0.17 offer 0.36 ritual 0.00 taste 0.17 199s
+lesion V          ALL acc 0.164 held 0.029 seen 0.381 | colour 0.00 count 0.17 offer 0.46 ritual 0.00 taste 0.17 223s
+lesion V2         ALL acc 0.164 held 0.029 seen 0.381 | colour 0.00 count 0.17 offer 0.46 ritual 0.00 taste 0.17 245s
+lesion C2         ALL acc 0.164 held 0.029 seen 0.381 | colour 0.00 count 0.17 offer 0.46 ritual 0.00 taste 0.17 268s
+lesion H          ALL acc 0.255 held 0.176 seen 0.381 | colour 0.00 count 0.33 offer 0.55 ritual 0.00 taste 0.33 294s
+lesion H2         ALL acc 0.182 held 0.059 seen 0.381 | colour 0.00 count 0.08 offer 0.55 ritual 0.00 taste 0.25 320s
+lesion Brec       ALL acc 0.218 held 0.029 seen 0.524 | colour 0.06 count 0.33 offer 0.46 ritual 0.00 taste 0.17 339s
+lesion gate       ALL acc 0.182 held 0.059 seen 0.381 | colour 0.00 count 0.33 offer 0.36 ritual 0.00 taste 0.17 364s
+lesion S          ALL acc 0.182 held 0.029 seen 0.429 | colour 0.00 count 0.17 offer 0.55 ritual 0.00 taste 0.17 390s
+lesion go         ALL acc 0.182 held 0.029 seen 0.429 | colour 0.00 count 0.17 offer 0.46 ritual 0.50 taste 0.17 418s
+lesion fwd        ALL acc 0.164 held 0.029 seen 0.381 | colour 0.00 count 0.17 offer 0.46 ritual 0.00 taste 0.17 443s
+-- D
+lesion none       ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 29s
+lesion floor=0.12 ALL acc 0.122 held 0.0 seen 0.156 | before 0.00 check 0.18 name 0.36 oneshot 0.00 57s
+lesion Brec       ALL acc 0.082 held 0.0 seen 0.104 | before 0.00 check 0.13 name 0.21 oneshot 0.00 78s
+lesion H2         ALL acc 0.112 held 0.0 seen 0.143 | before 0.00 check 0.20 name 0.21 oneshot 0.00 108s
+lesion H          ALL acc 0.082 held 0.0 seen 0.104 | before 0.00 check 0.18 name 0.07 oneshot 0.00 139s
+lesion gate       ALL acc 0.071 held 0.0 seen 0.091 | before 0.00 check 0.10 name 0.21 oneshot 0.00 168s
+lesion S          ALL acc 0.112 held 0.0 seen 0.143 | before 0.00 check 0.15 name 0.36 oneshot 0.00 196s
+lesion go         ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 228s
+lesion fwd        ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 257s
+lesion ghold      ALL acc 0.092 held 0.0 seen 0.117 | before 0.00 check 0.15 name 0.21 oneshot 0.00 287s
+lesion C2         ALL acc 0.082 held 0.0 seen 0.104 | before 0.00 check 0.13 name 0.21 oneshot 0.00 313s
+
+TEXT-LEVEL next-char top-1 (coordinator's protocol): PR x1+x2 5k 0.175, 30k 0.226 (server); +R (designer's loop) 5k 0.183;
++gline+ghold 5k 0.214 (local).  Coordinator: Hebbian codes 0.152/0.153; exact n-gram 5k 0.234/0.249/0.242, 30k 0.245/0.287/0.283.
+M6b (set point beta 0.5): generic 0.045-0.048 vs input 0.055-0.068 (fixed), replacement clean, period-2 -0.08, but decode 0.97@10 ->
+0.00@60 ticks, drift J 0.01 (homeostasis also kills the hold).
+SEED 1 (server, partial): A purity 1.00, 67/67 programs; B500 0.08 (seen 0.15).
+
+PRUNED RUN (same plan, use.H=H2=V=V2=gtopic=0), pruned_s0.json: B 0.14 (held .04 seen .24; slot .12 what .08 where .22/held .10)
+C 0.34 (held .18 seen .48; offer .57 (seen .88 held .25) > ngram .49; count .28 taste .40 ritual .26 colour .12)
+D 0.09 (held .07; name .12 first .73, check .21, before .01, oneshot 0); learning B .16->.28, C .38->.56, D .07->.12
+time per stage B 315s (full 442), C 534 (766), D 706 (1026) -> ~30 % less compute, equal or better on every stage.

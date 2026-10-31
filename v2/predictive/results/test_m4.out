@@ -1,0 +1,6 @@
+   leaky + learned recurrence    : hold J(load, +60) 1.00  no-period-2 1.00  update J(new load, old hold) 0.14  decode held line (20-way) 1.00
+   leaky, no recurrence          : hold J(load, +60) 0.02  no-period-2 1.00  update J(new load, old hold) 0.02  decode held line (20-way) 0.03
+   no leak, learned recurrence   : hold J(load, +60) 0.95  no-period-2 0.64  update J(new load, old hold) 0.13  decode held line (20-way) 0.98
+[PASS] M4 PFC working memory (gated load = reset + input, leak, learned recurrence): criteria (weak distractor input during the hold): hold J >= 0.9 over 60 ticks; no period-2 in >= 99 % of holds; a new load replaces the old (J <= 0.3); decode >= 0.95
+   (M4: 22s)
+SUMMARY: 1/1 passed
