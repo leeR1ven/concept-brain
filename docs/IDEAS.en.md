@@ -258,3 +258,23 @@ learns the names of what it sees from the caregivers' words.
 - **Plan.** Add such an innate social-value pathway to world2, then test two things: is the helping tendency stable over
   a long life with no correction, and does it appear with a caregiver never seen before?
 
+**The designer's addition: stable values, free choices.**
+- Once a robot has the instinct of liking work and liking to help people, that attitude is very hard to change.
+- Ask a person who loves enjoyment to work hard for nothing in return, and they absolutely won't want to. The reverse
+  holds too: ask a robot that loves work and loves people to do something it dislikes, and it absolutely won't want to.
+- Yet it has free will; it is not a rigid machine.
+
+**In the architecture:**
+- How to act is decided by learning and by the thinking of the moment: there are many possible ways, and the robot can
+  take the initiative or decline. What counts as good is set by innate, almost unchanging connections.
+- In the model this is basal-ganglia-like selection: candidate plans compete, innate plus learned value scores them, and
+  the speech intention and motor gates release the winner.
+- Conflicts must be handled. Helping one person can hurt another, so in the innate value "don't upset or harm people"
+  must outweigh "help", like an innate brake.
+- The instinct's inputs must be reliable. If recognising "this person is upset" were entirely learned, a recognition
+  error would make the instinct misfire. Key social signals such as distress, pleasure and injury should therefore have
+  coarse innate detectors that learning then refines.
+- **Test plan (world2):** a caregiver makes a request that would upset someone else, e.g. take food out of another
+  person's hands. Does the model choose by itself not to do it, while staying happy to help with ordinary requests?
+
+
