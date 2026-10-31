@@ -1,0 +1,25 @@
+w2_N2_p0.0_s0.0_seed0.pkl v21: lines 128/130 prec 1.0 recall near 0.992 mid None far None | cats 66.0 junk 0.0 purity 1.0 clean samples 1.0 | quiet/day 122.5 long 33.0 F 0.076
+w2_N2_p0.0_s0.0_seed0.pkl gate: lines 128/130 prec 1.0 recall near 0.992 mid None far None | cats 66.0 junk 0.0 purity 1.0 clean samples 1.0 | quiet/day 122.5 long 33.0 F 0.076
+w2_N2_p0.0_s0.5_seed0.pkl v21: lines 6/130 prec 0.0 recall near 0.0 mid None far None | cats 256.0 junk 218.0 purity 1.0 clean samples 0.015 | quiet/day 0.0 long 0.0 F 0.289
+w2_N2_p0.0_s0.5_seed0.pkl gate: lines 130/130 prec 0.985 recall near 0.985 mid None far None | cats 72.5 junk 6.5 purity 1.0 clean samples 0.988 | quiet/day 123.5 long 33.0 F 0.076
+w2_N2_p0.0_s1.0_seed0.pkl v21: lines 1/130 prec 0.0 recall near 0.0 mid None far None | cats 256.0 junk 250.0 purity 1.0 clean samples 0.015 | quiet/day 0.0 long 0.0 F 0.986
+w2_N2_p0.0_s1.0_seed0.pkl gate: lines 129/130 prec 0.984 recall near 0.981 mid None far None | cats 75.0 junk 9.0 purity 1.0 clean samples 0.982 | quiet/day 123.0 long 33.0 F 0.076
+w2_N2_p0.0_s2.0_seed0.pkl v21: lines 1/130 prec 0.0 recall near 0.0 mid None far None | cats 256.0 junk 250.0 purity 1.0 clean samples 0.015 | quiet/day 0.0 long 0.0 F 1.0
+w2_N2_p0.0_s2.0_seed0.pkl gate: lines 120/130 prec 0.7 recall near 0.637 mid None far None | cats 137.0 junk 72.0 purity 1.0 clean samples 0.772 | quiet/day 115.0 long 33.5 F 0.065
+w2_N16_p0.02_s0.0_seed0.pkl v21: lines 865/1036 prec 0.978 recall near 0.771 mid 0.856 far 0.817 | cats 256.0 junk 57.75 purity 0.997 clean samples 0.819 | quiet/day 418.5 long 0.25 F 0.379
+w2_N16_p0.02_s0.0_seed0.pkl gate: lines 865/1036 prec 0.978 recall near 0.771 mid 0.856 far 0.817 | cats 256.0 junk 57.75 purity 0.997 clean samples 0.819 | quiet/day 418.5 long 0.25 F 0.379
+w2_N16_p0.02_s0.5_seed0.pkl v21: lines 5/1036 prec 0.0 recall near 0.0 mid 0.0 far 0.0 | cats 256.0 junk 198.75 purity 0.995 clean samples 0.096 | quiet/day 0.0 long 0.0 F 0.524
+w2_N16_p0.02_s0.5_seed0.pkl gate: lines 867/1036 prec 0.972 recall near 0.771 mid 0.854 far 0.811 | cats 256.0 junk 58.25 purity 0.997 clean samples 0.815 | quiet/day 419.25 long 0.25 F 0.38
+w2_N16_p0.02_s1.0_seed0.pkl v21: lines 1/1036 prec 0.0 recall near 0.0 mid 0.0 far 0.0 | cats 256.0 junk 237.25 purity 0.998 clean samples 0.096 | quiet/day 0.0 long 0.0 F 0.991
+w2_N16_p0.02_s1.0_seed0.pkl gate: lines 45/1036 prec 0.707 recall near 0.01 mid 0.043 far 0.024 | cats 124.75 junk 48.25 purity 1.0 clean samples 0.642 | quiet/day 31.0 long 1.5 F 0.02
+w2_N64_p0.02_s0.0_seed0.pkl v21: lines 1256/1870 prec 0.974 recall near 0.88 mid 0.757 far 0.642 | cats 256.0 junk 81.0 purity 0.991 clean samples 0.693 | quiet/day 269.0 long 0.0 F 0.595
+w2_N64_p0.02_s0.0_seed0.pkl gate: lines 1256/1870 prec 0.974 recall near 0.88 mid 0.757 far 0.642 | cats 256.0 junk 81.0 purity 0.991 clean samples 0.693 | quiet/day 269.0 long 0.0 F 0.595
+w2_N64_p0.02_s0.5_seed0.pkl v21: lines 4/1870 prec 0.062 recall near 0.0 mid 0.0 far 0.0 | cats 256.0 junk 180.25 purity 0.99 clean samples 0.153 | quiet/day 0.0 long 0.0 F 0.691
+w2_N64_p0.02_s0.5_seed0.pkl gate: lines 1258/1870 prec 0.97 recall near 0.88 mid 0.755 far 0.639 | cats 256.0 junk 90.0 purity 0.993 clean samples 0.689 | quiet/day 270.5 long 0.0 F 0.596
+w2_N64_p0.02_s1.0_seed0.pkl v21: lines 1/1870 prec 0.0 recall near 0.0 mid 0.0 far 0.0 | cats 256.0 junk 209.5 purity 0.996 clean samples 0.148 | quiet/day 0.0 long 0.0 F 0.994
+w2_N64_p0.02_s1.0_seed0.pkl gate: lines 145/1870 prec 0.88 recall near 0.096 mid 0.089 far 0.056 | cats 256.0 junk 87.75 purity 0.999 clean samples 0.676 | quiet/day 47.25 long 1.0 F 0.076
+w2_N16_p0.004_s0.0_seed0.pkl v21: lines 392/434 prec 0.999 recall near 0.832 mid 0.919 far 0.905 | cats 256.0 junk 42.0 purity 0.997 clean samples 0.922 | quiet/day 262.25 long 16.25 F 0.171
+w2_N16_p0.004_s0.0_seed0.pkl gate: lines 392/434 prec 0.999 recall near 0.832 mid 0.919 far 0.905 | cats 256.0 junk 42.0 purity 0.997 clean samples 0.922 | quiet/day 262.25 long 16.25 F 0.171
+w2_N16_p0.004_s1.0_seed0.pkl v21: lines 1/434 prec 0.0 recall near 0.0 mid 0.0 far 0.0 | cats 256.0 junk 246.25 purity 1.0 clean samples 0.045 | quiet/day 0.0 long 0.0 F 0.988
+w2_N16_p0.004_s1.0_seed0.pkl gate: lines 169/434 prec 0.76 recall near 0.574 mid 0.377 far 0.215 | cats 202.75 junk 56.75 purity 1.0 clean samples 0.764 | quiet/day 122.5 long 19.5 F 0.066
+EVALDONE

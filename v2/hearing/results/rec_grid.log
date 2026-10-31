@@ -1,0 +1,13 @@
+rec/w2_N2_p0.0_s0.0_seed0.pkl N 2 K 2 p 0.0 noise 0.0 ticks 30000 utter 0 cg lines 346 1.8s
+rec/w2_N16_p0.02_s0.0_seed0.pkl N 16 K 4 p 0.02 noise 0.0 ticks 30000 utter 3316 cg lines 491 5.5s
+rec/w2_N64_p0.02_s0.0_seed0.pkl N 64 K 4 p 0.02 noise 0.0 ticks 30000 utter 6170 cg lines 463 8.7s
+rec/w2_N2_p0.0_s0.5_seed0.pkl N 2 K 2 p 0.0 noise 0.5 ticks 30000 utter 0 cg lines 346 2.4s
+rec/w2_N16_p0.02_s0.5_seed0.pkl N 16 K 4 p 0.02 noise 0.5 ticks 30000 utter 3316 cg lines 491 6.3s
+rec/w2_N64_p0.02_s0.5_seed0.pkl N 64 K 4 p 0.02 noise 0.5 ticks 30000 utter 6170 cg lines 463 10.3s
+rec/w2_N2_p0.0_s1.0_seed0.pkl N 2 K 2 p 0.0 noise 1.0 ticks 30000 utter 0 cg lines 346 2.4s
+rec/w2_N16_p0.02_s1.0_seed0.pkl N 16 K 4 p 0.02 noise 1.0 ticks 30000 utter 3316 cg lines 491 6.9s
+rec/w2_N64_p0.02_s1.0_seed0.pkl N 64 K 4 p 0.02 noise 1.0 ticks 30000 utter 6170 cg lines 463 10.5s
+rec/w2_N2_p0.0_s2.0_seed0.pkl N 2 K 2 p 0.0 noise 2.0 ticks 30000 utter 0 cg lines 346 2.3s
+rec/w2_N16_p0.004_s0.0_seed0.pkl N 16 K 4 p 0.004 noise 0.0 ticks 30000 utter 1076 cg lines 413 3.8s
+rec/w2_N16_p0.004_s1.0_seed0.pkl N 16 K 4 p 0.004 noise 1.0 ticks 30000 utter 1076 cg lines 413 4.6s
+RECDONE

@@ -117,15 +117,26 @@ listening, babbling and conversing.
   - Speed: about 250 agent-ticks/s at 64 agents, far below the 30k target. Today's agent does too little and too
     sequential work per event (awake recall is 70 % of the time). Numpy on server CPUs stays the sweep engine; the GPU
     version waits for the scaled-up model.
+- **Open-world hearing** ([v2/hearing/report.md](v2/hearing/report.md), first part of Step 6). ARCH_v2.1's ear needed
+  exact silence, so in world2 at noise σ 1 it heard 0 lines, and the bench at σ 1 scored J 0. A local front end, behind
+  `h_*` keys, fixes this: an adaptive noise floor (every silence trigger becomes relative), a syllable clock that
+  re-locks to recognised syllables, a voice-change boundary, level-invariant matching and denoised syllable patterns.
+  - The clean bench is unchanged bit for bit (5/5 seeds, J 1.2291 in both arms). On the bench at σ 1, J goes from 0 to
+    1.27 (1.27 clean). In world2 at σ 1 the agent hears 330 lines and speaks 193 times (304 / 201 noise-free), with no
+    talk-over.
+  - In crowds, near lines whose start overlaps another voice are heard with coverage 0.74–0.97 (v2.1: 0.06–0.22).
+  - It tracks noise that changes during one life with no reset.
+  - Open: the brake stays on in crowds, so agents rarely speak there; far speech fragments in noise; σ 2 works only in
+    part; trust-weighted listening needs voice identity.
 
-**Next** (review round 2 plan):
+**Next** (review round 2 plan, Steps 0–6; items 1–4 are ARCH_v2.1 and the hearing part of item 7 is done):
 1. honest measurement;
 2. role-aware learning with the self in the loop;
 3. comprehension feeds production;
 4. a signed value loop;
-5. a learned meaning layer on random connections from birth;
+5. a learned meaning layer on random connections from birth (in progress, with the ARCH_v2.2 merge);
 6. slow consolidation;
-7. open-world hearing and an action loop.
+7. open-world hearing (done) and an action loop.
 
 Then the GPU port into world2 and the scaling curves.
 

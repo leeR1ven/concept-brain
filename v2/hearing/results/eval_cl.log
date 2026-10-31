@@ -1,0 +1,6 @@
+w2_N2_p0.0_s1.0_seed0.pkl gate: lines 129/130 prec 0.996 recall near 0.992 mid None far None | cats 66.0 junk 0.0 dup 0.0 purity 1.0 clean samples 0.998 | quiet/day 123.0 long 33.0 F 0.076 | cover near 1.0 (ovl 1.0) mid None | mixed 0.009 relocks 0.0 chars 66.0
+w2_N16_p0.02_s0.0_seed0.pkl gate: lines 976/1036 prec 0.918 recall near 0.971 mid 0.919 far 0.845 | cats 256.0 junk 29.0 dup 34.0 purity 0.998 clean samples 0.889 | quiet/day 418.5 long 0.25 F 0.379 | cover near 0.98 (ovl 0.899) mid 0.86 | mixed 0.028 relocks 111.0 chars 207.0
+w2_N16_p0.004_s1.0_seed0.pkl gate: lines 404/434 prec 0.719 recall near 0.851 mid 0.876 far 0.473 | cats 250.75 junk 58.75 dup 46.5 purity 1.0 clean samples 0.74 | quiet/day 264.25 long 17.0 F 0.16 | cover near 0.881 (ovl 0.65) mid 0.776 | mixed 0.01 relocks 6.0 chars 194.5
+w2_N16_p0.02_s1.0_seed0.pkl gate: lines 774/1036 prec 0.665 recall near 0.771 mid 0.68 far 0.368 | cats 256.0 junk 73.25 dup 31.5 purity 1.0 clean samples 0.652 | quiet/day 398.0 long 0.75 F 0.31 | cover near 0.709 (ovl 0.154) mid 0.51 | mixed 0.014 relocks 12.0 chars 205.75
+w2_N64_p0.02_s1.0_seed0.pkl gate: lines 1299/1870 prec 0.795 recall near 0.892 mid 0.73 far 0.41 | cats 256.0 junk 78.25 dup 37.5 purity 0.998 clean samples 0.62 | quiet/day 295.0 long 0.0 F 0.577 | cover near 0.45 (ovl 0.214) mid 0.292 | mixed 0.021 relocks 5.5 chars 207.0
+EVALDONE
