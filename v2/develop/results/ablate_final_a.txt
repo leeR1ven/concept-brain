@@ -1,0 +1,30 @@
+[B] full                           ALL (0.292, 212, 0)  slot=0.431/held 0 what=0.0/held 0 where=0.54/held 0
+[B] no GEN (cortex readout)        ALL (0.009, 212, 0)  slot=0.015/held 0 what=0.0/held 0 where=0.016/held 0
+[B] no COPY_prompt gate            ALL (0.311, 212, 0)  slot=0.431/held 0 what=0.048/held 0 where=0.54/held 0
+[B] no hippocampal recall routes   ALL (0.278, 212, 0)  slot=0.385/held 0 what=0.0/held 0 where=0.54/held 0
+[B] no hippocampus at all          ALL (0.302, 212, 0)  slot=0.462/held 0 what=0.0/held 0 where=0.54/held 0
+[B] no learned attention           ALL (0.042, 212, 0)  slot=0.0/held 0 what=0.0/held 0 where=0.143/held 0
+[B] no comparator / primes         ALL (0.189, 212, 0)  slot=0.431/held 0 what=0.036/held 0 where=0.143/held 0
+[B] no visual recognition VR       ALL (0.274, 212, 0)  slot=0.369/held 0 what=0.0/held 0 where=0.54/held 0
+[B] no scene focus F               ALL (0.075, 212, 0)  slot=0.077/held 0 what=0.0/held 0 where=0.175/held 0
+[B] no slow context CTX            ALL (0.307, 212, 0)  slot=0.462/held 0 what=0.0/held 0 where=0.556/held 0
+[C] full                           ALL (0.497, 197, 0)  colour=0.143/held 0 count=0.2/held 0 offer=0.661/held 0 ritual=0.765/held 0 taste=0.69/held 0
+[C] no GEN (cortex readout)        ALL (0.203, 197, 0)  colour=0.029/held 0 count=0.0/held 0 offer=0.085/held 0 ritual=0.882/held 0 taste=0.138/held 0
+[C] no COPY_prompt gate            ALL (0.376, 197, 0)  colour=0.143/held 0 count=0.2/held 0 offer=0.627/held 0 ritual=0.118/held 0 taste=0.69/held 0
+[C] no hippocampal recall routes   ALL (0.462, 197, 0)  colour=0.114/held 0 count=0.15/held 0 offer=0.593/held 0 ritual=0.765/held 0 taste=0.69/held 0
+[C] no hippocampus at all          ALL (0.467, 197, 0)  colour=0.114/held 0 count=0.2/held 0 offer=0.644/held 0 ritual=0.647/held 0 taste=0.69/held 0
+[C] no learned attention           ALL (0.431, 197, 0)  colour=0.0/held 0 count=0.0/held 0 offer=0.661/held 0 ritual=0.765/held 0 taste=0.69/held 0
+[C] no comparator / primes         ALL (0.36, 197, 0)  colour=0.0/held 0 count=0.0/held 0 offer=0.424/held 0 ritual=0.765/held 0 taste=0.69/held 0
+[C] no visual recognition VR       ALL (0.523, 197, 0.062)  colour=0.143/held 0 count=0.3/held 0.083 offer=0.678/held 0.111 ritual=0.765/held 0 taste=0.69/held 0
+[C] no scene focus F               ALL (0.168, 197, 0)  colour=0.029/held 0 count=0.0/held 0 offer=0.0/held 0 ritual=0.765/held 0 taste=0.207/held 0
+[C] no slow context CTX            ALL (0.508, 197, 0)  colour=0.143/held 0 count=0.2/held 0 offer=0.661/held 0 ritual=0.824/held 0 taste=0.69/held 0
+[D] full                           ALL (0.313, 131, 0.357)  before=0.0/held 0 check=0.609/held 0.357 name=0.095/held 0 oneshot=0.0/held 0
+[D] no GEN (cortex readout)        ALL (0.076, 131, 0.036)  before=0.0/held 0 check=0.078/held 0.036 name=0.238/held 0 oneshot=0.0/held 0
+[D] no COPY_prompt gate            ALL (0.321, 131, 0.357)  before=0.0/held 0 check=0.625/held 0.357 name=0.095/held 0 oneshot=0.0/held 0
+[D] no hippocampal recall routes   ALL (0.26, 131, 0.25)  before=0.0/held 0 check=0.531/held 0.25 name=0.0/held 0 oneshot=0.0/held 0
+[D] no hippocampus at all          ALL (0.298, 131, 0.393)  before=0.0/held 0 check=0.578/held 0.393 name=0.095/held 0 oneshot=0.0/held 0
+[D] no learned attention           ALL (0.344, 131, 0.357)  before=0.0/held 0 check=0.609/held 0.357 name=0.286/held 0 oneshot=0.0/held 0
+[D] no comparator / primes         ALL (0.137, 131, 0)  before=0.0/held 0 check=0.188/held 0 name=0.286/held 0 oneshot=0.0/held 0
+[D] no visual recognition VR       ALL (0.328, 131, 0.429)  before=0.0/held 0 check=0.641/held 0.429 name=0.095/held 0 oneshot=0.0/held 0
+[D] no scene focus F               ALL (0.26, 131, 0.036)  before=0.0/held 0 check=0.438/held 0.036 name=0.286/held 0 oneshot=0.0/held 0
+[D] no slow context CTX            ALL (0.344, 131, 0.321)  before=0.0/held 0 check=0.562/held 0.321 name=0.429/held 0 oneshot=0.0/held 0

@@ -1,0 +1,4 @@
+M1 [hippo+sleep     ] one-shot fact recall (exact answer) by delay in exchanges: {0: (0.62, 60), 100: (0.42, 60), 400: (0.17, 60), 1500: (0.05, 60)}
+M1 [hippo, no sleep ] one-shot fact recall (exact answer) by delay in exchanges: {0: (0.98, 60), 100: (0.75, 60), 400: (0.13, 60), 1500: (0.1, 60)}
+M1 [no hippocampus  ] one-shot fact recall (exact answer) by delay in exchanges: {0: (0.93, 60), 100: (0.23, 60), 400: (0.13, 60), 1500: (0.12, 60)}
+M1 FAIL: one-shot via the index; long-delay retention needs sleep replay

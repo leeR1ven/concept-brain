@@ -1,0 +1,702 @@
+(a) archv1 Talker: 8107 ticks, 106s
+(b) bench world + archv1.Brain: 8107 ticks, 115s
+(c) bench world + RefV1: 8107 ticks, 10.2s
+{
+ "cfg": "base",
+ "seed": 1,
+ "pairs": 108,
+ "probes": 40,
+ "ticks": [
+  8107,
+  8107,
+  8107
+ ],
+ "a_vs_b_first_diff": null,
+ "b_vs_c_first_diff": null,
+ "mouth_ticks": 2259,
+ "bench_b_mech": {
+  "exchanges": 148,
+  "mouth_while_partner": 0,
+  "exchanges_with_overlap": 0,
+  "mouth_during_prompt": 0,
+  "syllables": 753,
+  "not_3_ticks": 0,
+  "frac_not_3": 0.0,
+  "garble": 0,
+  "extra_turns": 0,
+  "spoke": 1.0,
+  "latency": {
+   "6": 40
+  },
+  "latency_median": 6.0,
+  "stop": {
+   "self": 40
+  },
+  "agent_stop": {
+   "floor": 29,
+   "END": 10,
+   "breath": 1
+  }
+ },
+ "bench_b_guided": {
+  "n": 108,
+  "exact": 1.0
+ },
+ "bench_b_free": [
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "哈哈哈哈哈哈哈哈哈哈哈哈",
+   6,
+   "breath"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "突",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "脸",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ]
+ ],
+ "bench_c_mech": {
+  "exchanges": 148,
+  "mouth_while_partner": 0,
+  "exchanges_with_overlap": 0,
+  "mouth_during_prompt": 0,
+  "syllables": 753,
+  "not_3_ticks": 0,
+  "frac_not_3": 0.0,
+  "garble": 0,
+  "extra_turns": 0,
+  "spoke": 1.0,
+  "latency": {
+   "6": 40
+  },
+  "latency_median": 6.0,
+  "stop": {
+   "self": 40
+  },
+  "agent_stop": {
+   "floor": 29,
+   "END": 10,
+   "breath": 1
+  }
+ },
+ "bench_c_guided": {
+  "n": 108,
+  "exact": 1.0
+ },
+ "bench_c_free": [
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "哈哈哈哈哈哈哈哈哈哈哈哈",
+   6,
+   "breath"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "突",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "脸",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ]
+ ],
+ "v1_audit_train": {
+  "B1": 0,
+  "guided_exact": 108,
+  "syl": 693,
+  "not3": 0,
+  "garble": 0
+ },
+ "v1_free": [
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "哈哈哈哈哈哈哈哈哈哈哈哈",
+   6,
+   "breath"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "突",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "脸",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "END"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ]
+ ],
+ "v1_free_mech": {
+  "B1": 0,
+  "syl": 60,
+  "not3": 0,
+  "garble": 0,
+  "restarts": 0,
+  "stops": {
+   "floor": 29,
+   "END": 10,
+   "breath": 1
+  },
+  "first_move": {
+   "6": 40
+  }
+ },
+ "identical_free_replies_a_b_c": true
+}

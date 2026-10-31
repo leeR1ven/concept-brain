@@ -1,0 +1,699 @@
+(a) archv1 Talker: 8097 ticks, 122s
+(b) bench world + archv1.Brain: 8097 ticks, 111s
+(c) bench world + RefV1: 8097 ticks, 23.8s
+{
+ "cfg": "mem",
+ "seed": 0,
+ "pairs": 108,
+ "probes": 40,
+ "ticks": [
+  8097,
+  8097,
+  8097
+ ],
+ "a_vs_b_first_diff": null,
+ "b_vs_c_first_diff": null,
+ "mouth_ticks": 2313,
+ "bench_b_mech": {
+  "exchanges": 148,
+  "mouth_while_partner": 0,
+  "exchanges_with_overlap": 0,
+  "mouth_during_prompt": 0,
+  "syllables": 771,
+  "not_3_ticks": 0,
+  "frac_not_3": 0.0,
+  "garble": 0,
+  "extra_turns": 0,
+  "spoke": 1.0,
+  "latency": {
+   "6": 40
+  },
+  "latency_median": 6.0,
+  "stop": {
+   "self": 40
+  },
+  "agent_stop": {
+   "floor": 35,
+   "END": 5
+  }
+ },
+ "bench_b_guided": {
+  "n": 108,
+  "exact": 1.0
+ },
+ "bench_b_free": [
+  [
+   "我了是",
+   6,
+   "floor"
+  ],
+  [
+   "你是",
+   6,
+   "floor"
+  ],
+  [
+   "我是好吃",
+   6,
+   "floor"
+  ],
+  [
+   "你好",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我不了",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你了",
+   6,
+   "END"
+  ],
+  [
+   "哈个",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯是",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "你是",
+   6,
+   "floor"
+  ],
+  [
+   "你个",
+   6,
+   "floor"
+  ],
+  [
+   "你我不",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你吃",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你好",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你不是",
+   6,
+   "floor"
+  ],
+  [
+   "你我是",
+   6,
+   "floor"
+  ],
+  [
+   "对是",
+   6,
+   "floor"
+  ],
+  [
+   "对我好",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯好",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你不",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你不",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ]
+ ],
+ "bench_c_mech": {
+  "exchanges": 148,
+  "mouth_while_partner": 0,
+  "exchanges_with_overlap": 0,
+  "mouth_during_prompt": 0,
+  "syllables": 771,
+  "not_3_ticks": 0,
+  "frac_not_3": 0.0,
+  "garble": 0,
+  "extra_turns": 0,
+  "spoke": 1.0,
+  "latency": {
+   "6": 40
+  },
+  "latency_median": 6.0,
+  "stop": {
+   "self": 40
+  },
+  "agent_stop": {
+   "floor": 35,
+   "END": 5
+  }
+ },
+ "bench_c_guided": {
+  "n": 108,
+  "exact": 1.0
+ },
+ "bench_c_free": [
+  [
+   "我了是",
+   6,
+   "floor"
+  ],
+  [
+   "你是",
+   6,
+   "floor"
+  ],
+  [
+   "我是好吃",
+   6,
+   "floor"
+  ],
+  [
+   "你好",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我不了",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你了",
+   6,
+   "END"
+  ],
+  [
+   "哈个",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯是",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "你是",
+   6,
+   "floor"
+  ],
+  [
+   "你个",
+   6,
+   "floor"
+  ],
+  [
+   "你我不",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你吃",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你好",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你不是",
+   6,
+   "floor"
+  ],
+  [
+   "你我是",
+   6,
+   "floor"
+  ],
+  [
+   "对是",
+   6,
+   "floor"
+  ],
+  [
+   "对我好",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯好",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你不",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你不",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ]
+ ],
+ "v1_audit_train": {
+  "B1": 0,
+  "guided_exact": 108,
+  "syl": 693,
+  "not3": 0,
+  "garble": 0
+ },
+ "v1_free": [
+  [
+   "我了是",
+   6,
+   "floor"
+  ],
+  [
+   "你是",
+   6,
+   "floor"
+  ],
+  [
+   "我是好吃",
+   6,
+   "floor"
+  ],
+  [
+   "你好",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我不了",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你了",
+   6,
+   "END"
+  ],
+  [
+   "哈个",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯是",
+   6,
+   "floor"
+  ],
+  [
+   "嗯",
+   6,
+   "floor"
+  ],
+  [
+   "你是",
+   6,
+   "floor"
+  ],
+  [
+   "你个",
+   6,
+   "floor"
+  ],
+  [
+   "你我不",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你吃",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你好",
+   6,
+   "floor"
+  ],
+  [
+   "对",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "你不是",
+   6,
+   "floor"
+  ],
+  [
+   "你我是",
+   6,
+   "floor"
+  ],
+  [
+   "对是",
+   6,
+   "floor"
+  ],
+  [
+   "对我好",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "嗯好",
+   6,
+   "floor"
+  ],
+  [
+   "你的",
+   6,
+   "floor"
+  ],
+  [
+   "我了",
+   6,
+   "END"
+  ],
+  [
+   "你我",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你不",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ],
+  [
+   "你不",
+   6,
+   "floor"
+  ],
+  [
+   "我",
+   6,
+   "floor"
+  ]
+ ],
+ "v1_free_mech": {
+  "B1": 0,
+  "syl": 78,
+  "not3": 0,
+  "garble": 0,
+  "restarts": 0,
+  "stops": {
+   "floor": 35,
+   "END": 5
+  },
+  "first_move": {
+   "6": 40
+  }
+ },
+ "identical_free_replies_a_b_c": true
+}

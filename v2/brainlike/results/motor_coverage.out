@@ -1,0 +1,4 @@
+programs 512; distinct chars they produce 68
+B/C chars with a program: 64/67 missing 呀很拜
+name chars: 2/9; novel-object chars: 6/67
+programs per produced char: 7.5 (duplicates fill the 512-slot pool)

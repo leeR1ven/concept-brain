@@ -1,0 +1,23 @@
+[   168s] refv1_mem_B_force_s1 (168.0s)
+    [B] free n=1150 acc 0.11 (held 0.09 n=621, seen 0.13, scene 0.11) first 0.71 echo-free 0.11 parrot 0.37 | overlap 0 lat 6.0 not3 0/11423 garble 0 extra 0 stop {'silent': 1, 'self': 1149}
+    [ALL] free n=1150 acc 0.11 (held 0.09 n=621, seen 0.13, scene 0.11) first 0.71 echo-free 0.11 parrot 0.37 | overlap 0 lat 6.0 not3 0/11423 garble 0 extra 0 stop {'silent': 1, 'self': 1149}
+[   335s] refv1_mem_C_force_s1 (167.1s)
+    [C] free n=1006 acc 0.17 (held 0.06 n=449, seen 0.27, scene 0.08) first 0.65 echo-free 0.23 parrot 0.71 | overlap 0 lat 6.0 not3 0/10979 garble 0 extra 0 stop {'self': 1006}
+    [ALL] free n=1006 acc 0.17 (held 0.06 n=449, seen 0.27, scene 0.08) first 0.65 echo-free 0.23 parrot 0.71 | overlap 0 lat 6.0 not3 0/10979 garble 0 extra 0 stop {'self': 1006}
+[   508s] refv1_mem_D_force_s1 (172.9s)
+    [B] free n=274 acc 0.04 (held 0.02 n=182, seen 0.08, scene 0.04) first 0.42 echo-free 0.04 parrot 0.56 | overlap 0 lat 6.0 not3 0/1598 garble 0 extra 0 stop {'silent': 1, 'self': 273}
+    [C] free n=78 acc 0.19 (held 0.03 n=35, seen 0.33, scene 0.03) first 0.41 echo-free 0.08 parrot 0.55 | overlap 0 lat 6.0 not3 0/725 garble 0 extra 0 stop {'self': 78}
+    [D] free n=1189 acc 0.17 (held 0.43 n=267, seen 0.10, scene 0.20) first 0.50 echo-free 0.01 parrot 0.68 | overlap 0 lat 6.0 not3 0/5532 garble 0 extra 0 stop {'silent': 2, 'self': 1187}
+    [ALL] free n=1541 acc 0.15 (held 0.25 n=484, seen 0.11, scene 0.16) first 0.48 echo-free 0.02 parrot 0.65 | overlap 0 lat 6.0 not3 0/7855 garble 0 extra 0 stop {'silent': 3, 'self': 1538}
+[   654s] refv1_mem_B_force_s2 (146.1s)
+    [B] free n=1108 acc 0.13 (held 0.13 n=607, seen 0.14, scene 0.13) first 0.69 echo-free 0.13 parrot 0.37 | overlap 0 lat 6.0 not3 0/11023 garble 0 extra 0 stop {'silent': 2, 'self': 1106}
+    [ALL] free n=1108 acc 0.13 (held 0.13 n=607, seen 0.14, scene 0.13) first 0.69 echo-free 0.13 parrot 0.37 | overlap 0 lat 6.0 not3 0/11023 garble 0 extra 0 stop {'silent': 2, 'self': 1106}
+[   900s] refv1_mem_C_force_s2 (246.0s)
+    [C] free n=974 acc 0.20 (held 0.07 n=459, seen 0.31, scene 0.10) first 0.64 echo-free 0.22 parrot 0.70 | overlap 0 lat 6.0 not3 0/10840 garble 0 extra 0 stop {'self': 974}
+    [ALL] free n=974 acc 0.20 (held 0.07 n=459, seen 0.31, scene 0.10) first 0.64 echo-free 0.22 parrot 0.70 | overlap 0 lat 6.0 not3 0/10840 garble 0 extra 0 stop {'self': 974}
+[  1131s] refv1_mem_D_force_s2 (230.8s)
+    [B] free n=255 acc 0.01 (held 0.00 n=179, seen 0.04, scene 0.01) first 0.33 echo-free 0.02 parrot 0.56 | overlap 0 lat 6.0 not3 0/1555 garble 0 extra 0 stop {'self': 255}
+    [C] free n=78 acc 0.14 (held 0.03 n=33, seen 0.22, scene 0.00) first 0.42 echo-free 0.19 parrot 0.50 | overlap 0 lat 6.0 not3 0/786 garble 0 extra 0 stop {'self': 78}
+    [D] free n=1167 acc 0.17 (held 0.46 n=247, seen 0.10, scene 0.20) first 0.44 echo-free 0.01 parrot 0.68 | overlap 0 lat 6.0 not3 0/5527 garble 0 extra 0 stop {'self': 1167}
+    [ALL] free n=1500 acc 0.15 (held 0.25 n=459, seen 0.10, scene 0.16) first 0.42 echo-free 0.02 parrot 0.65 | overlap 0 lat 6.0 not3 0/7868 garble 0 extra 0 stop {'self': 1500}
+LOCAL3 DONE

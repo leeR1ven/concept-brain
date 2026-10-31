@@ -1,0 +1,3 @@
+5000 dialogues, maturing readout, context L    : next-char top-1 0.228 (n=21289, units 2855, 14s)
+5000 dialogues, maturing readout, context L+L2 : next-char top-1 0.244 (n=21289, units 16867, 19s)
+5000 dialogues, maturing readout, context L+R  : next-char top-1 0.199 (n=21289, units 4855, 101s)

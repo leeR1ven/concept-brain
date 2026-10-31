@@ -1,0 +1,23 @@
+PASS R1a one-shot A->B :: w01=1.000 w10=0.000
+PASS R1b reverse order never learns A->B :: w01=0.000 w10=1.000
+PASS R1c ping-pong A,B,A,B: no two-way loop :: w01=1.000 w10=0.000 (the last order wins, the reverse is erased)
+PASS R1d same-tick onsets do not link :: max w=0.000
+PASS R1e outside the window (9 ticks) no link :: w01=0.000
+PASS R1f gate M=0 blocks learning :: max w=0.000
+PASS R1g 好不好吃: successor(好)=吃, successor(不)=好 :: w[好]=[0. 0. 1.] w[不]=[1. 0. 0.]
+PASS R1h slow + pre-normalisation estimates P(next | a) :: w01=0.703 (0.7) w02=0.297 (0.3) rowsum=1.000
+PASS R2a per-target totals <= budget at EVERY learning tick :: max column sum=1.0000 (B=1)
+PASS R2b one-shot assemblies (200 patterns, 2% active) complete from a half cue :: oldest 40: 40/40, newest 40: 40/40, mean overlap 1.00 (chance 0.02)
+PASS R2b' slow interleaved concepts (30 x 12, 20% noise) complete from a half cue :: completed 30/30, mean overlap 0.98
+PASS R2c template form converges to the prototype, sum = B :: corr=0.995 sum=1.0000
+PASS R2d gate M=0 blocks learning :: 
+PASS R3a delta: prediction converges to the target :: p=[1. 0. 0.]
+PASS R3b already predicted -> (almost) no more strengthening :: max dw=0.0000
+PASS R3c predicted but absent -> weakens :: p before=1.000 after=0.500
+PASS R3d third factor M=0 -> no learning :: 
+PASS R3e signed weights learn an exception (A -> y, A+B -> not y) :: p(A)=1.00 p(A+B)=0.00 min w(B)=-0.33
+PASS R3f trace bridges a 5-tick delay (M on) and learns nothing with M off :: prediction at the target tick: M on 1.00, M off 0.00
+PASS R3f trace bridges a 10-tick delay (M on) and learns nothing with M off :: prediction at the target tick: M on 1.00, M off 0.00
+PASS R3f trace bridges a 20-tick delay (M on) and learns nothing with M off :: prediction at the target tick: M on 1.00, M off 0.00
+
+21/21 unit tests passed

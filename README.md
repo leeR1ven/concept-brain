@@ -11,3 +11,6 @@ python tests/test_parts.py sense     # 听觉区单独验证：听得清 / 记�
 - `brain/net3d.py` 感觉区的立体局部网络（每层亮的比例固定）
 - `brain/areas.py` 感觉区 / 前额叶·海马体 / 运动区 各部分，和把它们按同一拍串起来的 Circuit
 - `world/voice.py` 声音世界（每个字一个声音，自己 / 别人略有差异；嘴部肌肉）
+
+## v2（进行中）
+新一代架构的整体审查、共享测试台和三个独立原型在 [v2/](v2/README.md)；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。

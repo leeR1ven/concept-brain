@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+*.pkl
+v2/bench/cache/
+v2/*/out/
+v2/*/runs/

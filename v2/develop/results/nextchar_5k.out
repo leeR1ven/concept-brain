@@ -1,0 +1,4 @@
+5000 dialogues, readout context L    : next-char top-1 0.126 (n=21289, units 2855, 5s)
+5000 dialogues, readout context L+L2 : next-char top-1 0.217 (n=21289, units 16867, 7s)
+5000 dialogues, readout context L+R  : next-char top-1 0.178 (n=21289, units 4855, 49s)
+5000 dialogues, readout context R    : next-char top-1 0.146 (n=21289, units 2000, 52s)

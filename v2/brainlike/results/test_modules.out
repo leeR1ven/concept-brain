@@ -1,0 +1,9 @@
+PASS M1 CA3 one-shot episodes are recalled from a 50% cue (300 stored; oldest 20 + newest 20) :: correct episode: oldest 1.00 newest 1.00; index overlap 1.00
+PASS M2 LEX: within-word transition probability >> across-word (Saffran-style) :: within 0.72 (n 36) vs across 0.012 (n 1512)
+PASS M2' LEX chunks are mostly real words (precision >= 0.6) :: 16/19 chunks are lexicon words: 什么 是什 牛奶 鸭子 西瓜 汽车 皮球 香蕉 中间 葡萄 色的 苹果 饼干 哪里 早上 好吃 么颜 右边 再见
+PASS M3 DQ hold (leaky 0.9 + MD gain 0.3) through a 40-tick reply, selection noise sd 0.0 :: J(0,40)=1.00 J(t,t+1)=1.000 J(t,t+2)=1.000
+PASS M3 DQ hold (leaky 0.9 + MD gain 0.3) through a 40-tick reply, selection noise sd 0.3 :: J(0,40)=1.00 J(t,t+1)=1.000 J(t,t+2)=1.000
+PASS M3 DQ hold (leaky 0.9 + MD gain 0.3) through a 40-tick reply, selection noise sd 1.0 (report only) :: J(0,40)=0.22 J(t,t+1)=0.252 J(t,t+2)=0.247
+PASS M3' control: a synchronous 2-layer loop alternates with period 2 (no leak); a within-layer self-hold (the MD-type 1:1 loop) removes it :: no leak: J(t,t+1)=0.02 J(t,t+2)=1.00; leak 0.9 only: 0.02/1.00 (STILL period 2 near the tie); leak 0.9 + self-hold 0.2: 1.00/1.00
+
+7/7 module tests passed

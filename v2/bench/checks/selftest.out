@@ -1,0 +1,31 @@
+PASS  physics: Voice == world/voice.py (seed 0, 3970 chars: sounds, self offset, muscle sets)  
+PASS  physics: mouth rule == world/voice.py on 3,000 random muscle sets (seed 0)  mismatches 0
+PASS  physics: Voice == world/voice.py (seed 1, 3970 chars: sounds, self offset, muscle sets)  
+PASS  physics: mouth rule == world/voice.py on 3,000 random muscle sets (seed 1)  mismatches 0
+PASS  physics: Stream == ARCH_v1 voice_copy.Stream (4,000 random ticks, other+self, onsets)  
+PASS  physics: other2 has its own offset  
+PASS  physics: silence energy exactly 0 without noise; noise=1 gives energy > 0, same seed same noise  mean window energy with noise 1.0: 19.4
+PASS  physics: random: lexicon chars distinguishable at layer 0 (no pair Jaccard > 0.8), own voice identified  max J 0.48, NN 1.00, corr(sound dist, shared muscles) -0.02, J by shared muscles {0: 0.21, 1: 0.21, 2: 0.21, 3: 0.21}
+PASS  physics: lawful: lexicon chars distinguishable at layer 0 (no pair Jaccard > 0.8), own voice identified  max J 0.77, NN 1.00, corr(sound dist, shared muscles) -0.74, J by shared muscles {0: 0.12, 1: 0.24, 2: 0.4, 3: 0.63}
+PASS  timing: a fixed seed gives identical streams and logs (oracle, BCD, 80 dialogues, twice)  
+PASS  timing: the content schedule does not depend on the agent (oracle vs silent agent)  
+PASS  timing: probes: >= 45 ticks after the prompt and >= 13 silent ticks after the stop  51 probes
+PASS  timing: model mode: the model reply starts 3 ticks after the prompt (gap_model)  98 exchanges
+PASS  timing: force mode: guided replies exact incl. repeated syllables (哈哈哈 好好 对对对 嗯嗯), next line at stop+6  ['哈哈哈', '好好', '对对对', '嗯嗯', '你好']
+PASS  timing: oracle never overlaps a partner, latency 6, every syllable 3 ticks  112 syllables
+PASS  metrics: echo-free / parrot / first-char on hand-made cases  
+PASS  metrics: evaluate() on a synthetic log (acc 0.6, held 3/5, echo-free 0.6, parrot (6 x 0.5 + 4 x 1)/10 = 0.7)  {"n": 10, "acc": 0.6, "first": 0.6, "echo_free": 0.6, "n_echo_free": 10, "parrot": 0.7, "spoke": 1.0, "mean_len": 2.0, "held": {"n": 5, "acc": 0.6, "first": 0.6, "echo_free": 0.6}, "seen": {"n": 5, "a
+PASS  baselines B: echo and lookup score 0 on held-out items and scene questions; oracle 1.0  held n=121: echo 0.0, lookup 0.0; scene n=213: echo 0.0, lookup 0.0; oracle 1.0 (n=213)
+PASS  baselines C: echo and lookup score 0 on held-out items and scene questions; oracle 1.0  held n=104: echo 0.0, lookup 0.0; scene n=104: echo 0.0, lookup 0.0; oracle 1.0 (n=207)
+PASS  baselines D: echo and lookup score 0 on held-out items and scene questions; oracle 1.0  held n=47: echo 0.0, lookup 0.0; scene n=210: echo 0.0, lookup 0.0; oracle 1.0 (n=236)
+PASS  baselines E: echo and lookup score 0 on held-out items and scene questions; oracle 1.0  held n=47: echo 0.0, lookup 0.0; scene n=0: echo None, lookup None; oracle 1.0 (n=73)
+PASS  memory tasks: repeating the last heard reply / the prior does not solve before, name (stage D)  lastreply: before 0.03 (n=36), name 0.00, oneshot 0.00; prior: before 0.17, name 0.04, check 0.44
+PASS  body: programs created without any cue from babbling + tutor imitation (stage A)  144 babbles, 54 imitated, 54 programs kept (all decode to chars; 3 in the micro-world lexicon)
+PASS  body: every complete babble is one 3-tick syllable  80 complete syllables, garble 0
+PASS  options: eye_layout retino = one 240-unit block per slot, the same feature code in every block  
+PASS  options: mouth_vocab=lexicon: babbles decode only to lexicon chars or garble; sounds unchanged  1088 of 3000 random sets are lexicon chars
+PASS  speed: a trivial agent runs 2,000 dialogues in < 180 s on one core  3.0 s, 189402 ticks, 16 us/tick
+PASS  ARCH_v1: archv1.Talker == bench world + archv1.Brain == bench world + RefV1 (body.py), tick by tick (15 taught pairs, 8 free replies)  1209 ticks, 282 mouth ticks
+PASS  ARCH_v1: bench mechanics metrics == run.py-style audit of the toy (overlap, syllables, not-3, garble, extra turns, stop reasons, latency, guided exact)  overlap 0, syllables 94, not3 0, latency {'6': 8}, stops {'floor': 8}
+
+29/29 checks passed in 64 s

@@ -1,0 +1,8 @@
+H1 generic-state index: mean Jaccard between held codes of different lines 1.000 (max 1.000); random-pair level 0.026; old PFC 0.47-0.79
+   same line presented again: Jaccard 1.000
+H2 noise sd 0.0: 20-way decoding of the held line after 10 / 50 / 200 silent ticks: 0.05 / 0.05 / 0.05;  H4 period-2 index J(t,t+1)-J(t,t+2) = +0.0000 (>= 0: no alternation)
+H2 noise sd 0.3: 20-way decoding of the held line after 10 / 50 / 200 silent ticks: 0.05 / 0.05 / 0.05;  H4 period-2 index J(t,t+1)-J(t,t+2) = +0.0000 (>= 0: no alternation)
+H3 replacement: a new partner line replaces the held one in 0.05 of 20 cases; residual overlap with the old line 0.124
+H5 capacity: DQ holds 1 line by design; CTX after line n is closest to CTX after line n-1 in 0.05 of cases (chance 1/19 = 0.05): a slowly moving topic, not a list
+H5' hippocampus: each of the 20 lines recalled from its words alone after all 20 were stored (among 1103 episodes): 0/20
+H6 drift with learning on: Jaccard of the held code of the same line before vs after 200 more dialogues of learning 0.724 (min 0.724)

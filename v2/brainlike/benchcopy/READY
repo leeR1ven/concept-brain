@@ -1,0 +1,1 @@
+v0.3: stages A,B,C,D,E; modes model,force,recast (+ probes); log, evaluate(), baselines; physics random+lawful (checked), noise, other2; body.py (cue + babble recruitment), frontend.py, ref_v1.py (tick-identical to archv1.py); run_curriculum; selftest.py 26/26 PASS. Pending: the bar (RefV1 scores on B-D, running), report.md
