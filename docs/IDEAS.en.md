@@ -235,3 +235,26 @@ learns the names of what it sees from the caregivers' words.
   overwrite, like the body's reflexes. The reason: experiments already show that behaviour drifts when learning stays on
   and nobody corrects it.
 - **Many different individuals live and learn together** (up to 64 in world2) instead of one giant model.
+
+**The designer's addition: what an instinct is.**
+- An instinct is a set of neuron connections that are harder to change, or that cannot change at all.
+- "Being friendly to people" is a broad tendency, carried by broad connections, not by a few specific links or memories.
+  It is like seeing something frightening activating the amygdala: seeing a class of situations tends to produce a class
+  of behaviours.
+
+**In the architecture.**
+- Plasticity is a spectrum: the hippocampus changes fastest, the cortex slower, instincts slowest or not at all. An
+  instinct is the slow end of the same principle as "recall it often and it sticks".
+- Instincts read **broad category features**, not specific memories. For example: a person is present; someone calls me
+  or asks me for something; the person is pleased; the person is upset or hurt.
+- Those features feed, through fixed (almost non-learning) connections, broad **action tendencies and value signals**:
+  approach, attend, help; positive value for helping, negative for causing distress. They act as brain-wide third
+  factors on learning and on action selection.
+- Specific skills are learned, e.g. what to fetch when Mum says "拿苹果" (get the apple) and how to walk there. The
+  direction, "willing to help", is innate and cannot be unlearned.
+- Because instincts read broad features, they carry over automatically to people and situations never seen before. The
+  breadth needs tuning: too broad and the instinct misfires, as fear generalising into a phobia does; learned context
+  modulates when it is expressed.
+- **Plan.** Add such an innate social-value pathway to world2, then test two things: is the helping tendency stable over
+  a long life with no correction, and does it appear with a caregiver never seen before?
+
