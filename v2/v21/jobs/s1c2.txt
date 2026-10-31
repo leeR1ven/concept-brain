@@ -1,0 +1,4 @@
+run_v21.py tag=v21s1 seed=4 proto=frozen ral=1 ral_other=1 out=out/runs/v21s1_s4.json
+run_v21.py tag=v21s1_old seed=0 proto=old ral=1 ral_other=1 out=out/runs/v21s1_old_s0.json
+run_v21.py tag=v21s1_old seed=1 proto=old ral=1 ral_other=1 out=out/runs/v21s1_old_s1.json
+run_v21.py tag=v21s1_old seed=2 proto=old ral=1 ral_other=1 out=out/runs/v21s1_old_s2.json

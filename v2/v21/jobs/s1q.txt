@@ -1,0 +1,4 @@
+life_v21.py tag=life_v21q seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1 ral_q=1
+life_v21.py tag=life_v21q seed=6 ticks=1000000 chunk=100000 ral=1 ral_other=1 ral_q=1
+run_v21.py tag=v21q seed=1 proto=frozen ral=1 ral_other=1 ral_q=1 out=out/runs/v21q_s1.json
+run_v21.py tag=v21q seed=2 proto=frozen ral=1 ral_other=1 ral_q=1 out=out/runs/v21q_s2.json

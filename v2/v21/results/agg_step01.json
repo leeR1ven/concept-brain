@@ -1,0 +1,2267 @@
+{
+ "v2_frozen": {
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   0.9964999999999999,
+   0.07691878834199097
+  ],
+  "J2": [
+   1.4440000000000002,
+   0.10367751926044527
+  ],
+  "F": [
+   0.74556,
+   0.04170590365883467
+  ],
+  "RET": [
+   -0.07856,
+   0.04516284313459462
+  ],
+  "H": [
+   0.59662,
+   0.04881169531987187
+  ],
+  "DR": [
+   0.5644199999999999,
+   0.08027132489251688
+  ],
+  "drift_before": [
+   0.86762,
+   0.049320235198141556
+  ],
+  "loss300": [
+   0.3032,
+   0.0996242339995646
+  ],
+  "loss900": [
+   0.5383799999999999,
+   0.05076866750270287
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.772,
+    "n": 333,
+    "held": 0.281,
+    "n_held": 89
+   },
+   "slot": {
+    "acc": 0.696,
+    "n": 240,
+    "held": 0.11,
+    "n_held": 82
+   },
+   "where": {
+    "acc": 0.87,
+    "n": 239,
+    "held": 0.679,
+    "n_held": 78
+   },
+   "offer": {
+    "acc": 0.883,
+    "n": 213,
+    "held": 0.538,
+    "n_held": 52
+   },
+   "taste": {
+    "acc": 0.663,
+    "n": 104,
+    "held": 0.1,
+    "n_held": 30
+   },
+   "colour": {
+    "acc": 0.93,
+    "n": 157,
+    "held": 0.933,
+    "n_held": 45
+   },
+   "count": {
+    "acc": 0.964,
+    "n": 168,
+    "held": 0.965,
+    "n_held": 57
+   },
+   "ritual": {
+    "acc": 0.816,
+    "n": 147,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.834,
+    "n": 343,
+    "held": 0.746,
+    "n_held": 122
+   },
+   "name": {
+    "acc": 0.808,
+    "n": 73,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.0,
+    "n": 89,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 78,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.13887999999999998,
+   0.02316613044942983
+  ],
+  "role_conf_held": [
+   0.24180000000000001,
+   0.04520814085980533
+  ],
+  "role_conf_drift300": [
+   0.1761,
+   0.08137055978669436
+  ],
+  "role_conf_drift900": [
+   0.3524999999999999,
+   0.07479454525565352
+  ],
+  "refs_all": {
+   "agent": [
+    0.78124,
+    0.03773065597097407
+   ],
+   "echo": [
+    0.056900000000000006,
+    0.0032704739717661717
+   ],
+   "const_best": [
+    0.4242000000000001,
+    0.01060339568251604
+   ],
+   "prior": [
+    0.25226000000000004,
+    0.020372883939197214
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.5539400000000001,
+    0.0480115652733797
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.5353600000000001,
+    0.0235348762478157
+   ],
+   "prior": [
+    0.27061999999999997,
+    0.039615118326214796
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.86358,
+    0.03854744608920283
+   ],
+   "echo": [
+    0.07758000000000001,
+    0.0058475293928290754
+   ],
+   "const_best": [
+    0.43600000000000005,
+    0.014887578715157146
+   ],
+   "prior": [
+    0.24544000000000002,
+    0.02921332572645572
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 45,
+    "comprehends": 1.0,
+    "says": 0.933
+   },
+   "attend|colour|seen": {
+    "n": 112,
+    "comprehends": 0.938,
+    "says": 0.929
+   },
+   "attend|count|held": {
+    "n": 57,
+    "comprehends": 1.0,
+    "says": 0.965
+   },
+   "attend|count|seen": {
+    "n": 111,
+    "comprehends": 0.955,
+    "says": 0.964
+   },
+   "attend|where|held": {
+    "n": 78,
+    "comprehends": 1.0,
+    "says": 0.679
+   },
+   "attend|where|seen": {
+    "n": 161,
+    "comprehends": 0.938,
+    "says": 0.963
+   },
+   "vr_name|what|held": {
+    "n": 89,
+    "comprehends": 0.787,
+    "says": 0.281
+   },
+   "vr_name|what|seen": {
+    "n": 244,
+    "comprehends": 0.68,
+    "says": 0.951
+   }
+  },
+  "ral": {
+   "lines": 0,
+   "after_own": 0,
+   "contingent": 0,
+   "cont_reward": 0,
+   "cont_overlap": 0,
+   "answered": 0,
+   "cancel": 0,
+   "commit": 0,
+   "unresolved": 0,
+   "strict_cancel": 0,
+   "cut": 0,
+   "own_stored": 0,
+   "init_relearn": 0
+  },
+  "secs": [
+   1090.06,
+   12.826316696542289
+  ]
+ },
+ "v21s1": {
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   1.23328,
+   0.05997130647234562
+  ],
+  "J2": [
+   1.8066200000000001,
+   0.11221690425243429
+  ],
+  "F": [
+   0.81706,
+   0.03611579155992569
+  ],
+  "RET": [
+   -0.037040000000000003,
+   0.00997949898542006
+  ],
+  "H": [
+   0.76444,
+   0.0735358035245417
+  ],
+  "DR": [
+   0.97454,
+   0.020286507831561343
+  ],
+  "drift_before": [
+   0.9679400000000001,
+   0.02108616608110634
+  ],
+  "loss300": [
+   -0.0065999999999999835,
+   0.023059661749470658
+  ],
+  "loss900": [
+   0.008080000000000021,
+   0.02437444563472161
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.895,
+    "n": 333,
+    "held": 0.607,
+    "n_held": 89
+   },
+   "slot": {
+    "acc": 0.704,
+    "n": 240,
+    "held": 0.134,
+    "n_held": 82
+   },
+   "where": {
+    "acc": 0.904,
+    "n": 239,
+    "held": 0.808,
+    "n_held": 78
+   },
+   "offer": {
+    "acc": 0.981,
+    "n": 213,
+    "held": 0.923,
+    "n_held": 52
+   },
+   "taste": {
+    "acc": 0.962,
+    "n": 104,
+    "held": 0.867,
+    "n_held": 30
+   },
+   "colour": {
+    "acc": 0.962,
+    "n": 157,
+    "held": 0.978,
+    "n_held": 45
+   },
+   "count": {
+    "acc": 0.976,
+    "n": 168,
+    "held": 0.982,
+    "n_held": 57
+   },
+   "ritual": {
+    "acc": 0.952,
+    "n": 147,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.918,
+    "n": 343,
+    "held": 0.836,
+    "n_held": 122
+   },
+   "name": {
+    "acc": 0.808,
+    "n": 73,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.022,
+    "n": 89,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 78,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.08557999999999999,
+   0.017373704268232492
+  ],
+  "role_conf_held": [
+   0.11821999999999999,
+   0.047865536662613534
+  ],
+  "role_conf_drift300": [
+   0.01524,
+   0.010470644679292675
+  ],
+  "role_conf_drift900": [
+   0.02744,
+   0.015103721395735556
+  ],
+  "refs_all": {
+   "agent": [
+    0.85788,
+    0.029532246782119374
+   ],
+   "echo": [
+    0.056900000000000006,
+    0.0032704739717661717
+   ],
+   "const_best": [
+    0.4242000000000001,
+    0.01060339568251604
+   ],
+   "prior": [
+    0.25466,
+    0.01984052418662369
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.72808,
+    0.07859067120212171
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.5353600000000001,
+    0.0235348762478157
+   ],
+   "prior": [
+    0.27061999999999997,
+    0.039615118326214796
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.9045,
+    0.017697683464227756
+   ],
+   "echo": [
+    0.07758000000000001,
+    0.0058475293928290754
+   ],
+   "const_best": [
+    0.43600000000000005,
+    0.014887578715157146
+   ],
+   "prior": [
+    0.24872,
+    0.029438029825380633
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 45,
+    "comprehends": 1.0,
+    "says": 0.978
+   },
+   "attend|colour|seen": {
+    "n": 112,
+    "comprehends": 0.938,
+    "says": 0.955
+   },
+   "attend|count|held": {
+    "n": 57,
+    "comprehends": 1.0,
+    "says": 0.982
+   },
+   "attend|count|seen": {
+    "n": 111,
+    "comprehends": 0.955,
+    "says": 0.973
+   },
+   "attend|where|held": {
+    "n": 78,
+    "comprehends": 1.0,
+    "says": 0.808
+   },
+   "attend|where|seen": {
+    "n": 161,
+    "comprehends": 0.938,
+    "says": 0.95
+   },
+   "vr_name|what|held": {
+    "n": 89,
+    "comprehends": 0.787,
+    "says": 0.607
+   },
+   "vr_name|what|seen": {
+    "n": 244,
+    "comprehends": 0.68,
+    "says": 1.0
+   }
+  },
+  "ral": {
+   "lines": 11641,
+   "after_own": 7699,
+   "contingent": 4576,
+   "cont_reward": 4576,
+   "cont_overlap": 0,
+   "answered": 6147,
+   "cancel": 6147,
+   "commit": 5494,
+   "unresolved": 918,
+   "strict_cancel": 0,
+   "cut": 6146,
+   "own_stored": 0,
+   "init_relearn": 0,
+   "cont_answered": 1689,
+   "cont_answered_items": 4532,
+   "other_answered": 137
+  },
+  "secs": [
+   1137.1200000000001,
+   51.458814599638785
+  ]
+ },
+ "v2_old": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "proto": "old",
+  "viol": 0,
+  "J": [
+   0.8173333333333334,
+   0.07353576605223398
+  ],
+  "J2": [
+   0.9396,
+   0.11200151784685783
+  ],
+  "F": [
+   0.6579333333333334,
+   0.043459201812990345
+  ],
+  "RET": [
+   -0.025033333333333335,
+   0.021689065345365983
+  ],
+  "H": [
+   0.16303333333333334,
+   0.05309314665964169
+  ],
+  "DR": [
+   0.5244333333333333,
+   0.06123056607791748
+  ],
+  "drift_before": [
+   0.8009333333333334,
+   0.006371987305560338
+  ],
+  "loss300": [
+   0.27649999999999997,
+   0.05741852198260301
+  ],
+  "loss900": [
+   0.4527666666666666,
+   0.05150432560043429
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.721,
+    "n": 204,
+    "held": 0.052,
+    "n_held": 58
+   },
+   "slot": {
+    "acc": 0.684,
+    "n": 136,
+    "held": 0.067,
+    "n_held": 45
+   },
+   "where": {
+    "acc": 0.669,
+    "n": 148,
+    "held": 0.0,
+    "n_held": 48
+   },
+   "offer": {
+    "acc": 0.719,
+    "n": 128,
+    "held": 0.029,
+    "n_held": 34
+   },
+   "taste": {
+    "acc": 0.712,
+    "n": 66,
+    "held": 0.0,
+    "n_held": 19
+   },
+   "colour": {
+    "acc": 0.928,
+    "n": 97,
+    "held": 0.75,
+    "n_held": 28
+   },
+   "count": {
+    "acc": 0.723,
+    "n": 101,
+    "held": 0.294,
+    "n_held": 34
+   },
+   "ritual": {
+    "acc": 0.941,
+    "n": 85,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.643,
+    "n": 199,
+    "held": 0.181,
+    "n_held": 72
+   },
+   "name": {
+    "acc": 0.792,
+    "n": 48,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.018,
+    "n": 55,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 44,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.16146666666666668,
+   0.02098639771111014
+  ],
+  "role_conf_held": [
+   0.3861666666666667,
+   0.03549143871727692
+  ],
+  "role_conf_drift300": [
+   0.23176666666666668,
+   0.038128408772928814
+  ],
+  "role_conf_drift900": [
+   0.31953333333333334,
+   0.027212905435146425
+  ],
+  "refs_all": {
+   "agent": [
+    0.6923,
+    0.03172286241813627
+   ],
+   "echo": [
+    0.059133333333333336,
+    0.001407914138796192
+   ],
+   "const_best": [
+    0.4256666666666667,
+    0.013202356691978216
+   ],
+   "prior": [
+    0.2523333333333333,
+    0.005963406930792346
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.15223333333333333,
+    0.03773860387219197
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.5270666666666667,
+    0.026657873550270696
+   ],
+   "prior": [
+    0.23483333333333337,
+    0.02648802664517604
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.8923333333333333,
+    0.016540119575007818
+   ],
+   "echo": [
+    0.08106666666666666,
+    0.003739280976634709
+   ],
+   "const_best": [
+    0.43943333333333334,
+    0.018433544302590203
+   ],
+   "prior": [
+    0.25923333333333337,
+    0.00650657786824654
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 28,
+    "comprehends": 1.0,
+    "says": 0.75
+   },
+   "attend|colour|seen": {
+    "n": 69,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|count|held": {
+    "n": 34,
+    "comprehends": 1.0,
+    "says": 0.294
+   },
+   "attend|count|seen": {
+    "n": 67,
+    "comprehends": 1.0,
+    "says": 0.94
+   },
+   "attend|where|held": {
+    "n": 48,
+    "comprehends": 1.0,
+    "says": 0.0
+   },
+   "attend|where|seen": {
+    "n": 100,
+    "comprehends": 1.0,
+    "says": 0.99
+   },
+   "vr_name|what|held": {
+    "n": 58,
+    "comprehends": 0.81,
+    "says": 0.052
+   },
+   "vr_name|what|seen": {
+    "n": 146,
+    "comprehends": 0.699,
+    "says": 0.986
+   }
+  },
+  "ral": {
+   "lines": 0,
+   "after_own": 0,
+   "contingent": 0,
+   "cont_reward": 0,
+   "cont_overlap": 0,
+   "answered": 0,
+   "cancel": 0,
+   "commit": 0,
+   "unresolved": 0,
+   "strict_cancel": 0,
+   "cut": 0,
+   "own_stored": 0,
+   "init_relearn": 0
+  },
+  "secs": [
+   1043.4,
+   6.454455825241971
+  ]
+ },
+ "v21s1_old": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "proto": "old",
+  "viol": 0,
+  "J": [
+   1.1720333333333335,
+   0.043022965443534386
+  ],
+  "J2": [
+   1.6455000000000002,
+   0.07033950999734549
+  ],
+  "F": [
+   0.7934666666666667,
+   0.02612857099464533
+  ],
+  "RET": [
+   -0.03416666666666667,
+   0.009753745719238099
+  ],
+  "H": [
+   0.6313,
+   0.03822991847580461
+  ],
+  "DR": [
+   0.9511,
+   0.03398068078580335
+  ],
+  "drift_before": [
+   0.9527666666666667,
+   0.023747888795053365
+  ],
+  "loss300": [
+   0.001666666666666668,
+   0.010835845862486017
+  ],
+  "loss900": [
+   0.012266666666666648,
+   0.015596224614380955
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.877,
+    "n": 204,
+    "held": 0.569,
+    "n_held": 58
+   },
+   "slot": {
+    "acc": 0.713,
+    "n": 136,
+    "held": 0.133,
+    "n_held": 45
+   },
+   "where": {
+    "acc": 0.865,
+    "n": 148,
+    "held": 0.583,
+    "n_held": 48
+   },
+   "offer": {
+    "acc": 0.914,
+    "n": 128,
+    "held": 0.676,
+    "n_held": 34
+   },
+   "taste": {
+    "acc": 0.879,
+    "n": 66,
+    "held": 0.579,
+    "n_held": 19
+   },
+   "colour": {
+    "acc": 0.99,
+    "n": 97,
+    "held": 0.964,
+    "n_held": 28
+   },
+   "count": {
+    "acc": 0.97,
+    "n": 101,
+    "held": 0.912,
+    "n_held": 34
+   },
+   "ritual": {
+    "acc": 1.0,
+    "n": 85,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.859,
+    "n": 199,
+    "held": 0.653,
+    "n_held": 72
+   },
+   "name": {
+    "acc": 0.771,
+    "n": 48,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.0,
+    "n": 55,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.023,
+    "n": 44,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.09263333333333335,
+   0.009681712428881347
+  ],
+  "role_conf_held": [
+   0.16746666666666668,
+   0.032519361754021085
+  ],
+  "role_conf_drift300": [
+   0.02426666666666667,
+   0.022329402639171124
+  ],
+  "role_conf_drift900": [
+   0.028833333333333332,
+   0.01606535264336129
+  ],
+  "refs_all": {
+   "agent": [
+    0.8371666666666667,
+    0.013274118510176935
+   ],
+   "echo": [
+    0.059133333333333336,
+    0.001407914138796192
+   ],
+   "const_best": [
+    0.4256666666666667,
+    0.013202356691978216
+   ],
+   "prior": [
+    0.24996666666666667,
+    0.006299382685805195
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.6088333333333333,
+    0.03607957255228444
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.5270666666666667,
+    0.026657873550270696
+   ],
+   "prior": [
+    0.23483333333333337,
+    0.02648802664517604
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.9211666666666667,
+    0.00798011417350793
+   ],
+   "echo": [
+    0.08106666666666666,
+    0.003739280976634709
+   ],
+   "const_best": [
+    0.43943333333333334,
+    0.018433544302590203
+   ],
+   "prior": [
+    0.2559666666666666,
+    0.003916063783387037
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 28,
+    "comprehends": 1.0,
+    "says": 0.964
+   },
+   "attend|colour|seen": {
+    "n": 69,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|count|held": {
+    "n": 34,
+    "comprehends": 1.0,
+    "says": 0.912
+   },
+   "attend|count|seen": {
+    "n": 67,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|where|held": {
+    "n": 48,
+    "comprehends": 1.0,
+    "says": 0.583
+   },
+   "attend|where|seen": {
+    "n": 100,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "vr_name|what|held": {
+    "n": 58,
+    "comprehends": 0.81,
+    "says": 0.569
+   },
+   "vr_name|what|seen": {
+    "n": 146,
+    "comprehends": 0.699,
+    "says": 1.0
+   }
+  },
+  "ral": {
+   "lines": 10827,
+   "after_own": 6999,
+   "contingent": 3869,
+   "cont_reward": 3869,
+   "cont_overlap": 0,
+   "answered": 5903,
+   "cancel": 5903,
+   "commit": 4924,
+   "unresolved": 1055,
+   "strict_cancel": 0,
+   "cut": 5902,
+   "own_stored": 0,
+   "init_relearn": 0,
+   "cont_answered": 1227,
+   "cont_answered_items": 3161,
+   "other_answered": 130
+  },
+  "secs": [
+   1178.5,
+   2.4344746182013988
+  ]
+ },
+ "ral_r": {
+  "seeds": [
+   0
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   1.1574,
+   0.0
+  ],
+  "J2": [
+   1.7304,
+   0.0
+  ],
+  "F": [
+   0.7803,
+   0.0
+  ],
+  "RET": [
+   -0.0775,
+   0.0
+  ],
+  "H": [
+   0.764,
+   0.0
+  ],
+  "DR": [
+   0.8994,
+   0.0
+  ],
+  "drift_before": [
+   0.9245,
+   0.0
+  ],
+  "loss300": [
+   0.02510000000000001,
+   0.0
+  ],
+  "loss900": [
+   0.012599999999999945,
+   0.0
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.871,
+    "n": 70,
+    "held": 0.625,
+    "n_held": 24
+   },
+   "slot": {
+    "acc": 0.745,
+    "n": 51,
+    "held": 0.235,
+    "n_held": 17
+   },
+   "where": {
+    "acc": 0.878,
+    "n": 49,
+    "held": 0.941,
+    "n_held": 17
+   },
+   "offer": {
+    "acc": 0.913,
+    "n": 46,
+    "held": 0.714,
+    "n_held": 14
+   },
+   "taste": {
+    "acc": 0.905,
+    "n": 21,
+    "held": 0.714,
+    "n_held": 7
+   },
+   "colour": {
+    "acc": 0.821,
+    "n": 28,
+    "held": 0.889,
+    "n_held": 9
+   },
+   "count": {
+    "acc": 0.971,
+    "n": 35,
+    "held": 1.0,
+    "n_held": 10
+   },
+   "ritual": {
+    "acc": 1.0,
+    "n": 29,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.92,
+    "n": 50,
+    "held": 0.864,
+    "n_held": 22
+   },
+   "name": {
+    "acc": 0.882,
+    "n": 17,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.0,
+    "n": 22,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 16,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.0976,
+   0.0
+  ],
+  "role_conf_held": [
+   0.1167,
+   0.0
+  ],
+  "role_conf_drift300": [
+   0.0252,
+   0.0
+  ],
+  "role_conf_drift900": [
+   0.0189,
+   0.0
+  ],
+  "refs_all": {
+   "agent": [
+    0.8341,
+    0.0
+   ],
+   "echo": [
+    0.061,
+    0.0
+   ],
+   "const_best": [
+    0.4122,
+    0.0
+   ],
+   "prior": [
+    0.2317,
+    0.0
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.725,
+    0.0
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.525,
+    0.0
+   ],
+   "prior": [
+    0.2333,
+    0.0
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.8793,
+    0.0
+   ],
+   "echo": [
+    0.0862,
+    0.0
+   ],
+   "const_best": [
+    0.4207,
+    0.0
+   ],
+   "prior": [
+    0.231,
+    0.0
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 9,
+    "comprehends": 1.0,
+    "says": 0.889
+   },
+   "attend|colour|seen": {
+    "n": 19,
+    "comprehends": 0.895,
+    "says": 0.789
+   },
+   "attend|count|held": {
+    "n": 10,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|count|seen": {
+    "n": 25,
+    "comprehends": 0.92,
+    "says": 0.96
+   },
+   "attend|where|held": {
+    "n": 17,
+    "comprehends": 1.0,
+    "says": 0.941
+   },
+   "attend|where|seen": {
+    "n": 32,
+    "comprehends": 0.781,
+    "says": 0.844
+   },
+   "vr_name|what|held": {
+    "n": 24,
+    "comprehends": 0.667,
+    "says": 0.625
+   },
+   "vr_name|what|seen": {
+    "n": 46,
+    "comprehends": 0.739,
+    "says": 1.0
+   }
+  },
+  "ral": {
+   "lines": 11641,
+   "after_own": 8478,
+   "contingent": 4532,
+   "cont_reward": 4532,
+   "cont_overlap": 0,
+   "answered": 6095,
+   "cancel": 6095,
+   "commit": 5546,
+   "unresolved": 1014,
+   "strict_cancel": 0,
+   "cut": 6095,
+   "own_stored": 0,
+   "init_relearn": 0,
+   "cont_answered": 2383,
+   "cont_answered_items": 6228
+  },
+  "secs": [
+   1118.7,
+   0.0
+  ]
+ },
+ "ral_none": {
+  "seeds": [
+   0
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   0.8611,
+   0.0
+  ],
+  "J2": [
+   1.2402,
+   0.0
+  ],
+  "F": [
+   0.5869,
+   0.0
+  ],
+  "RET": [
+   -0.0471,
+   0.0
+  ],
+  "H": [
+   0.5055,
+   0.0
+  ],
+  "DR": [
+   0.6855,
+   0.0
+  ],
+  "drift_before": [
+   0.7296,
+   0.0
+  ],
+  "loss300": [
+   0.04410000000000003,
+   0.0
+  ],
+  "loss900": [
+   0.21389999999999998,
+   0.0
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.914,
+    "n": 70,
+    "held": 0.75,
+    "n_held": 24
+   },
+   "slot": {
+    "acc": 0.882,
+    "n": 51,
+    "held": 0.647,
+    "n_held": 17
+   },
+   "where": {
+    "acc": 0.857,
+    "n": 49,
+    "held": 0.824,
+    "n_held": 17
+   },
+   "offer": {
+    "acc": 0.957,
+    "n": 46,
+    "held": 0.857,
+    "n_held": 14
+   },
+   "taste": {
+    "acc": 0.952,
+    "n": 21,
+    "held": 1.0,
+    "n_held": 7
+   },
+   "colour": {
+    "acc": 0.393,
+    "n": 28,
+    "held": 0.222,
+    "n_held": 9
+   },
+   "count": {
+    "acc": 0.971,
+    "n": 35,
+    "held": 1.0,
+    "n_held": 10
+   },
+   "ritual": {
+    "acc": 0.241,
+    "n": 29,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.0,
+    "n": 50,
+    "held": 0.0,
+    "n_held": 22
+   },
+   "name": {
+    "acc": 0.824,
+    "n": 17,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.0,
+    "n": 22,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.062,
+    "n": 16,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.2244,
+   0.0
+  ],
+  "role_conf_held": [
+   0.2,
+   0.0
+  ],
+  "role_conf_drift300": [
+   0.195,
+   0.0
+  ],
+  "role_conf_drift900": [
+   0.1824,
+   0.0
+  ],
+  "refs_all": {
+   "agent": [
+    0.6683,
+    0.0
+   ],
+   "echo": [
+    0.061,
+    0.0
+   ],
+   "const_best": [
+    0.4122,
+    0.0
+   ],
+   "prior": [
+    0.222,
+    0.0
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.6167,
+    0.0
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.525,
+    0.0
+   ],
+   "prior": [
+    0.2333,
+    0.0
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.6897,
+    0.0
+   ],
+   "echo": [
+    0.0862,
+    0.0
+   ],
+   "const_best": [
+    0.4207,
+    0.0
+   ],
+   "prior": [
+    0.2172,
+    0.0
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 9,
+    "comprehends": 1.0,
+    "says": 0.222
+   },
+   "attend|colour|seen": {
+    "n": 19,
+    "comprehends": 0.895,
+    "says": 0.474
+   },
+   "attend|count|held": {
+    "n": 10,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|count|seen": {
+    "n": 25,
+    "comprehends": 0.92,
+    "says": 0.96
+   },
+   "attend|where|held": {
+    "n": 17,
+    "comprehends": 1.0,
+    "says": 0.824
+   },
+   "attend|where|seen": {
+    "n": 32,
+    "comprehends": 0.781,
+    "says": 0.875
+   },
+   "vr_name|what|held": {
+    "n": 24,
+    "comprehends": 0.667,
+    "says": 0.75
+   },
+   "vr_name|what|seen": {
+    "n": 46,
+    "comprehends": 0.739,
+    "says": 1.0
+   }
+  },
+  "ral": {
+   "lines": 11641,
+   "after_own": 8777,
+   "contingent": 0,
+   "cont_reward": 0,
+   "cont_overlap": 0,
+   "answered": 8778,
+   "cancel": 8778,
+   "commit": 2863,
+   "unresolved": 2863,
+   "strict_cancel": 0,
+   "cut": 8778,
+   "own_stored": 0,
+   "init_relearn": 0,
+   "cont_answered": 0,
+   "cont_answered_items": 0
+  },
+  "secs": [
+   1116.3,
+   0.0
+  ]
+ },
+ "ral_r_hip": {
+  "seeds": [
+   0
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   1.1827,
+   0.0
+  ],
+  "J2": [
+   1.7577,
+   0.0
+  ],
+  "F": [
+   0.7836,
+   0.0
+  ],
+  "RET": [
+   -0.0441,
+   0.0
+  ],
+  "H": [
+   0.7666,
+   0.0
+  ],
+  "DR": [
+   0.9182,
+   0.0
+  ],
+  "drift_before": [
+   0.9308,
+   0.0
+  ],
+  "loss300": [
+   0.012599999999999945,
+   0.0
+  ],
+  "loss900": [
+   0.056599999999999984,
+   0.0
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.843,
+    "n": 70,
+    "held": 0.542,
+    "n_held": 24
+   },
+   "slot": {
+    "acc": 0.765,
+    "n": 51,
+    "held": 0.294,
+    "n_held": 17
+   },
+   "where": {
+    "acc": 0.878,
+    "n": 49,
+    "held": 0.941,
+    "n_held": 17
+   },
+   "offer": {
+    "acc": 0.957,
+    "n": 46,
+    "held": 0.857,
+    "n_held": 14
+   },
+   "taste": {
+    "acc": 0.81,
+    "n": 21,
+    "held": 0.571,
+    "n_held": 7
+   },
+   "colour": {
+    "acc": 0.929,
+    "n": 28,
+    "held": 1.0,
+    "n_held": 9
+   },
+   "count": {
+    "acc": 0.914,
+    "n": 35,
+    "held": 0.9,
+    "n_held": 10
+   },
+   "ritual": {
+    "acc": 1.0,
+    "n": 29,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.94,
+    "n": 50,
+    "held": 0.864,
+    "n_held": 22
+   },
+   "name": {
+    "acc": 0.882,
+    "n": 17,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.0,
+    "n": 22,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 16,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.0805,
+   0.0
+  ],
+  "role_conf_held": [
+   0.0917,
+   0.0
+  ],
+  "role_conf_drift300": [
+   0.044,
+   0.0
+  ],
+  "role_conf_drift900": [
+   0.0566,
+   0.0
+  ],
+  "refs_all": {
+   "agent": [
+    0.8366,
+    0.0
+   ],
+   "echo": [
+    0.061,
+    0.0
+   ],
+   "const_best": [
+    0.4122,
+    0.0
+   ],
+   "prior": [
+    0.239,
+    0.0
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.725,
+    0.0
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.525,
+    0.0
+   ],
+   "prior": [
+    0.2333,
+    0.0
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.8828,
+    0.0
+   ],
+   "echo": [
+    0.0862,
+    0.0
+   ],
+   "const_best": [
+    0.4207,
+    0.0
+   ],
+   "prior": [
+    0.2414,
+    0.0
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 9,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|colour|seen": {
+    "n": 19,
+    "comprehends": 0.895,
+    "says": 0.895
+   },
+   "attend|count|held": {
+    "n": 10,
+    "comprehends": 1.0,
+    "says": 0.9
+   },
+   "attend|count|seen": {
+    "n": 25,
+    "comprehends": 0.92,
+    "says": 0.92
+   },
+   "attend|where|held": {
+    "n": 17,
+    "comprehends": 1.0,
+    "says": 0.941
+   },
+   "attend|where|seen": {
+    "n": 32,
+    "comprehends": 0.781,
+    "says": 0.844
+   },
+   "vr_name|what|held": {
+    "n": 24,
+    "comprehends": 0.667,
+    "says": 0.542
+   },
+   "vr_name|what|seen": {
+    "n": 46,
+    "comprehends": 0.739,
+    "says": 1.0
+   }
+  },
+  "ral": {
+   "lines": 11641,
+   "after_own": 7818,
+   "contingent": 4536,
+   "cont_reward": 4536,
+   "cont_overlap": 0,
+   "answered": 6042,
+   "cancel": 6042,
+   "commit": 5599,
+   "unresolved": 1063,
+   "strict_cancel": 0,
+   "cut": 6042,
+   "own_stored": 7818,
+   "init_relearn": 0,
+   "cont_answered": 1776,
+   "cont_answered_items": 4638
+  },
+  "secs": [
+   1234.3,
+   0.0
+  ]
+ },
+ "ral_rw": {
+  "seeds": [
+   0
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   1.1651,
+   0.0
+  ],
+  "J2": [
+   1.7417,
+   0.0
+  ],
+  "F": [
+   0.778,
+   0.0
+  ],
+  "RET": [
+   -0.063,
+   0.0
+  ],
+  "H": [
+   0.7688,
+   0.0
+  ],
+  "DR": [
+   0.9057,
+   0.0
+  ],
+  "drift_before": [
+   0.9182,
+   0.0
+  ],
+  "loss300": [
+   0.012500000000000067,
+   0.0
+  ],
+  "loss900": [
+   0.05030000000000001,
+   0.0
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.9,
+    "n": 70,
+    "held": 0.75,
+    "n_held": 24
+   },
+   "slot": {
+    "acc": 0.843,
+    "n": 51,
+    "held": 0.529,
+    "n_held": 17
+   },
+   "where": {
+    "acc": 0.898,
+    "n": 49,
+    "held": 1.0,
+    "n_held": 17
+   },
+   "offer": {
+    "acc": 0.935,
+    "n": 46,
+    "held": 0.786,
+    "n_held": 14
+   },
+   "taste": {
+    "acc": 0.81,
+    "n": 21,
+    "held": 0.429,
+    "n_held": 7
+   },
+   "colour": {
+    "acc": 0.893,
+    "n": 28,
+    "held": 0.889,
+    "n_held": 9
+   },
+   "count": {
+    "acc": 0.914,
+    "n": 35,
+    "held": 0.9,
+    "n_held": 10
+   },
+   "ritual": {
+    "acc": 1.0,
+    "n": 29,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.84,
+    "n": 50,
+    "held": 0.773,
+    "n_held": 22
+   },
+   "name": {
+    "acc": 0.824,
+    "n": 17,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.0,
+    "n": 22,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 16,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.0854,
+   0.0
+  ],
+  "role_conf_held": [
+   0.0917,
+   0.0
+  ],
+  "role_conf_drift300": [
+   0.044,
+   0.0
+  ],
+  "role_conf_drift900": [
+   0.1006,
+   0.0
+  ],
+  "refs_all": {
+   "agent": [
+    0.839,
+    0.0
+   ],
+   "echo": [
+    0.061,
+    0.0
+   ],
+   "const_best": [
+    0.4122,
+    0.0
+   ],
+   "prior": [
+    0.2268,
+    0.0
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.7667,
+    0.0
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.525,
+    0.0
+   ],
+   "prior": [
+    0.2333,
+    0.0
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.869,
+    0.0
+   ],
+   "echo": [
+    0.0862,
+    0.0
+   ],
+   "const_best": [
+    0.4207,
+    0.0
+   ],
+   "prior": [
+    0.2241,
+    0.0
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 9,
+    "comprehends": 1.0,
+    "says": 0.889
+   },
+   "attend|colour|seen": {
+    "n": 19,
+    "comprehends": 0.895,
+    "says": 0.895
+   },
+   "attend|count|held": {
+    "n": 10,
+    "comprehends": 1.0,
+    "says": 0.9
+   },
+   "attend|count|seen": {
+    "n": 25,
+    "comprehends": 0.92,
+    "says": 0.92
+   },
+   "attend|where|held": {
+    "n": 17,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|where|seen": {
+    "n": 32,
+    "comprehends": 0.781,
+    "says": 0.844
+   },
+   "vr_name|what|held": {
+    "n": 24,
+    "comprehends": 0.667,
+    "says": 0.75
+   },
+   "vr_name|what|seen": {
+    "n": 46,
+    "comprehends": 0.739,
+    "says": 0.978
+   }
+  },
+  "ral": {
+   "lines": 11641,
+   "after_own": 8855,
+   "contingent": 6134,
+   "cont_reward": 4553,
+   "cont_overlap": 1581,
+   "answered": 4609,
+   "cancel": 4609,
+   "commit": 7032,
+   "unresolved": 898,
+   "strict_cancel": 0,
+   "cut": 4609,
+   "own_stored": 0,
+   "init_relearn": 0,
+   "cont_answered": 4246,
+   "cont_answered_items": 13656
+  },
+  "secs": [
+   1117.7,
+   0.0
+  ]
+ },
+ "v21q": {
+  "seeds": [
+   1,
+   2
+  ],
+  "proto": "frozen",
+  "viol": 0,
+  "J": [
+   1.10395,
+   0.05865000000000009
+  ],
+  "J2": [
+   1.5718999999999999,
+   0.0817
+  ],
+  "F": [
+   0.73355,
+   0.04344999999999999
+  ],
+  "RET": [
+   -0.04125,
+   0.015050000000000001
+  ],
+  "H": [
+   0.62395,
+   0.030649999999999955
+  ],
+  "DR": [
+   0.94025,
+   0.00014999999999998348
+  ],
+  "drift_before": [
+   0.9498500000000001,
+   0.0037499999999999756
+  ],
+  "loss300": [
+   0.009599999999999997,
+   0.003599999999999992
+  ],
+  "loss900": [
+   0.17195000000000005,
+   0.019650000000000056
+  ],
+  "per_task": {
+   "what": {
+    "acc": 0.896,
+    "n": 134,
+    "held": 0.588,
+    "n_held": 34
+   },
+   "slot": {
+    "acc": 0.729,
+    "n": 85,
+    "held": 0.179,
+    "n_held": 28
+   },
+   "where": {
+    "acc": 0.96,
+    "n": 99,
+    "held": 0.871,
+    "n_held": 31
+   },
+   "offer": {
+    "acc": 0.988,
+    "n": 82,
+    "held": 0.95,
+    "n_held": 20
+   },
+   "taste": {
+    "acc": 0.956,
+    "n": 45,
+    "held": 0.917,
+    "n_held": 12
+   },
+   "colour": {
+    "acc": 1.0,
+    "n": 69,
+    "held": 1.0,
+    "n_held": 19
+   },
+   "count": {
+    "acc": 0.97,
+    "n": 66,
+    "held": 0.917,
+    "n_held": 24
+   },
+   "ritual": {
+    "acc": 0.804,
+    "n": 56,
+    "held": null,
+    "n_held": 0
+   },
+   "check": {
+    "acc": 0.429,
+    "n": 149,
+    "held": 0.38,
+    "n_held": 50
+   },
+   "name": {
+    "acc": 0.839,
+    "n": 31,
+    "held": null,
+    "n_held": 0
+   },
+   "before": {
+    "acc": 0.061,
+    "n": 33,
+    "held": null,
+    "n_held": 0
+   },
+   "oneshot": {
+    "acc": 0.0,
+    "n": 28,
+    "held": null,
+    "n_held": 0
+   }
+  },
+  "role_conf": [
+   0.1412,
+   0.014100000000000001
+  ],
+  "role_conf_held": [
+   0.21055000000000001,
+   0.02364999999999999
+  ],
+  "role_conf_drift300": [
+   0.0325,
+   0.020499999999999997
+  ],
+  "role_conf_drift900": [
+   0.10550000000000001,
+   0.0336
+  ],
+  "refs_all": {
+   "agent": [
+    0.7805500000000001,
+    0.027650000000000008
+   ],
+   "echo": [
+    0.0582,
+    0.0005999999999999998
+   ],
+   "const_best": [
+    0.4324,
+    0.011199999999999988
+   ],
+   "prior": [
+    0.2542,
+    0.0023999999999999855
+   ]
+  },
+  "refs_held": {
+   "agent": [
+    0.6521,
+    0.03949999999999998
+   ],
+   "echo": [
+    0.0,
+    0.0
+   ],
+   "const_best": [
+    0.5281,
+    0.03259999999999999
+   ],
+   "prior": [
+    0.24325000000000002,
+    0.009050000000000016
+   ]
+  },
+  "refs_seen": {
+   "agent": [
+    0.82545,
+    0.022950000000000026
+   ],
+   "echo": [
+    0.0785,
+    0.0011000000000000038
+   ],
+   "const_best": [
+    0.4488,
+    0.01570000000000002
+   ],
+   "prior": [
+    0.25805,
+    4.999999999999449e-05
+   ]
+  },
+  "comp": {
+   "attend|colour|held": {
+    "n": 19,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|colour|seen": {
+    "n": 50,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|count|held": {
+    "n": 24,
+    "comprehends": 1.0,
+    "says": 0.917
+   },
+   "attend|count|seen": {
+    "n": 42,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "attend|where|held": {
+    "n": 31,
+    "comprehends": 1.0,
+    "says": 0.871
+   },
+   "attend|where|seen": {
+    "n": 68,
+    "comprehends": 1.0,
+    "says": 1.0
+   },
+   "vr_name|what|held": {
+    "n": 34,
+    "comprehends": 0.912,
+    "says": 0.588
+   },
+   "vr_name|what|seen": {
+    "n": 100,
+    "comprehends": 0.68,
+    "says": 1.0
+   }
+  },
+  "ral": {
+   "lines": 11589,
+   "after_own": 7687,
+   "contingent": 4518,
+   "cont_reward": 4518,
+   "cont_overlap": 0,
+   "answered": 5719,
+   "cancel": 5719,
+   "commit": 5870,
+   "unresolved": 1352,
+   "strict_cancel": 0,
+   "cut": 5719,
+   "own_stored": 0,
+   "init_relearn": 0,
+   "cont_answered": 1604,
+   "cont_answered_items": 4410,
+   "other_answered": 140,
+   "q_kept": 504,
+   "q_pos": 4518,
+   "q_neg": 4518
+  },
+  "secs": [
+   1139.0,
+   5.2000000000000455
+  ]
+ }
+}

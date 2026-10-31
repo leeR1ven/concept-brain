@@ -1,0 +1,4 @@
+run_v21.py tag=s2_rl seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 out=out/runs/s2_rl_s0.json
+run_v21.py tag=s2_rlp seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 say_noprompt=0 out=out/runs/s2_rlp_s0.json
+run_v21.py tag=s2_rl_g05 seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 say_gain=0.5 out=out/runs/s2_rl_g05_s0.json
+run_v21.py tag=s2_rl_sh seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 out=out/runs/s2_rl_sh_s0.json

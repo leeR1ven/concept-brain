@@ -89,6 +89,19 @@ listening, babbling and conversing.
     answer is learned as the answer. A local fix raised J from 0.70 to 0.93 on one seed (drift loss 0.43 → 0.03),
     pending more seeds.
 
+- **ARCH_v2.1** ([v2/v21/report.md](v2/v21/report.md)), Steps 0–3 of the review plan:
+  - **Honest measurement.** With held-out pairs never heard in training and probed only on frozen copies, ARCH_v2 has
+    H 0.60 (not 0.20) and J 1.00. On held-out items it only ties a constant answer per task (0.55 vs 0.54).
+  - **Role-aware listening** (kept). A heard line's learning as an answer waits on an eligibility trace. It is
+    cancelled if the line was a question (I or someone else answered it), and kept if it is rewarded feedback after my
+    utterance. Results: J 1.00 → 1.23 on every seed, H 0.60 → 0.76, drift loss after 900 untutored dialogues 0.54 →
+    0.01, with no ritual or colour cost.
+  - **Comprehension feeds production** (kept): held-out what 0.61 → 0.81, where 0.81 → 0.90, slot 0.13 → 0.43.
+  - **Signed value loop** (kept for life). In life, empty-room greetings drop from 60–80 to 5–9 per tenth, appropriate
+    initiatives rise 0.19 → 0.38, and social replies 0.32 → 0.42. It costs about 0.08 J on the bench.
+  - ARCH_v2.1 J 0.996 → 1.18 (5/5 seeds).
+  - Open: life answer accuracy is unchanged (0.34 vs 0.62 for a trivial responder). The agent speaks right after most
+    corrections, so they get cancelled as "questions".
 - **Random connections from birth** ([v2/randmix/report.md](v2/randmix/report.md), IDEAS #5). MIX adds a unit per
   new combination. We replaced it with a random conjunction layer that exists in full from birth, then trained and
   pruned it (use it or lose it).

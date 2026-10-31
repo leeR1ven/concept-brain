@@ -1,0 +1,4 @@
+run_v21.py tag=ral_r seed=0 proto=frozen ral=1 out=out/runs/ral_r_s0.json
+run_v21.py tag=ral_none seed=0 proto=frozen ral=1 ral_cont=none out=out/runs/ral_none_s0.json
+run_v21.py tag=ral_r_hip seed=0 proto=frozen ral=1 ral_hip_own=1 out=out/runs/ral_r_hip_s0.json
+run_v21.py tag=ral_rw seed=0 proto=frozen ral=1 ral_cont=rw out=out/runs/ral_rw_s0.json

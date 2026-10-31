@@ -1,0 +1,10 @@
+base  recast {}                                            seeds [0, 1, 2] frozen seen 0.97 held 0.00 [0.0, 0.0, 0.0] | live seen 0.96 held 0.00 | pl 0.78
+base  recast {"ral": 1}                                    seeds [0, 1, 2] frozen seen 1.00 held 0.81 [0.75, 0.67, 1.0] | live seen 0.99 held 0.76 | pl 0.19
+base  recast {"ral": 1, "ral_other": 1}                    seeds [0, 1, 2] frozen seen 1.00 held 0.81 [0.75, 0.67, 1.0] | live seen 0.99 held 0.76 | pl 0.19
+base  recast {"ral": 1, "ral_cont": "none"}                seeds [0, 1, 2] frozen seen 1.00 held 0.81 [0.75, 0.67, 1.0] | live seen 0.99 held 0.76 | pl 0.19
+base  recast {"ral": 1, "ral_hip_own": 1}                  seeds [0, 1, 2] frozen seen 1.00 held 0.67 [0.5, 0.58, 0.92] | live seen 1.00 held 0.61 | pl 0.19
+base  recast {"ral": 1, "ral_cont": "rw"}                  seeds [0, 1, 2] frozen seen 0.97 held 0.28 [0.33, 0.25, 0.25] | live seen 0.98 held 0.30 | pl 0.41
+base  mixed  {}                                            seeds [0, 1, 2] frozen seen 0.97 held 0.00 [0.0, 0.0, 0.0] | live seen 0.96 held 0.00 | pl 0.78
+base  mixed  {"ral": 1}                                    seeds [0, 1, 2] frozen seen 1.00 held 0.06 [0.0, 0.08, 0.08] | live seen 0.98 held 0.06 | pl 0.67
+base  mixed  {"ral": 1, "ral_other": 1}                    seeds [0, 1, 2] frozen seen 1.00 held 0.83 [0.75, 0.75, 1.0] | live seen 0.99 held 0.80 | pl 0.17
+Xcut  mixed  {}                                            seeds [0, 1, 2] frozen seen 1.00 held 0.72 [0.42, 0.75, 1.0] | live seen 1.00 held 0.80 | pl 0.22

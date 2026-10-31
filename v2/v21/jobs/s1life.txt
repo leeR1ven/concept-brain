@@ -1,0 +1,3 @@
+life_v21.py tag=life_v2 seed=5 ticks=1000000 chunk=100000
+life_v21.py tag=life_ral seed=5 ticks=1000000 chunk=100000 ral=1
+life_v21.py tag=life_ralo seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1

@@ -1,0 +1,72 @@
+== v2_frozen [frozen] seeds [0, 1, 2, 3, 4] viol 0  secs 1090
+   J 0.996±0.077  J2 1.444±0.104  F 0.746±0.042  RET -0.079±0.045  H 0.597±0.049  DR 0.564±0.080
+   drift before 0.868±0.049 loss300 0.303±0.100 loss900 0.538±0.051 | role-conf 0.139±0.023 held 0.242±0.045 drift300 0.176±0.081 drift900 0.352±0.075
+   held-out by task: what 0.281(89)  slot 0.11(82)  where 0.679(78)  offer 0.538(52)  taste 0.1(30)  colour 0.933(45)  count 0.965(57)  check 0.746(122)
+   acc by task:      what 0.772  slot 0.696  where 0.87  offer 0.883  taste 0.663  colour 0.93  count 0.964  ritual 0.816  check 0.834  name 0.808  before 0.0  oneshot 0.0
+   refs all: agent 0.781±0.038  echo 0.057±0.003  const_best 0.424±0.011  prior 0.252±0.020
+   refs held: agent 0.554±0.048  echo 0.000±0.000  const_best 0.535±0.024  prior 0.271±0.040
+   comp: attend|colour|held 1.0/0.933 (n45)  attend|colour|seen 0.938/0.929 (n112)  attend|count|held 1.0/0.965 (n57)  attend|count|seen 0.955/0.964 (n111)  attend|where|held 1.0/0.679 (n78)  attend|where|seen 0.938/0.963 (n161)  vr_name|what|held 0.787/0.281 (n89)  vr_name|what|seen 0.68/0.951 (n244)
+== v21s1 [frozen] seeds [0, 1, 2, 3, 4] viol 0  secs 1137
+   J 1.233±0.060  J2 1.807±0.112  F 0.817±0.036  RET -0.037±0.010  H 0.764±0.074  DR 0.975±0.020
+   drift before 0.968±0.021 loss300 -0.007±0.023 loss900 0.008±0.024 | role-conf 0.086±0.017 held 0.118±0.048 drift300 0.015±0.010 drift900 0.027±0.015
+   held-out by task: what 0.607(89)  slot 0.134(82)  where 0.808(78)  offer 0.923(52)  taste 0.867(30)  colour 0.978(45)  count 0.982(57)  check 0.836(122)
+   acc by task:      what 0.895  slot 0.704  where 0.904  offer 0.981  taste 0.962  colour 0.962  count 0.976  ritual 0.952  check 0.918  name 0.808  before 0.022  oneshot 0.0
+   refs all: agent 0.858±0.030  echo 0.057±0.003  const_best 0.424±0.011  prior 0.255±0.020
+   refs held: agent 0.728±0.079  echo 0.000±0.000  const_best 0.535±0.024  prior 0.271±0.040
+   comp: attend|colour|held 1.0/0.978 (n45)  attend|colour|seen 0.938/0.955 (n112)  attend|count|held 1.0/0.982 (n57)  attend|count|seen 0.955/0.973 (n111)  attend|where|held 1.0/0.808 (n78)  attend|where|seen 0.938/0.95 (n161)  vr_name|what|held 0.787/0.607 (n89)  vr_name|what|seen 0.68/1.0 (n244)
+== v2_old [old] seeds [0, 1, 2] viol 0  secs 1043
+   J 0.817±0.074  J2 0.940±0.112  F 0.658±0.043  RET -0.025±0.022  H 0.163±0.053  DR 0.524±0.061
+   drift before 0.801±0.006 loss300 0.276±0.057 loss900 0.453±0.052 | role-conf 0.161±0.021 held 0.386±0.035 drift300 0.232±0.038 drift900 0.320±0.027
+   held-out by task: what 0.052(58)  slot 0.067(45)  where 0.0(48)  offer 0.029(34)  taste 0.0(19)  colour 0.75(28)  count 0.294(34)  check 0.181(72)
+   acc by task:      what 0.721  slot 0.684  where 0.669  offer 0.719  taste 0.712  colour 0.928  count 0.723  ritual 0.941  check 0.643  name 0.792  before 0.018  oneshot 0.0
+   refs all: agent 0.692±0.032  echo 0.059±0.001  const_best 0.426±0.013  prior 0.252±0.006
+   refs held: agent 0.152±0.038  echo 0.000±0.000  const_best 0.527±0.027  prior 0.235±0.026
+   comp: attend|colour|held 1.0/0.75 (n28)  attend|colour|seen 1.0/1.0 (n69)  attend|count|held 1.0/0.294 (n34)  attend|count|seen 1.0/0.94 (n67)  attend|where|held 1.0/0.0 (n48)  attend|where|seen 1.0/0.99 (n100)  vr_name|what|held 0.81/0.052 (n58)  vr_name|what|seen 0.699/0.986 (n146)
+== v21s1_old [old] seeds [0, 1, 2] viol 0  secs 1178
+   J 1.172±0.043  J2 1.646±0.070  F 0.793±0.026  RET -0.034±0.010  H 0.631±0.038  DR 0.951±0.034
+   drift before 0.953±0.024 loss300 0.002±0.011 loss900 0.012±0.016 | role-conf 0.093±0.010 held 0.167±0.033 drift300 0.024±0.022 drift900 0.029±0.016
+   held-out by task: what 0.569(58)  slot 0.133(45)  where 0.583(48)  offer 0.676(34)  taste 0.579(19)  colour 0.964(28)  count 0.912(34)  check 0.653(72)
+   acc by task:      what 0.877  slot 0.713  where 0.865  offer 0.914  taste 0.879  colour 0.99  count 0.97  ritual 1.0  check 0.859  name 0.771  before 0.0  oneshot 0.023
+   refs all: agent 0.837±0.013  echo 0.059±0.001  const_best 0.426±0.013  prior 0.250±0.006
+   refs held: agent 0.609±0.036  echo 0.000±0.000  const_best 0.527±0.027  prior 0.235±0.026
+   comp: attend|colour|held 1.0/0.964 (n28)  attend|colour|seen 1.0/1.0 (n69)  attend|count|held 1.0/0.912 (n34)  attend|count|seen 1.0/1.0 (n67)  attend|where|held 1.0/0.583 (n48)  attend|where|seen 1.0/1.0 (n100)  vr_name|what|held 0.81/0.569 (n58)  vr_name|what|seen 0.699/1.0 (n146)
+== ral_r [frozen] seeds [0] viol 0  secs 1119
+   J 1.157±0.000  J2 1.730±0.000  F 0.780±0.000  RET -0.077±0.000  H 0.764±0.000  DR 0.899±0.000
+   drift before 0.924±0.000 loss300 0.025±0.000 loss900 0.013±0.000 | role-conf 0.098±0.000 held 0.117±0.000 drift300 0.025±0.000 drift900 0.019±0.000
+   held-out by task: what 0.625(24)  slot 0.235(17)  where 0.941(17)  offer 0.714(14)  taste 0.714(7)  colour 0.889(9)  count 1.0(10)  check 0.864(22)
+   acc by task:      what 0.871  slot 0.745  where 0.878  offer 0.913  taste 0.905  colour 0.821  count 0.971  ritual 1.0  check 0.92  name 0.882  before 0.0  oneshot 0.0
+   refs all: agent 0.834±0.000  echo 0.061±0.000  const_best 0.412±0.000  prior 0.232±0.000
+   refs held: agent 0.725±0.000  echo 0.000±0.000  const_best 0.525±0.000  prior 0.233±0.000
+   comp: attend|colour|held 1.0/0.889 (n9)  attend|colour|seen 0.895/0.789 (n19)  attend|count|held 1.0/1.0 (n10)  attend|count|seen 0.92/0.96 (n25)  attend|where|held 1.0/0.941 (n17)  attend|where|seen 0.781/0.844 (n32)  vr_name|what|held 0.667/0.625 (n24)  vr_name|what|seen 0.739/1.0 (n46)
+== ral_none [frozen] seeds [0] viol 0  secs 1116
+   J 0.861±0.000  J2 1.240±0.000  F 0.587±0.000  RET -0.047±0.000  H 0.505±0.000  DR 0.685±0.000
+   drift before 0.730±0.000 loss300 0.044±0.000 loss900 0.214±0.000 | role-conf 0.224±0.000 held 0.200±0.000 drift300 0.195±0.000 drift900 0.182±0.000
+   held-out by task: what 0.75(24)  slot 0.647(17)  where 0.824(17)  offer 0.857(14)  taste 1.0(7)  colour 0.222(9)  count 1.0(10)  check 0.0(22)
+   acc by task:      what 0.914  slot 0.882  where 0.857  offer 0.957  taste 0.952  colour 0.393  count 0.971  ritual 0.241  check 0.0  name 0.824  before 0.0  oneshot 0.062
+   refs all: agent 0.668±0.000  echo 0.061±0.000  const_best 0.412±0.000  prior 0.222±0.000
+   refs held: agent 0.617±0.000  echo 0.000±0.000  const_best 0.525±0.000  prior 0.233±0.000
+   comp: attend|colour|held 1.0/0.222 (n9)  attend|colour|seen 0.895/0.474 (n19)  attend|count|held 1.0/1.0 (n10)  attend|count|seen 0.92/0.96 (n25)  attend|where|held 1.0/0.824 (n17)  attend|where|seen 0.781/0.875 (n32)  vr_name|what|held 0.667/0.75 (n24)  vr_name|what|seen 0.739/1.0 (n46)
+== ral_r_hip [frozen] seeds [0] viol 0  secs 1234
+   J 1.183±0.000  J2 1.758±0.000  F 0.784±0.000  RET -0.044±0.000  H 0.767±0.000  DR 0.918±0.000
+   drift before 0.931±0.000 loss300 0.013±0.000 loss900 0.057±0.000 | role-conf 0.081±0.000 held 0.092±0.000 drift300 0.044±0.000 drift900 0.057±0.000
+   held-out by task: what 0.542(24)  slot 0.294(17)  where 0.941(17)  offer 0.857(14)  taste 0.571(7)  colour 1.0(9)  count 0.9(10)  check 0.864(22)
+   acc by task:      what 0.843  slot 0.765  where 0.878  offer 0.957  taste 0.81  colour 0.929  count 0.914  ritual 1.0  check 0.94  name 0.882  before 0.0  oneshot 0.0
+   refs all: agent 0.837±0.000  echo 0.061±0.000  const_best 0.412±0.000  prior 0.239±0.000
+   refs held: agent 0.725±0.000  echo 0.000±0.000  const_best 0.525±0.000  prior 0.233±0.000
+   comp: attend|colour|held 1.0/1.0 (n9)  attend|colour|seen 0.895/0.895 (n19)  attend|count|held 1.0/0.9 (n10)  attend|count|seen 0.92/0.92 (n25)  attend|where|held 1.0/0.941 (n17)  attend|where|seen 0.781/0.844 (n32)  vr_name|what|held 0.667/0.542 (n24)  vr_name|what|seen 0.739/1.0 (n46)
+== ral_rw [frozen] seeds [0] viol 0  secs 1118
+   J 1.165±0.000  J2 1.742±0.000  F 0.778±0.000  RET -0.063±0.000  H 0.769±0.000  DR 0.906±0.000
+   drift before 0.918±0.000 loss300 0.013±0.000 loss900 0.050±0.000 | role-conf 0.085±0.000 held 0.092±0.000 drift300 0.044±0.000 drift900 0.101±0.000
+   held-out by task: what 0.75(24)  slot 0.529(17)  where 1.0(17)  offer 0.786(14)  taste 0.429(7)  colour 0.889(9)  count 0.9(10)  check 0.773(22)
+   acc by task:      what 0.9  slot 0.843  where 0.898  offer 0.935  taste 0.81  colour 0.893  count 0.914  ritual 1.0  check 0.84  name 0.824  before 0.0  oneshot 0.0
+   refs all: agent 0.839±0.000  echo 0.061±0.000  const_best 0.412±0.000  prior 0.227±0.000
+   refs held: agent 0.767±0.000  echo 0.000±0.000  const_best 0.525±0.000  prior 0.233±0.000
+   comp: attend|colour|held 1.0/0.889 (n9)  attend|colour|seen 0.895/0.895 (n19)  attend|count|held 1.0/0.9 (n10)  attend|count|seen 0.92/0.92 (n25)  attend|where|held 1.0/1.0 (n17)  attend|where|seen 0.781/0.844 (n32)  vr_name|what|held 0.667/0.75 (n24)  vr_name|what|seen 0.739/0.978 (n46)
+== v21q [frozen] seeds [1, 2] viol 0  secs 1139
+   J 1.104±0.059  J2 1.572±0.082  F 0.734±0.043  RET -0.041±0.015  H 0.624±0.031  DR 0.940±0.000
+   drift before 0.950±0.004 loss300 0.010±0.004 loss900 0.172±0.020 | role-conf 0.141±0.014 held 0.211±0.024 drift300 0.033±0.020 drift900 0.106±0.034
+   held-out by task: what 0.588(34)  slot 0.179(28)  where 0.871(31)  offer 0.95(20)  taste 0.917(12)  colour 1.0(19)  count 0.917(24)  check 0.38(50)
+   acc by task:      what 0.896  slot 0.729  where 0.96  offer 0.988  taste 0.956  colour 1.0  count 0.97  ritual 0.804  check 0.429  name 0.839  before 0.061  oneshot 0.0
+   refs all: agent 0.781±0.028  echo 0.058±0.001  const_best 0.432±0.011  prior 0.254±0.002
+   refs held: agent 0.652±0.039  echo 0.000±0.000  const_best 0.528±0.033  prior 0.243±0.009
+   comp: attend|colour|held 1.0/1.0 (n19)  attend|colour|seen 1.0/1.0 (n50)  attend|count|held 1.0/0.917 (n24)  attend|count|seen 1.0/1.0 (n42)  attend|where|held 1.0/0.871 (n31)  attend|where|seen 1.0/1.0 (n68)  vr_name|what|held 0.912/0.588 (n34)  vr_name|what|seen 0.68/1.0 (n100)

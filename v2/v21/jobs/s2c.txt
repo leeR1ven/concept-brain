@@ -1,0 +1,4 @@
+run_v21.py tag=s2_rl seed=2 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 lesion=gateR:0 out=out/runs/s2_rl_s2.json
+run_v21.py tag=s2_rl seed=3 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 lesion=gateR:0 out=out/runs/s2_rl_s3.json
+run_v21.py tag=s2_rl seed=4 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 lesion=gateR:0 out=out/runs/s2_rl_s4.json
+life_v21.py tag=life_s2sh seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1

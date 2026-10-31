@@ -1,0 +1,4 @@
+run_v21.py tag=v21final seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 lesion=gateR:0,val_veto:0 out=out/runs/v21final_s0.json
+run_v21.py tag=v21final seed=1 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 lesion=gateR:0,val_veto:0 out=out/runs/v21final_s1.json
+run_v21.py tag=v21final seed=2 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 lesion=gateR:0,val_veto:0 out=out/runs/v21final_s2.json
+run_v21.py tag=v21final seed=3 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 lesion=gateR:0,val_veto:0 out=out/runs/v21final_s3.json

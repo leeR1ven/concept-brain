@@ -1,0 +1,4 @@
+life_v21.py tag=life_s3b seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1
+life_v21.py tag=life_s3b seed=6 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1
+life_v21.py tag=life_s3veto seed=6 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2
+life_v21.py tag=life_s3vs seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 soc_feats=1

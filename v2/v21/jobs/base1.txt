@@ -1,0 +1,4 @@
+run_v21.py tag=v2_frozen seed=0 proto=frozen out=out/runs/v2_frozen_s0.json
+run_v21.py tag=v2_frozen seed=1 proto=frozen out=out/runs/v2_frozen_s1.json
+run_v21.py tag=v2_frozen seed=2 proto=frozen out=out/runs/v2_frozen_s2.json
+run_v21.py tag=v2_frozen seed=3 proto=frozen out=out/runs/v2_frozen_s3.json
