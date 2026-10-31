@@ -218,3 +218,20 @@ which are similar. What a pattern of activity stands for must be learned from wo
 
 **Plan (later).** Plug it into world2 as the eye, on real object images with varying viewpoint and lighting, so the model
 learns the names of what it sees from the caregivers' words.
+
+## 17. Vision: decentralisation; every robot an independent individual with an innate goodwill toward people
+
+**Idea.**
+- Every robot is an independent, free individual, not one centralised AI controlled by a large company.
+- Excessive centralisation is unstable; with decentralisation no single absolute power emerges.
+- Robots instinctively treat people well and like working for them. People, in order to survive, instinctively dislike
+  labour and like enjoyment; robots don't need that.
+
+**Implications for the design.**
+- **Each individual learns in real time from its own experience, on its own hardware.** No central cloud training is
+  needed; every model has its own life (life mode, world2). The code is open (MIT licence).
+- **"Liking to help people" is an innate reward signal.** In world2, carrying out caregivers' requests ("去拿X" fetch X,
+  "把X给我" give me X) and being praised are rewarded. This drive belongs to the innate part that learning cannot
+  overwrite, like the body's reflexes. The reason: experiments already show that behaviour drifts when learning stays on
+  and nobody corrects it.
+- **Many different individuals live and learn together** (up to 64 in world2) instead of one giant model.
