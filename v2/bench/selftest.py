@@ -248,6 +248,92 @@ def t_v1(long=False):
           f"{mb['latency']}, stops {mb['agent_stop']}")
 
 
+# ----------------------------------------------------------------------------------------- life mode
+class _Talker:
+    """says one fixed char every `every` ticks, regardless of anything (for nonsense / overlap checks)."""
+    def __init__(self, ch_set, every=40):
+        self.m = np.zeros(32, np.float32); self.m[list(ch_set)] = 1.0
+        self.z = np.zeros(32, np.float32); self.every = every; self.k = 0
+
+    def step(self, obs):
+        self.k += 1
+        return self.m * (1 + (self.k % self.every) % 3) if self.k % self.every < 3 else self.z
+
+
+class _NightSpy:
+    """privileged: records whether eye and ear are all zero during the nights."""
+    privileged = True
+
+    def __init__(self):
+        self.night = False; self.bad = 0; self.n = 0; self.z = np.zeros(32)
+
+    def bench_scene(self, info):
+        self.night = info['night']
+
+    def step(self, obs):
+        if self.night:
+            self.n += 1
+            self.bad += bool(obs['eye'].any() or obs['ear'].any())
+        return self.z
+
+
+def t_life():
+    import hashlib
+    from life import Life, evaluate_life, RandomNamer, life_baseline
+    same = all(open(os.path.join(HERE, f + '.py'), 'rb').read() == open(os.path.join(HERE, 'v1.2', f + '.py'), 'rb').read()
+               for f in ('physics', 'world', 'metrics', 'baselines', 'frontend', 'body', 'ref_v1'))
+    import bar
+    fp = bar.fingerprint()['md5']
+    check('life: v1.2 modules unchanged and the v1.2 fingerprint holds', same and fp == 'ab45fe538236076b6954323f8a83f87d', fp)
+    t0 = time.time(); L = Life(seed=0); L.run(Silent(), ticks=1000000); dt = time.time() - t0
+    check('life: 10^6 ticks of life with a trivial agent in a few minutes', dt < 180,
+          f'{L.t} ticks in {dt:.1f} s ({dt / L.t * 1e6:.1f} us/tick), {L.day_i} days, {L.visit_i} visits')
+
+    def sig(log):
+        return hashlib.md5(json.dumps([(r.get('type'), r.get('task'), r.get('prompt'), r.get('reply'), r.get('t'),
+                                        r.get('t_prompt_start')) for r in log], ensure_ascii=False, default=str).encode()).hexdigest()
+    a = Life(seed=2); la = a.run(life_baseline('oracle'), ticks=150000)
+    b = Life(seed=2); lb = b.run(life_baseline('oracle'), ticks=150000)
+    c = Life(seed=2); lc = c.run(Silent(), ticks=150000)
+    content = lambda log: [(r['task'], r['prompt'], r.get('kind')) for r in log if r.get('type') == 'ex']   # noqa: E731
+    check('life: fixed seed -> identical life; the content does not depend on the agent (oracle vs silent)',
+          sig(la) == sig(lb) and content(la) == content(lc)[:len(content(la))], f'{len(content(la))} exchanges')
+    res = {}
+    for nm in ('echo', 'lookup', 'oracle'):
+        L = Life(seed=1); res[nm] = evaluate_life(L.run(life_baseline(nm), ticks=200000))['groups']
+    ok = all((res[n][g]['acc'] or 0) == 0 for n in ('echo', 'lookup') for g in ('scene', 'held_out', 'memory')) and \
+        all(res['oracle'][g]['acc'] == 1.0 for g in ('scene', 'held_out', 'memory', 'social'))
+    check('life: echo and lookup score 0 on scene (new situations), held-out and memory items; oracle 1.0', ok,
+          ', '.join(f"{g} n={res['oracle'][g]['n']}" for g in ('scene', 'held_out', 'memory', 'social')))
+    L = Life(seed=0); r = evaluate_life(L.run(RandomNamer(200), ticks=200000))
+    ini = [x for x in L.log if x.get('type') == 'init']
+    ok = r['initiative']['reward'] > 0 and all(x['reward'] == 0 for x in ini if not x['partner'] or x['night']) and \
+        all(x['reward'] > 0 for x in ini if x['category'] == 'naming')
+    check('life: naming a visible object while the partner is present earns a reply + reward; alone / night: nothing',
+          ok, f"{r['initiative']['categories']}, reward {r['initiative']['reward']:.0f}")
+    v = L.voice
+    nons = [c for c in v.chars if c not in __import__('world').LEXICON_CHARS][0]
+    L2 = Life(seed=0); r2 = evaluate_life(L2.run(_Talker(v.need[nons], 40), ticks=100000))
+    cats = r2['initiative']['categories']
+    check('life: nonsense gets no reward; talking over the partner is logged as overlap and interruptions',
+          r2['initiative']['reward'] == 0 and cats.get('nonsense', 0) > 0 and r2['overlap']['interruptions'] > 0
+          and r2['overlap']['overlap_ticks'] > 0, f"{cats}, overlap {r2['overlap']}")
+    spy = _NightSpy(); L3 = Life(seed=0); L3.run(spy, ticks=60000)
+    check('life: nights are dark and silent (eye and ear all zero)', spy.n > 0 and spy.bad == 0, f'{spy.n} night ticks')
+    L4 = Life(seed=3); log4 = L4.run(Silent(), ticks=600000)
+    mem = [x for x in log4 if x.get('type') == 'ex' and x['task'] in ('fact_name', 'fact_place', 'novel')]
+    d = [x['ticks_since_told'] for x in mem]
+    cross = all(L4 is not None and x['visit'] > 0 for x in mem)
+    check('life: memory questions come in later visits, hundreds to tens of thousands of ticks after the fact',
+          len(d) > 20 and min(d) < 2000 and max(d) > 10000 and cross,
+          f'{len(d)} questions, delay min {min(d) if d else None} median {int(np.median(d)) if d else None} max {max(d) if d else None}')
+    enc = collections.Counter(min(x['n_experienced'], 5) for x in mem)
+    qa = [x for x in log4 if x.get('type') == 'ex' and x.get('acceptable') and 'n_asked_before' in x]
+    check('life: facts recur (memory probes after 1, 2, ... 5+ encounters); every probe logs n_experienced, n_asked_before',
+          len(enc) >= 4 and enc.get(1, 0) > 0 and enc.get(5, 0) > 0 and all('n_experienced' in x for x in qa),
+          f'encounters of memory probes (5 = 5+): {dict(sorted(enc.items()))}')
+
+
 # ----------------------------------------------------------------------------------------- speed
 def t_speed():
     t0 = time.time()
@@ -260,7 +346,7 @@ def t_speed():
 if __name__ == '__main__':
     t0 = time.time()
     long = '--long' in sys.argv
-    for f in (t_physics, t_timing, t_metrics, t_baselines, t_memory_tasks, t_body, t_options, t_speed):
+    for f in (t_physics, t_timing, t_metrics, t_baselines, t_memory_tasks, t_body, t_options, t_life, t_speed):
         f()
     t_v1(long)
     n_ok = sum(ok for _, ok in RESULTS)

@@ -26,7 +26,7 @@ tutor='model')` → (worlds, concatenated log). The agent object simply continue
 `world.warmup_windows()`); never read `world.voice`, `world.log`, `world.cur` or any other world internal; the
 privileged hooks (`bench_*`) are for baselines only.
 
-**Self-test:** `python3 selftest.py` (29 checks, ~90 s; `--long` runs the long ARCH_v1 cross-check, ~5 min) → `checks/selftest.out`.
+**Self-test:** `python3 selftest.py` (38 checks incl. 9 life checks, ~2 min; `--long` runs the long ARCH_v1 cross-check, ~5 min) → `checks/selftest.out`.
 Speed: the world costs ≈ 19 µs per tick (2,000 dialogues ≈ 190k ticks ≈ 4 s with the trivial agent); `RefV1` ≈ 0.8 ms
 per tick (2,000 stage-B dialogues ≈ 2.5 min). On the GPU server (numpy 2.1) the streams are identical (fingerprint in
 `bar.py`); learned float32 weights may differ in the last bit (NEP 50 scalar promotion), so long agent runs are
@@ -278,3 +278,123 @@ Bar mechanics over the 9 runs: 10,895 free replies all at latency 6, 90,173 syll
 | D:check | 0.46±0.02 | 0.48±0.01 | 0.31±0.01 |
 | D:name | 0.00±0.00 | 0.12±0.04 | 0.12±0.04 |
 | D:oneshot | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 |
+
+# Life mode (`life.py`, v2.0) — one unbroken life
+
+v1.2 is unchanged (frozen copy in `v1.2/`; the 7 core modules are byte-identical, the v1.2 fingerprint
+ab45fe538236076b6954323f8a83f87d still holds — selftest). Life mode is a subclass of `World` (same physics, mouth,
+curriculum, held-out sets, eye codes and exchange runner).
+
+```python
+from life import Life, run_life, evaluate_life, headline_life, RandomNamer, life_baseline
+L = Life(seed=0, tutor='model')                  # also 'recast', 'force'; physics, noise, vocab and World params as usual
+log = L.run(agent, hours=6)                      # or ticks=...; 1 h = 48,000 ticks; run() may be called again (life goes on)
+res = evaluate_life(log); print(headline_life(res))
+```
+**One life.** A single agent instance from birth; nothing is reset; no frozen copies. Every question is scored when its
+answer window closes (`acc`, `first_ok` in the record). The life's content (days, visits, topics, facts, scene
+changes, probes) comes from its own rng and does not depend on the agent; only timing does (selftest: oracle vs silent
+agent give the same sequence of exchanges). Days are planned in advance; `run(ticks)` stops at the end of the day or
+night that crosses the limit.
+
+**The schedule** (all knobs in `life.LIFE_DEFAULTS`):
+- day (`day_ticks` 20,000 planned) = 8–14 visits separated by alone periods, then a night: `night_ticks` 5,000 of
+  darkness and silence (eye all zero, ear silent). The night has no sleep semantics: the world tells the agent nothing
+  and no metric is about it.
+- visit: the partner arrives (an 8-unit "person" code appears in the eye; other2's own code when it is present, 30 % of
+  visits), waits `greet_wait` 30 ticks — the agent may greet first — then greets (你好; 早上好 in the morning) unless
+  greeted, has 2–6 topics separated by gaps of 20–300 silent ticks, says 再见 (晚安 before the night) and leaves.
+- alone: 100–2,000 ticks (10 %: 2,000–6,000) with nobody there; objects appear, move and disappear by themselves
+  (one event per ~600 ticks; also between topics with p 0.15). The room may be rearranged overnight.
+- topics (weights `w_*`): a B/C/D question about the CURRENT scene (stage weights 0.4/0.4/0.2; taught per tutor mode
+  or a probe; held-out pairs only probed) | a fact comes up | a novel object | a memory question | 刚才S是什么 |
+  an overheard question/answer between other2 and the partner | (`topics='BCDE'`) an adult-corpus pair.
+- **recurring facts** (designer's addendum): stable for the whole life and re-told at irregular intervals —
+  4 pets with fixed names (我的小狗叫N → 我的小狗叫什么), the partner's and other2's names (我叫N / 他叫N → 我叫什么 /
+  他叫什么), where things were put (我把X放在P了 → X放在哪里了; the object leaves the scene; each object has a habitual
+  place, used 70 % of the time; the fact lapses when the object is seen again), novel objects (这是X once, then named
+  again when they come back: `p_novel_back` 0.15 of 'appear' events bring one back). Greetings, goodbyes, rituals and
+  the 12 everyday objects recur all the time.
+- memory questions are always probes, asked only about facts last told in an EARLIER visit (delays: hundreds to
+  hundreds of thousands of ticks); type first (name, person, place, novel), then a fact.
+- 刚才S是什么: S's object changed by itself since the previous alone period, and the old object was never named by the
+  world since it appeared (so the answer needs a memory of the scene, not of speech).
+
+**Initiative.** Any agent utterance outside an answer window (a bout ends after 5 silent ticks) is an initiative:
+- partner present and silent: a greeting while the partner has just arrived (greet window), or naming a visible object
+  (X / 这是X / 是X / 看X / 有X; once per object per visit) → the partner replies (你好 / 对是X) with `reward_init` 1.0
+  on its first tick. Anything else ('nonsense') → no reward and the partner pauses `pause_nonsense` 30 ticks; naming the
+  same object again ('repeat') → nothing.
+- speech while the partner or other2 speaks = overlap (ticks) and interruption (bouts); interrupting a question delays
+  the partner by the same pause. Alone or at night ('alone'): logged, no reaction.
+- social exchanges (greet / bye / goodnight) are scored free replies; an acceptable reply gets `reward_social` 1.0 on
+  the next tick.
+
+**Records** (`log`, `type` = 'ex' | 'init' | 'event' | 'mon'):
+- 'ex': the staged exchange record (kinds probe / model / recast / force / statement / overheard / social) + `life_t`,
+  `visit`, `day`, `acc`, `first_ok`, **`n_experienced`** (times the item's answer was experienced before: heard taught,
+  overheard, recast, or the fact stated), **`n_asked_before`**, `new_situation` (this prompt + scene + pointing was
+  never taught: exact lookup cannot answer it), memory probes: `ticks_since_told` (since the last telling),
+  `ticks_since_first_told`, `visits_since_told`, `one_shot` (n_experienced == 1).
+- 'init': t, t_end, text, syllables, overlap, partner / other2 present, night, category (greeting / naming / repeat /
+  nonsense / alone), appropriate, reward. 'event': arrive, leave, scene_appear / move / disappear, day_start,
+  night_start / end. 'mon': cumulative monitor counters every 10,000 ticks.
+
+**`evaluate_life(log, bins=10)`** — all in life, as functions of life time:
+- `tasks` (staged per-task scores over the life's free replies), `curves[task]` (accuracy per time bin = the learning
+  curve), `groups` scene (new situations only) / scene_repeat / held_out / memory / social (acc + curve);
+- `retention[task]` for fact_name, fact_person, fact_place, novel, before: acc `by_delay`, `by_encounters`
+  (n_experienced 1, 2, 3–4, 5–8, 9+) and `delay_x_encounters` — the key memory metric; `retention['qa_by_encounters']`
+  = B–D accuracy against how often the answer was heard before;
+- `initiative`: n, per 1,000 quiet ticks (ticks without partner speech), appropriate share (overall and with the
+  partner present), reward, categories; `overlap`: overlap ticks, interruptions, share of partner speech;
+  `monologue`: longest bout (syllables, ticks); `latency`: histogram + median; `mouth`;
+- `stability`: per time bin answer rate, accuracy, reply length, initiative rate, mouth share, overlap, garble;
+  `stability_flags` (answer rate collapsed, runaway mouth, rising overlap).
+
+**References.** `RandomNamer(every=200)` (privileged: after every 200 silent ticks it says a random visible object's
+name), `life_baseline(name)` (the staged baselines, also answering social exchanges), `RefV1` (needs `tutor='force'`
+to learn anything). `life_refs.py ticks [names]` → `results_life/`. Anti-cheat (selftest): echo and lookup 0.00 on
+scene questions in new situations, held-out items and memory items; the oracle 1.00 everywhere.
+
+**Speed.** A silent tick costs ≈ 3.9 µs (the world keeps a zero window instead of ticking the stream while nothing
+sounds; with `noise > 0` every tick is a full tick). 10⁶ ticks of life (≈ 21 h, 42 days, 450 visits) with a trivial
+agent: ≈ 5 s.
+
+## Life reference numbers (seed 0, one life of ~10^6 ticks ≈ 21 h, tutor=model unless noted)
+
+| agent | ticks | free acc | scene (new) | held-out | memory | social | initiatives /1000 quiet | appropriate | init. reward | overlap ticks | interruptions | longest monologue | µs/tick |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| silent | 1004643 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | - | 0 | 0 | 0 | 0 | 5.0 |
+| namer | 1001646 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 2.31 | 0.21 | 454 | 0 | 0 | 2 | 8.38 |
+| echo | 1004643 | 0.53 | 0.00 | 0.00 | 0.00 | 1.00 | 0.00 | - | 0 | 0 | 0 | 7 | 5.83 |
+| lookup | 1004643 | 0.05 | 0.00 | 0.00 | 0.00 | 0.07 | 0.00 | - | 0 | 0 | 0 | 4 | 5.21 |
+| oracle | 1004643 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.00 | - | 0 | 0 | 0 | 3 | 5.71 |
+| refv1_model | 224679 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | - | 0 | 0 | 0 | 0 | 432.13 |
+| refv1_force | 1005242 | 0.46 | 0.07 | 0.06 | 0.00 | 0.84 | 0.00 | - | 0 | 0 | 0 | 6 | 519.18 |
+
+RefV1 (force) per task over life (acc; learning curve = 10 time bins):
+
+| task | n | acc | curve |
+|---|---|---|---|
+| before | 20 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 - 0.00 0.00 |
+| bye | 406 | 0.82 | 0.00 0.45 0.98 0.98 1.00 1.00 1.00 1.00 1.00 1.00 |
+| check | 99 | 0.19 | 0.36 0.38 0.40 0.10 0.10 0.29 0.25 0.15 0.00 0.00 |
+| colour | 49 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| count | 43 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| fact_name | 92 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| fact_person | 75 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| fact_place | 90 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| goodnight | 39 | 0.87 | 0.00 1.00 1.00 1.00 0.75 1.00 1.00 1.00 1.00 1.00 |
+| greet | 445 | 0.84 | 0.30 0.92 0.91 0.91 0.91 0.92 0.90 0.91 0.90 0.93 |
+| novel | 96 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| offer | 49 | 0.04 | 0.00 0.00 0.00 0.00 0.40 0.00 0.00 0.00 0.00 0.00 |
+| ritual | 39 | 0.64 | 0.00 0.25 0.50 0.60 0.80 0.80 0.50 0.60 1.00 1.00 |
+| slot | 63 | 0.00 | 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 - 0.00 |
+| taste | 25 | 0.40 | 1.00 - 1.00 0.50 0.00 0.00 0.00 0.00 0.00 0.25 |
+| what | 94 | 0.02 | 0.29 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 |
+| where | 58 | 0.17 | 0.00 0.11 0.14 0.80 0.20 0.00 0.00 0.25 0.00 0.40 |
+
+RefV1 (force) retention by encounters (memory tasks): fact_name: 1x 0.00 (n=2), 2x 0.00 (n=6), 3-4x 0.00 (n=7), 5-8x 0.00 (n=6), 9+x 0.00 (n=71); fact_person: 2x 0.00 (n=1), 3-4x 0.00 (n=3), 5-8x 0.00 (n=6), 9+x 0.00 (n=65); fact_place: 1x 0.00 (n=31), 2x 0.00 (n=32), 3-4x 0.00 (n=10), 5-8x 0.00 (n=17); novel: 1x 0.00 (n=43), 2x 0.00 (n=25), 3-4x 0.00 (n=22), 5-8x 0.00 (n=6); before: 0x 0.00 (n=20)
+
+RefV1 (force) stability flags: none; latency median 6.0; programs 55

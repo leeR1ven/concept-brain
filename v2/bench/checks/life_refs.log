@@ -1,0 +1,15 @@
+silent (model): 1004643 ticks 5.0 s (5.0 us/tick)
+    life 20.9 h (1004643 ticks): free replies 1759 acc 0.00 | scene 0.00 held-out 0.00 memory 0.00 social 0.00 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 0 syl | latency median None | flags none
+namer (model): 1001646 ticks 8.4 s (8.38 us/tick)
+    life 20.9 h (1001646 ticks): free replies 1759 acc 0.00 | scene 0.00 held-out 0.00 memory 0.00 social 0.00 | initiative 2188 (2.31/1000 quiet ticks, appropriate 0.21, reward 454) | overlap 0 ticks, 0 interruptions | longest monologue 2 syl | latency median None | flags none
+oracle (model): 1004643 ticks 5.7 s (5.71 us/tick)
+    life 20.9 h (1004643 ticks): free replies 1759 acc 1.00 | scene 1.00 held-out 1.00 memory 1.00 social 1.00 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 3 syl | latency median 6.0 | flags none
+echo (model): 1004643 ticks 5.9 s (5.83 us/tick)
+    life 20.9 h (1004643 ticks): free replies 1759 acc 0.53 | scene 0.00 held-out 0.00 memory 0.00 social 1.00 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 7 syl | latency median 6.0 | flags none
+lookup (model): 1004643 ticks 5.2 s (5.21 us/tick)
+    life 20.9 h (1004643 ticks): free replies 1759 acc 0.05 | scene 0.00 held-out 0.00 memory 0.00 social 0.07 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 4 syl | latency median 6.0 | flags none
+refv1_model (model): 224679 ticks 97.1 s (432.13 us/tick)
+    life 4.7 h (224679 ticks): free replies 450 acc 0.00 | scene 0.00 held-out 0.00 memory 0.00 social 0.00 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 0 syl | latency median None | flags none
+refv1_force (force): 1005242 ticks 521.9 s (519.18 us/tick)
+    life 20.9 h (1005242 ticks): free replies 1782 acc 0.46 | scene 0.07 held-out 0.06 memory 0.00 social 0.84 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 6 syl | latency median 6.0 | flags none
+LIFE REFS DONE

@@ -24,8 +24,17 @@ PASS  body: programs created without any cue from babbling + tutor imitation (st
 PASS  body: every complete babble is one 3-tick syllable  80 complete syllables, garble 0
 PASS  options: eye_layout retino = one 240-unit block per slot, the same feature code in every block  
 PASS  options: mouth_vocab=lexicon: babbles decode only to lexicon chars or garble; sounds unchanged  1088 of 3000 random sets are lexicon chars
+PASS  life: v1.2 modules unchanged and the v1.2 fingerprint holds  ab45fe538236076b6954323f8a83f87d
+PASS  life: 10^6 ticks of life with a trivial agent in a few minutes  1004643 ticks in 5.2 s (5.2 us/tick), 42 days, 453 visits
+PASS  life: fixed seed -> identical life; the content does not depend on the agent (oracle vs silent)  496 exchanges
+PASS  life: echo and lookup score 0 on scene (new situations), held-out and memory items; oracle 1.0  scene n=121, held_out n=69, memory n=82, social n=186
+PASS  life: naming a visible object while the partner is present earns a reply + reward; alone / night: nothing  {'alone': 283, 'naming': 98, 'repeat': 32}, reward 98
+PASS  life: nonsense gets no reward; talking over the partner is logged as overlap and interruptions  {'nonsense': 1287, 'alone': 915}, overlap {'overlap_ticks': 231, 'interruptions': 86, 'partner_ticks': 3735, 'overlap_share_of_partner_speech': 0.061847389558232935}
+PASS  life: nights are dark and silent (eye and ear all zero)  15000 night ticks
+PASS  life: memory questions come in later visits, hundreds to tens of thousands of ticks after the fact  175 questions, delay min 631 median 32259 max 469685
+PASS  life: facts recur (memory probes after 1, 2, ... 5+ encounters); every probe logs n_experienced, n_asked_before  encounters of memory probes (5 = 5+): {1: 87, 2: 20, 3: 15, 4: 5, 5: 48}
 PASS  speed: a trivial agent runs 2,000 dialogues in < 180 s on one core  3.0 s, 189402 ticks, 16 us/tick
 PASS  ARCH_v1: archv1.Talker == bench world + archv1.Brain == bench world + RefV1 (body.py), tick by tick (15 taught pairs, 8 free replies)  1209 ticks, 282 mouth ticks
 PASS  ARCH_v1: bench mechanics metrics == run.py-style audit of the toy (overlap, syllables, not-3, garble, extra turns, stop reasons, latency, guided exact)  overlap 0, syllables 94, not3 0, latency {'6': 8}, stops {'floor': 8}
 
-29/29 checks passed in 64 s
+38/38 checks passed in 90 s
