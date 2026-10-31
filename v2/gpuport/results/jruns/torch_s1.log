@@ -1,0 +1,3 @@
+[torch s1 1s] start torch port, exact=True
+[torch s1 231s] A: {'categories': 67, 'programs': 66, 'mix': 23446, 'hip': 455, 'recalls': 1514, 'released': 282}
+[torch s1 2897s] after stage 1 (B): B 0.7595 (held 0.2653)  C 0.4503 (held 0.4545)  D 0.0 (held 0.0) | online {'B': 0.7718} | {'categories': 67, 'programs': 66, 'mix': 27881, 'hip': 3918, 'recalls': 23346, 'released': 3158} mech_train {'mouth_while_partner': 0, 'not_3_ticks': 0, 'garble': 0, 'extra_turns': 0, 'replies': 3996, 'lat': [6.0, 6.0]}

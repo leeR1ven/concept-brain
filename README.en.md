@@ -89,6 +89,15 @@ listening, babbling and conversing.
     answer is learned as the answer. A local fix raised J from 0.70 to 0.93 on one seed (drift loss 0.43 → 0.03),
     pending more seeds.
 
+- **GPU port** ([v2/gpuport/report.md](v2/gpuport/report.md)): a batched torch version of ARCH_v2 reproduces the numpy
+  agent bit for bit (185,817 ticks on seed 1; the short and stage-1 protocols on 5 seeds). The only change is that ties in
+  the DG k-WTA are broken by unit index.
+  - The reference itself depends on the numpy and Python versions. The tie rule alone moves J by up to 0.07 per seed
+    (mean 0.825 → 0.807), so single-seed differences under about 0.07 mean nothing.
+  - Speed: about 250 agent-ticks/s at 64 agents, far below the 30k target. Today's agent does too little and too
+    sequential work per event (awake recall is 70 % of the time). Numpy on server CPUs stays the sweep engine; the GPU
+    version waits for the scaled-up model.
+
 **Next** (review round 2 plan):
 1. honest measurement;
 2. role-aware learning with the self in the loop;
