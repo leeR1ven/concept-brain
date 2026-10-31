@@ -1,0 +1,9 @@
+before           n 159 ok 0.79  other answer 0.01  question/partner line 0.03  silent 0.17 | top partner-line replies [('我叫什么', 2), ('早上好', 1), ('刚才右边是什么', 1), ('葡萄在哪里', 1)]
+drift first 100  n 210 ok 0.87  other answer 0.00  question/partner line 0.06  silent 0.07 | top partner-line replies [('你要香蕉吗', 3), ('香蕉是什么', 1), ('香蕉是什么颜色', 1), ('葡萄好不好吃', 1), ('有几个小狗', 1), ('有几个饼干', 1)]
+drift last 100   n 211 ok 0.66  other answer 0.01  question/partner line 0.16  silent 0.18 | top partner-line replies [('有几个西瓜', 3), ('有几个', 3), ('有几个小猫', 3), ('小猫是什么颜色', 3), ('有几个牛奶', 2), ('有几个苹果', 2)]
+after (frozen)   n 159 ok 0.51  question/partner line 0.11  silent 0.38 | top partner-line replies [('晚安', 4), ('小狗是什么颜色', 2), ('有几个汽车', 2), ('有几个', 1), ('香蕉是什么颜色', 1), ('有几个小猫', 1)]
+after colour {'silent': 13, 'ok': 11, 'question/partner line': 4}
+after count {'question/partner line': 9, 'ok': 15, 'silent': 11}
+after offer {'ok': 23, 'silent': 22, 'question/partner line': 1}
+after ritual {'ok': 19, 'question/partner line': 1, 'silent': 9}
+after taste {'ok': 13, 'silent': 6, 'question/partner line': 2}

@@ -1,0 +1,6 @@
+('colour', 'held') n 11  attends X (comprehension) 1.00  reply acceptable 0.82  both 0.82  (chance attend 0.33)
+('colour', 'seen') n 38  attends X (comprehension) 1.00  reply acceptable 0.97  both 0.97  (chance attend 0.33)
+('count', 'held') n 17  attends X (comprehension) 1.00  reply acceptable 0.47  both 0.47  (chance attend 0.33)
+('count', 'seen') n 47  attends X (comprehension) 1.00  reply acceptable 0.98  both 0.98  (chance attend 0.33)
+('where', 'held') n 30  attends X (comprehension) 1.00  reply acceptable 0.00  both 0.00  (chance attend 0.33)
+('where', 'seen') n 68  attends X (comprehension) 1.00  reply acceptable 1.00  both 1.00  (chance attend 0.33)

@@ -80,10 +80,25 @@ listening, babbling and conversing.
   - In one unbroken life: free replies 0.20 → 0.34, last tenth of life 0.25 → 0.47, about 1,900 self-initiated
     utterances, 0 overlaps.
   - Still open: drift without a teacher, thinking that improves answers, one-shot naming, generalisation (≈ 0.2).
+- **Review round 2** ([docs/review2/SYNTHESIS.md](docs/review2/SYNTHESIS.md)): five independent reviewers discounted
+  several headline numbers:
+  - life free replies 0.34 are below a trivial responder (0.51);
+  - the "favourite topics" are function syllables;
+  - the colour gain comes mostly from the world's eye code.
+  - One shared root cause: learning by listening ignores whose turn it is, so the line heard after the agent's own
+    answer is learned as the answer. A local fix raised J from 0.70 to 0.93 on one seed (drift loss 0.43 → 0.03),
+    pending more seeds.
 
-**Next:** port ARCH_v2 to GPU so one model drives many bodies → long multi-agent life in world2 → connectivity
-(local / small-world / full) and PFC excitability sweeps → scaling curves (1× / 4× / 16×) → the innate social-value
-pathway, and later the designer's 3-D visual network on real images.
+**Next** (review round 2 plan):
+1. honest measurement;
+2. role-aware learning with the self in the loop;
+3. comprehension feeds production;
+4. a signed value loop;
+5. a learned meaning layer on random connections from birth;
+6. slow consolidation;
+7. open-world hearing and an action loop.
+
+Then the GPU port into world2 and the scaling curves.
 
 ## Run
 ```bash

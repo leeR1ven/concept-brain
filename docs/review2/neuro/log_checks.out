@@ -1,0 +1,36 @@
+== 1. favourite-thought base rate (life seed 5, ARCH_v2)
+  partner syllable types 141, tokens 14030; top-20 TOKEN share 0.631 (ARCH_v2 used the TYPE share 20/141 = 0.142); measured held share 0.81
+  top-20: 是这什么小再见吗我在好叫你子里要哪不放了
+== 2. self-initiated speech
+  initiatives 1891; 你好 1337: {(True, 'nonsense'): 364, (False, 'alone'): 626, (True, 'greeting'): 347}
+  你好 to an empty room per tenth of life: [3, 57, 87, 70, 57, 65, 74, 61, 88, 64]
+  rewarded 你好 per tenth of life:      [2, 33, 41, 41, 41, 38, 37, 41, 42, 31]
+  world event just before an empty-room 你好: [('leave', 244), ('scene_disappear', 146), ('scene_appear', 141), ('scene_move', 95)] median lag 12.0
+  final_novgo: 你好 1481, empty room 748, rewarded 377
+  final_nooth: 你好 0, empty room 0, rewarded 0
+== 3. can a heard line be told apart as a reaction to my own reply? (perceivable cues only)
+  J(own reply, confirmation) = 1.00 (n 496)
+  continuity = max(J(own,line), J(question,line)): confirmations 1.00, corrections 0.42 (n 281), next partner lines 0.20 (n 1411)
+  AUC vs next lines: confirmations 0.958, corrections 0.718
+  share containing a question syllable: corrections 0.000, next lines 0.587
+== 4. reply latency (free replies, life)
+  latency histogram [(6, 854), (7, 363), (8, 143), (9, 47), (10, 4)] acc at 6: 0.55, acc > 6: 0.25
+== 5. held-out by task, ARCH_v2 seeds 0-4 (final frozen probes)
+  before   all 0.01 (n 89)  held-out -
+  check    all 0.63 (n 343)  held-out 0.24 (n 122)
+  colour   all 0.89 (n 157)  held-out 0.60 (n 45)
+  count    all 0.79 (n 168)  held-out 0.37 (n 57)
+  name     all 0.77 (n 73)  held-out -
+  offer    all 0.79 (n 213)  held-out 0.17 (n 52)
+  oneshot  all 0.00 (n 78)  held-out -
+  ritual   all 0.85 (n 147)  held-out -
+  slot     all 0.67 (n 240)  held-out 0.05 (n 82)
+  taste    all 0.67 (n 104)  held-out 0.00 (n 30)
+  what     all 0.73 (n 333)  held-out 0.09 (n 89)
+  where    all 0.68 (n 239)  held-out 0.04 (n 78)
+== 6. life memory facts by encounters
+  fact_name [('1', 5, 0.0), ('2', 5, 0.0), ('3-4', 11, 0.0), ('5-8', 11, 0.0), ('9+', 51, 0.0)]
+  fact_person [('3-4', 3, 0.0), ('5-8', 9, 0.0), ('9+', 62, 0.0)]
+  fact_place [('1', 27, 0.0), ('2', 14, 0.0), ('3-4', 37, 0.0), ('5-8', 27, 0.0)]
+  novel [('1', 48, 0.0), ('2', 27, 0.0), ('3-4', 13, 0.0), ('5-8', 7, 0.0)]
+== 7. replay window: episodes with sigma > 0.05 are replayable; sigma = 0.9995^lines -> 5989 stored lines

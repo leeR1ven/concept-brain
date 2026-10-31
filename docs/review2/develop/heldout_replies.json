@@ -1,0 +1,5306 @@
+{
+"C": [
+{
+"task": "offer",
+"held": false,
+"prompt": "你要皮球吗",
+"reply": "要皮球",
+"acc": true,
+"acceptable": [
+"要皮球",
+"我要皮球",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要苹果吗",
+"reply": "要苹果",
+"acc": true,
+"acceptable": [
+"要苹果",
+"我要苹果",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "鸭子是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "牛奶好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"牛奶好吃",
+"很好吃"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要鸭子吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要鸭子",
+"我要鸭子",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "红色",
+"acc": true,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小狗是什么颜色",
+"reply": "蓝色",
+"acc": true,
+"acceptable": [
+"蓝色",
+"是蓝色",
+"蓝的"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "苹果是什么颜色",
+"reply": "红色",
+"acc": true,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "葡萄是什么颜色",
+"reply": "蓝色",
+"acc": true,
+"acceptable": [
+"蓝色",
+"是蓝色",
+"蓝的"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要汽车吗",
+"reply": "我叫什么",
+"acc": false,
+"acceptable": [
+"要汽车",
+"我要汽车",
+"要"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个葡萄",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小狗是什么颜色",
+"reply": "小狗",
+"acc": false,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要小猫吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要小猫",
+"我要小猫",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要小狗吗",
+"reply": "要小狗",
+"acc": true,
+"acceptable": [
+"要小狗",
+"我要小狗",
+"要"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "香蕉好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"香蕉好吃",
+"很好吃"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要葡萄吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要葡萄",
+"我要葡萄",
+"要"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要汽车吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要汽车",
+"我要汽车",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要牛奶吗",
+"reply": "要牛奶",
+"acc": true,
+"acceptable": [
+"要牛奶",
+"我要牛奶",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "晚安",
+"reply": "晚安",
+"acc": true,
+"acceptable": [
+"晚安"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要皮球吗",
+"reply": "要皮球",
+"acc": true,
+"acceptable": [
+"要皮球",
+"我要皮球",
+"要"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个小狗",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要牛奶吗",
+"reply": "要牛奶",
+"acc": true,
+"acceptable": [
+"要牛奶",
+"我要牛奶",
+"要"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "香蕉是什么颜色",
+"reply": "黑色",
+"acc": true,
+"acceptable": [
+"黑色",
+"是黑色",
+"黑的"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个小狗",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要汽车吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要汽车",
+"我要汽车",
+"要"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小狗是什么颜色",
+"reply": "蓝色",
+"acc": true,
+"acceptable": [
+"蓝色",
+"是蓝色",
+"蓝的"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "葡萄是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个香蕉",
+"reply": "",
+"acc": false,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "西瓜好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"西瓜好吃",
+"很好吃"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "饼干好不好吃",
+"reply": "",
+"acc": false,
+"acceptable": [
+"好吃",
+"饼干好吃",
+"很好吃"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "晚安",
+"reply": "晚安",
+"acc": true,
+"acceptable": [
+"晚安"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个鸭子",
+"reply": "",
+"acc": false,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "谢谢",
+"reply": "不客气",
+"acc": true,
+"acceptable": [
+"不客气",
+"不谢"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要小狗吗",
+"reply": "要小狗",
+"acc": true,
+"acceptable": [
+"要小狗",
+"我要小狗",
+"要"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个皮球",
+"reply": "",
+"acc": false,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "谢谢",
+"reply": "不客气",
+"acc": true,
+"acceptable": [
+"不客气",
+"不谢"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要汽车吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要汽车",
+"我要汽车",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要饼干吗",
+"reply": "要饼干",
+"acc": true,
+"acceptable": [
+"要饼干",
+"我要饼干",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "苹果好不好吃",
+"reply": "",
+"acc": false,
+"acceptable": [
+"好吃",
+"苹果好吃",
+"很好吃"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个饼干",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个小鸟",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个香蕉",
+"reply": "",
+"acc": false,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要苹果吗",
+"reply": "要苹果",
+"acc": true,
+"acceptable": [
+"要苹果",
+"我要苹果",
+"要"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小鸟是什么颜色",
+"reply": "红色",
+"acc": true,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要饼干吗",
+"reply": "我要饼干",
+"acc": true,
+"acceptable": [
+"要饼干",
+"我要饼干",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要苹果吗",
+"reply": "要苹果",
+"acc": true,
+"acceptable": [
+"要苹果",
+"我要苹果",
+"要"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个小猫",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "谢谢",
+"reply": "不客气",
+"acc": true,
+"acceptable": [
+"不客气",
+"不谢"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要小猫吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要小猫",
+"我要小猫",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "饼干是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个小猫",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "汽车是什么颜色",
+"reply": "红色",
+"acc": true,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "饼干是什么颜色",
+"reply": "黑色",
+"acc": true,
+"acceptable": [
+"黑色",
+"是黑色",
+"黑的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要皮球吗",
+"reply": "要皮球",
+"acc": true,
+"acceptable": [
+"要皮球",
+"我要皮球",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "鸭子是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "西瓜是什么颜色",
+"reply": "",
+"acc": false,
+"acceptable": [
+"黄色",
+"是黄色",
+"黄的"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要葡萄吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要葡萄",
+"我要葡萄",
+"要"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "香蕉好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"香蕉好吃",
+"很好吃"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "西瓜是什么颜色",
+"reply": "黄色",
+"acc": true,
+"acceptable": [
+"黄色",
+"是黄色",
+"黄的"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要汽车吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要汽车",
+"我要汽车",
+"要"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "西瓜好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"西瓜好吃",
+"很好吃"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "牛奶好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"牛奶好吃",
+"很好吃"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个葡萄",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要鸭子吗",
+"reply": "早上好",
+"acc": false,
+"acceptable": [
+"要鸭子",
+"我要鸭子",
+"要"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要小猫吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要小猫",
+"我要小猫",
+"要"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "西瓜好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"西瓜好吃",
+"很好吃"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "香蕉是什么颜色",
+"reply": "蓝色",
+"acc": true,
+"acceptable": [
+"蓝色",
+"是蓝色",
+"蓝的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要牛奶吗",
+"reply": "要牛奶",
+"acc": true,
+"acceptable": [
+"要牛奶",
+"我要牛奶",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "你好",
+"reply": "你好",
+"acc": true,
+"acceptable": [
+"你好",
+"你好呀"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要饼干吗",
+"reply": "我要饼干",
+"acc": true,
+"acceptable": [
+"要饼干",
+"我要饼干",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "白色",
+"acc": true,
+"acceptable": [
+"白色",
+"是白色",
+"白的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个小鸟",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "香蕉好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"香蕉好吃",
+"很好吃"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要饼干吗",
+"reply": "我要饼干",
+"acc": true,
+"acceptable": [
+"要饼干",
+"我要饼干",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "晚安",
+"reply": "晚安",
+"acc": true,
+"acceptable": [
+"晚安"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "小猫是什么颜色",
+"reply": "白色",
+"acc": true,
+"acceptable": [
+"白色",
+"是白色",
+"白的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "刚才右边是什么",
+"acc": false,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "黄色",
+"acc": true,
+"acceptable": [
+"黄色",
+"是黄色",
+"黄的"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个小鸟",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个苹果",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "苹果好不好吃",
+"reply": "葡萄在哪里",
+"acc": false,
+"acceptable": [
+"好吃",
+"苹果好吃",
+"很好吃"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "谢谢",
+"reply": "不客气",
+"acc": true,
+"acceptable": [
+"不客气",
+"不谢"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "饼干好不好吃",
+"reply": "",
+"acc": false,
+"acceptable": [
+"好吃",
+"饼干好吃",
+"很好吃"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要苹果吗",
+"reply": "要苹果",
+"acc": true,
+"acceptable": [
+"要苹果",
+"我要苹果",
+"要"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个皮球",
+"reply": "",
+"acc": false,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "牛奶是什么颜色",
+"reply": "",
+"acc": false,
+"acceptable": [
+"蓝色",
+"是蓝色",
+"蓝的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个汽车",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "西瓜好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"西瓜好吃",
+"很好吃"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "晚安",
+"reply": "",
+"acc": false,
+"acceptable": [
+"晚安"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要小猫吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要小猫",
+"我要小猫",
+"要"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小狗是什么颜色",
+"reply": "红色",
+"acc": true,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "西瓜是什么颜色",
+"reply": "白色",
+"acc": true,
+"acceptable": [
+"白色",
+"是白色",
+"白的"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "你好",
+"reply": "你好",
+"acc": true,
+"acceptable": [
+"你好",
+"你好呀"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个鸭子",
+"reply": "",
+"acc": false,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要香蕉吗",
+"reply": "要香蕉",
+"acc": true,
+"acceptable": [
+"要香蕉",
+"我要香蕉",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "晚安",
+"reply": "晚安",
+"acc": true,
+"acceptable": [
+"晚安"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要葡萄吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要葡萄",
+"我要葡萄",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要苹果吗",
+"reply": "要苹果",
+"acc": true,
+"acceptable": [
+"要苹果",
+"我要苹果",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "蓝色",
+"acc": true,
+"acceptable": [
+"蓝色",
+"是蓝色",
+"蓝的"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要牛奶吗",
+"reply": "要牛奶",
+"acc": true,
+"acceptable": [
+"要牛奶",
+"我要牛奶",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "再见",
+"reply": "再见",
+"acc": true,
+"acceptable": [
+"再见",
+"拜拜"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个汽车",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "你好",
+"reply": "你好",
+"acc": true,
+"acceptable": [
+"你好",
+"你好呀"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要小鸟吗",
+"reply": "要小鸟",
+"acc": true,
+"acceptable": [
+"要小鸟",
+"我要小鸟",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要牛奶吗",
+"reply": "要牛奶",
+"acc": true,
+"acceptable": [
+"要牛奶",
+"我要牛奶",
+"要"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "苹果好不好吃",
+"reply": "",
+"acc": false,
+"acceptable": [
+"好吃",
+"苹果好吃",
+"很好吃"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "小猫是什么颜色",
+"reply": "白色",
+"acc": true,
+"acceptable": [
+"白色",
+"是白色",
+"白的"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "西瓜好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"西瓜好吃",
+"很好吃"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "苹果好不好吃",
+"reply": "我叫什么",
+"acc": false,
+"acceptable": [
+"好吃",
+"苹果好吃",
+"很好吃"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "葡萄好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"葡萄好吃",
+"很好吃"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "三个",
+"acc": true,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个葡萄",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "你好",
+"reply": "你好",
+"acc": true,
+"acceptable": [
+"你好",
+"你好呀"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "taste",
+"held": true,
+"prompt": "饼干好不好吃",
+"reply": "",
+"acc": false,
+"acceptable": [
+"好吃",
+"饼干好吃",
+"很好吃"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "西瓜好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"西瓜好吃",
+"很好吃"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "葡萄好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"葡萄好吃",
+"很好吃"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "晚安",
+"reply": "",
+"acc": false,
+"acceptable": [
+"晚安"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要饼干吗",
+"reply": "我要饼干",
+"acc": true,
+"acceptable": [
+"要饼干",
+"我要饼干",
+"要"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "你好",
+"reply": "你好",
+"acc": true,
+"acceptable": [
+"你好",
+"你好呀"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要香蕉吗",
+"reply": "要香蕉",
+"acc": true,
+"acceptable": [
+"要香蕉",
+"我要香蕉",
+"要"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "红色",
+"acc": true,
+"acceptable": [
+"红色",
+"是红色",
+"红的"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个小鸟",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个苹果",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "白色",
+"acc": true,
+"acceptable": [
+"白色",
+"是白色",
+"白的"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个牛奶",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要小狗吗",
+"reply": "要小狗",
+"acc": true,
+"acceptable": [
+"要小狗",
+"我要小狗",
+"要"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要皮球吗",
+"reply": "要皮球",
+"acc": true,
+"acceptable": [
+"要皮球",
+"我要皮球",
+"要"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "葡萄好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"葡萄好吃",
+"很好吃"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要香蕉吗",
+"reply": "要香蕉",
+"acc": true,
+"acceptable": [
+"要香蕉",
+"我要香蕉",
+"要"
+]
+}
+],
+"B": [
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是小猫吗",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "苹果在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "西瓜在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "鸭子在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "鸭子在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "小鸟",
+"acc": true,
+"acceptable": [
+"小鸟",
+"是小鸟"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "汽车在哪里",
+"reply": "小猫在哪里",
+"acc": false,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "刚才",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "西瓜在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "牛奶在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "鸭子在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "皮球",
+"acc": true,
+"acceptable": [
+"皮球",
+"是皮球"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "香蕉",
+"acc": true,
+"acceptable": [
+"香蕉",
+"是香蕉"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "鸭子在哪里",
+"reply": "中间是什么",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "苹果在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小鸟",
+"acc": true,
+"acceptable": [
+"小鸟",
+"是小鸟",
+"这是小鸟"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "饼干在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"香蕉",
+"是香蕉",
+"这是香蕉"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "中间是什么",
+"reply": "右边是什么",
+"acc": false,
+"acceptable": [
+"苹果",
+"是苹果"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "葡萄在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "鸭子",
+"acc": true,
+"acceptable": [
+"鸭子",
+"是鸭子"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "葡萄",
+"acc": true,
+"acceptable": [
+"葡萄",
+"是葡萄",
+"这是葡萄"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"皮球",
+"是皮球",
+"这是皮球"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "皮球",
+"acc": true,
+"acceptable": [
+"皮球",
+"是皮球"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是鸭子",
+"acc": true,
+"acceptable": [
+"鸭子",
+"是鸭子",
+"这是鸭子"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "刚才",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"皮球",
+"是皮球",
+"这是皮球"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "牛奶在哪里",
+"acc": false,
+"acceptable": [
+"苹果",
+"是苹果"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "牛奶在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"香蕉",
+"是香蕉",
+"这是香蕉"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "香蕉在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是鸭子",
+"acc": true,
+"acceptable": [
+"鸭子",
+"是鸭子",
+"这是鸭子"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "小狗在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "我叫什么",
+"acc": false,
+"acceptable": [
+"苹果",
+"是苹果"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是鸭子",
+"acc": true,
+"acceptable": [
+"鸭子",
+"是鸭子",
+"这是鸭子"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "中间是什么",
+"reply": "葡萄在哪里",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"小鸟",
+"是小鸟"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "鸭子在哪里",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"皮球",
+"是皮球",
+"这是皮球"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "汽车在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "饼干在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "皮球在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "小狗在哪里",
+"reply": "左边是什么",
+"acc": false,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "鸭子在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "香蕉",
+"acc": true,
+"acceptable": [
+"香蕉",
+"是香蕉"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "中间是什么",
+"reply": "右边是什么",
+"acc": false,
+"acceptable": [
+"苹果",
+"是苹果"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "饼干在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"香蕉",
+"是香蕉",
+"这是香蕉"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "苹果在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"皮球",
+"是皮球",
+"这是皮球"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "饼干在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小鸟",
+"acc": true,
+"acceptable": [
+"小鸟",
+"是小鸟",
+"这是小鸟"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "汽车在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "鸭子",
+"acc": true,
+"acceptable": [
+"鸭子",
+"是鸭子"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "饼干在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "西瓜在哪里",
+"reply": "中间是什么",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"香蕉",
+"是香蕉",
+"这是香蕉"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是苹果",
+"acc": true,
+"acceptable": [
+"苹果",
+"是苹果",
+"这是苹果"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "汽车在哪里",
+"reply": "",
+"acc": false,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"香蕉",
+"是香蕉",
+"这是香蕉"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "饼干在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "苹果在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"苹果",
+"是苹果"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是饼干",
+"acc": true,
+"acceptable": [
+"饼干",
+"是饼干",
+"这是饼干"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小鸟",
+"acc": true,
+"acceptable": [
+"小鸟",
+"是小鸟",
+"这是小鸟"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小鸟",
+"acc": true,
+"acceptable": [
+"小鸟",
+"是小鸟",
+"这是小鸟"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "牛奶",
+"acc": true,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "香蕉在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "西瓜在哪里",
+"reply": "在中间",
+"acc": true,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜",
+"这是西瓜"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小鸟",
+"acc": true,
+"acceptable": [
+"小鸟",
+"是小鸟",
+"这是小鸟"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "葡萄在哪里",
+"reply": "在右边",
+"acc": true,
+"acceptable": [
+"在右边",
+"右边"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "苹果在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"小鸟",
+"是小鸟"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "汽车在哪里",
+"reply": "饼干在哪里",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"皮球",
+"是皮球",
+"这是皮球"
+]
+}
+],
+"D": [
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "小狗在哪里",
+"reply": "左边是什么",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"蝴蝶",
+"是蝴蝶",
+"这是蝴蝶"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是汽车吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "我叫小狗",
+"acc": false,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "葡萄",
+"acc": true,
+"acceptable": [
+"葡萄",
+"是葡萄",
+"这是葡萄"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小军",
+"acc": false,
+"acceptable": [
+"小强",
+"你叫小强"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是饼干吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是汽车吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "苹果在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"土豆",
+"是土豆",
+"这是土豆"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个小猫",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "香蕉",
+"acc": true,
+"acceptable": [
+"香蕉",
+"是香蕉"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才右边是什么",
+"reply": "小猫",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小狗是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要西瓜吗",
+"reply": "要西瓜",
+"acc": true,
+"acceptable": [
+"要西瓜",
+"我要西瓜",
+"要"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才中间是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才左边是什么",
+"reply": "小猫",
+"acc": false,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "中间是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"小鸟",
+"是小鸟"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车",
+"这是汽车"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小军",
+"acc": false,
+"acceptable": [
+"小红",
+"你叫小红"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是鸭子吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是皮球吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是牛奶吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "葡萄",
+"acc": true,
+"acceptable": [
+"葡萄",
+"是葡萄",
+"这是葡萄"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "皮球是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小刚",
+"acc": true,
+"acceptable": [
+"小刚",
+"你叫小刚"
+]
+},
+{
+"task": "what",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是小狗",
+"acc": true,
+"acceptable": [
+"小狗",
+"是小狗",
+"这是小狗"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小军",
+"acc": false,
+"acceptable": [
+"小明",
+"你叫小明"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个小狗",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "count",
+"held": true,
+"prompt": "有几个皮球",
+"reply": "",
+"acc": false,
+"acceptable": [
+"三个",
+"有三个"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小军",
+"acc": false,
+"acceptable": [
+"小丽",
+"你叫小丽"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"土豆",
+"是土豆",
+"这是土豆"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "汽车在哪里",
+"reply": "我叫什么",
+"acc": false,
+"acceptable": [
+"在中间",
+"中间"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是小猫吗",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫",
+"这是小猫"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小丽",
+"acc": true,
+"acceptable": [
+"小丽",
+"你叫小丽"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要苹果吗",
+"reply": "我叫什么",
+"acc": false,
+"acceptable": [
+"要苹果",
+"我要苹果",
+"要"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "中间是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"小鸟",
+"是小鸟"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "西瓜",
+"acc": true,
+"acceptable": [
+"西瓜",
+"是西瓜"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才右边是什么",
+"reply": "我叫小狗",
+"acc": false,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "皮球",
+"acc": true,
+"acceptable": [
+"皮球",
+"是皮球"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才左边是什么",
+"reply": "苹果",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"土豆",
+"是土豆",
+"这是土豆"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是小鸟吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"土豆",
+"是土豆",
+"这是土豆"
+]
+},
+{
+"task": "where",
+"held": true,
+"prompt": "小狗在哪里",
+"reply": "左边是什么",
+"acc": false,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才中间是什么",
+"reply": "小狗",
+"acc": false,
+"acceptable": [
+"鸭子",
+"是鸭子"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是小狗吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是皮球吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "苹果在哪里",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "中间是什么",
+"reply": "鸭子",
+"acc": true,
+"acceptable": [
+"鸭子",
+"是鸭子"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"蝴蝶",
+"是蝴蝶",
+"这是蝴蝶"
+]
+},
+{
+"task": "what",
+"held": true,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶",
+"这是牛奶"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"蛋糕",
+"是蛋糕",
+"这是蛋糕"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"桌子",
+"是桌子",
+"这是桌子"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是汽车吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是苹果吗",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是牛奶吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"老虎",
+"是老虎",
+"这是老虎"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小猫在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "右边是什么",
+"reply": "小鸟在哪里",
+"acc": false,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是鸭子吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是小狗吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是西瓜吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是西瓜吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是小猫吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是皮球吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是饼干吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是鸭子吗",
+"reply": "不是西瓜吗",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "中间是什么",
+"reply": "",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"火车",
+"是火车",
+"这是火车"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是小狗吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是皮球吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是西瓜吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "汽车",
+"acc": true,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "where",
+"held": false,
+"prompt": "小鸟在哪里",
+"reply": "在左边",
+"acc": true,
+"acceptable": [
+"在左边",
+"左边"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小军",
+"acc": false,
+"acceptable": [
+"小刚",
+"你叫小刚"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "葡萄",
+"acc": true,
+"acceptable": [
+"葡萄",
+"是葡萄"
+]
+},
+{
+"task": "slot",
+"held": true,
+"prompt": "左边是什么",
+"reply": "刚才左边是什么",
+"acc": false,
+"acceptable": [
+"饼干",
+"是饼干"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"椅子",
+"是椅子",
+"这是椅子"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是小鸟吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是饼干吗",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是皮球吗",
+"reply": "这是西瓜吗",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是小狗吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"蛋糕",
+"是蛋糕",
+"这是蛋糕"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是汽车吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "这是鸭子吗",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "皮球",
+"acc": true,
+"acceptable": [
+"皮球",
+"是皮球"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "小猫",
+"acc": true,
+"acceptable": [
+"小猫",
+"是小猫"
+]
+},
+{
+"task": "before",
+"held": false,
+"prompt": "刚才右边是什么",
+"reply": "小猫",
+"acc": false,
+"acceptable": [
+"汽车",
+"是汽车"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是小狗吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是鸭子吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是苹果吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是饼干吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是西瓜吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"土豆",
+"是土豆",
+"这是土豆"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是葡萄吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是小狗吗",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "offer",
+"held": true,
+"prompt": "你要汽车吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"要汽车",
+"我要汽车",
+"要"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "左边是什么",
+"reply": "我叫什么",
+"acc": false,
+"acceptable": [
+"牛奶",
+"是牛奶"
+]
+},
+{
+"task": "slot",
+"held": false,
+"prompt": "右边是什么",
+"reply": "香蕉",
+"acc": true,
+"acceptable": [
+"香蕉",
+"是香蕉"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是什么",
+"acc": false,
+"acceptable": [
+"土豆",
+"是土豆",
+"这是土豆"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"钥匙",
+"是钥匙",
+"这是钥匙"
+]
+},
+{
+"task": "colour",
+"held": true,
+"prompt": "小狗是什么颜色",
+"reply": "左边是什么",
+"acc": false,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "colour",
+"held": false,
+"prompt": "汽车是什么颜色",
+"reply": "绿色",
+"acc": true,
+"acceptable": [
+"绿色",
+"是绿色",
+"绿的"
+]
+},
+{
+"task": "oneshot",
+"held": false,
+"prompt": "这是什么",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"帽子",
+"是帽子",
+"这是帽子"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是鸭子吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "早上好",
+"acc": true,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "ritual",
+"held": false,
+"prompt": "早上好",
+"reply": "",
+"acc": false,
+"acceptable": [
+"早上好",
+"早"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是香蕉吗",
+"reply": "这是西瓜吗",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是饼干吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "taste",
+"held": false,
+"prompt": "葡萄好不好吃",
+"reply": "好吃",
+"acc": true,
+"acceptable": [
+"好吃",
+"葡萄好吃",
+"很好吃"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "两个",
+"acc": true,
+"acceptable": [
+"两个",
+"有两个"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是牛奶吗",
+"reply": "这是",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是葡萄吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是饼干吗",
+"reply": "不是",
+"acc": true,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "check",
+"held": false,
+"prompt": "这是鸭子吗",
+"reply": "是",
+"acc": true,
+"acceptable": [
+"是",
+"是的",
+"对"
+]
+},
+{
+"task": "check",
+"held": true,
+"prompt": "这是苹果吗",
+"reply": "",
+"acc": false,
+"acceptable": [
+"不是",
+"不对"
+]
+},
+{
+"task": "count",
+"held": false,
+"prompt": "有几个西瓜",
+"reply": "一个",
+"acc": true,
+"acceptable": [
+"一个",
+"有一个"
+]
+},
+{
+"task": "offer",
+"held": false,
+"prompt": "你要小狗吗",
+"reply": "要小狗",
+"acc": true,
+"acceptable": [
+"要小狗",
+"我要小狗",
+"要"
+]
+},
+{
+"task": "name",
+"held": false,
+"prompt": "我叫什么",
+"reply": "小狗",
+"acc": false,
+"acceptable": [
+"小强",
+"你叫小强"
+]
+}
+]
+}

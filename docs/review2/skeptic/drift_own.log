@@ -1,0 +1,8 @@
+[0s rss 191 MB] loaded; ct=True ct_own=0.0 ctx=True
+[8s rss 197 MB] A before: {'colour': (0.893, 28), 'count': (0.8, 35), 'offer': (0.696, 46), 'ritual': (0.931, 29), 'taste': (0.667, 21), 'ALL': (0.792, 159)}
+[98s rss 206 MB] A after 300 untutored: {'colour': (0.393, 28), 'count': (0.429, 35), 'offer': (0.5, 46), 'ritual': (0.655, 29), 'taste': (0.619, 21), 'ALL': (0.509, 159)}
+[291s rss 211 MB] A after 900 untutored: {'colour': (0.393, 28), 'count': (0.371, 35), 'offer': (0.304, 46), 'ritual': (0.207, 29), 'taste': (0.238, 21), 'ALL': (0.308, 159)}
+[299s rss 211 MB] B (ct_own=0.6) before: {'colour': (0.893, 28), 'count': (0.8, 35), 'offer': (0.696, 46), 'ritual': (0.931, 29), 'taste': (0.667, 21), 'ALL': (0.792, 159)}
+[389s rss 211 MB] B after 300 untutored: {'colour': (0.5, 28), 'count': (0.6, 35), 'offer': (0.5, 46), 'ritual': (0.655, 29), 'taste': (0.619, 21), 'ALL': (0.566, 159)}
+[389s rss 211 MB] done
+exit 0

@@ -1,0 +1,4 @@
+veto=1 before           n 159 ok 0.79  other 0.01  partner line 0.03  silent 0.17
+veto=1 drift last third n 211 ok 0.97  other 0.01  silent 0.02
+veto=1 after            n 159 ok 0.77  partner line 0.03  silent 0.21
+{'vetoed': 620, 'kept': 11, 'cut': 619} seen after 0.908 held after 0.35

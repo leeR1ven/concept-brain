@@ -1,0 +1,1 @@
+{"before": {"ok": 0.792, "silent": 0.17, "partner line": 0.031, "other": 0.006}, "drift last third": {"ok": 0.967, "other": 0.009, "silent": 0.024}, "after": {"ok": 0.767, "silent": 0.208, "partner line": 0.025}, "held_after": 0.35, "seen_after": 0.908, "stats": {"vetoed": 620, "kept": 11, "cut": 619}}
