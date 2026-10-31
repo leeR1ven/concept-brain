@@ -1,0 +1,1 @@
+M1 [hippo, no sleep ] one-shot fact recall (exact answer) by delay in exchanges: {0: (0.92, 60), 100: (0.65, 60), 400: (0.17, 60), 1500: (0.13, 60)}

@@ -110,11 +110,12 @@ class Cfg:
         self.sleep_k = 60
         self.hip_theta = 0.2
         self.hip_bigram = False      # order-sensitive episodic key (hashed ordered pairs of the line)
-        self.own_rotate = True
-        self.role_units = True
-        self.gate_noid = True
-        self.gate_freq = True        # ...but the gates see the candidate's familiarity class (function vs content words)        # BG gates see the context, not which item the candidate is (generalises to new words)
-        self.hip_novelty = 0.85      # a line matching a stored episode this well refreshes it instead of a new cell       # context units carry the turn role (previous line mine / the partner's)       # the own reply is a line of the dialogue (the next heard line follows it)...
+        self.own_rotate = False
+        self.dialogue_reset = False  # a new dialogue (scene appears after a gap) clears the previous-line context
+        self.role_units = False
+        self.gate_noid = False
+        self.gate_freq = False        # ...but the gates see the candidate's familiarity class (function vs content words)        # BG gates see the context, not which item the candidate is (generalises to new words)
+        self.hip_novelty = 1.0      # a line matching a stored episode this well refreshes it instead of a new cell       # context units carry the turn role (previous line mine / the partner's)       # the own reply is a line of the dialogue (the next heard line follows it)...
         self.contingency = 10        # ...unless that line starts within this many ticks: a contingent reaction (recast)
         self.w_scene = 1.0
         self.w_ctx = 1.0

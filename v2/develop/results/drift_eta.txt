@@ -1,0 +1,3 @@
+learning rates x1.0: C probes 0.384 -> 0.019 after 300 untutored dialogues
+learning rates x0.3: C probes 0.384 -> 0.031 after 300 untutored dialogues
+learning rates x0.1: C probes 0.384 -> 0.157 after 300 untutored dialogues

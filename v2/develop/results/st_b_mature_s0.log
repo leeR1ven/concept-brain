@@ -1,0 +1,7 @@
+variant b_mature seed 0 curriculum seq nS 1000 cfg {'mature': 50.0, 'gen_mmin': 0.05, 'floor': 0.3}
+[b_mature] after stage 1 (B): frozen probes B 0.418  C 0.019  D 0.0  | B.slot=0.431 B.what=0.371 B.where=0.469 C.colour=0.0 C.count=0.0 C.offer=0.0 C.ritual=0.103 C.taste=0.0 D.before=0.0 D.check=0.0 D.name=0.0 D.oneshot=0.0  mix=69447 hip=3000 (96s)
+[b_mature] after stage 2 (C): frozen probes B 0.529  C 0.642  D 0.0  | B.slot=0.51 B.what=0.5 B.where=0.592 C.colour=0.143 C.count=0.314 C.offer=0.913 C.ritual=0.966 C.taste=0.81 D.before=0.0 D.check=0.0 D.name=0.0 D.oneshot=0.0  mix=90474 hip=3000 (186s)
+[b_mature] after stage 3 (D): frozen probes B 0.241  C 0.472  D 0.295  | B.slot=0.373 B.what=0.057 B.where=0.367 C.colour=0.0 C.count=0.114 C.offer=0.783 C.ritual=0.759 C.taste=0.619 D.before=0.0 D.check=0.5 D.name=0.353 D.oneshot=0.0  mix=101973 hip=3000 (275s)
+[b_mature] drift: C probes 0.472 -> 0.082 after 300 untutored dialogues with learning on
+[b_mature] one-shot (D oneshot probes after the last stage): (0.0, 16, 0)
+[b_mature] done 302s

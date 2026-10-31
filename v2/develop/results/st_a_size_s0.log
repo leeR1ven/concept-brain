@@ -1,0 +1,7 @@
+variant a_size seed 0 curriculum seq nS 1000 cfg {'hip_cap': 30000, 'hip_ndg': 6000, 'hip_kdg': 120, 'mix_cap': 2000000, 'ctx_n': 4000, 'ctx_k': 120, 'floor': 0.3}
+[a_size] after stage 1 (B): frozen probes B 0.488  C 0.013  D 0.0  | B.slot=0.392 B.what=0.529 B.where=0.531 C.colour=0.0 C.count=0.0 C.offer=0.0 C.ritual=0.069 C.taste=0.0 D.before=0.0 D.check=0.0 D.name=0.0 D.oneshot=0.0  mix=69175 hip=4003 (113s)
+[a_size] after stage 2 (C): frozen probes B 0.235  C 0.579  D 0.0  | B.slot=0.392 B.what=0.057 B.where=0.327 C.colour=0.071 C.count=0.314 C.offer=0.783 C.ritual=1.0 C.taste=0.667 D.before=0.0 D.check=0.0 D.name=0.0 D.oneshot=0.0  mix=89444 hip=7653 (229s)
+[a_size] after stage 3 (D): frozen probes B 0.3  C 0.365  D 0.438  | B.slot=0.392 B.what=0.114 B.where=0.469 C.colour=0.036 C.count=0.0 C.offer=0.609 C.ritual=0.552 C.taste=0.619 D.before=0.0 D.check=0.82 D.name=0.294 D.oneshot=0.0  mix=100385 hip=10922 (352s)
+[a_size] drift: C probes 0.365 -> 0.013 after 300 untutored dialogues with learning on
+[a_size] one-shot (D oneshot probes after the last stage): (0.0, 16, 0)
+[a_size] done 390s

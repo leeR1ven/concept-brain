@@ -1,0 +1,2 @@
+as learned                  : oneshot 0.00 (n=35)  name 0.31  check 0.82  before 0.00
+completion gate forced open : oneshot 0.60 (n=35)  name 0.38  check 0.55  before 0.00

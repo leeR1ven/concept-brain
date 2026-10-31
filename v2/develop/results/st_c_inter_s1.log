@@ -1,0 +1,7 @@
+variant c_inter seed 1 curriculum inter nS 1000 cfg {'floor': 0.3}
+[c_inter] after stage 1 (B): frozen probes B 0.57  C 0.013  D 0.0  | B.slot=0.432 B.what=0.738 B.where=0.469 C.colour=0.0 C.count=0.0 C.offer=0.0 C.ritual=0.069 C.taste=0.0 D.before=0.0 D.check=0.0 D.name=0.0 D.oneshot=0.0  mix=63915 hip=3000 (101s)
+[c_inter] after stage 2 (BC): frozen probes B 0.709  C 0.596  D 0.0  | B.slot=0.659 B.what=0.738 B.where=0.714 C.colour=0.034 C.count=0.333 C.offer=0.925 C.ritual=1.0 C.taste=0.565 D.before=0.0 D.check=0.0 D.name=0.0 D.oneshot=0.0  mix=82907 hip=3000 (191s)
+[c_inter] after stage 3 (BCD): frozen probes B 0.703  C 0.669  D 0.516  | B.slot=0.636 B.what=0.831 B.where=0.592 C.colour=0.138 C.count=0.6 C.offer=0.875 C.ritual=0.897 C.taste=0.783 D.before=0.0 D.check=0.691 D.name=0.471 D.oneshot=0.0  mix=93027 hip=3000 (284s)
+[c_inter] drift: C probes 0.669 -> 0.007 after 300 untutored dialogues with learning on
+[c_inter] one-shot (D oneshot probes after the last stage): (0.0, 10, 0)
+[c_inter] done 311s
