@@ -136,8 +136,9 @@ class MotorCfg:
     dis_thr: float = 1.2              # 去抑制神经元的门槛：零散的推力撤不掉抑制，要几路一起（和练熟后学得到的推力相当）
     beat: int = 3                     # 节拍：一个音节几拍（= 世界里一个字的长度）
     slots: int = 4                    # 每个节拍边界最多放开几块肌肉（一个字用几块）
-    go_w: float = 1.2                 # 起动 → 所有去抑制神经元（只在边界那一拍）
+    d_floor: float = 0.2              # 边界上推力至少这么多的 D 才算候选（没有候选 = 说完）
     go_thr: float = 1.0
+    go_reset: float = 6.0             # 起动收到的推力 ≥ 它（只有外力 / 教的人推得到）：正说着也重新对齐节拍
     internal: PathCfg = field(default_factory=lambda: PathCfg(k=64, w_init=0.02, eta=0.05, gamma=0.99))
 
 
@@ -147,9 +148,10 @@ class MotorArea:
       抑制神经元 I：基础电流 tonic + 收到的 − dis_w·（这一拍它的 D 亮没亮）≥ 1 就亮（平时一直亮）；
       肌肉神经元 M：收到的 − inh_w·（这一拍它的 I 亮没亮）≥ 1 + 档·level_step 就亮；亮几档 = 多大力。
     "什么时候动"和"动哪些"分开（真实大脑：基底节 / 丘脑的起动信号与内容无关；鸣禽每个音节开头丘脑给一下）：
-      起动神经元 go：与内容无关，亮了给所有 D 加 go_w——只有被内容支持的那几块肌肉越过门槛（谁先过由内容定）；
-      节拍：go 一亮就开始数拍，每 beat 拍一个边界。D 只在边界上换：边界那一拍放开旧的、按内容选新的
-            （最多 slots 块，挑推力最大的），其余拍子 D 自己撑着（出生就有的保持）；边界上没有任何 D 过门槛 = 说完。
+      起动神经元 go：与内容无关，亮了开始数拍；
+      节拍：每 beat 拍一个边界。D 只在边界上换：边界那一拍放开旧的、按内容选新的——推力最大的 slots 块
+            （"放几块"是结构定的，"放哪几块"由学来的推力定；推力不到 d_floor 的不算），其余拍子 D 自己撑着；
+            边界上没有候选 = 说完。
       说话时力度按拍子加上去（第 1 拍 1 档、第 2 拍 2 档……），也是出生就有的结构，不用学。"""
 
     def __init__(self, name: str = "motor", cfg: MotorCfg | None = None, seed: int = 0):
@@ -177,12 +179,13 @@ class MotorArea:
         self.go.fire(cur[self.go.name])
         x = cur[self.name]
         dx = x[self._D]
-        if (bool(self.go.s.any()) and not self.speaking) or (self.speaking and self.phase == c.beat - 1):   # 节拍边界（正说着时起动不打断）
-            d_on = dx + c.go_w >= c.dis_thr
-            if int(d_on.sum()) > c.slots:                                             # 竞争：只放开推力最大的几块
-                keep = torch.zeros_like(d_on)
-                keep[torch.topk(torch.where(d_on, dx, torch.full_like(dx, -torch.inf)), c.slots).indices] = True
-                d_on = keep
+        go_on = bool(self.go.s.any())
+        reset = go_on and float(cur[self.go.name][0]) >= c.go_reset
+        if (go_on and (not self.speaking or reset)) or (self.speaking and self.phase == c.beat - 1):   # 节拍边界
+            cand = dx >= c.d_floor                                                     # 竞争：放开推力最大的几块
+            d_on = torch.zeros_like(cand)
+            if bool(cand.any()):
+                d_on[torch.topk(torch.where(cand, dx, torch.full_like(dx, -torch.inf)), min(c.slots, int(cand.sum()))).indices] = True
             self.speaking, self.phase = bool(d_on.any()), 0
         elif self.speaking:                                                            # 字的中间：撑着
             d_on = R.s[self._D].clone()

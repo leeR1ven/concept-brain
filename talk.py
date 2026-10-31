@@ -125,16 +125,16 @@ def check(t: Talker, convs, tag: str) -> None:
     t.said = []
     own = []
     ne = b.ear.region.n
+    moved = 0
     for conv in convs[:3]:
         for ch in conv[0]:
             for k in range(SOUND):
-                t.tick(other=ch, new_other=(k == 0))
+                moved += t.tick(other=ch, new_other=(k == 0)) is not None      # 只数别人正在出声的拍子
                 on = np.nonzero(N(b.pfc.region.s[:ne]))[0]
                 if len(on):
                     own.append(1.0 - N(b.ear.region.s)[on].mean())   # 前额叶亮着的里，不是当前输入对应的比例
         for _ in range(PAUSE):
             t.tick()
-    moved = sum(s is not None for s in t.said)
     # 2. 想法：听完一句、停顿之后，思考层 / 海马体的状态还认不认得出是哪句（同一句在两种不同前文之后各听一次）
     jac = lambda x, y: (x & y).sum() / max(1, (x | y).sum())    # noqa: E731
     n = len(convs)

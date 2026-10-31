@@ -66,10 +66,15 @@ class BrainCfg:
     mctx_ear: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.005, eta=0.01, gamma=0.999, budget=0.5))
     fresh_w: float = 0.001        # "新鲜输入"小群：听觉皮层每个神经元（乘余量）给它的电流
     fresh_thr: float = 0.4        #   亮的门槛（≈ 有多少新鲜的听觉特征算"有人在说话"）
-    ret_motor: float = 0.3        # 前额叶 / 海马体里肌肉区的对应者 → 回到肌肉区（两路加起来也不够自己把刚说的字再放一遍）
+    ret_motor: float = 0.3        # 前额叶 / 海马体里肌肉神经元的对应者 → 回到肌肉神经元（不回到去抑制神经元）
     fresh_go: float = 5.0         #   它压住起动（别人在说时不开口）
-    to_go: PathCfg = field(default_factory=lambda: PathCfg(k=1, w_init=0.0, eta=0.005, gamma=0.999, budget=2.0, back=False))
+    to_go: PathCfg = field(default_factory=lambda: PathCfg(k=1, w_init=0.0, eta=0.0001, gamma=0.999, budget=2.0, back=False))
     # ↑ 思考层 / 听觉 → 起动（学）：托住的想法也能学会"该我说了"；两路上限加起来 4 < 起动门槛 + 刹车，别人在说时永远压得住
+    think_mot: PathCfg = field(default_factory=lambda: PathCfg(k=32, w_init=0.0, eta=0.00001, gamma=0.999, budget=1.0, back=False))
+    # ↑ 思考层 → 去抑制神经元（学）：想法决定先放开哪几块肌肉（第一个字）。学得慢 = 记的是很多段对话的平均
+    ear_mot: PathCfg = field(default_factory=lambda: PathCfg(k=8, w_init=0.0, eta=0.0001, gamma=0.999, budget=1.0))
+    # ↑ 听觉区 → 去抑制神经元（学）：听到自己刚说的音节 → 下一个放开哪几块肌肉（听觉区的码是一个音节一个样；
+    #   运动皮层看的是每块肌肉松 / 紧，各音节几乎一样，学不出"这个音节后面是那个"）
     std_U: float = 0.5            # 输出余量（听觉区、运动皮层、肌肉区）：每亮一拍掉一半，
     std_tau: float = 6.0          #   约 6 拍恢复——一直不变的输入推力很快变小
     decay_T: int = 100
@@ -169,8 +174,8 @@ class Brain:
                   Path("thal⇒thal", self.thal.region, self.thal.region, PathCfg(w_init=c.thal_need), rng,   # 亮了就自己撑着
                        pairs=[(j, [j]) for j in range(n_th)])]
         om = self.off["motor"]                                     # 前额叶 / 海马体里肌肉区神经元的对应者 → 回去（一对一）
-        paths += [Path(f"{X.name}⇒motor", X.region, mot.region, PathCfg(w_init=c.ret_motor), rng,
-                       pairs=[(om + i, [i]) for i in range(nm)]) for X in (self.hip, self.pfc)]
+        paths += [Path(f"{X.name}⇒motor", X.region, mot.region, PathCfg(w_init=c.ret_motor), rng,     # 只回到肌肉神经元：
+                       pairs=[(om + int(i), [int(i)]) for i in mot.M.reshape(-1)]) for X in (self.hip, self.pfc)]   # 回到 D 会一直重复刚说的字
         self.fresh = Unit("fresh", 1, c.fresh_thr)                 # 新鲜输入小群：有人在说话时亮 → 压住起动和丘脑
         go = mot.go
         paths += [Path("ear⇒fresh", ear.region, self.fresh.region, PathCfg(w_init=c.fresh_w), rng,
@@ -179,7 +184,10 @@ class Brain:
                   Path("fresh⇒thal", self.fresh.region, self.thal.region, PathCfg(w_init=c.fresh_thal, sign=-1.0), rng,
                        pairs=[(0, np.arange(n_th))]),
                   Path("think→go", self.think.region, go, c.to_go, rng, src_ids=np.arange(c.pfc_own), dst_ids=[0]),
-                  Path("ear→go", ear.region, go, c.to_go, rng, src_ids=cand_e, dst_ids=[0])]
+                  Path("ear→go", ear.region, go, c.to_go, rng, src_ids=cand_e, dst_ids=[0]),
+                  Path("think→motor", self.think.region, mot.region, c.think_mot, rng, src_ids=np.arange(c.pfc_own),
+                       dst_ids=mot.D),
+                  Path("ear→motor", ear.region, mot.region, c.ear_mot, rng, src_ids=cand_e, dst_ids=mot.D)]
         paths += [Path("mctx→motor", mctx.region, mot.region, c.mctx_mot, rng, src_ids=cand_c, dst_ids=np.arange(nm)),
                   Path("ear→mctx", ear.region, mctx.region, c.ear_mctx, rng, src_ids=cand_e, dst_ids=cand_c),
                   Path("mctx→ear", mctx.region, ear.region, c.mctx_ear, rng, src_ids=cand_c, dst_ids=cand_e)]
