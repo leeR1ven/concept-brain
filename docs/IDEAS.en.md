@@ -110,15 +110,20 @@ not start from an empty model and add connections one at a time.
 - **Today:**
   - ARCH_v2's conjunction layer (MIX) does exactly the latter: it recruits one new unit for every new exact
     combination.
-  - The reviewers found that this is why it behaves like a lookup table:
+  - The reviewers found that:
     - one misheard syllable changes every key it appears in;
-    - no unit stands for "this sentence frame, whatever the filler";
-    - the unit count keeps growing, so a bigger model only memorises more combinations.
+    - the unit count keeps growing, so a bigger model only memorises more combinations;
+    - it combines item identities only, so words that mean similar things get no similar codes.
 - **Why random connections from birth help:**
   - The size is fixed from birth: a bigger model just means generating more units, and it suits the GPU.
   - Codes are distributed and overlapping, so a misheard syllable changes only a few inputs (fault tolerance, #14).
-  - Random wiring naturally produces mixed units: some see only the frame, some only the filler, some both. The
-    frame-only units are what carries a frame over to a word never heard in it.
+  - Random wiring naturally produces mixed units: some see only the frame, some only the filler, some both.
+- **Correction (learning-theory review, 2026-10-31).** We first thought ARCH_v2 lacked units for "this frame, whatever
+  the filler". That was wrong: such units exist and generalise. Never-taught pairs that are only tested score 1.00 on
+  3 of 3 seeds. The low scores come from the learning target. When those pairs are asked during life without feedback,
+  the model learns "the line I hear after my answer" as the answer, and they fall to 0. So "who answers whom"
+  (turn-aware learning) must come first. Random connections bring fixed size, fault tolerance and a good fit for the
+  GPU. Words that mean similar things will only help each other once learned meaning codes are added on top.
 - **It matches the brain:**
   - Synapses in the infant cortex are overproduced and peak in early childhood, at about 50 % above the adult level.
     They are then pruned by use: connections that are used stay and strengthen, unused ones are removed (Huttenlocher
