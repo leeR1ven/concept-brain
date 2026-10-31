@@ -366,3 +366,27 @@ back-propagation be converted into an equivalent Hebbian-style model? It would t
    facts in real time during dialogue. Compare it with continued back-propagation fine-tuning on:
    - how fast the new facts are learned;
    - how much old knowledge is lost.
+
+**Designer's addendum: a language model cannot simply be mixed into our model.** A language model takes and gives
+vectors; our model works with neurons driven by the sensory areas.
+
+**Analysis.**
+- Dense vectors versus sparse neurons is not the obstacle. A random projection plus top-k turns one into the other and
+  keeps similarity, as the fly's olfactory system does.
+- The obstacle is that the language model's units are **text**, while our neurons come from **sounds and sights**.
+  - Linking the agent's "sound pattern #37" to the token 苹 needs a label the agent cannot perceive: a hidden teacher.
+  - The language model's knowledge is also not grounded; it has never seen an apple.
+- So nothing is spliced in inside the brain.
+
+**Two principled forms remain.**
+1. **Inherit our own model.** Train our neuron model for a long time on the GPU, then use its learned connections as
+   the next model's birth state and keep learning in real time on top.
+2. **A language model as a person in the world.** Caregivers in the simulated world speak through a language model,
+   and their lines become sound in the world. Our agents hear it only through their ears, as a child learns from
+   adults. This also lets caregivers respond to what the child says and looks at.
+
+**Experiments adjusted.**
+- E2 tests only the principle: do inherited connections + local plasticity + a fast memory learn without forgetting?
+  It is not a component of our model.
+- E1 is only a labelled upper-bound reference.
+- New E3: can a small language model keep up with the world as a caregiver?
