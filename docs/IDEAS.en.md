@@ -363,3 +363,24 @@ is tested on its own.
   from back-propagation, so the conversion is exact only for some parts and approximate elsewhere.
 - The main enemy of continual learning is new knowledge overwriting old. After conversion, capacity, interference and
   forgetting must be measured.
+
+**Result (2026-10-31, standalone experiment, see [side/llm2hebb/](../side/llm2hebb/README.md)).**
+- **The forward computation converts exactly:** keep the weights. **The learning converts exactly only where it already
+  is back-propagation:** the output layer's delta rule, and predictive coding with the fixed-prediction assumption
+  (cosine with the true gradient 1.000 in every layer). Cheaper, truly local rules are far from the gradient:
+  layer-local delta about 0.20, random feedback about 0. Standard predictive coding diverged.
+- **Being local does not remove forgetting.** The gradient-exact local rule forgets exactly like back-propagation. The
+  truly local rules learn almost nothing, yet still damage old knowledge. Only back-propagation (Adam) learned new facts
+  online (47 % after three presentations), and it kept only 13 % after 60 chat lines.
+- **RWKV-7's state already is a Hebbian (delta-rule) memory.** It learns a fact in one shot but keeps it only for about
+  10²–10³ tokens. Never reset, the state drifts after about 16–32k tokens: cross-entropy rises from 3.9 to 9.9 at
+  1 M tokens.
+- **One-shot rank-one Hebbian writes into an MLP layer** hold only a few facts. After about 30 they overwrite each
+  other, because the keys of similar sentences are nearly parallel. Fine-tuning by back-propagation one fact at a time
+  breaks the model within 30–100 facts.
+- **What worked was a separate episodic key → value store beside a frozen network.** It learned 10,000 facts in one
+  shot with no forgetting and no damage to old knowledge. It failed on paraphrases, though, because its keys were not
+  specific to the subject.
+- **Conclusion.** Do not make the slow weights learn locally in order to get continual learning. Inherit the
+  pretrained network, and add fast-weight working memory, a pattern-separated, hippocampus-like episodic store and slow
+  consolidation by interleaved replay. Next tests: an entity-keyed sparse store, then replay consolidation.

@@ -1,0 +1,80 @@
+{"info": "start", "mode": "dev", "args": {"mode": "dev", "out": "out/r3_dev.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.2}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.916, "neigh_bleed": 0.0, "t": 13.0}
+{"info": "cov", "layer": 3, "n": 13916, "t": 15.8}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.937, "neigh_bleed": 0.0, "t": 21.4}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.799, "neigh_bleed": 0.002, "t": 27.2}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.839, "neigh_bleed": 0.0, "t": 33.0}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.851, "neigh_bleed": 0.0, "t": 38.8}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.897, "neigh_bleed": 0.0, "t": 44.5}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.075, "para": 0.0, "qa": 0.0, "neigh_same": 0.189, "neigh_bleed": 0.046, "t": 49.9}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.427, "neigh_bleed": 0.018, "t": 55.3}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.957, "neigh_bleed": 0.0, "t": 61.2}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.978, "neigh_bleed": 0.0, "t": 67.0}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.885, "neigh_bleed": 0.0, "t": 72.9}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.944, "neigh_bleed": 0.0, "t": 78.8}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.891, "neigh_bleed": 0.0, "t": 84.8}
+{"info": "cov", "layer": 6, "n": 13916, "t": 86.8}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.938, "neigh_bleed": 0.0, "t": 92.5}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.591, "neigh_bleed": 0.002, "t": 98.4}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.765, "neigh_bleed": 0.0, "t": 104.1}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.863, "neigh_bleed": 0.0, "t": 110.0}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.916, "neigh_bleed": 0.0, "t": 115.6}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.225, "para": 0.1, "qa": 0.0, "neigh_same": 0.214, "neigh_bleed": 0.069, "t": 121.3}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.225, "para": 0.05, "qa": 0.0, "neigh_same": 0.503, "neigh_bleed": 0.03, "t": 127.1}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.976, "neigh_bleed": 0.0, "t": 132.9}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.984, "neigh_bleed": 0.0, "t": 138.6}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.928, "neigh_bleed": 0.0, "t": 144.5}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.96, "neigh_bleed": 0.0, "t": 150.2}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.865, "neigh_bleed": 0.0, "t": 154.6}
+{"info": "cov", "layer": 9, "n": 13916, "t": 156.2}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.884, "neigh_bleed": 0.0, "t": 160.0}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.543, "neigh_bleed": 0.001, "t": 164.3}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.592, "neigh_bleed": 0.001, "t": 169.0}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.851, "neigh_bleed": 0.0, "t": 173.9}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.889, "neigh_bleed": 0.0, "t": 178.7}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.45, "para": 0.15, "qa": 0.0, "neigh_same": 0.265, "neigh_bleed": 0.135, "t": 183.6}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.5, "para": 0.225, "qa": 0.0, "neigh_same": 0.348, "neigh_bleed": 0.116, "t": 188.4}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.933, "neigh_bleed": 0.0, "t": 193.4}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.961, "neigh_bleed": 0.0, "t": 198.5}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.85, "neigh_bleed": 0.0, "t": 203.5}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.898, "neigh_bleed": 0.0, "t": 208.2}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.663, "neigh_bleed": 0.0, "t": 213.2}
+{"info": "cov", "layer": 12, "n": 13916, "t": 214.9}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.737, "neigh_bleed": 0.0, "t": 219.8}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.202, "neigh_bleed": 0.001, "t": 224.8}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.351, "neigh_bleed": 0.0, "t": 229.7}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.857, "neigh_bleed": 0.0, "t": 234.6}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.894, "neigh_bleed": 0.0, "t": 239.5}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.85, "para": 0.6, "qa": 0.0, "neigh_same": 0.332, "neigh_bleed": 0.284, "t": 244.4}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.95, "para": 0.65, "qa": 0.0, "neigh_same": 0.48, "neigh_bleed": 0.231, "t": 249.2}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.891, "neigh_bleed": 0.0, "t": 254.2}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.937, "neigh_bleed": 0.0, "t": 259.1}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.783, "neigh_bleed": 0.0, "t": 264.0}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.86, "neigh_bleed": 0.0, "t": 268.9}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.554, "neigh_bleed": 0.001, "t": 274.0}
+{"info": "cov", "layer": 15, "n": 13916, "t": 275.7}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.616, "neigh_bleed": 0.002, "t": 280.6}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.181, "neigh_bleed": 0.006, "t": 285.6}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.3, "neigh_bleed": 0.012, "t": 290.6}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.933, "neigh_bleed": 0.0, "t": 295.7}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.941, "neigh_bleed": 0.001, "t": 300.5}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 1.0, "para": 0.9, "qa": 0.575, "neigh_same": 0.027, "neigh_bleed": 0.952, "t": 306.1}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 1.0, "para": 1.0, "qa": 0.825, "neigh_same": 0.299, "neigh_bleed": 0.632, "t": 311.2}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.884, "neigh_bleed": 0.0, "t": 316.3}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.92, "neigh_bleed": 0.0, "t": 322.0}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.807, "neigh_bleed": 0.0, "t": 327.6}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.829, "neigh_bleed": 0.0, "t": 332.4}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.459, "neigh_bleed": 0.003, "t": 337.5}
+{"info": "cov", "layer": 18, "n": 13916, "t": 339.2}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.644, "neigh_bleed": 0.002, "t": 344.0}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.4, "para": 0.05, "qa": 0.05, "neigh_same": 0.152, "neigh_bleed": 0.124, "t": 349.0}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.4, "para": 0.0, "qa": 0.025, "neigh_same": 0.33, "neigh_bleed": 0.082, "t": 353.8}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.675, "para": 0.3, "qa": 0.05, "neigh_same": 0.771, "neigh_bleed": 0.143, "t": 358.6}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.75, "para": 0.275, "qa": 0.05, "neigh_same": 0.848, "neigh_bleed": 0.103, "t": 363.3}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 1.0, "para": 1.0, "qa": 0.975, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 368.2}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 1.0, "para": 1.0, "qa": 1.0, "neigh_same": 0.261, "neigh_bleed": 0.716, "t": 373.0}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.939, "neigh_bleed": 0.0, "t": 378.0}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.976, "neigh_bleed": 0.0, "t": 382.8}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.853, "neigh_bleed": 0.0, "t": 387.8}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.933, "neigh_bleed": 0.0, "t": 392.6}
+{"info": "end", "gpu_gb": 3.23, "t": 392.6}

@@ -1,0 +1,151 @@
+name, memory.used [MiB], memory.total [MiB]
+NVIDIA A800 80GB PCIe, 3923 MiB, 81920 MiB
+{"info": "start", "mode": "dev", "args": {"mode": "dev", "out": "out/r3_dev.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.2}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.916, "neigh_bleed": 0.0, "t": 13.0}
+{"info": "cov", "layer": 3, "n": 13916, "t": 15.8}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.937, "neigh_bleed": 0.0, "t": 21.4}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.799, "neigh_bleed": 0.002, "t": 27.2}
+{"mode": "dev", "layer": 3, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.839, "neigh_bleed": 0.0, "t": 33.0}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.851, "neigh_bleed": 0.0, "t": 38.8}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.897, "neigh_bleed": 0.0, "t": 44.5}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.075, "para": 0.0, "qa": 0.0, "neigh_same": 0.189, "neigh_bleed": 0.046, "t": 49.9}
+{"mode": "dev", "layer": 3, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.427, "neigh_bleed": 0.018, "t": 55.3}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.957, "neigh_bleed": 0.0, "t": 61.2}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.978, "neigh_bleed": 0.0, "t": 67.0}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.885, "neigh_bleed": 0.0, "t": 72.9}
+{"mode": "dev", "layer": 3, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.944, "neigh_bleed": 0.0, "t": 78.8}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.891, "neigh_bleed": 0.0, "t": 84.8}
+{"info": "cov", "layer": 6, "n": 13916, "t": 86.8}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.938, "neigh_bleed": 0.0, "t": 92.5}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.591, "neigh_bleed": 0.002, "t": 98.4}
+{"mode": "dev", "layer": 6, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.765, "neigh_bleed": 0.0, "t": 104.1}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.863, "neigh_bleed": 0.0, "t": 110.0}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.916, "neigh_bleed": 0.0, "t": 115.6}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.225, "para": 0.1, "qa": 0.0, "neigh_same": 0.214, "neigh_bleed": 0.069, "t": 121.3}
+{"mode": "dev", "layer": 6, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.225, "para": 0.05, "qa": 0.0, "neigh_same": 0.503, "neigh_bleed": 0.03, "t": 127.1}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.976, "neigh_bleed": 0.0, "t": 132.9}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.984, "neigh_bleed": 0.0, "t": 138.6}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.928, "neigh_bleed": 0.0, "t": 144.5}
+{"mode": "dev", "layer": 6, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.96, "neigh_bleed": 0.0, "t": 150.2}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.865, "neigh_bleed": 0.0, "t": 154.6}
+{"info": "cov", "layer": 9, "n": 13916, "t": 156.2}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.884, "neigh_bleed": 0.0, "t": 160.0}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.543, "neigh_bleed": 0.001, "t": 164.3}
+{"mode": "dev", "layer": 9, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.592, "neigh_bleed": 0.001, "t": 169.0}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.851, "neigh_bleed": 0.0, "t": 173.9}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.889, "neigh_bleed": 0.0, "t": 178.7}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.45, "para": 0.15, "qa": 0.0, "neigh_same": 0.265, "neigh_bleed": 0.135, "t": 183.6}
+{"mode": "dev", "layer": 9, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.5, "para": 0.225, "qa": 0.0, "neigh_same": 0.348, "neigh_bleed": 0.116, "t": 188.4}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.933, "neigh_bleed": 0.0, "t": 193.4}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.961, "neigh_bleed": 0.0, "t": 198.5}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.85, "neigh_bleed": 0.0, "t": 203.5}
+{"mode": "dev", "layer": 9, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.898, "neigh_bleed": 0.0, "t": 208.2}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.663, "neigh_bleed": 0.0, "t": 213.2}
+{"info": "cov", "layer": 12, "n": 13916, "t": 214.9}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.737, "neigh_bleed": 0.0, "t": 219.8}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.202, "neigh_bleed": 0.001, "t": 224.8}
+{"mode": "dev", "layer": 12, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.351, "neigh_bleed": 0.0, "t": 229.7}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.857, "neigh_bleed": 0.0, "t": 234.6}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.894, "neigh_bleed": 0.0, "t": 239.5}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 0.85, "para": 0.6, "qa": 0.0, "neigh_same": 0.332, "neigh_bleed": 0.284, "t": 244.4}
+{"mode": "dev", "layer": 12, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 0.95, "para": 0.65, "qa": 0.0, "neigh_same": 0.48, "neigh_bleed": 0.231, "t": 249.2}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.891, "neigh_bleed": 0.0, "t": 254.2}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.937, "neigh_bleed": 0.0, "t": 259.1}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.783, "neigh_bleed": 0.0, "t": 264.0}
+{"mode": "dev", "layer": 12, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.86, "neigh_bleed": 0.0, "t": 268.9}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.554, "neigh_bleed": 0.001, "t": 274.0}
+{"info": "cov", "layer": 15, "n": 13916, "t": 275.7}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.616, "neigh_bleed": 0.002, "t": 280.6}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.181, "neigh_bleed": 0.006, "t": 285.6}
+{"mode": "dev", "layer": 15, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.3, "neigh_bleed": 0.012, "t": 290.6}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.933, "neigh_bleed": 0.0, "t": 295.7}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.941, "neigh_bleed": 0.001, "t": 300.5}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 1.0, "para": 0.9, "qa": 0.575, "neigh_same": 0.027, "neigh_bleed": 0.952, "t": 306.1}
+{"mode": "dev", "layer": 15, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 1.0, "para": 1.0, "qa": 0.825, "neigh_same": 0.299, "neigh_bleed": 0.632, "t": 311.2}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.884, "neigh_bleed": 0.0, "t": 316.3}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.92, "neigh_bleed": 0.0, "t": 322.0}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.807, "neigh_bleed": 0.0, "t": 327.6}
+{"mode": "dev", "layer": 15, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.829, "neigh_bleed": 0.0, "t": 332.4}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.459, "neigh_bleed": 0.003, "t": 337.5}
+{"info": "cov", "layer": 18, "n": 13916, "t": 339.2}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.644, "neigh_bleed": 0.002, "t": 344.0}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "I", "rewrite": 0.4, "para": 0.05, "qa": 0.05, "neigh_same": 0.152, "neigh_bleed": 0.124, "t": 349.0}
+{"mode": "dev", "layer": 18, "site": "last", "value": "icl", "g": 2.0, "s": 0, "cov": "C", "rewrite": 0.4, "para": 0.0, "qa": 0.025, "neigh_same": 0.33, "neigh_bleed": 0.082, "t": 353.8}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "I", "rewrite": 0.675, "para": 0.3, "qa": 0.05, "neigh_same": 0.771, "neigh_bleed": 0.143, "t": 358.6}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 0.5, "cov": "C", "rewrite": 0.75, "para": 0.275, "qa": 0.05, "neigh_same": 0.848, "neigh_bleed": 0.103, "t": 363.3}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "I", "rewrite": 1.0, "para": 1.0, "qa": 0.975, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 368.2}
+{"mode": "dev", "layer": 18, "site": "last", "value": "unemb", "g": 0, "s": 2.0, "cov": "C", "rewrite": 1.0, "para": 1.0, "qa": 1.0, "neigh_same": 0.261, "neigh_bleed": 0.716, "t": 373.0}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.939, "neigh_bleed": 0.0, "t": 378.0}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 1.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.976, "neigh_bleed": 0.0, "t": 382.8}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "I", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.853, "neigh_bleed": 0.0, "t": 387.8}
+{"mode": "dev", "layer": 18, "site": "subj", "value": "icl", "g": 3.0, "s": 0, "cov": "C", "rewrite": 0.0, "para": 0.0, "qa": 0.0, "neigh_same": 0.933, "neigh_bleed": 0.0, "t": 392.6}
+{"info": "end", "gpu_gb": 3.23, "t": 392.6}
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/pick.py", line 12, in <module>
+    cand = [r for r in rows if (r['cov'] == which if which in 'IC' else (r['site'] == 'subj' and r['cov'] == 'C'))]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/v2lab/jobs/llm2hebb_g1/pick.py", line 12, in <listcomp>
+    cand = [r for r in rows if (r['cov'] == which if which in 'IC' else (r['site'] == 'subj' and r['cov'] == 'C'))]
+                                ~^^^^^^^
+KeyError: 'cov'
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/pick.py", line 12, in <module>
+    cand = [r for r in rows if (r['cov'] == which if which in 'IC' else (r['site'] == 'subj' and r['cov'] == 'C'))]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/v2lab/jobs/llm2hebb_g1/pick.py", line 12, in <listcomp>
+    cand = [r for r in rows if (r['cov'] == which if which in 'IC' else (r['site'] == 'subj' and r['cov'] == 'C'))]
+                                ~^^^^^^^
+KeyError: 'cov'
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/pick.py", line 12, in <module>
+    cand = [r for r in rows if (r['cov'] == which if which in 'IC' else (r['site'] == 'subj' and r['cov'] == 'C'))]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/v2lab/jobs/llm2hebb_g1/pick.py", line 12, in <listcomp>
+    cand = [r for r in rows if (r['cov'] == which if which in 'IC' else (r['site'] == 'subj' and r['cov'] == 'C'))]
+                                                                         ~^^^^^^^^
+KeyError: 'site'
+picked: I:  | C:  | subj: 
+{"info": "start", "mode": "seq", "args": {"mode": "seq", "n": "10000", "tag": "bestC", "out": "out/r3_seq.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.3}
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 284, in <module>
+    {'dev': dev, 'seq': seq, 'ft': ft}[MODE]()
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 221, in seq
+    layer, site, value = int(A['layer']), A.get('site', 'last'), A.get('value', 'icl')
+                             ~^^^^^^^^^
+KeyError: 'layer'
+{"info": "start", "mode": "seq", "args": {"mode": "seq", "n": "10000", "tag": "bestI", "out": "out/r3_seq.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.6}
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 284, in <module>
+    {'dev': dev, 'seq': seq, 'ft': ft}[MODE]()
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 221, in seq
+    layer, site, value = int(A['layer']), A.get('site', 'last'), A.get('value', 'icl')
+                             ~^^^^^^^^^
+KeyError: 'layer'
+{"info": "start", "mode": "cos", "args": {"mode": "cos", "out": "out/r2_cos.jsonl"}, "t": 3.9}
+{"mode": "cos", "method": "pc_T6_g0.5_b0.1", "n": 16, "secs_per_line": 0.648, "cos_block": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, -0.503, 0.134, -0.06, 0.065, -0.016], "norm_ratio": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.016, 0.341, 10.374, 1076.277, 47858.348, 432346.043], "cos_down": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, -0.363, 0.178, -0.08, 0.077, -0.003], "cos_down_mean": 0.034, "cos_block_mean": 0.026, "t": 494.1}
+{"mode": "cos", "method": "pc_T24_g0.5_b0.1", "n": 16, "secs_per_line": 1.99, "cos_block": [0.032, 0.012, -0.001, -0.038, 0.123, -0.024, 0.061, -0.047, 0.007, -0.051, 0.007, 0.013, 0.023, -0.032, 0.0, -0.015, -0.014, -0.01, 0.002, 0.004, -0.023, -0.012, 0.001, 0.001], "norm_ratio": [0.0, 0.102, 874.716, 0.018, 0.986, 1043.199, 452.664, 4360.447, 10945.9, 22841.601, 31162.426, 95312.654, 153555.458, 463834.758, 651777.91, 1590823.555, 1725674.832, 3395728.113, 6263878.32, 14043071.578, 11716434.875, 3034451.826, 9494492.188, 3629430.994], "cos_down": [0.032, -0.008, 0.0, -0.068, 0.109, -0.029, 0.05, -0.0, 0.003, -0.006, 0.002, -0.005, 0.001, -0.004, 0.0, -0.001, 0.0, -0.001, -0.001, 0.0, 0.008, -0.005, 0.002, -0.002], "cos_down_mean": 0.003, "cos_block_mean": 0.001, "t": 494.1}
+{"mode": "cos", "method": "pc_T48_g0.5_b0.1", "n": 16, "secs_per_line": 3.627, "cos_block": [0.021, 0.004, -0.02, 0.024, 0.005, -0.003, -0.008, -0.005, 0.003, -0.022, -0.002, 0.01, 0.016, -0.012, -0.001, -0.006, -0.014, -0.007, 0.002, 0.0, -0.024, -0.012, 0.001, 0.001], "norm_ratio": [141324.288, 2886780.273, 2154095.48, 3524213.068, 897313.451, 1035922.318, 541432.773, 470356.578, 377816.434, 496820.765, 590082.173, 813818.999, 843667.52, 1343692.619, 1371235.799, 1992311.379, 1585082.906, 2505071.16, 2791159.848, 6623089.574, 3690623.727, 874498.549, 2514815.113, 1007693.508], "cos_down": [0.0, -0.0, -0.027, -0.026, -0.001, -0.02, -0.002, 0.0, -0.001, -0.001, 0.0, -0.0, 0.001, -0.0, 0.0, 0.0, -0.0, -0.001, 0.001, 0.001, 0.007, -0.002, 0.001, -0.003], "cos_down_mean": -0.003, "cos_block_mean": -0.002, "t": 494.1}
+{"mode": "cos", "method": "pc_T96_g0.5_b0.1", "n": 16, "secs_per_line": 7.213, "cos_block": [0.014, 0.005, -0.017, 0.02, 0.0, -0.008, -0.012, -0.002, 0.008, -0.009, 0.008, 0.002, 0.019, -0.009, -0.001, -0.006, -0.012, -0.006, 0.001, 0.001, -0.025, -0.012, 0.0, 0.0], "norm_ratio": [137899.21, 3065129.875, 2419658.074, 4432702.508, 1279130.5, 1621091.018, 1101750.494, 1338263.098, 894471.744, 1125051.328, 1011167.898, 1137296.283, 894849.721, 1125596.609, 907519.75, 1155351.396, 763035.292, 1140496.301, 1066845.658, 2722085.721, 1234188.349, 307473.504, 734968.221, 279689.318], "cos_down": [-0.001, 0.0, -0.026, -0.027, -0.0, -0.02, -0.002, 0.0, -0.001, -0.0, -0.0, -0.0, 0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.005, -0.002, 0.001, -0.002], "cos_down_mean": -0.003, "cos_block_mean": -0.002, "t": 494.1}
+{"mode": "cos", "method": "pc_T96_g0.2_b0.1", "n": 16, "secs_per_line": 7.147, "cos_block": [-0.04, -0.0, 0.001, -0.025, 0.006, -0.016, -0.06, -0.025, 0.005, -0.027, 0.0, 0.009, -0.017, -0.017, -0.005, -0.013, -0.007, -0.013, -0.002, -0.007, 0.004, -0.012, -0.003, 0.002], "norm_ratio": [4238.116, 14311.436, 3368.471, 48183.969, 2957.731, 11840.533, 6322.716, 8396.117, 8837.282, 11848.031, 15237.455, 15315.035, 15524.137, 21820.524, 22723.285, 31490.314, 23505.214, 33946.598, 37601.439, 221251.014, 41378.025, 11648.132, 23607.033, 8249.002], "cos_down": [-0.0, -0.002, 0.003, -0.004, -0.003, -0.029, -0.002, -0.001, -0.002, -0.002, -0.002, -0.002, -0.002, -0.002, -0.001, -0.001, -0.001, -0.001, -0.002, 0.003, -0.011, -0.005, -0.003, 0.0], "cos_down_mean": -0.003, "cos_block_mean": -0.011, "t": 494.1}
+{"mode": "cos", "method": "pc_T48_g0.5_b1.0", "n": 16, "secs_per_line": 3.672, "cos_block": [-0.033, 0.006, -0.019, 0.028, -0.001, 0.003, 0.004, -0.003, 0.003, -0.012, -0.002, 0.005, 0.005, -0.004, 0.0, -0.003, 0.001, -0.003, 0.001, 0.003, -0.003, -0.004, 0.002, 0.005], "norm_ratio": [10426.494, 262940.607, 199472.722, 415727.215, 93771.586, 122002.108, 55328.734, 63805.024, 51012.684, 89155.514, 108317.897, 159998.954, 154750.832, 256001.436, 253566.25, 431155.548, 254433.551, 533161.339, 520775.45, 672309.586, 534868.606, 83725.666, 459070.316, 231816.455], "cos_down": [-0.004, 0.001, -0.029, -0.029, -0.0, -0.022, -0.001, 0.0, -0.0, -0.0, 0.0, -0.0, 0.0, -0.0, 0.0, -0.0, 0.0, 0.0, -0.0, -0.0, 0.002, -0.001, 0.002, -0.001], "cos_down_mean": -0.003, "cos_block_mean": -0.001, "t": 494.1}
+{"mode": "cos", "method": "pc_T48_g0.5_b0.01", "n": 16, "secs_per_line": 3.64, "cos_block": [0.039, 0.007, -0.012, 0.025, 0.008, -0.003, 0.011, -0.008, 0.001, -0.011, 0.004, 0.008, -0.001, -0.004, -0.0, -0.002, -0.001, -0.0, -0.001, -0.001, -0.001, -0.002, 0.001, 0.002], "norm_ratio": [1337079.994, 31711591.688, 22996084.438, 49962945.5, 10922881.281, 11572530.609, 5757695.766, 5519457.742, 4086601.641, 5546647.523, 7680816.719, 10230256.648, 11461119.414, 17145732.859, 19910240.156, 27156341.688, 19881436.516, 35098335.781, 41178217.469, 39942364.906, 38827598.438, 4231284.189, 36340359.141, 13286121.652], "cos_down": [0.003, 0.0, -0.016, -0.035, 0.0, -0.025, -0.001, -0.0, -0.0, -0.001, 0.0, -0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.001, -0.002, 0.001, -0.0, -0.001, -0.0, 0.0], "cos_down_mean": -0.003, "cos_block_mean": 0.002, "t": 494.1}
+{"mode": "cos", "method": "pcfpa_T24_g1.0_b1.0", "n": 16, "secs_per_line": 1.899, "cos_block": [0.998, 0.998, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], "norm_ratio": [1.008, 1.003, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], "cos_down": [0.999, 0.999, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], "cos_down_mean": 1.0, "cos_block_mean": 1.0, "t": 494.1}
+{"mode": "cos", "method": "ll", "n": 16, "secs_per_line": 0.101, "cos_down": [0.03, 0.052, 0.238, 0.117, 0.017, 0.017, 0.035, 0.042, 0.037, 0.045, 0.055, 0.064, 0.081, 0.093, 0.133, 0.183, 0.237, 0.276, 0.318, 0.369, 0.399, 0.339, 0.566, 1.0], "cos_down_mean": 0.198, "t": 494.1}
+{"mode": "cos", "method": "dfa", "n": 16, "secs_per_line": 0.069, "cos_down": [0.003, -0.002, -0.044, 0.006, -0.002, -0.001, 0.002, -0.005, -0.009, -0.004, -0.008, -0.005, -0.004, 0.009, -0.004, -0.007, -0.002, -0.012, -0.004, -0.004, -0.015, 0.019, -0.018, -0.019], "cos_down_mean": -0.005, "t": 494.1}
+{"info": "end", "gpu_gb": 6.72, "t": 494.1}
+{"info": "start", "mode": "ft", "args": {"mode": "ft", "params": "L", "layer": "", "lr": "5e-4", "n": "3000", "tag": "ftL", "out": "out/r3_ft.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 8.1}
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 284, in <module>
+    {'dev': dev, 'seq': seq, 'ft': ft}[MODE]()
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 247, in ft
+    layer, which, lr, N = int(A.get('layer', 6)), A.get('params', 'L'), float(A['lr']), int(A.get('n', 1000))
+                          ^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: ''
+{"info": "start", "mode": "ft", "args": {"mode": "ft", "params": "all", "layer": "", "lr": "1e-5", "n": "1000", "tag": "ftall", "out": "out/r3_ft.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.8}
+Traceback (most recent call last):
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 284, in <module>
+    {'dev': dev, 'seq': seq, 'ft': ft}[MODE]()
+  File "/root/v2lab/jobs/llm2hebb_g1/r3.py", line 247, in ft
+    layer, which, lr, N = int(A.get('layer', 6)), A.get('params', 'L'), float(A['lr']), int(A.get('n', 1000))
+                          ^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: ''

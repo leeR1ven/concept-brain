@@ -1,0 +1,62 @@
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+transformers 4.46.3 torch 2.4.0+cu121 numpy 2.1.2
+/root/v2lab/venv_llm/site/rwkv/model.py:245: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  temp_z = torch.load(args.MODEL_NAME + '.pth', map_location='cpu', mmap=True)
+/root/v2lab/jobs/llm2hebb_env4/rwkv7.py:16: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  sd = torch.load(path, map_location='cpu')
+/root/v2lab/venv_llm/site/rwkv/model.py:245: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  temp_z = torch.load(args.MODEL_NAME + '.pth', map_location='cpu', mmap=True)
+/root/v2lab/jobs/llm2hebb_env4/rwkv7.py:16: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  sd = torch.load(path, map_location='cpu')
+triton True 
+== /root/v2lab/models/rwkv7/RWKV-x070-World-0.1B-v2.8-20241210-ctx4096.pth
+
+### RWKV-7 "Goose" enabled ###
+
+Loading /root/v2lab/models/rwkv7/RWKV-x070-World-0.1B-v2.8-20241210-ctx4096 (cuda fp32)
+
+tokens ['我', '的', '小', '狗', '叫', '豆', '米', '。', '今', '天', '天', '气', '很', '好', '，', '我', '们', '去', '公', '园', '玩', '了', '。\n', '我', '的', '小', '狗', '叫']
+L C H N 12 768 12 64
+loop max|diff| vs official 2.574920654296875e-05 argmax 豆 豆
+  chunked vs whole 1.33514404296875e-05
+triton max|diff| vs official 2.86102294921875e-05 argmax 豆 豆
+  chunked vs whole 1.1444091796875e-05
+  recall '么名字？\n答：你的小狗叫' -> '豆米。\n问'
+  recall '天天气很好。\n我的小狗叫' -> '豆米。\n今'
+  recall 'stant: 你的小狗叫' -> '豆米。\n\n'
+  name tokens 豆米 [16793, 15260]
+  name tokens 琥茉 [14498, 15977]
+  name tokens 洛琪 [13799, 14501]
+  name tokens 栗蔻 [13318, 16179]
+  speed B=1: 2155 tokens/s
+  speed B=8: 26587 tokens/s
+== /root/v2lab/models/rwkv7/RWKV-x070-World-0.4B-v2.9-20250107-ctx4096.pth
+Loading /root/v2lab/models/rwkv7/RWKV-x070-World-0.4B-v2.9-20250107-ctx4096 (cuda fp32)
+
+tokens ['我', '的', '小', '狗', '叫', '豆', '米', '。', '今', '天', '天', '气', '很', '好', '，', '我', '们', '去', '公', '园', '玩', '了', '。\n', '我', '的', '小', '狗', '叫']
+L C H N 24 1024 16 64
+loop max|diff| vs official 3.4332275390625e-05 argmax 豆 豆
+  chunked vs whole 1.71661376953125e-05
+triton max|diff| vs official 4.1961669921875e-05 argmax 豆 豆
+  chunked vs whole 2.288818359375e-05
+  recall '么名字？\n答：你的小狗叫' -> '豆米。\n问'
+  recall '天天气很好。\n我的小狗叫' -> '豆米，我'
+  recall 'stant: 你的小狗叫' -> '豆米。\n\n'
+  name tokens 豆米 [16793, 15260]
+  name tokens 琥茉 [14498, 15977]
+  name tokens 洛琪 [13799, 14501]
+  name tokens 栗蔻 [13318, 16179]
+  speed B=1: 1654 tokens/s
+  speed B=8: 9481 tokens/s
+mem GB 7.432640075683594
+/root/v2lab/venv_llm/site/transformers/generation/configuration_utils.py:590: UserWarning: `do_sample` is set to `False`. However, `temperature` is set to `0.7` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `temperature`.
+  warnings.warn(
+/root/v2lab/venv_llm/site/transformers/generation/configuration_utils.py:595: UserWarning: `do_sample` is set to `False`. However, `top_p` is set to `0.8` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_p`.
+  warnings.warn(
+/root/v2lab/venv_llm/site/transformers/generation/configuration_utils.py:612: UserWarning: `do_sample` is set to `False`. However, `top_k` is set to `20` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_k`.
+  warnings.warn(
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+qwen gen '\n答：你的小狗叫' -> '豆米。<|endoftext|>'
+qwen gen '\n王子涵的小狗叫' -> '栗蔻，是《'
+decoder layer forward args ['hidden_states', 'attention_mask', 'position_ids', 'past_key_value', 'output_attentions', 'use_cache', 'cache_position', 'position_embeddings', 'kwargs']
+['çİĭåŃĲ', 'æ¶µ', 'çļĦå°ı', 'çĭĹ', 'åı«', 'æłĹ', 'èĶ»', 'ãĢĤ']

@@ -1,0 +1,31 @@
+{"info": "start", "mode": "knn", "args": {"mode": "knn", "n": "10000", "layer": "18", "thetas": "0.8,0.9,0.95,0.98", "out": "out/r3_knn.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 6.5}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.6, "new_qa": 0.1, "first100": 1.0, "neigh_same": 0.0867, "neigh_bleed": 0.9133, "t": 27.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.5, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.2733, "neigh_bleed": 0.7267, "t": 27.1}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.1, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.6133, "neigh_bleed": 0.3867, "t": 27.2}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.9267, "neigh_bleed": 0.0733, "t": 27.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.3667, "new_qa": 0.0667, "first100": 1.0, "neigh_same": 0.0067, "neigh_bleed": 0.9933, "t": 27.7}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.2333, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0833, "neigh_bleed": 0.9167, "t": 28.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.0333, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.3, "neigh_bleed": 0.7, "t": 28.3}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.7667, "neigh_bleed": 0.2333, "t": 28.6}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.3, "new_qa": 0.04, "first100": 1.0, "neigh_same": 0.0033, "neigh_bleed": 0.9967, "t": 29.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.18, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0167, "neigh_bleed": 0.9833, "t": 30.3}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.02, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.11, "neigh_bleed": 0.89, "t": 31.1}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.5267, "neigh_bleed": 0.4733, "t": 32.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.18, "new_qa": 0.05, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 32.9}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.12, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.01, "neigh_bleed": 0.99, "t": 33.7}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.01, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0667, "neigh_bleed": 0.9333, "t": 34.6}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.2833, "neigh_bleed": 0.7167, "t": 35.5}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.15, "new_qa": 0.02, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 36.3}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.1, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0067, "neigh_bleed": 0.9933, "t": 37.2}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0367, "neigh_bleed": 0.9633, "t": 38.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.1833, "neigh_bleed": 0.8167, "t": 38.9}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.06, "new_qa": 0.01, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 39.8}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.06, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0067, "neigh_bleed": 0.9933, "t": 40.6}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.01, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.02, "neigh_bleed": 0.98, "t": 41.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.1267, "neigh_bleed": 0.8733, "t": 42.1}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.06, "new_qa": 0.01, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 42.9}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.04, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 43.7}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.01, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0133, "neigh_bleed": 0.9867, "t": 44.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.08, "neigh_bleed": 0.92, "t": 45.2}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "corpus_false_fire": {"0.8": 0.0005, "0.9": 0.0005, "0.95": 0.0, "0.98": 0.0}, "corpus_positions": 2003, "t": 45.8}
+{"info": "end", "gpu_gb": 3.03, "t": 45.8}

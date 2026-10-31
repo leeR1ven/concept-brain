@@ -1,0 +1,101 @@
+{"info": "start", "mode": "knn", "args": {"mode": "knn", "n": "10000", "layer": "18", "thetas": "0.8,0.9,0.95,0.98", "out": "out/r3_knn.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 6.5}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.6, "new_qa": 0.1, "first100": 1.0, "neigh_same": 0.0867, "neigh_bleed": 0.9133, "t": 27.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.5, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.2733, "neigh_bleed": 0.7267, "t": 27.1}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.1, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.6133, "neigh_bleed": 0.3867, "t": 27.2}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.9267, "neigh_bleed": 0.0733, "t": 27.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.3667, "new_qa": 0.0667, "first100": 1.0, "neigh_same": 0.0067, "neigh_bleed": 0.9933, "t": 27.7}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.2333, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0833, "neigh_bleed": 0.9167, "t": 28.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.0333, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.3, "neigh_bleed": 0.7, "t": 28.3}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 30, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.7667, "neigh_bleed": 0.2333, "t": 28.6}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.3, "new_qa": 0.04, "first100": 1.0, "neigh_same": 0.0033, "neigh_bleed": 0.9967, "t": 29.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.18, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0167, "neigh_bleed": 0.9833, "t": 30.3}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.02, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.11, "neigh_bleed": 0.89, "t": 31.1}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 100, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.5267, "neigh_bleed": 0.4733, "t": 32.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.18, "new_qa": 0.05, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 32.9}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.12, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.01, "neigh_bleed": 0.99, "t": 33.7}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.01, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0667, "neigh_bleed": 0.9333, "t": 34.6}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 300, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.2833, "neigh_bleed": 0.7167, "t": 35.5}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.15, "new_qa": 0.02, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 36.3}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.1, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0067, "neigh_bleed": 0.9933, "t": 37.2}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0367, "neigh_bleed": 0.9633, "t": 38.0}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 1000, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.1833, "neigh_bleed": 0.8167, "t": 38.9}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.06, "new_qa": 0.01, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 39.8}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.06, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0067, "neigh_bleed": 0.9933, "t": 40.6}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.01, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.02, "neigh_bleed": 0.98, "t": 41.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 3000, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.1267, "neigh_bleed": 0.8733, "t": 42.1}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.8, "new_rewrite": 1.0, "new_para": 0.06, "new_qa": 0.01, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 42.9}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.9, "new_rewrite": 1.0, "new_para": 0.04, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0, "neigh_bleed": 1.0, "t": 43.7}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.95, "new_rewrite": 1.0, "new_para": 0.01, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.0133, "neigh_bleed": 0.9867, "t": 44.4}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "theta": 0.98, "new_rewrite": 1.0, "new_para": 0.0, "new_qa": 0.0, "first100": 1.0, "neigh_same": 0.08, "neigh_bleed": 0.92, "t": 45.2}
+{"mode": "knn", "layer": 18, "ms_per_fact_items": 1.523, "n": 10000, "corpus_false_fire": {"0.8": 0.0005, "0.9": 0.0005, "0.95": 0.0, "0.98": 0.0}, "corpus_positions": 2003, "t": 45.8}
+{"info": "end", "gpu_gb": 3.03, "t": 45.8}
+{"info": "start", "mode": "seq", "args": {"mode": "seq", "n": "3000", "layer": "18", "site": "last", "value": "unemb", "s": "0.5", "cov": "C", "tag": "u05C", "out": "out/r3_seq.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.2}
+{"info": "cov", "layer": 18, "n": 13916, "t": 15.3}
+{"mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "n": 0, "neigh_same": 1.0, "neigh_bleed": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 16.2}
+{"n": 10, "new_rewrite": 0.2, "new_para": 0.1, "new_qa": 0.1, "first100": 0.2, "all": 0.2, "neigh_same": 0.6067, "neigh_bleed": 0.1667, "acc": 0.1053, "ppl": 839.13, "know": 0.8889, "mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "ms_per_fact_write": 0.983, "ms_per_fact_items": 1.291, "t": 17.4}
+{"n": 30, "new_rewrite": 0.0667, "new_para": 0.0333, "new_qa": 0.0, "first100": 0.0667, "all": 0.0667, "neigh_same": 0.5767, "neigh_bleed": 0.3133, "acc": 0.1063, "ppl": 839.452, "know": 0.7778, "mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "ms_per_fact_write": 0.622, "ms_per_fact_items": 1.291, "t": 18.5}
+{"n": 100, "new_rewrite": 0.04, "new_para": 0.03, "new_qa": 0.02, "first100": 0.04, "all": 0.04, "neigh_same": 0.4033, "neigh_bleed": 0.5667, "acc": 0.1068, "ppl": 837.547, "know": 0.7778, "mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "ms_per_fact_write": 0.501, "ms_per_fact_items": 1.291, "t": 20.0}
+{"n": 300, "new_rewrite": 0.03, "new_para": 0.02, "new_qa": 0.01, "first100": 0.0, "all": 0.01, "neigh_same": 0.3633, "neigh_bleed": 0.5167, "acc": 0.1023, "ppl": 845.783, "know": 0.6667, "mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "ms_per_fact_write": 0.464, "ms_per_fact_items": 1.291, "t": 21.7}
+{"n": 1000, "new_rewrite": 0.01, "new_para": 0.0, "new_qa": 0.02, "first100": 0.0, "all": 0.001, "neigh_same": 0.7067, "neigh_bleed": 0.12, "acc": 0.1028, "ppl": 858.526, "know": 0.5556, "mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "ms_per_fact_write": 0.454, "ms_per_fact_items": 1.291, "t": 24.0}
+{"n": 3000, "new_rewrite": 0.01, "new_para": 0.0, "new_qa": 0.01, "first100": 0.0, "all": 0.0003, "neigh_same": 0.7933, "neigh_bleed": 0.0367, "acc": 0.0989, "ppl": 879.872, "know": 0.7778, "mode": "seq", "tag": "u05C", "layer": 18, "site": "last", "value": "unemb", "g": 1.0, "s": 0.5, "cov": "C", "ms_per_fact_write": 0.45, "ms_per_fact_items": 1.291, "t": 28.1}
+{"info": "end", "gpu_gb": 2.9, "t": 28.1}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bp", "lr": "1e-4"}, "t": 3.8}
+{"mode": "online", "method": "bp", "lr": 0.0001, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 8.7}
+{"mode": "online", "method": "bp", "lr": 0.0001, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0959, "ppl": 659.216, "know": 0.5556, "ms_per_update": 82.0, "gpu_gb": 4.53, "t": 15.6}
+{"mode": "online", "method": "bp", "lr": 0.0001, "T": null, "beta": null, "tag": "p3", "cloze": 0.0333, "qa": 0.0, "acc": 0.0924, "ppl": 851.401, "know": 0.3333, "ms_per_update": 73.7, "gpu_gb": 4.53, "t": 25.7}
+{"mode": "online", "method": "bp", "lr": 0.0001, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0849, "ppl": 625.947, "know": 0.4444, "ms_per_update": 73.7, "t": 31.3}
+{"info": "end", "gpu_gb": 4.53, "t": 31.3}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bp", "lr": "3e-4"}, "t": 3.5}
+{"mode": "online", "method": "bp", "lr": 0.0003, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.3}
+{"mode": "online", "method": "bp", "lr": 0.0003, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0654, "ppl": 974.255, "know": 0.1111, "ms_per_update": 80.7, "gpu_gb": 4.53, "t": 13.8}
+{"mode": "online", "method": "bp", "lr": 0.0003, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0559, "ppl": 1230.523, "know": 0.0, "ms_per_update": 78.2, "gpu_gb": 4.53, "t": 24.9}
+{"mode": "online", "method": "bp", "lr": 0.0003, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0469, "ppl": 1024.123, "know": 0.0, "ms_per_update": 78.2, "t": 31.9}
+{"info": "end", "gpu_gb": 4.53, "t": 31.9}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bp", "lr": "1e-3"}, "t": 3.9}
+{"mode": "online", "method": "bp", "lr": 0.001, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.9}
+{"mode": "online", "method": "bp", "lr": 0.001, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0504, "ppl": 1205.12, "know": 0.0, "ms_per_update": 93.7, "gpu_gb": 4.53, "t": 15.7}
+{"mode": "online", "method": "bp", "lr": 0.001, "T": null, "beta": null, "tag": "p3", "cloze": 0.0667, "qa": 0.1, "acc": 0.0609, "ppl": 1160.659, "know": 0.0, "ms_per_update": 85.9, "gpu_gb": 4.53, "t": 27.6}
+{"mode": "online", "method": "bp", "lr": 0.001, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0333, "qa": 0.0, "acc": 0.0349, "ppl": 1397.066, "know": 0.0, "ms_per_update": 85.9, "t": 34.5}
+{"info": "end", "gpu_gb": 4.53, "t": 34.5}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "adam", "lr": "3e-6"}, "t": 3.7}
+{"mode": "online", "method": "adam", "lr": 3e-06, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 8.9}
+{"mode": "online", "method": "adam", "lr": 3e-06, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0949, "ppl": 621.248, "know": 0.7778, "ms_per_update": 98.3, "gpu_gb": 7.2, "t": 17.1}
+{"mode": "online", "method": "adam", "lr": 3e-06, "T": null, "beta": null, "tag": "p3", "cloze": 0.2, "qa": 0.2333, "acc": 0.0979, "ppl": 594.58, "know": 0.7778, "ms_per_update": 100.5, "gpu_gb": 7.2, "t": 31.5}
+{"mode": "online", "method": "adam", "lr": 3e-06, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0667, "qa": 0.0667, "acc": 0.0994, "ppl": 506.587, "know": 0.7778, "ms_per_update": 100.5, "t": 39.6}
+{"info": "end", "gpu_gb": 7.2, "t": 39.6}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bpdown", "lr": "1e-3"}, "t": 3.9}
+{"mode": "online", "method": "bpdown", "lr": 0.001, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 9.1}
+{"mode": "online", "method": "bpdown", "lr": 0.001, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0534, "ppl": 1480.936, "know": 0.2222, "ms_per_update": 70.2, "gpu_gb": 2.64, "t": 15.4}
+{"mode": "online", "method": "bpdown", "lr": 0.001, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0899, "ppl": 1173.257, "know": 0.0, "ms_per_update": 65.6, "gpu_gb": 2.64, "t": 25.1}
+{"mode": "online", "method": "bpdown", "lr": 0.001, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0614, "ppl": 1170.578, "know": 0.0, "ms_per_update": 65.6, "t": 31.0}
+{"info": "end", "gpu_gb": 2.64, "t": 31.0}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bpdown", "lr": "1e-2"}, "t": 3.9}
+{"mode": "online", "method": "bpdown", "lr": 0.01, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 8.9}
+{"mode": "online", "method": "bpdown", "lr": 0.01, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.001, "ppl": 12565.75, "know": 0.0, "ms_per_update": 71.6, "gpu_gb": 2.64, "t": 15.3}
+{"mode": "online", "method": "bpdown", "lr": 0.01, "T": null, "beta": null, "tag": "p3", "cloze": 0.0333, "qa": 0.0333, "acc": 0.0135, "ppl": 5493.943, "know": 0.0, "ms_per_update": 66.1, "gpu_gb": 2.64, "t": 25.1}
+{"mode": "online", "method": "bpdown", "lr": 0.01, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0333, "qa": 0.0333, "acc": 0.0095, "ppl": 5442.568, "know": 0.0, "ms_per_update": 66.1, "t": 30.8}
+{"info": "end", "gpu_gb": 2.64, "t": 30.8}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "ll", "lr": "1e-3"}, "t": 3.7}
+{"mode": "online", "method": "ll", "lr": 0.001, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.9}
+{"mode": "online", "method": "ll", "lr": 0.001, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0824, "ppl": 1130.153, "know": 0.4444, "ms_per_update": 73.2, "gpu_gb": 2.27, "t": 14.3}
+{"mode": "online", "method": "ll", "lr": 0.001, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0333, "acc": 0.0574, "ppl": 2140.51, "know": 0.2222, "ms_per_update": 66.8, "gpu_gb": 2.27, "t": 24.1}
+{"mode": "online", "method": "ll", "lr": 0.001, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0295, "ppl": 3846.789, "know": 0.2222, "ms_per_update": 66.8, "t": 30.2}
+{"info": "end", "gpu_gb": 2.27, "t": 30.2}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "ll", "lr": "1e-2"}, "t": 3.7}
+{"mode": "online", "method": "ll", "lr": 0.01, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 8.6}
+{"mode": "online", "method": "ll", "lr": 0.01, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0085, "ppl": 21584.592, "know": 0.0, "ms_per_update": 64.2, "gpu_gb": 2.27, "t": 14.6}
+{"mode": "online", "method": "ll", "lr": 0.01, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.001, "ppl": 9113.42, "know": 0.0, "ms_per_update": 63.5, "gpu_gb": 2.27, "t": 24.2}
+{"mode": "online", "method": "ll", "lr": 0.01, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0185, "ppl": 7189.827, "know": 0.0, "ms_per_update": 63.5, "t": 30.0}
+{"info": "end", "gpu_gb": 2.27, "t": 30.0}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "dfa", "lr": "1e-5"}, "t": 3.7}
+{"mode": "online", "method": "dfa", "lr": 1e-05, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 9.8}
+{"mode": "online", "method": "dfa", "lr": 1e-05, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.1113, "ppl": 815.979, "know": 0.8889, "ms_per_update": 41.3, "gpu_gb": 2.33, "t": 14.4}
+{"mode": "online", "method": "dfa", "lr": 1e-05, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0919, "ppl": 1026.866, "know": 0.4444, "ms_per_update": 41.4, "gpu_gb": 2.33, "t": 21.4}
+{"mode": "online", "method": "dfa", "lr": 1e-05, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0754, "ppl": 1794.209, "know": 0.2222, "ms_per_update": 41.4, "t": 26.0}
+{"info": "end", "gpu_gb": 2.33, "t": 26.0}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "dfa", "lr": "1e-4"}, "t": 3.9}
+{"mode": "online", "method": "dfa", "lr": 0.0001, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 9.9}
+{"mode": "online", "method": "dfa", "lr": 0.0001, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.013, "ppl": 216816.477, "know": 0.0, "ms_per_update": 41.2, "gpu_gb": 2.33, "t": 14.5}
+{"mode": "online", "method": "dfa", "lr": 0.0001, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0045, "ppl": 594482.308, "know": 0.0, "ms_per_update": 41.3, "gpu_gb": 2.33, "t": 21.5}
+{"mode": "online", "method": "dfa", "lr": 0.0001, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0055, "ppl": 429630.921, "know": 0.0, "ms_per_update": 41.3, "t": 26.1}
+{"info": "end", "gpu_gb": 2.33, "t": 26.1}

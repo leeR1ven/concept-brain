@@ -1,0 +1,23 @@
+== python packages
+transformers MISSING ModuleNotFoundError
+tokenizers MISSING ModuleNotFoundError
+safetensors MISSING ModuleNotFoundError
+huggingface_hub MISSING ModuleNotFoundError
+sentencepiece MISSING ModuleNotFoundError
+accelerate MISSING ModuleNotFoundError
+regex MISSING ModuleNotFoundError
+jieba MISSING ModuleNotFoundError
+tiktoken MISSING ModuleNotFoundError
+== tools
+/usr/bin/curl
+/usr/bin/wget
+== disk
+overlay          30G  4.0G   27G  14% /
+total 0
+drwxr-xr-x 2 root root  6 Oct 31 21:40 .
+drwxr-xr-x 5 root root 44 Oct 31 21:40 ..
+== network
+https://hf-mirror.com -> 200
+https://huggingface.co -> 000
+got config.json from https://hf-mirror.com (4.0K)
+got generation_config.json from https://hf-mirror.com (4.0K)

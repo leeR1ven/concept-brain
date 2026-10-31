@@ -19,4 +19,6 @@ python tests/test_parts.py sense     # 听觉区单独验证：听得清 / 记�
 （统一架构综合分 0.42→0.83，在新种子上 0.82；详见 [v2/synth/ARCH_v2.md](v2/synth/ARCH_v2.md)）；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。
 设计者的核心思想及验证情况见 [docs/IDEAS.md](docs/IDEAS.md)。
 
+独立课题（与大脑架构无关）：把反向传播训练的大语言模型转换成赫布学习式模型，能否持续学习？结论和数据见 [side/llm2hebb/](side/llm2hebb/README.md)。
+
 许可证：MIT（见 [LICENSE](LICENSE)）。

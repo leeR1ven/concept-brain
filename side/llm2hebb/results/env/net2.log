@@ -1,0 +1,33 @@
+/root/v2lab/models/:
+total 0
+drwxr-xr-x 3 root root 35 Oct 31 21:40 .
+drwxr-xr-x 5 root root 44 Oct 31 21:40 ..
+drwxr-xr-x 2 root root 82 Oct 31 21:42 Qwen2.5-0.5B-Instruct
+
+/root/v2lab/models/Qwen2.5-0.5B-Instruct:
+total 1972
+drwxr-xr-x 2 root root      82 Oct 31 21:42 .
+drwxr-xr-x 3 root root      35 Oct 31 21:40 ..
+-rw-r--r-- 1 root root     659 Oct 31 21:40 config.json
+-rw-r--r-- 1 root root     242 Oct 31 21:41 generation_config.json
+-rw-r--r-- 1 root root 2011136 Oct 31 22:07 tokenizer.json.part
+global.index-url='https://mirrors.aliyun.com/pypi/simple'
+[global]
+index-url = https://mirrors.aliyun.com/pypi/simple
+https://pypi.org/simple/rwkv/ -> 200 4.851311s
+https://pypi.tuna.tsinghua.edu.cn/simple/rwkv/ -> 200 0.373232s
+https://mirrors.aliyun.com/pypi/simple/rwkv/ -> 200 0.383718s
+https://www.modelscope.cn/api/v1/models/Qwen/Qwen2.5-0.5B-Instruct -> 200 0.438610s
+https://hf-mirror.com/api/models/BlinkDL/rwkv-7-world -> 000 10.001677s
+== redirect of LFS file on hf-mirror
+== timed download of tokenizer.json (60 s max)
+000 0 bytes 0 B/s https://hf-mirror.com/Qwen/Qwen2.5-0.5B-Instruct/resolve/main/tokenizer.json
+ls: cannot access '/tmp/llm2hebb_tok.json': No such file or directory
+== pip download test
+
+[notice] A new release of pip is available: 24.2 -> 26.2.2
+[notice] To update, run: python3.11 -m pip install --upgrade pip
+
+[notice] A new release of pip is available: 24.2 -> 26.2.2
+[notice] To update, run: python3.11 -m pip install --upgrade pip
+rwkv-0.8.32-py3-none-any.whl

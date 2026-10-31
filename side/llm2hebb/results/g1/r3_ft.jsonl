@@ -1,0 +1,2 @@
+{"info": "start", "mode": "ft", "args": {"mode": "ft", "params": "L", "layer": "", "lr": "5e-4", "n": "3000", "tag": "ftL", "out": "out/r3_ft.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 8.1}
+{"info": "start", "mode": "ft", "args": {"mode": "ft", "params": "all", "layer": "", "lr": "1e-5", "n": "1000", "tag": "ftall", "out": "out/r3_ft.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.8}

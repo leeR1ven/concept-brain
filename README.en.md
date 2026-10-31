@@ -100,6 +100,11 @@ listening, babbling and conversing.
 
 Then the GPU port into world2 and the scaling curves.
 
+**Standalone side experiment** (IDEAS #18, unrelated to the brain architecture): can a back-propagation LLM be
+converted into a Hebbian-style model that keeps learning? Only where the rule already is back-propagation, and being
+local does not stop forgetting. A frozen network with a separate episodic store did learn 10k facts with no forgetting.
+See [side/llm2hebb/](side/llm2hebb/README.md).
+
 ## Run
 ```bash
 pip install numpy
@@ -119,6 +124,7 @@ The dialogue corpus is not stored here. `python corpus.py` builds it from chatte
   - `review/`: the five reviews;
   - `research/`: literature reviews;
   - `v1_panel/`: the v1 design discussion.
+- `side/`: standalone experiments that are not part of the brain model (`llm2hebb/`, IDEAS #18).
 
 ## License
 MIT, see [LICENSE](LICENSE).

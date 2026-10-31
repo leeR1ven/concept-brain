@@ -1,0 +1,66 @@
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bp", "lr": "0.01"}, "t": 3.4}
+{"mode": "online", "method": "bp", "lr": 0.01, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.7}
+{"mode": "online", "method": "bp", "lr": 0.01, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 13452.869, "know": 0.0, "ms_per_update": 86.2, "gpu_gb": 4.53, "t": 15.0}
+{"mode": "online", "method": "bp", "lr": 0.01, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0005, "ppl": 8249.234, "know": 0.0, "ms_per_update": 79.3, "gpu_gb": 4.53, "t": 26.2}
+{"mode": "online", "method": "bp", "lr": 0.01, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0045, "ppl": 4733.309, "know": 0.0, "ms_per_update": 79.3, "t": 33.5}
+{"info": "end", "gpu_gb": 4.53, "t": 33.5}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bp", "lr": "0.03"}, "t": 3.6}
+{"mode": "online", "method": "bp", "lr": 0.03, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.9}
+{"mode": "online", "method": "bp", "lr": 0.03, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0005, "ppl": 62231.985, "know": 0.0, "ms_per_update": 79.5, "gpu_gb": 4.53, "t": 14.7}
+{"mode": "online", "method": "bp", "lr": 0.03, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 39785.389, "know": 0.0, "ms_per_update": 74.3, "gpu_gb": 4.53, "t": 25.4}
+{"mode": "online", "method": "bp", "lr": 0.03, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 15091.533, "know": 0.0, "ms_per_update": 74.3, "t": 31.3}
+{"info": "end", "gpu_gb": 4.53, "t": 31.3}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bp", "lr": "0.1"}, "t": 3.0}
+{"mode": "online", "method": "bp", "lr": 0.1, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.1}
+{"mode": "online", "method": "bp", "lr": 0.1, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 158845.361, "know": 0.0, "ms_per_update": 83.2, "gpu_gb": 4.53, "t": 14.1}
+{"mode": "online", "method": "bp", "lr": 0.1, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 36313.794, "know": 0.0, "ms_per_update": 74.0, "gpu_gb": 4.53, "t": 24.5}
+{"mode": "online", "method": "bp", "lr": 0.1, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0265, "ppl": 15353.076, "know": 0.0, "ms_per_update": 74.0, "t": 31.0}
+{"info": "end", "gpu_gb": 4.53, "t": 31.0}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "adam", "lr": "1e-5"}, "t": 3.0}
+{"mode": "online", "method": "adam", "lr": 1e-05, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.0}
+{"mode": "online", "method": "adam", "lr": 1e-05, "T": null, "beta": null, "tag": "p1", "cloze": 0.0667, "qa": 0.0333, "acc": 0.0719, "ppl": 729.411, "know": 0.5556, "ms_per_update": 102.4, "gpu_gb": 7.2, "t": 15.2}
+{"mode": "online", "method": "adam", "lr": 1e-05, "T": null, "beta": null, "tag": "p3", "cloze": 0.4667, "qa": 0.4333, "acc": 0.0634, "ppl": 1117.196, "know": 0.3333, "ms_per_update": 93.3, "gpu_gb": 7.2, "t": 28.0}
+{"mode": "online", "method": "adam", "lr": 1e-05, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.1333, "qa": 0.0667, "acc": 0.0769, "ppl": 703.017, "know": 0.3333, "ms_per_update": 93.3, "t": 35.5}
+{"info": "end", "gpu_gb": 7.2, "t": 35.5}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "adam", "lr": "3e-5"}, "t": 3.6}
+{"mode": "online", "method": "adam", "lr": 3e-05, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 8.8}
+{"mode": "online", "method": "adam", "lr": 3e-05, "T": null, "beta": null, "tag": "p1", "cloze": 0.0333, "qa": 0.0333, "acc": 0.0509, "ppl": 1133.367, "know": 0.0, "ms_per_update": 106.3, "gpu_gb": 7.2, "t": 17.5}
+{"mode": "online", "method": "adam", "lr": 3e-05, "T": null, "beta": null, "tag": "p3", "cloze": 0.1333, "qa": 0.1333, "acc": 0.023, "ppl": 4425.209, "know": 0.0, "ms_per_update": 97.5, "gpu_gb": 7.2, "t": 30.8}
+{"mode": "online", "method": "adam", "lr": 3e-05, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.016, "ppl": 2245.097, "know": 0.0, "ms_per_update": 97.5, "t": 38.3}
+{"info": "end", "gpu_gb": 7.2, "t": 38.3}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bpdown", "lr": "0.1"}, "t": 3.8}
+{"mode": "online", "method": "bpdown", "lr": 0.1, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.8}
+{"mode": "online", "method": "bpdown", "lr": 0.1, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.001, "ppl": 58234.244, "know": 0.0, "ms_per_update": 54.0, "gpu_gb": 2.64, "t": 13.2}
+{"mode": "online", "method": "bpdown", "lr": 0.1, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0145, "ppl": 18594.601, "know": 0.0, "ms_per_update": 49.6, "gpu_gb": 2.64, "t": 20.9}
+{"mode": "online", "method": "bpdown", "lr": 0.1, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.016, "ppl": 12185.33, "know": 0.0, "ms_per_update": 49.6, "t": 25.7}
+{"info": "end", "gpu_gb": 2.64, "t": 25.8}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "bpdown", "lr": "1"}, "t": 3.8}
+{"mode": "online", "method": "bpdown", "lr": 1.0, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.9}
+{"mode": "online", "method": "bpdown", "lr": 1.0, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 130127.146, "know": 0.0, "ms_per_update": 58.3, "gpu_gb": 2.64, "t": 13.4}
+{"mode": "online", "method": "bpdown", "lr": 1.0, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.008, "ppl": 22535.786, "know": 0.0, "ms_per_update": 51.4, "gpu_gb": 2.64, "t": 21.2}
+{"mode": "online", "method": "bpdown", "lr": 1.0, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.02, "ppl": 12646.034, "know": 0.0, "ms_per_update": 51.4, "t": 25.9}
+{"info": "end", "gpu_gb": 2.64, "t": 25.9}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "ll", "lr": "0.1"}, "t": 3.8}
+{"mode": "online", "method": "ll", "lr": 0.1, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 8.0}
+{"mode": "online", "method": "ll", "lr": 0.1, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 28105.1, "know": 0.0, "ms_per_update": 79.9, "gpu_gb": 2.27, "t": 14.8}
+{"mode": "online", "method": "ll", "lr": 0.1, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 16248.573, "know": 0.0, "ms_per_update": 76.2, "gpu_gb": 2.27, "t": 26.0}
+{"mode": "online", "method": "ll", "lr": 0.1, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0265, "ppl": 9636.531, "know": 0.0, "ms_per_update": 76.2, "t": 32.8}
+{"info": "end", "gpu_gb": 2.27, "t": 32.8}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "ll", "lr": "1"}, "t": 4.0}
+{"mode": "online", "method": "ll", "lr": 1.0, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 9.0}
+{"mode": "online", "method": "ll", "lr": 1.0, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 45427.45, "know": 0.0, "ms_per_update": 77.1, "gpu_gb": 2.27, "t": 15.9}
+{"mode": "online", "method": "ll", "lr": 1.0, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 21624.786, "know": 0.0, "ms_per_update": 76.2, "gpu_gb": 2.27, "t": 27.2}
+{"mode": "online", "method": "ll", "lr": 1.0, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.019, "ppl": 10503.975, "know": 0.0, "ms_per_update": 76.2, "t": 33.8}
+{"info": "end", "gpu_gb": 2.27, "t": 33.8}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "ll", "lr": "10"}, "t": 3.8}
+{"mode": "online", "method": "ll", "lr": 10.0, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 7.8}
+{"mode": "online", "method": "ll", "lr": 10.0, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 45008.398, "know": 0.0, "ms_per_update": 81.2, "gpu_gb": 2.27, "t": 14.6}
+{"mode": "online", "method": "ll", "lr": 10.0, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 57333.048, "know": 0.0, "ms_per_update": 73.8, "gpu_gb": 2.27, "t": 25.1}
+{"mode": "online", "method": "ll", "lr": 10.0, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0265, "ppl": 10305.885, "know": 0.0, "ms_per_update": 73.8, "t": 31.5}
+{"info": "end", "gpu_gb": 2.27, "t": 31.5}
+{"info": "start", "mode": "online", "args": {"mode": "online", "delay": "60", "out": "out/r2_online.jsonl", "method": "dfa", "lr": "1"}, "t": 3.8}
+{"mode": "online", "method": "dfa", "lr": 1.0, "T": null, "beta": null, "tag": "p0", "cloze": 0.0, "qa": 0.0, "acc": 0.1063, "ppl": 836.444, "know": 1.0, "t": 9.5}
+{"mode": "online", "method": "dfa", "lr": 1.0, "T": null, "beta": null, "tag": "p1", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 5046971409.676, "know": 0.0, "ms_per_update": 42.9, "gpu_gb": 2.33, "t": 14.1}
+{"mode": "online", "method": "dfa", "lr": 1.0, "T": null, "beta": null, "tag": "p3", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 6043118111.688, "know": 0.0, "ms_per_update": 43.0, "gpu_gb": 2.33, "t": 21.3}
+{"mode": "online", "method": "dfa", "lr": 1.0, "T": null, "beta": null, "tag": "p3_delay", "cloze": 0.0, "qa": 0.0, "acc": 0.0, "ppl": 6522955729.092, "know": 0.0, "ms_per_update": 43.0, "t": 25.8}
+{"info": "end", "gpu_gb": 2.33, "t": 25.8}

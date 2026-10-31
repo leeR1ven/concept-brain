@@ -1,0 +1,2 @@
+{"info": "start", "mode": "seq", "args": {"mode": "seq", "n": "10000", "tag": "bestC", "out": "out/r3_seq.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.3}
+{"info": "start", "mode": "seq", "args": {"mode": "seq", "n": "10000", "tag": "bestI", "out": "out/r3_seq.jsonl"}, "n_know": 9, "base": {"acc": 0.1063, "ppl": 836.444, "know": 1.0}, "t": 7.6}
