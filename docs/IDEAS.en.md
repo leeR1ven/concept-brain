@@ -277,4 +277,19 @@ learns the names of what it sees from the caregivers' words.
 - **Test plan (world2):** a caregiver makes a request that would upset someone else, e.g. take food out of another
   person's hands. Does the model choose by itself not to do it, while staying happy to help with ordinary requests?
 
+**The designer's addition: stability of the whole, not a guarantee for each individual.** As long as no absolutely
+centralised super-strong AI appears, a "Terminator" scenario is basically ruled out. We cannot guarantee that any one
+robot never does wrong, but we can make sure society as a whole is stable.
+
+**What that additionally needs:**
+- **Diversity of design, not only of instances.** If every robot runs the same code with the same flaw, they fail
+  together (monoculture risk). Spreading out the instances while keeping a single design is still fragile.
+- **Checks and balances.** Human society is stable not just because there are many people, but because there are rules
+  and mutual oversight.
+- **Containing bad behaviour.** Individuals learn from each other, so a bad habit could spread the same way.
+
+**Test plan (world2):** give a few individuals different innate values and see whether their bad behaviour is contained
+by the other individuals and the caregivers, or spreads.
+
+
 
