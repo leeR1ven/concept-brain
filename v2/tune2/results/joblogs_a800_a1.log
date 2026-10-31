@@ -1,0 +1,210 @@
+1
+numpy 2.1.2
+--- start run 0 (t=0s): run_t2.py tag=r1_base seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1
+--- start run 1 (t=0s): run_t2.py tag=r1_lam60a seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.6 ctx_keys=age
+--- start run 2 (t=0s): run_t2.py tag=r1_lam75a seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75 ctx_keys=age
+--- start run 3 (t=0s): run_t2.py tag=r1_lam75 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75
+=== run 0 rc=0 473s (t=473s): run_t2.py tag=r1_base seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1
+[r1_base s0 410s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_base s0 472s] drift C: 0.6478 -> 0.2327 after 300 untutored dialogues
+[r1_base s0 472s] done viol=0 secs=472.4 J-inputs ok; gen nnz/unit 43.33 mix 46093
+--- start run 4 (t=473s): run_t2.py tag=r1_lam85ak24 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.85 ctx_keys=age ct_k=24
+=== run 1 rc=0 487s (t=487s): run_t2.py tag=r1_lam60a seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.6 ctx_keys=age
+[r1_lam60a s0 421s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_lam60a s0 487s] drift C: 0.8239 -> 0.3145 after 300 untutored dialogues
+[r1_lam60a s0 487s] done viol=0 secs=486.7 J-inputs ok; gen nnz/unit 40.3 mix 53841
+--- start run 5 (t=487s): run_t2.py tag=r1_base seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1
+=== run 3 rc=0 487s (t=487s): run_t2.py tag=r1_lam75 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75
+[r1_lam75 s0 422s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_lam75 s0 487s] drift C: 0.5849 -> 0.2516 after 300 untutored dialogues
+[r1_lam75 s0 487s] done viol=0 secs=486.9 J-inputs ok; gen nnz/unit 43.49 mix 55368
+--- start run 6 (t=487s): run_t2.py tag=r1_lam60a seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.6 ctx_keys=age
+=== run 2 rc=0 491s (t=491s): run_t2.py tag=r1_lam75a seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75 ctx_keys=age
+[r1_lam75a s0 423s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_lam75a s0 491s] drift C: 0.7358 -> 0.2767 after 300 untutored dialogues
+[r1_lam75a s0 491s] done viol=0 secs=490.7 J-inputs ok; gen nnz/unit 38.66 mix 61689
+--- start run 7 (t=491s): run_t2.py tag=r1_lam75a seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75 ctx_keys=age
+=== run 5 rc=0 468s (t=955s): run_t2.py tag=r1_base seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1
+[r1_base s1 408s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_base s1 468s] drift C: 0.7947 -> 0.4702 after 300 untutored dialogues
+[r1_base s1 468s] done viol=0 secs=467.7 J-inputs ok; gen nnz/unit 43.88 mix 46564
+--- start run 8 (t=955s): run_t2.py tag=r1_lam75 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75
+=== run 4 rc=0 484s (t=956s): run_t2.py tag=r1_lam85ak24 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.85 ctx_keys=age ct_k=24
+[r1_lam85ak24 s0 419s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_lam85ak24 s0 483s] drift C: 0.8113 -> 0.2767 after 300 untutored dialogues
+[r1_lam85ak24 s0 483s] done viol=0 secs=483.4 J-inputs ok; gen nnz/unit 35.7 mix 77193
+--- start run 9 (t=956s): run_t2.py tag=r1_lam85ak24 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.85 ctx_keys=age ct_k=24
+=== run 6 rc=0 475s (t=962s): run_t2.py tag=r1_lam60a seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.6 ctx_keys=age
+[r1_lam60a s1 414s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_lam60a s1 474s] drift C: 0.7616 -> 0.4172 after 300 untutored dialogues
+[r1_lam60a s1 474s] done viol=0 secs=474.4 J-inputs ok; gen nnz/unit 41.06 mix 54071
+--- start run 10 (t=962s): run_t2.py tag=r1_base seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1
+=== run 7 rc=0 474s (t=965s): run_t2.py tag=r1_lam75a seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75 ctx_keys=age
+[r1_lam75a s1 413s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_lam75a s1 474s] drift C: 0.8609 -> 0.4834 after 300 untutored dialogues
+[r1_lam75a s1 474s] done viol=0 secs=474.0 J-inputs ok; gen nnz/unit 39.23 mix 61507
+--- start run 11 (t=965s): run_t2.py tag=r1_lam60a seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.6 ctx_keys=age
+=== run 9 rc=0 482s (t=1438s): run_t2.py tag=r1_lam85ak24 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.85 ctx_keys=age ct_k=24
+[r1_lam85ak24 s1 419s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_lam85ak24 s1 481s] drift C: 0.8675 -> 0.3179 after 300 untutored dialogues
+[r1_lam85ak24 s1 482s] done viol=0 secs=481.5 J-inputs ok; gen nnz/unit 36.44 mix 76446
+--- start run 12 (t=1438s): run_t2.py tag=r1_lam75a seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75 ctx_keys=age
+=== run 10 rc=0 477s (t=1439s): run_t2.py tag=r1_base seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1
+[r1_base s2 418s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '香蕉', '葡萄', '香蕉', '葡萄', '葡萄', '葡萄', '西瓜', '苹果', '香蕉', '饼干', '饼干']}
+[r1_base s2 477s] drift C: 0.7605 -> 0.2814 after 300 untutored dialogues
+[r1_base s2 477s] done viol=0 secs=476.7 J-inputs ok; gen nnz/unit 41.73 mix 44326
+--- start run 13 (t=1439s): run_t2.py tag=r1_lam75 seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75
+=== run 8 rc=0 490s (t=1445s): run_t2.py tag=r1_lam75 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75
+[r1_lam75 s1 426s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_lam75 s1 490s] drift C: 0.7086 -> 0.2517 after 300 untutored dialogues
+[r1_lam75 s1 490s] done viol=0 secs=489.7 J-inputs ok; gen nnz/unit 44.13 mix 55620
+--- start run 14 (t=1445s): run_t2.py tag=r1_lam85ak24 seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.85 ctx_keys=age ct_k=24
+=== run 11 rc=0 486s (t=1451s): run_t2.py tag=r1_lam60a seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.6 ctx_keys=age
+[r1_lam60a s2 424s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '香蕉', '葡萄', '香蕉', '葡萄', '葡萄', '葡萄', '西瓜', '苹果', '香蕉', '饼干', '饼干']}
+[r1_lam60a s2 485s] drift C: 0.8323 -> 0.3892 after 300 untutored dialogues
+[r1_lam60a s2 485s] done viol=0 secs=485.5 J-inputs ok; gen nnz/unit 39.25 mix 51618
+--- start run 15 (t=1451s): run_t2.py tag=r1h0_base seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0
+=== run 12 rc=0 493s (t=1931s): run_t2.py tag=r1_lam75a seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75 ctx_keys=age
+[r1_lam75a s2 431s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '香蕉', '葡萄', '香蕉', '葡萄', '葡萄', '葡萄', '西瓜', '苹果', '香蕉', '饼干', '饼干']}
+[r1_lam75a s2 492s] drift C: 0.8024 -> 0.3234 after 300 untutored dialogues
+[r1_lam75a s2 493s] done viol=0 secs=492.5 J-inputs ok; gen nnz/unit 37.53 mix 59354
+--- start run 16 (t=1931s): run_t2.py tag=r1h0_lam75a seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0 ct_lam=0.75 ctx_keys=age
+=== run 13 rc=0 502s (t=1941s): run_t2.py tag=r1_lam75 seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.75
+[r1_lam75 s2 440s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '香蕉', '葡萄', '香蕉', '葡萄', '葡萄', '葡萄', '西瓜', '苹果', '香蕉', '饼干', '饼干']}
+[r1_lam75 s2 502s] drift C: 0.7545 -> 0.1377 after 300 untutored dialogues
+[r1_lam75 s2 502s] done viol=0 secs=501.7 J-inputs ok; gen nnz/unit 43.21 mix 52955
+--- start run 17 (t=1941s): run_t2.py tag=r1h0_base seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0
+=== run 14 rc=0 499s (t=1944s): run_t2.py tag=r1_lam85ak24 seed=2 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_lam=0.85 ctx_keys=age ct_k=24
+[r1_lam85ak24 s2 437s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '香蕉', '葡萄', '香蕉', '葡萄', '葡萄', '葡萄', '西瓜', '苹果', '香蕉', '饼干', '饼干']}
+[r1_lam85ak24 s2 498s] drift C: 0.8383 -> 0.3174 after 300 untutored dialogues
+[r1_lam85ak24 s2 498s] done viol=0 secs=498.5 J-inputs ok; gen nnz/unit 35.16 mix 74045
+--- start run 18 (t=1944s): run_t2.py tag=r1h0_lam75a seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0 ct_lam=0.75 ctx_keys=age
+=== run 15 rc=0 504s (t=1954s): run_t2.py tag=r1h0_base seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0
+[r1h0_base s0 438s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1h0_base s0 503s] drift C: 0.8616 -> 0.4025 after 300 untutored dialogues
+[r1h0_base s0 503s] done viol=0 secs=503.4 J-inputs ok; gen nnz/unit 42.85 mix 44701
+--- start run 19 (t=1954s): run_t2.py tag=r1_eta25 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.25
+=== run 19 rc=0 483s (t=2437s): run_t2.py tag=r1_eta25 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.25
+[r1_eta25 s0 419s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_eta25 s0 482s] drift C: 0.7987 -> 0.3522 after 300 untutored dialogues
+[r1_eta25 s0 482s] done viol=0 secs=482.3 J-inputs ok; gen nnz/unit 44.86 mix 46045
+--- start run 20 (t=2437s): run_t2.py tag=r1_eta50 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.5
+=== run 16 rc=0 508s (t=2439s): run_t2.py tag=r1h0_lam75a seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0 ct_lam=0.75 ctx_keys=age
+[r1h0_lam75a s0 444s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1h0_lam75a s0 508s] drift C: 0.8742 -> 0.2013 after 300 untutored dialogues
+[r1h0_lam75a s0 508s] done viol=0 secs=508.3 J-inputs ok; gen nnz/unit 38.11 mix 59977
+--- start run 21 (t=2439s): run_t2.py tag=r1_mthr50 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.5
+=== run 17 rc=0 502s (t=2443s): run_t2.py tag=r1h0_base seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0
+[r1h0_base s1 440s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1h0_base s1 502s] drift C: 0.8675 -> 0.5099 after 300 untutored dialogues
+[r1h0_base s1 502s] done viol=0 secs=501.8 J-inputs ok; gen nnz/unit 44.13 mix 45928
+--- start run 22 (t=2443s): run_t2.py tag=r1_mthr70 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.7
+=== run 18 rc=0 513s (t=2456s): run_t2.py tag=r1h0_lam75a seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 train_held=0 ct_lam=0.75 ctx_keys=age
+[r1h0_lam75a s1 450s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1h0_lam75a s1 512s] drift C: 0.9338 -> 0.4768 after 300 untutored dialogues
+[r1h0_lam75a s1 512s] done viol=0 secs=512.4 J-inputs ok; gen nnz/unit 39.32 mix 61234
+--- start run 23 (t=2456s): run_t2.py tag=r1_cmin4 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=4
+=== run 20 rc=0 484s (t=2921s): run_t2.py tag=r1_eta50 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.5
+[r1_eta50 s0 420s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_eta50 s0 483s] drift C: 0.7987 -> 0.327 after 300 untutored dialogues
+[r1_eta50 s0 483s] done viol=0 secs=483.5 J-inputs ok; gen nnz/unit 41.01 mix 46206
+--- start run 24 (t=2921s): run_t2.py tag=r1_cmin8 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=8
+=== run 21 rc=0 485s (t=2924s): run_t2.py tag=r1_mthr50 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.5
+[r1_mthr50 s0 422s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_mthr50 s0 485s] drift C: 0.8302 -> 0.3019 after 300 untutored dialogues
+[r1_mthr50 s0 485s] done viol=0 secs=484.9 J-inputs ok; gen nnz/unit 43.05 mix 47254
+--- start run 25 (t=2924s): run_t2.py tag=r1_rmax30 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.3
+=== run 22 rc=0 486s (t=2929s): run_t2.py tag=r1_mthr70 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.7
+[r1_mthr70 s0 423s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_mthr70 s0 486s] drift C: 0.7987 -> 0.2956 after 300 untutored dialogues
+[r1_mthr70 s0 486s] done viol=0 secs=486.3 J-inputs ok; gen nnz/unit 43.41 mix 45722
+--- start run 26 (t=2929s): run_t2.py tag=r1_rmax50 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.5
+=== run 23 rc=0 487s (t=2943s): run_t2.py tag=r1_cmin4 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=4
+[r1_cmin4 s0 423s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_cmin4 s0 487s] drift C: 0.7044 -> 0.2704 after 300 untutored dialogues
+[r1_cmin4 s0 487s] done viol=0 secs=486.8 J-inputs ok; gen nnz/unit 43.34 mix 46556
+--- start run 27 (t=2943s): run_t2.py tag=r1_rthr75 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.75
+=== run 25 rc=0 477s (t=3402s): run_t2.py tag=r1_rmax30 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.3
+[r1_rmax30 s0 415s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_rmax30 s0 477s] drift C: 0.7987 -> 0.2893 after 300 untutored dialogues
+[r1_rmax30 s0 477s] done viol=0 secs=477.3 J-inputs ok; gen nnz/unit 43.11 mix 45788
+--- start run 28 (t=3402s): run_t2.py tag=r1_rthr95 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.95
+=== run 24 rc=0 485s (t=3406s): run_t2.py tag=r1_cmin8 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=8
+[r1_cmin8 s0 422s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_cmin8 s0 485s] drift C: 0.7736 -> 0.3522 after 300 untutored dialogues
+[r1_cmin8 s0 485s] done viol=0 secs=485.0 J-inputs ok; gen nnz/unit 42.88 mix 45512
+--- start run 29 (t=3406s): run_t2.py tag=r1_u05 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 u_reply=0.05
+=== run 26 rc=0 487s (t=3416s): run_t2.py tag=r1_rmax50 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.5
+[r1_rmax50 s0 423s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_rmax50 s0 486s] drift C: 0.717 -> 0.2704 after 300 untutored dialogues
+[r1_rmax50 s0 486s] done viol=0 secs=486.4 J-inputs ok; gen nnz/unit 43.41 mix 46248
+--- start run 30 (t=3416s): run_t2.py tag=r1_u30 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 u_reply=0.3
+=== run 27 rc=0 488s (t=3431s): run_t2.py tag=r1_rthr75 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.75
+[r1_rthr75 s0 424s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_rthr75 s0 487s] drift C: 0.8113 -> 0.283 after 300 untutored dialogues
+[r1_rthr75 s0 487s] done viol=0 secs=487.4 J-inputs ok; gen nnz/unit 43.12 mix 46250
+--- start run 31 (t=3431s): run_t2.py tag=r1_eta25 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.25
+=== run 29 rc=0 480s (t=3886s): run_t2.py tag=r1_u05 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 u_reply=0.05
+[r1_u05 s0 417s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_u05 s0 480s] drift C: 0.8176 -> 0.0252 after 300 untutored dialogues
+[r1_u05 s0 480s] done viol=0 secs=479.5 J-inputs ok; gen nnz/unit 43.5 mix 45853
+--- start run 32 (t=3886s): run_t2.py tag=r1_eta50 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.5
+=== run 28 rc=0 486s (t=3888s): run_t2.py tag=r1_rthr95 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.95
+[r1_rthr95 s0 422s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_rthr95 s0 486s] drift C: 0.7862 -> 0.3836 after 300 untutored dialogues
+[r1_rthr95 s0 486s] done viol=0 secs=485.7 J-inputs ok; gen nnz/unit 43.05 mix 46075
+--- start run 33 (t=3888s): run_t2.py tag=r1_mthr50 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.5
+=== run 30 rc=0 478s (t=3893s): run_t2.py tag=r1_u30 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 u_reply=0.3
+[r1_u30 s0 415s] context probe gap 1: {'gap': 1, 'const': 0.2333, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['苹果', '牛奶', '苹果', '葡萄', '饼干', '葡萄', '香蕉', '牛奶', '葡萄', '西瓜', '葡萄', '西瓜']}
+[r1_u30 s0 477s] drift C: 0.761 -> 0.3396 after 300 untutored dialogues
+[r1_u30 s0 477s] done viol=0 secs=477.5 J-inputs ok; gen nnz/unit 42.98 mix 46232
+--- start run 34 (t=3893s): run_t2.py tag=r1_mthr70 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.7
+=== run 31 rc=0 472s (t=3903s): run_t2.py tag=r1_eta25 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.25
+[r1_eta25 s1 413s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_eta25 s1 472s] drift C: 0.755 -> 0.4636 after 300 untutored dialogues
+[r1_eta25 s1 472s] done viol=0 secs=471.8 J-inputs ok; gen nnz/unit 45.65 mix 46518
+--- start run 35 (t=3903s): run_t2.py tag=r1_cmin4 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=4
+=== run 32 rc=0 487s (t=4372s): run_t2.py tag=r1_eta50 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 eta=0.5
+[r1_eta50 s1 426s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_eta50 s1 486s] drift C: 0.8543 -> 0.3907 after 300 untutored dialogues
+[r1_eta50 s1 486s] done viol=0 secs=486.3 J-inputs ok; gen nnz/unit 41.78 mix 46396
+--- start run 36 (t=4372s): run_t2.py tag=r1_cmin8 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=8
+=== run 33 rc=0 485s (t=4373s): run_t2.py tag=r1_mthr50 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.5
+[r1_mthr50 s1 424s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_mthr50 s1 485s] drift C: 0.8609 -> 0.4967 after 300 untutored dialogues
+[r1_mthr50 s1 485s] done viol=0 secs=485.2 J-inputs ok; gen nnz/unit 43.31 mix 47865
+--- start run 37 (t=4373s): run_t2.py tag=r1_rmax30 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.3
+=== run 34 rc=0 483s (t=4377s): run_t2.py tag=r1_mthr70 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 match_thr=0.7
+[r1_mthr70 s1 423s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_mthr70 s1 483s] drift C: 0.8543 -> 0.5099 after 300 untutored dialogues
+[r1_mthr70 s1 483s] done viol=0 secs=483.1 J-inputs ok; gen nnz/unit 44.06 mix 45579
+--- start run 38 (t=4377s): run_t2.py tag=r1_rmax50 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.5
+=== run 35 rc=0 484s (t=4386s): run_t2.py tag=r1_cmin4 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=4
+[r1_cmin4 s1 423s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_cmin4 s1 483s] drift C: 0.8477 -> 0.5364 after 300 untutored dialogues
+[r1_cmin4 s1 483s] done viol=0 secs=483.3 J-inputs ok; gen nnz/unit 43.91 mix 46812
+--- start run 39 (t=4386s): run_t2.py tag=r1_rthr75 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.75
+=== run 37 rc=0 489s (t=4862s): run_t2.py tag=r1_rmax30 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.3
+[r1_rmax30 s1 427s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_rmax30 s1 489s] drift C: 0.8477 -> 0.5232 after 300 untutored dialogues
+[r1_rmax30 s1 489s] done viol=0 secs=488.5 J-inputs ok; gen nnz/unit 43.82 mix 45888
+SKIP 40 (deadline) run_t2.py tag=r1_rthr95 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.95
+SKIP 41 (deadline) run_t2.py tag=r1_u05 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 u_reply=0.05
+SKIP 42 (deadline) run_t2.py tag=r1_u30 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 u_reply=0.3
+SKIP 43 (deadline) run_t2.py tag=r1_k4 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_k=4
+SKIP 44 (deadline) run_t2.py tag=r1_sw16 seed=0 nS=500 evaln=80 drift=300 probes=min ctxp=1 wiring=sw loc_r=0.04 n_lr=16
+SKIP 45 (deadline) run_t2.py tag=r1_k4 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 ct_k=4
+SKIP 46 (deadline) run_t2.py tag=r1_sw16 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 wiring=sw loc_r=0.04 n_lr=16
+=== run 36 rc=0 491s (t=4864s): run_t2.py tag=r1_cmin8 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 conf_min=8
+[r1_cmin8 s1 430s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_cmin8 s1 491s] drift C: 0.8278 -> 0.5033 after 300 untutored dialogues
+[r1_cmin8 s1 491s] done viol=0 secs=491.2 J-inputs ok; gen nnz/unit 43.44 mix 45684
+=== run 38 rc=0 491s (t=4868s): run_t2.py tag=r1_rmax50 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rate_max=0.5
+[r1_rmax50 s1 429s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_rmax50 s1 491s] drift C: 0.8543 -> 0.5497 after 300 untutored dialogues
+[r1_rmax50 s1 491s] done viol=0 secs=490.9 J-inputs ok; gen nnz/unit 43.93 mix 46491
+=== run 39 rc=0 488s (t=4874s): run_t2.py tag=r1_rthr75 seed=1 nS=500 evaln=80 drift=300 probes=min ctxp=1 rec_thr=0.75
+[r1_rthr75 s1 426s] context probe gap 1: {'gap': 1, 'const': 0.2167, 'echo': 0.0, 'train_acc': 0.0, 'train_last': 0.0, 'test_acc': 0.0, 'test_first': 0.0, 'test_says_object': 0.0, 'spoke': 0.0, 'n_test': 60, 'mech': {'mouth_while_partner': 0, 'garble': 0, 'extra_turns': 0}, 'replies': ['', '', '', '', '', '', '', '', '', '', '', ''], 'targets': ['西瓜', '牛奶', '西瓜', '香蕉', '牛奶', '葡萄', '苹果', '牛奶', '饼干', '西瓜', '西瓜', '葡萄']}
+[r1_rthr75 s1 488s] drift C: 0.8411 -> 0.4636 after 300 untutored dialogues
+[r1_rthr75 s1 488s] done viol=0 secs=487.5 J-inputs ok; gen nnz/unit 43.91 mix 46654
+BATCH DONE 4874s
