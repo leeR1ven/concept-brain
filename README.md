@@ -15,3 +15,5 @@ python tests/test_parts.py sense     # 听觉区单独验证：听得清 / 记�
 ## v2（进行中）
 新一代架构的整体审查、共享测试台和三个独立原型在 [v2/](v2/README.md)；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。
 设计者的核心思想及验证情况见 [docs/IDEAS.md](docs/IDEAS.md)。
+
+许可证：MIT（见 [LICENSE](LICENSE)）。
