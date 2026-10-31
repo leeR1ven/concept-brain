@@ -325,5 +325,44 @@ robot never does wrong, but we can make sure society as a whole is stable.
 **Test plan (world2):** give a few individuals different innate values and see whether their bad behaviour is contained
 by the other individuals and the caregivers, or spreads.
 
+## 18. Turning a back-propagation-trained model into a Hebbian-style model that keeps learning
 
+**Idea (2026-10-31).** Hebbian learning and back-propagation pursue the same goal. Could a model trained by
+back-propagation be converted into an equivalent Hebbian-style model? It would then keep learning.
 
+**Analysis.**
+- **The equivalence holds for the goal, not for the process.**
+  - Both learn to predict the next input.
+  - For the last layer alone, the local error rule *is* back-propagation; ARCH_v2's readout is exactly that.
+  - In a deep network, however, back-propagation sends errors back through every layer, which local Hebbian rules do not
+    do. So the same data grows different middle layers under the two methods, and one cannot be recomputed as the
+    other.
+  - Some local rules approximate back-propagation: predictive coding (Whittington & Bogacz 2017), equilibrium
+    propagation (Scellier & Bengio 2017) and feedback alignment (Lillicrap et al. 2016).
+- **No conversion is needed; the model can be inherited.**
+  - Treat the trained weights as connections that are already grown at birth.
+  - Put the locally learning parts on top:
+    - a readout learned online by the local error rule;
+    - a hippocampus-like fast memory that stores new things in one go;
+    - awake recall.
+  - This is the same thought as #5 (grow random connections first, then train) and #17 (instinct = connections that are
+    hard to change), with the birth connections pretrained instead of random.
+  - Attention itself can be read as Hebbian fast weights: linear attention accumulates key × value outer products
+    (Schlag, Irie & Schmidhuber 2021). A language model's in-context learning is already Hebbian in flavour.
+- **Continual learning is hard for more reasons than back-propagation.**
+  - A language model is frozen after training.
+  - Its dense, shared codes make continued training overwrite old knowledge (catastrophic interference, McCloskey &
+    Cohen 1989).
+  - It has no one-shot episodic memory.
+  - Local rules alone do not fix this. It also needs what this design already has: sparse codes, a fast hippocampal
+    memory, awake recall, plus slow consolidation.
+
+**Plan: two small GPU experiments.**
+1. Turn a small pretrained model's word vectors into sparse binary neuron codes (random projection + top-k). Check:
+   - whether words with similar meanings keep similar codes;
+   - whether the codes are fault tolerant;
+   - whether, used as ARCH_v2's meaning layer, they let answers carry over by class to never-heard words.
+2. A frozen pretrained model + a readout learned by the local rule + a hippocampus-like memory learns new names and
+   facts in real time during dialogue. Compare it with continued back-propagation fine-tuning on:
+   - how fast the new facts are learned;
+   - how much old knowledge is lost.
