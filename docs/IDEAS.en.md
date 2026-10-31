@@ -325,68 +325,41 @@ robot never does wrong, but we can make sure society as a whole is stable.
 **Test plan (world2):** give a few individuals different innate values and see whether their bad behaviour is contained
 by the other individuals and the caregivers, or spreads.
 
-## 18. Turning a back-propagation-trained model into a Hebbian-style model that keeps learning
+## 18. Converting a back-propagation-trained LLM into an equivalent Hebbian-style model so that it keeps learning (standalone)
 
-**Idea (2026-10-31).** Hebbian learning and back-propagation pursue the same goal. Could a model trained by
-back-propagation be converted into an equivalent Hebbian-style model? It would then keep learning.
+**Idea (2026-10-31).** Hebbian learning and back-propagation pursue the same goal. So take a language model trained by
+back-propagation, convert it as equivalently as possible into a model that learns by Hebbian (local) rules, and it
+should then be able to keep learning. **This is an independent idea, unrelated to our own brain architecture**, and it
+is tested on its own.
 
-**Analysis.**
-- **The equivalence holds for the goal, not for the process.**
-  - Both learn to predict the next input.
-  - For the last layer alone, the local error rule *is* back-propagation; ARCH_v2's readout is exactly that.
-  - In a deep network, however, back-propagation sends errors back through every layer, which local Hebbian rules do not
-    do. So the same data grows different middle layers under the two methods, and one cannot be recomputed as the
-    other.
-  - Some local rules approximate back-propagation: predictive coding (Whittington & Bogacz 2017), equilibrium
-    propagation (Scellier & Bengio 2017) and feedback alignment (Lillicrap et al. 2016).
-- **No conversion is needed; the model can be inherited.**
-  - Treat the trained weights as connections that are already grown at birth.
-  - Put the locally learning parts on top:
-    - a readout learned online by the local error rule;
-    - a hippocampus-like fast memory that stores new things in one go;
-    - awake recall.
-  - This is the same thought as #5 (grow random connections first, then train) and #17 (instinct = connections that are
-    hard to change), with the birth connections pretrained instead of random.
-  - Attention itself can be read as Hebbian fast weights: linear attention accumulates key × value outer products
-    (Schlag, Irie & Schmidhuber 2021). A language model's in-context learning is already Hebbian in flavour.
-- **Continual learning is hard for more reasons than back-propagation.**
-  - A language model is frozen after training.
-  - Its dense, shared codes make continued training overwrite old knowledge (catastrophic interference, McCloskey &
-    Cohen 1989).
-  - It has no one-shot episodic memory.
-  - Local rules alone do not fix this. It also needs what this design already has: sparse codes, a fast hippocampal
-    memory, awake recall, plus slow consolidation.
+**Why it is worth trying:**
+- Some modern LLMs already update their memory with a local, error-correcting Hebbian rule (the delta rule): DeltaNet,
+  Gated DeltaNet, RWKV-7.
+- Linear attention is itself a Hebbian fast-weight memory that accumulates key × value outer products (Schlag, Irie &
+  Schmidhuber 2021).
+- A softmax transformer can be converted to linear attention after a short adjustment (T2R; LoLCATs).
+- Local rules such as predictive coding approximate the back-propagation gradient under some conditions (Whittington &
+  Bogacz 2017; Millidge et al. 2022).
+- An LLM's MLP layers act as a key → value memory, and a single rank-one delta-rule update writes a new fact into them
+  (ROME / MEMIT).
 
-**Plan: two small GPU experiments.**
-1. Turn a small pretrained model's word vectors into sparse binary neuron codes (random projection + top-k). Check:
-   - whether words with similar meanings keep similar codes;
-   - whether the codes are fault tolerant;
-   - whether, used as ARCH_v2's meaning layer, they let answers carry over by class to never-heard words.
-2. A frozen pretrained model + a readout learned by the local rule + a hippocampus-like memory learns new names and
-   facts in real time during dialogue. Compare it with continued back-propagation fine-tuning on:
-   - how fast the new facts are learned;
-   - how much old knowledge is lost.
+**Three conversion routes, each tested:**
+1. **The memory state as Hebbian memory.** Run a small pretrained delta-rule / RWKV-7 model as one stream that is never
+   reset. Test:
+   - how long new facts are kept;
+   - whether its general ability degrades when it is never reset.
+   Compare with resetting every session, which is how LLMs are used today.
+2. **Local rules instead of back-propagation on the weights** (predictive coding or layer-wise delta rules). Measure:
+   - how close the local update is to the true gradient;
+   - online learning of new facts from a stream;
+   - forgetting of old knowledge.
+   Compare with continued back-propagation fine-tuning. The key question is whether "local" by itself removes
+   catastrophic forgetting.
+3. **One-shot Hebbian rank-one writes of facts into the MLP layers**, applied sequentially to 100, 1,000 and 10,000
+   facts, to find where it collapses.
 
-**Designer's addendum: a language model cannot simply be mixed into our model.** A language model takes and gives
-vectors; our model works with neurons driven by the sensory areas.
-
-**Analysis.**
-- Dense vectors versus sparse neurons is not the obstacle. A random projection plus top-k turns one into the other and
-  keeps similarity, as the fly's olfactory system does.
-- The obstacle is that the language model's units are **text**, while our neurons come from **sounds and sights**.
-  - Linking the agent's "sound pattern #37" to the token 苹 needs a label the agent cannot perceive: a hidden teacher.
-  - The language model's knowledge is also not grounded; it has never seen an apple.
-- So nothing is spliced in inside the brain.
-
-**Two principled forms remain.**
-1. **Inherit our own model.** Train our neuron model for a long time on the GPU, then use its learned connections as
-   the next model's birth state and keep learning in real time on top.
-2. **A language model as a person in the world.** Caregivers in the simulated world speak through a language model,
-   and their lines become sound in the world. Our agents hear it only through their ears, as a child learns from
-   adults. This also lets caregivers respond to what the child says and looks at.
-
-**Experiments adjusted.**
-- E2 tests only the principle: do inherited connections + local plasticity + a fast memory learn without forgetting?
-  It is not a component of our model.
-- E1 is only a labelled upper-bound reference.
-- New E3: can a small language model keep up with the world as a caregiver?
+**Caveats.**
+- The same goal does not mean the same process. In a deep network, local rules generally grow different middle layers
+  from back-propagation, so the conversion is exact only for some parts and approximate elsewhere.
+- The main enemy of continual learning is new knowledge overwriting old. After conversion, capacity, interference and
+  forgetting must be measured.
