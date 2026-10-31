@@ -1,0 +1,9 @@
+life seed 0 tutor recast agent dev {} cfg {'floor': 0.3} pre 30000 ticks 500000
+[pre] t=58286: categories 84, items 912, lines 253 (17s)
+[pre] babbling: programs bound 84 of 84 categories
+[life t=170784] life 3.6 h (170784 ticks): free replies 427 acc 0.07 | scene 0.06 held-out 0.00 memory 0.00 social 0.04 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 10 syl | latency median 6.0 | flags none | init 0 (0.00/1000q, appropriate None, cats {}) (57s)
+[life t=290319] life 6.0 h (290319 ticks): free replies 698 acc 0.12 | scene 0.12 held-out 0.03 memory 0.00 social 0.06 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 10 syl | latency median 6.0 | flags none | init 0 (0.00/1000q, appropriate None, cats {}) (95s)
+[life t=392908] life 8.2 h (392908 ticks): free replies 976 acc 0.13 | scene 0.14 held-out 0.07 memory 0.00 social 0.07 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 10 syl | latency median 6.0 | flags none | init 0 (0.00/1000q, appropriate None, cats {}) (128s)
+[life t=511189] life 10.6 h (511189 ticks): free replies 1259 acc 0.15 | scene 0.17 held-out 0.10 memory 0.00 social 0.07 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 10 syl | latency median 6.0 | flags none | init 0 (0.00/1000q, appropriate None, cats {}) (167s)
+[life t=584230] life 12.2 h (584230 ticks): free replies 1435 acc 0.16 | scene 0.17 held-out 0.13 memory 0.00 social 0.08 | initiative 0 (0.00/1000 quiet ticks, appropriate -, reward 0) | overlap 0 ticks, 0 interruptions | longest monologue 10 syl | latency median 6.0 | flags none | init 0 (0.00/1000q, appropriate None, cats {}) (190s)
+done 190s
