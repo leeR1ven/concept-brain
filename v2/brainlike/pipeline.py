@@ -3,7 +3,7 @@
 # A (babbling, CDS, overheard, play) -> B -> C -> D, tutor 'model' (learning by listening; probes are scored free
 # replies; no muscle cue ever).  Optional: tutor=recast for B-D.  Then, on frozen deep copies, a fixed probe stream
 # 'BCD' (same world seed for every lesion) with each learned part removed.
-import sys, os, time, json, copy, pickle
+import sys, os, time, json, copy, pickle, collections
 import numpy as np
 argv = sys.argv; sys.argv = ['x']
 import bench_run as br
@@ -114,12 +114,33 @@ def lesion(agent, what):
     return a
 
 
+def motor(a, w):
+    """motor inventory: which chars the self-found programs produce (decoded by the world's own Voice)."""
+    from world import OBJECTS, COLOURS, COUNTS, SLOTS, RITUALS, NAMES, NOVEL
+    v = w.voice
+    have = collections.Counter()
+    for y in range(a.body.n_prog):
+        s = tuple(np.nonzero(a.body.prog[y])[0].tolist()); ch = v.decode(s)
+        if ch and ch != '~':
+            have[ch] += 1
+    bc = set(''.join(OBJECTS + COLOURS + COUNTS + SLOTS + [q + ''.join(x) for q, x in RITUALS] + ['这是什么在哪里你要吗好不吃颜色有几个很的']))
+    names = set(''.join(NAMES)); novel = set(''.join(NOVEL))
+    hs = set(have)
+    return dict(n_prog=int(a.body.n_prog), pool=int(a.body.NP), distinct=len(hs), bc=f"{len(hs & bc)}/{len(bc)}",
+                names=f"{len(hs & names)}/{len(names)}", novel=f"{len(hs & novel)}/{len(novel)}",
+                per_char=round(a.body.n_prog / max(len(hs), 1), 2), max_per_char=max(have.values()) if have else 0,
+                n_syl=int(a.syl_n))
+
+
 def main():
     seed, NA, NB, NC, ND = (int(x) for x in argv[1:6])
     out_path = argv[6]
     opt = dict(x.split('=', 1) for x in argv[7:] if '=' in x)
     tutor = opt.pop('tutor', 'model')
     n_test = int(opt.pop('ntest', '300'))
+    les_opt = opt.pop('lesions', None)
+    save = opt.pop('save', '1') == '1'
+    tag = opt.pop('tag', None)
     cfg = {'seed': seed, 'p_go': 0.5, 'p_new': 0.8}
     for k, v in opt.items():
         cfg[k] = (v in ('1', 'True')) if isinstance(DEFAULT[k], bool) else type(DEFAULT[k])(v)
@@ -130,7 +151,7 @@ def main():
         a.warm(win)
     a.end_warmup()
     w.run(a, NA)
-    R = {'seed': seed, 'cfg': cfg, 'tutor': tutor, 'stats_A': dict(a.stats), 'secs_A': time.time() - t0}
+    R = {'tag': tag or f's{seed}', 'seed': seed, 'cfg': cfg, 'tutor': tutor, 'stats_A': dict(a.stats), 'secs_A': time.time() - t0}
     a.c['babble'] = False
     prev = w
     drift = [codes(a, w, seed)]
@@ -141,6 +162,16 @@ def main():
         ws = br.mk(st, seed, prev=prev, tutor=tutor)
         ws.run(a, N)
         R[st] = summ(evaluate(ws.log), [st])
+        try:                                     # late third of the stage per task, and the memory-task replies
+            recs = [r for r in ws.log if r['kind'] in ('probe', 'recast')]
+            late = recs[-max(1, len(recs) // 3):]
+            R[st + '_late'] = {t: round(float(np.mean([r['reply'] in r['acceptable'] for r in late if r['task'] == t])), 3)
+                               for t in sorted({r['task'] for r in late})}
+            if st == 'D':
+                R['D_replies'] = {t: [(r['acceptable'][0], r['reply']) for r in recs if r['task'] == t][-40:]
+                                  for t in ('name', 'oneshot', 'before')}
+        except Exception as e:
+            R[st + '_late'] = repr(e)
         R[st + '_examples'] = [f"{r['prompt']}->{r['reply']}" for r in ws.log if r['kind'] in ('probe', 'recast')][-20:]
         R[st + '_predict'] = predict_vs_ngram(a.pred_log, start=len(a.pred_log) - max(1, (len(a.pred_log) - n_ev0) // 2))
         n_ev0 = len(a.pred_log)
@@ -155,12 +186,20 @@ def main():
                   for k in ('sup', 'dq', 'dg')}
     R['drift_A_to_end'] = {k: [J(drift[0][q][k], drift[-1][q][k]) for q in range(len(drift[0]))] for k in ('sup', 'dq', 'dg')}
     print(f"[s{seed}] drift stage-to-stage {R['drift']} A->end {R['drift_A_to_end']}", flush=True)
-    pickle.dump((a, prev), open(out_path.replace('.json', '_agent.pkl'), 'wb'))
+    if save:
+        pickle.dump((a, prev), open(out_path.replace('.json', '_agent.pkl'), 'wb'))
+    try:
+        R['motor'] = motor(a, prev)
+    except Exception as e:
+        R['motor'] = repr(e)
+    print(f"[s{seed}] motor {R['motor']}", flush=True)
     R['stats'] = dict(a.stats); R['n_prog'] = a.body.n_prog; R['n_syl'] = a.syl_n; R['n_chunks'] = len(a.chunks)
     # ---------------- lesions on frozen copies, same probe stream
     stages = ''.join(s for s, N in (('B', NB), ('C', NC), ('D', ND)) if N > 0)
     les = ['none', 'W', 'G_H', 'G_Vo+Vc+Vn+Vl', 'G_Vh+Vr', 'VL', 'LA', 'chunks', 'REC', 'hip', 'echo', 'vis', 'no_sup',
            'no_dq', 'no_dc', 'no_ctx']
+    if les_opt:
+        les = les_opt.split(',')
     R['lesion'] = {}
     for L in les:
         al = lesion(a, L)
@@ -173,6 +212,7 @@ def main():
                   and '/' in k and not k.endswith('mech')]
         json.dump(R, open(out_path, 'w'), ensure_ascii=False, indent=1, default=float)
         print(f"[s{seed}] lesion {L}: mean task acc {np.mean(allacc) if allacc else float('nan'):.3f} {time.time()-t0:.0f}s", flush=True)
+        del al, wt
     R['secs'] = time.time() - t0
     json.dump(R, open(out_path, 'w'), ensure_ascii=False, indent=1, default=float)
 

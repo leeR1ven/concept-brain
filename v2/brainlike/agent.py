@@ -55,11 +55,11 @@ DEFAULT = Cfg(
     # vision
     eta_vl=0.2, eta_vl_all=0.02, th_vl=0.55, eta_la=0.2, th_att=0.4, att_keep=0.9,
     # hippocampus
-    hip=True, n_dg=2000, k_dg=40, dg_fan=30, eta_hip=0.0005, th_recall=0.3, max_episodes=3000,
+    hip=True, n_dg=2000, k_dg=40, dg_fan=30, eta_hip=0.0005, th_recall=0.3, max_episodes=3000, hip_recency=0.0, hip_tau=150.0,
     # readout
     eta_w=0.3, eta_g=0.3, g0_echo=0.3, tag_life=12, eta_reward=0.5, block_norm=True,
     # babbling / mirror
-    babble=True, p_new=0.6, th_babble=0.25, eta_mir=0.5, p_go=0.2, p_explore=0.3, babble_idle=True, p_go_idle=0.7,
+    babble=True, n_prog=512, prog_cap=0, babble_recruit=False, p_new=0.6, th_babble=0.25, eta_mir=0.5, p_go=0.2, p_explore=0.3, babble_idle=True, p_go_idle=0.7,
     # ablations
     no_echo=False, no_vis=False, no_sup=False, no_dq=False, no_dc=False, no_ctx=False, no_lex_chunks=False,
     no_copyV=False, no_W=False, freeze=False,
@@ -73,7 +73,7 @@ class Agent:
         self.rng = np.random.default_rng(c.seed)
         rng = np.random.default_rng(c.seed + 1)
         self.ear = Ear(); self.use = np.zeros(self.ear.n); self.nwarm = 0
-        self.body = Body()
+        self.body = Body(NP=c.n_prog)
         self.t = 0
         # ---------------- vision layout (innate retinotopy: per-slot replicated feature maps)
         self.slot_bits, self.n_slots, self.maps, self.att_off = slot_bits, n_slots, maps, att_off
@@ -463,7 +463,12 @@ class Agent:
                 idx = kwta(self.C3.current(idx) + 0.5 * d / max(d.max(), 1e-9), c.k_dg)
             E = np.array([e["idx"] for e in self.episodes])                 # (n_episodes, k_dg) CA3 indices
             ov = idx[E].sum(1)
-            k = int(np.argmax(ov))
+            if c.hip_recency > 0:
+                # temporal context (lateral EC time code): recent episodes are closer to the current context
+                T = np.array([e.get("t", -10 ** 9) for e in self.episodes], float)
+                k = int(np.argmax(ov / c.k_dg + c.hip_recency * np.exp(-(self.t - T) / c.hip_tau)))
+            else:
+                k = int(np.argmax(ov))
             if ov[k] >= c.th_recall * c.k_dg:
                 e = self.episodes[k]
                 self.ca1 = e["dq"].copy()
@@ -473,7 +478,7 @@ class Agent:
             g = self.dg_code(ec)
             self.EC3.learn(ec, g); self.C3.learn(g, g)
             self.episodes.append({"idx": np.nonzero(g)[0], "dq": self.dq.copy(), "words": self.line_words > 0,
-                                  "seq": list(self.line_seq), "feats": feats.copy()})
+                                  "seq": list(self.line_seq), "feats": feats.copy(), "t": self.t})
             if len(self.episodes) > c.max_episodes:
                 self.episodes.pop(0)
             self.stats["encode"] += 1
@@ -807,11 +812,24 @@ class Agent:
                         self.stats["own_det"] += 1
             self.pending_own = [(tc, y) for tc, y in self.pending_own if tc > self.t]
             for (tc, ms) in list(self.pending_trial):
-                if tc == self.t and cs >= c.th_det and not c.freeze:
-                    y = self.body.add_program(ms)
-                    if y >= 0:
-                        a_ = np.zeros(NSM, bool); a_[j] = True; b_ = np.zeros(self.body.NP, bool); b_[y] = True
-                        self.Mir.learn(a_, b_, M=1.0); self.stats["kept"] = self.stats.get("kept", 0) + 1
+                if tc != self.t or c.freeze:
+                    continue
+                jj = j if cs >= c.th_det else -1
+                if jj < 0 and c.babble_recruit and cs < c.th_new and float(win.max()) >= 5 and self.syl_n < NSM:
+                    # a clear own syllable that matches no known unit: recruit it (the infant's own repertoire)
+                    jj = self.syl_recruit(f); self.stats["self_recruit"] = self.stats.get("self_recruit", 0) + 1
+                if jj < 0:
+                    continue
+                if c.prog_cap and self.body.n_prog:
+                    v_ = np.zeros(self.body.prog.shape[1], bool); v_[list(ms)] = True
+                    exists = bool((self.body.prog[:self.body.n_prog] == v_).all(1).any())
+                    if not exists and int((self.Mir.w[jj, :self.body.n_prog] > 0.3).sum()) >= c.prog_cap:
+                        self.stats["capped"] = self.stats.get("capped", 0) + 1
+                        continue                      # novelty-gated: this syllable already has enough programs
+                y = self.body.add_program(ms)
+                if y >= 0:
+                    a_ = np.zeros(NSM, bool); a_[jj] = True; b_ = np.zeros(self.body.NP, bool); b_[y] = True
+                    self.Mir.learn(a_, b_, M=1.0); self.stats["kept"] = self.stats.get("kept", 0) + 1
             self.pending_trial = [(tc, ms) for tc, ms in self.pending_trial if tc > self.t]
         else:
             if cs >= c.th_det:

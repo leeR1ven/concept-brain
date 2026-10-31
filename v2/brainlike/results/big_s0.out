@@ -1,0 +1,20 @@
+[s0] B listening next-syllable prediction (2nd half of the stage): {'readout': 0.8235584031542632, 'n1': 0.7024806965664531, 'n2': 0.7072449482503697, 'n3': 0.7065878100870708, 'n_events': 6087}
+[s0] B done 732s {'B/slot': 0.09, 'B/what': 0.53, 'B/where': 0.41, 'B/ALL': 0.36, 'B/SCENE': 0.36, 'B/after_model': 0.05, 'B/mech': None, 'B/one_shot': None, 'B/learning': None}
+[s0] C listening next-syllable prediction (2nd half of the stage): {'readout': 0.8200920245398773, 'n1': 0.5374233128834356, 'n2': 0.564877300613497, 'n3': 0.5918711656441717, 'n_events': 6520}
+[s0] C done 1325s {'C/colour': 0.18, 'C/count': 0.44, 'C/offer': 0.8, 'C/ritual': 0.56, 'C/taste': 0.46, 'C/ALL': 0.52, 'C/SCENE': 0.32, 'C/NOSCENE': 0.66, 'C/after_model': 0.21, 'C/mech': None, 'C/one_shot': None, 'C/learning': None}
+[s0] D listening next-syllable prediction (2nd half of the stage): {'readout': 0.766442370306056, 'n1': 0.5348382895593662, 'n2': 0.5817234642934664, 'n3': 0.6103755155198611, 'n_events': 4607}
+[s0] D done 1760s {'D/before': 0.03, 'D/check': 0.51, 'D/name': 0.03, 'D/oneshot': 0.0, 'D/ALL': 0.21, 'D/SCENE': 0.23, 'D/NOSCENE': 0.03, 'D/after_model': 0.0, 'D/one_shot': 0.0, 'D/mech': None, 'D/learning': None}
+[s0] drift stage-to-stage {'sup': [[0.47783251231527096, 0.5544041450777202], [0.5789473684210527, 0.5151515151515151], [0.4742014742014742, 0.680672268907563]], 'dq': [[0.04712041884816754, 0.2903225806451613], [0.19760479041916168, 0.2422360248447205], [0.16279069767441862, 0.25]], 'dg': [[0.5094339622641509, 0.46788990825688076], [0.46788990825688076, 0.46788990825688076], [0.44144144144144143, 0.415929203539823]]} A->end {'sup': [0.5, 0.5873015873015873], 'dq': [0.16279069767441862, 0.26582278481012656], 'dg': [0.5094339622641509, 0.46788990825688076]}
+[s0] motor {'n_prog': 624, 'pool': 2048, 'distinct': 86, 'bc': '64/67', 'names': '7/9', 'novel': '17/67', 'per_char': 7.26, 'max_per_char': 16, 'n_syl': 92}
+[s0] lesion none: mean task acc 0.288 1794s
+[s0] lesion W: mean task acc 0.140 1827s
+[s0] lesion G_H: mean task acc 0.253 1863s
+[s0] lesion G_Vo+Vc+Vn+Vl: mean task acc 0.363 1901s
+[s0] lesion G_Vh+Vr: mean task acc 0.312 1941s
+[s0] lesion VL: mean task acc 0.273 1976s
+[s0] lesion LA: mean task acc 0.297 2013s
+[s0] lesion hip: mean task acc 0.358 2041s
+[s0] lesion no_dq: mean task acc 0.290 2074s
+[s0] lesion no_ctx: mean task acc 0.349 2108s
+[s0] lesion REC: mean task acc 0.342 2144s
+[s0] lesion echo: mean task acc 0.061 2180s

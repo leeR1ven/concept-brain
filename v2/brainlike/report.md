@@ -6,34 +6,93 @@ Folder `arch/v2/brainlike/`.  Labels: **PROVED** (argument with numbers), **SIMU
 the vocabulary under random physics) and `eye_layout='retino'` (added in my copy only; innate retinotopy, see the bench
 issues).  The agent never receives a muscle cue: every program comes from babbling, every reply from listening.
 
-## 0. Verdict
-1. **A brain-faithful division of labour runs end-to-end on the bench without a single muscle cue.**  Babbling (with
-   the tutor imitating) gives the motor inventory (96 % of the B/C syllables in the final agent, all self-found); everything the agent says afterwards it learned by listening to other speakers' replies (tutor 'model').
-   Mechanics stay exact in every stage: 0 mouth ticks while a partner speaks, latency 6, 100 % 3-tick syllables.
-2. **Two capabilities are clearly new; most scene and all memory questions are not yet solved.**  Seed 0, all
-   probes of each stage, against the official bar (v1, teacher-forced) and the privileged baselines:
-   scene naming "这是什么" 0.51 (bar / prior / n-gram 0.06 / 0.06 / 0.04) and the frame "你要X吗 -> 要X" 0.85, held-out
-   fillers 0.86 (n-gram 0.48, held-out ~0); stage totals B 0.33 / C 0.51 / D 0.19 vs bar 0.12 / 0.19 / 0.19 and prior
-   0.14 / 0.30 / 0.22; C held-out 0.48 vs n-gram 0.29.  But where / slot / colour are at prior level, taste and ritual
-   are below the prior / n-gram, and D (check, name, before, one-shot) is at or below the prior.
-3. **The designer's "PFC = recurrent next-input predictor" is the core of the design**, with the loop going through
-   the PFC and an error-driven readout: next-syllable prediction while listening 0.82 / 0.82 / 0.77 vs 0.71 / 0.59 /
-   0.61 for the best online exact n-gram on the same events (B / C / D).
-4. **Holding a thought by a loop works mechanically** (gated 1:1 MD loop: period-2 index 0, held 200 ticks with
-   noise, clean replacement) and the content gist variant passes every hold test (decoding 1.00, same line 0.98,
-   different lines 0.09) — but it did not improve behaviour, so the final configuration keeps the history-rich gist
-   (decoding 0.45).
-5. **Lesions: the readout, the dorsal copy route, vision, word<->vision templates, LEX words and the PFC structure
-   (DQ, CTX) all reach behaviour; the hippocampus, the memory and visual copy gates and the location-word map are
-   passengers in the trained agent** and must be fixed or removed (brief, rule 3).
-6. **What made it work were not more layers** but correct signals: own voice from the efference copy (not the CD
-   timer), words by mutual predictability, a referent held through the reply and released at a new initiative, a
-   turn role from timing, assembly codes for syllables in the mixed layer, per-pathway normalised delta learning.
-   Leaky units alone do NOT prevent period 2 (SIMULATED); a within-layer self-hold does.
-7. **Open problems**: location words -> attention (slot 0.08, where at prior) and colour; frame choice between
-   competing frames (taste below the "好吃" prior); D-stage memory (episodes keyed to drifting codes; a self-caused
-   attention loop); motor inventory for late words (the 512-program pool filled with duplicates); ONE seed only (the 3-seed V100
-   job timed out, B.10); recast mode and lawful physics implemented but not measured.
+**Update after the coordinator's follow-up request** (B.10):
+- seeds 1 and 2 were run, so the verdict and B.9 now give 3-seed means ± sd;
+- one size variant (pool ×4, PFC and hippocampus ×2);
+- recast mode and lawful physics checked;
+- the lesion table re-scored as probe-pooled accuracy.
+
+New findings: size moves no open problem, stage D overwrites stage B, and recast mode needs a longer eligibility tag (0.01 → 0.15 with 40 ticks).
+
+## 0. Verdict (updated after the follow-up runs of B.10: 3 seeds, size, recast, lawful physics)
+
+**Follow-up in one table.** Mean ± sd over seeds 0-2; the variants are seed 0.
+
+| | B / C / D ALL | name / one-shot | programs: name chars, novel chars, per char | passengers (pooled lesion drop) |
+|---|---|---|---|---|
+| v6, 3 seeds | **0.34±0.02 / 0.52±0.01 / 0.17±0.02** | 0.03±0.01 / 0.00 | 2/9, 5-6/67, 7.5 | hippocampus +0.01, memory gates 0.00, visual gates +0.01, LA −0.01 |
+| size ×2 (PFC, hippocampus), pool ×4 | 0.36 / 0.52 / 0.21 | 0.03 / 0.00 | **7/9, 17/67**, 7.3 | −0.00 / −0.02 / −0.04 / −0.01 |
+| pool 2,048 + recency-weighted recall | 0.40 / 0.52 / 0.20 | **0.07** (last third 0.10) / 0.00 | 7/9, 13/67, 7.7 | −0.01 / 0.00 / – / – |
+| recast tutor, stage B (v6 / tag life 40) | 0.01 / 0.15 | – | – | – |
+| lawful physics, stage B | 0.09 | – | 100 programs, 44/67 B/C chars | – |
+
+1. **A brain-faithful division of labour runs end-to-end on the bench without a single muscle cue, on all three
+   seeds.**
+   - Babbling, with the tutor imitating, builds the motor inventory: 64/67 B/C syllables on every seed.
+   - Everything the agent says it learned by listening to other speakers (tutor 'model').
+   - Mechanics are exact in all 9 stage runs: 0 mouth ticks while a partner speaks, latency 6, every syllable
+     3 ticks, 0 garble.
+2. **Two capabilities are new, and they are stable over seeds.**
+   - Scene naming "这是什么": 0.50 ± 0.01, against bar / prior / n-gram 0.06 / 0.06 / 0.04.
+   - The frame "你要X吗 → 要X": 0.81 ± 0.04, and 0.78 ± 0.07 on held-out fillers (n-gram 0.48, held-out ~0).
+   - Stage totals B / C / D: 0.34 / 0.52 / 0.17, against bar 0.12 / 0.19 / 0.19 and prior 0.14 / 0.30 / 0.22.
+     C held-out: 0.47 vs the n-gram's 0.29.
+   - Count is above the prior. Where, slot and colour are at the prior. Ritual is above the prior but below the
+     n-gram. Taste is below the prior, and D is at or below it.
+3. **The designer's "PFC = recurrent next-input predictor" is the core**, and it holds on every seed: listening
+   prediction 0.82 / 0.82 / 0.76 (± 0.01) vs 0.70 / 0.59 / 0.60 for the best online n-gram.
+4. **Holding a thought by a loop works mechanically**: period-2 index 0, held 200 ticks, clean replacement. The
+   content-gist variant passes every hold test but did not improve behaviour (B.8).
+5. **Lesions over 3 seeds, scored as probe-pooled accuracy:**
+   - Reach behaviour: the readout (0.22), the ECHO copy route (0.23), vision (0.20), the VL word↔vision templates
+     (0.12), the echo gate G_H (0.09) and DQ (0.06).
+   - Not reliable: CTX, LEX chunks and the SUP assemblies (≤ 0.02 ± 0.04).
+   - Passengers on every seed, and still at ×2 size: the hippocampus, the memory and visual copy gates, and the
+     location-word map LA. Under brief rule 3 they must be fixed or removed.
+   - The seed-0 table B.5 over-credited CTX and the chunks.
+6. **Size is not the bottleneck** (B.10.3). A ×4 program pool with ×2 PFC and hippocampus moves no open problem beyond
+   2 sd.
+   - The bigger pool gives the late chars programs (name chars 2/9 → 7/9), but D:name stays 0.03: the agent now says
+     a wrong name.
+   - Diagnosis: recall takes the best CA3 overlap over hundreds of similar "我叫X" episodes, with nothing favouring
+     the recent one.
+   - Adding a recency term (the lateral-EC time code), a rule rather than a size, lifts D:name to 0.07 (last third
+     0.10). That partly confirms the diagnosis; the memory copy gate that should carry the recalled name is still weak
+     (B.10.5).
+   - Duplicates are a keep-rule effect (7.3 programs per char at any pool size).
+7. **New finding: stage D overwrites stage B.**
+   - After stage D the agent answers "这是什么" with "不是", the answer of D's dominant check frame (这是X吗 → 是/不是).
+   - B:what is 0.00-0.11 after D on every seed and in the big model (0.50 during B), while the C frames are kept.
+   - D:one-shot fails for the same reason: its question "这是什么" gets check-frame answers.
+   - In my design, interleaved hippocampal replay (`sleep()`, unused so far) or a rule/context gate in DQ is the place
+     to fix it.
+8. **Recast mode and lawful physics, checked** (B.10.4).
+   - Recast mode fails in v6 (B 0.01; the agent parrots the question). The recast arrives 20-35 ticks after the
+     agent's own reply; my 12-tick eligibility tag and the 8-tick turn-role window were tuned to model mode, so the
+     answer's first syllable is never learned.
+   - A 40-tick tag (≈ 2.7 s) lifts recast learning to 0.15 (frozen-copy probe 0.26). The turn-role rule still files the
+     next question as a reply.
+   - Lawful physics works but gives a smaller, less exact motor inventory: 100 programs, 88 garbles, B 0.09. The
+     keep-if-it-sounds-known babbling has no inverse model to exploit the lawful sound.
+9. **What made it work were correct signals, not more layers**:
+   - own voice from the efference copy;
+   - words by mutual predictability;
+   - a referent held through the reply;
+   - turn role from timing;
+   - assembly codes in the mixed layer;
+   - per-pathway normalised delta learning.
+
+   The follow-up adds a negative result with the same lesson: twice the units bought nothing.
+
+**Open problems, in the order I would attack them:**
+1. Frame interference (D overwrites B), via replay or a context gate.
+2. Recency in recall.
+3. The keep rule for programs: novelty-gated, and verified by the listener (the self-recruit attempt broke speech,
+   B.10.4).
+4. An inverse model for lawful physics.
+5. Location words → attention (slot, where) and colour.
+6. Competing frames (taste below the "好吃" prior).
+7. The passengers: hippocampus, memory and visual gates, LA.
 
 ## A. Design
 
@@ -158,17 +217,18 @@ before t; M = the path's broadcast gate (third factor).
    learns by listening (M_listen) the next-syllable / END readout, the copy gates, word<->vision, word<->location,
    and the episodes.  Overheard dialogue is the same signal.
 3. Tutor 'recast' (contingent feedback): the agent answers; reward 1 if acceptable is the third factor on the reply's
-   eligibility tags; the recast is then learned by listening exactly like a model reply (DQ still holds the
-   question: the BG gate does not reload DQ on the own reply).
+   eligibility tags; the recast is then learned by listening like a model reply (DQ still holds the question: the BG
+   gate does not reload DQ on the own reply).  In v6 this failed. The recast comes 20-35 ticks after the reply,
+   beyond the 12-tick tag, so a 40-tick tag is needed (B.10.4).
 4. Teacher forcing ('force') is never used by this agent.
 
 ### A6. Developmental stages and pass thresholds (design targets; measured values in part B)
-| stage | input | pass threshold before moving on | measured (seed 0) | passed? |
+| stage | input | pass threshold before moving on | measured (A: seed 0; B-D: mean of 3 seeds) | passed? |
 |---|---|---|---|---|
 | A hear + babble | CDS with pointing, overheard routines, play | SYL units for >= 90 % of heard chars; programs for >= 90 % of B/C chars; LEX within-word TP >= 3x across-word, chunk precision >= 0.6; 0 mouth ticks while others speak | SYL 67 units (every heard char); programs 93-96 % of B/C chars; TP 0.72 vs 0.012; precision 16/19; 0 overlap | yes |
-| B naming with a scene | model tutor | what >= 0.8, slot >= 0.7, where >= 0.7 (seen), held-out >= 0.6 | what 0.64 seen / 0.40 held; where 0.54 / 0.16; slot 0.18 / 0.01 (whole stage; late third ALL 0.57) | no |
-| C frames, held-out fillers | model tutor (+ recast) | offer held-out >= 0.7, colour / count >= 0.6, taste >= 0.8, ritual >= 0.8 | offer held-out 0.86; colour 0.17; count 0.36; taste 0.54; ritual 0.43 | offer only |
-| D relations, memory | model tutor | check >= 0.8, name >= 0.6, before >= 0.5, one-shot >= 0.5 | check 0.48; name 0.02 (first syllable 0.83); before 0.03; one-shot 0.00 | no |
+| B naming with a scene | model tutor | what >= 0.8, slot >= 0.7, where >= 0.7 (seen), held-out >= 0.6 | 3 seeds: what 0.69 seen / 0.33 held; where 0.55 / 0.19; slot 0.23 / 0.03 (whole stage; late third ALL 0.59±0.02) | no |
+| C frames, held-out fillers | model tutor (+ recast) | offer held-out >= 0.7, colour / count >= 0.6, taste >= 0.8, ritual >= 0.8 | 3 seeds: offer held-out 0.78±0.07; colour 0.20; count 0.45; taste 0.48; ritual 0.57 | offer only |
+| D relations, memory | model tutor | check >= 0.8, name >= 0.6, before >= 0.5, one-shot >= 0.5 | 3 seeds: check 0.45; name 0.03 (first syllable 0.74); before 0.02; one-shot 0.00 | no |
 | E adult corpus interleaved | model tutor | B-D retained >= 90 %; echo-free never-heard above the n-gram baseline | not run | — |
 In the brief's spirit (gate the next stage on the previous), I ran B-D on a fixed schedule to measure everything; a
 real curriculum would repeat B until its thresholds pass.
@@ -232,8 +292,8 @@ reward), fast-mapping (novelty-gated recruitment).
    one fixed 3-tick sound) but will not survive real audio, coarticulation or variable syllable length.  At GPU scale
    SYL should become an assembly code (several units per syllable) with the same template rule.
 2. Babbling only covers the vocabulary because the Voice was restricted to the bench's 142 chars (random physics);
-   with the 3,970-char Voice a target char needs ~3x10^4 random babbles.  Lawful physics (bench option, pending) is the
-   real fix: an inverse model from babbling then generalises to new chars.
+   with the 3,970-char Voice a target char needs ~3x10^4 random babbles.  Lawful physics is the real fix, but only with
+   an inverse model from babbling that generalises to new chars. Tested without one (B.10.4): 100 programs, B 0.09.
 3. The copy-pointer logic and the "new information" filter are engineered; they work for 1-2 word replies, not for
    long utterances.  They should become learned sequence readouts (CA3 / ECHO chains).
 4. The readout is one delta layer over a wide context; frame words, END and copy gates are linear in the context.
@@ -245,6 +305,11 @@ reward), fast-mapping (novelty-gated recruitment).
    after a model reply; when to speak should be learned (BG value), not fixed.
 8. Plasticity in SUP (recurrent assemblies) drifts the context codes on which the readout is keyed (measured in
    the drift probe); replay-based re-alignment would be needed for long lives.
+9. (follow-up) **Frame interference.** One delta readout serves every frame, so a frequent later frame overwrites an
+   earlier one that shares its prefix. After stage D, "这是什么" gets D's check answer "不是": B:what falls from 0.50 to
+   0.00-0.11 on all seeds. This needs interleaved replay or a context gate (B.10.2).
+10. (follow-up) **Time constants tuned to one teaching regime fail in another.** The 12-tick tag and the 8-tick
+   turn-role window lose the recast, which comes 20-35 ticks after the child's reply (B.10.4).
 
 ### A11. What the iteration taught (each found by a failing test, then fixed in the design)
 1. **Own-voice tag ≠ CD timer.**  v1's corollary-discharge delay line also runs for 4 ticks after every GO, even when
@@ -278,6 +343,11 @@ reward), fast-mapping (novelty-gated recruitment).
 10. **The referent belongs to one exchange.**  A held referent that survived into the next question of the same scene
    bound the next reply word to the previous object (牛奶's template fell from 1.00 after stage A to 0.29-0.37 in B).
    Released at every new initiative (a line that does not follow within 8 ticks): templates stay at 1.00.
+11. (follow-up) **More units buy nothing here.** ×4 program pool and ×2 PFC and hippocampus moved no open problem
+   (B.10.3). The bigger pool lets the late words get programs, but the failures behind them are rules: recall
+   without recency, frame interference, and a keep rule that fills the pool with duplicates.
+12. (follow-up) **Score lesions over pooled probes, and on the agent that still has the skill.** Per-task means let
+   2-probe tasks swing the result. Lesions on the final agent cannot test a skill it has already lost (B:what).
 
 ### A12. Brain grounding of each choice (CITED; mostly via the five reviews and research/0x, not re-read here)
 - Dual streams: dorsal sound -> articulation (repetition), ventral sound -> meaning (Hickok & Poeppel 2007); the copy
@@ -388,8 +458,11 @@ Learning in use (no cue, no feedback, only listening): B 0.31 -> 0.57 (same item
 latency median 6, 0 % syllables not 3 ticks, 0 garble, 0 extra turns.  Motor inventory of the final agent (`runs/motor_coverage.out`): 64/67 B/C chars (96 %) have a self-found program
 (missing 呀 很 拜); but only 2/9 name chars and 6/67 novel-object chars — they are heard first in stage D, and the
 512-slot program pool is full of duplicates (512 programs for 68 chars, 7.5 per char), so lifelong vocal play
-stops adding new ones.  This alone caps D:name and D:one-shot.
+stops adding new ones.  This caps D:name and D:one-shot. The size run (B.10.3) shows it is not the only cause: with programs for 7/9 name
+chars, D:name stays at 0.03.
 ### B.5 Does every learned part reach behaviour?  Lesions of the trained agent (`runs/final_s0.json`, SIMULATED)
+
+> **Superseded by B.10.2.** That table covers 3 seeds and scores each lesion as probe-pooled accuracy. The stage-mean scoring used here let D tasks with 2 probes swing the mean. On 3 seeds, CTX and the LEX chunks are not reliably above noise, and the passenger verdicts stand. The lesion stream probes the final agent, which has forgotten B:what (see B.10.2).
 Frozen copies of the final agent (after D), each with one part removed, answer the SAME stream of 150 B/C/D
 dialogues (every exchange a probe).  Mean free-reply accuracy over the tasks of each stage (per-task n is 10-40, so
 single-task numbers are noisy; the means are the reliable part):
@@ -465,37 +538,278 @@ configuration keeps the default gist; the right design is probably both (a conte
 mixed SUP state for the readout), untested.  Hippocampal recall from the words alone fails in both (0/20): episodes are
 indexed by all EC streams equally, so a words-only cue is too weak — the D-stage memory failures start here.
 
-### B.9 Against the official bar and baselines (bench README v1.2 "Reference numbers, 3 seeds", 2,000 dialogues per stage)
-Bar = ARCH_v1 MEM trained with teacher forcing (in model / recast mode v1 never speaks: 0 programs).  Mine = seed 0,
-1,000 dialogues per stage, tutor 'model' (no cue, no reward), whole stage incl. the early learning phase.
-| task | **brainlike** | bar (v1, forced) | prior | n-gram | judgement |
-|---|---|---|---|---|---|
-| B what (pointing) | **0.51** (held-out 0.40) | 0.06 | 0.06 | 0.04 | real gain: scene naming learned by listening |
-| B where | 0.34 (0.16) | 0.32 | 0.31 | 0.32 | at prior level |
-| B slot | 0.08 (0.01) | 0.00 | 0.07 | 0.06 | at prior level (location word -> attention fails) |
-| C offer (held-out fillers) | **0.85 (0.86)** | 0.04 | 0.07 | 0.48 (held-out ~0) | real gain: frame + ordered copy generalises to never-taught fillers |
-| C count | 0.36 (0.34) | 0.10 | 0.31 | 0.30 | slightly above prior |
-| C colour | 0.17 (0.10) | 0.08 | 0.16 | 0.17 | at prior level |
-| C taste | 0.54 (0.36) | 0.37 | 1.00 | 1.00 | BELOW the prior ("好吃" always) |
-| C ritual | 0.43 | 0.62 | 0.20 | 1.00 | below the n-gram |
-| D check | 0.48 | 0.46 | 0.48 | 0.31 | at prior level |
-| D name | 0.02 (first syllable 0.83) | 0.00 | 0.12 | 0.12 | below prior (second syllable has no program) |
-| D before | 0.03 | 0.01 | 0.08 | 0.08 | fails |
-| D one-shot | 0.00 | 0.00 | 0.00 | 0.00 | fails |
-| **B / C / D ALL** | **0.33 / 0.51 / 0.19** | 0.12 / 0.19 / 0.19 | 0.14 / 0.30 / 0.22 | 0.14 / 0.52 / 0.15 | B and C above the bar; C ties the privileged n-gram overall but wins on held-out (0.48 vs 0.29); D at prior level |
-The n-gram and prior are privileged baselines (they read the prompt text and the taught replies directly); mine
-hears sound only.  Learning in use (seen items, first -> last third): brainlike B 0.31 -> 0.57, C 0.35 -> 0.70,
-D 0.05 -> 0.19; bar B 0.13 -> 0.11, C 0.34 -> 0.23, D 0.14 -> 0.13.  Mechanics are as exact as the bar's.
-(My earlier own baseline runs on the same copy, 2,000 dialogues seed 0: B prior 0.15 / n-gram 0.16; C 0.32 / 0.52 held
-0.31; D 0.21 / 0.15 — consistent.)
+### B.9 Against the official bar and baselines, 3 seeds (bench README v1.2 "Reference numbers, 3 seeds")
+- **Mine:** world seeds 0, 1, 2. Stages A 800 / B 1,000 / C 1,000 / D 800 dialogues, tutor 'model' (no cue, no
+  reward). Every probe of the stage is scored, including the early learning phase. Files: `runs/final_s{0,1,2}.json`.
+- **Bar:** ARCH_v1 MEM trained with teacher forcing (in model / recast mode v1 never speaks: 0 programs), 2,000
+  dialogues per stage.
+- **Prior and n-gram:** privileged baselines that read the prompt text and the taught replies. Mine hears sound only.
+- **Format:** mean ± sd over the 3 seeds. Held-out items are in parentheses.
 
-### B.10 Multi-seed run: not available
-The 3-seed (+ recast, + lawful-physics) job `gpu/queue/brainlike_main1` ran 40 minutes and timed out with empty logs:
-it was submitted with 5 CPU processes before the per-job limit of 4 and the shared 12-core quota (each core ~0.6x a
-local core) were announced, so not even stage A + B finished.  All bench numbers above are therefore ONE seed (world
-seed 0).  Variance across design versions on that seed is visible in B.3 (stage B 0.33-0.60 across v4-v6 variants);
-the seed variance is unmeasured.  Recast mode and lawful physics are implemented (`tutor=recast`,
-`BL_PHYSICS=lawful`) but not measured.
+| task | **brainlike (3 seeds)** | bar | prior | n-gram | judgement |
+|---|---|---|---|---|---|
+| B what (pointing) | **0.50±0.01** (0.33±0.06) | 0.06±0.01 | 0.06±0.00 | 0.04±0.01 | real gain: scene naming learned by listening |
+| B where | 0.36±0.03 (0.19±0.02) | 0.32±0.03 | 0.31±0.03 | 0.32±0.03 | at the prior (+0.05) |
+| B slot | 0.12±0.04 (0.03±0.03) | 0.00±0.00 | 0.07±0.02 | 0.06±0.02 | at or just above the prior; location word → attention fails |
+| C offer (held-out fillers) | **0.81±0.04 (0.78±0.07)** | 0.04±0.01 | 0.07±0.02 | 0.48±0.01 (held-out ~0) | real gain: frame + ordered copy generalises to fillers never taught |
+| C count | 0.45±0.10 (0.46±0.11) | 0.10±0.01 | 0.31±0.01 | 0.30±0.01 | above the prior on all 3 seeds (0.36 / 0.45 / 0.55) |
+| C colour | 0.20±0.03 (0.14±0.03) | 0.08±0.01 | 0.16±0.03 | 0.17±0.02 | at the prior |
+| C taste | 0.48±0.05 (0.30±0.08) | 0.37±0.08 | 1.00±0.01 | 1.00±0.01 | BELOW the prior ("好吃" always) |
+| C ritual | 0.57±0.12 | 0.62±0.08 | 0.20±0.06 | 1.00±0.00 | above the prior, below the n-gram |
+| D check | 0.45±0.04 | 0.46±0.02 | 0.48±0.01 | 0.31±0.01 | at the prior |
+| D name | 0.03±0.01 (first syllable 0.74) | 0.00±0.00 | 0.12±0.04 | 0.12±0.04 | below the prior: the second syllable has no program, and with programs it is a wrong name (B.10.3) |
+| D before | 0.02±0.02 | 0.01±0.01 | 0.08±0.01 | 0.08±0.01 | fails |
+| D one-shot | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | 0.00±0.00 | fails |
+| **B / C / D ALL** | **0.34±0.02 / 0.52±0.01 / 0.17±0.02** | 0.12 / 0.19 / 0.19 | 0.14 / 0.30 / 0.22 | 0.14 / 0.52 / 0.15 | see below |
+
+**Stage totals.**
+- B is above the bar and every baseline.
+- C ties the privileged n-gram overall and beats it on held-out items: 0.47 ± 0.03 vs 0.29 ± 0.03.
+- D is at the bar's level and below the prior.
+
+**Learning in use** (all probes of the stage, first → last third):
+
+| | B | C | D |
+|---|---|---|---|
+| brainlike | 0.39±0.07 → 0.59±0.02 | 0.40±0.07 → 0.67±0.04 | 0.04±0.01 → 0.18±0.01 |
+| bar | 0.13 → 0.11 | 0.34 → 0.23 | 0.14 → 0.13 |
+
+**Mechanics** are exact in all 9 stage runs: 0 mouth ticks while a partner speaks, 0 overlaps, latency 6, every syllable 3 ticks, 0 garble, 0 extra turns.
+
+### B.10 Follow-up runs (coordinator's second request): 3 seeds, a size variant, recast, lawful physics
+**How these were run.**
+- Local CPU, one run at a time (`runs/queue_followup*.sh`, `runs/queue.log`). A few short diagnostics (< 3 min, lowest
+  priority) ran alongside.
+- Same code as the final v6 run. The new config keys `n_prog`, `prog_cap`, `babble_recruit` and `hip_recency`
+  default to v6 behaviour: two short runs with the old and new `agent.py` (A 60 + B 40, and A 40 + D 25 dialogues) gave
+  bit-identical stats, replies and weights.
+- Each full run is A 800 → B 1,000 → C 1,000 → D 800 dialogues, tutor 'model', learning on, all probes of a stage
+  scored (as in B.4).
+- Lesions: frozen copies, 150 probe dialogues on the same world seed. One full run takes 18-23 minutes.
+- **New logging:** each run now records the late third of every stage, the stage-D memory-task replies and the motor
+  inventory decoded by the world's own Voice.
+
+**B.10.1 Three seeds** (per-task table in B.9).
+- **Seed variance is small.** Stage totals are 0.33 / 0.36 / 0.35 (B), 0.51 / 0.52 / 0.52 (C) and 0.19 / 0.17 / 0.16
+  (D). Per task the sd is 0.01-0.05, except count (0.10) and ritual (0.12).
+- **Listening prediction** of the next syllable beats the best online exact n-gram on every seed:
+
+  | stage | readout | best n-gram |
+  |---|---|---|
+  | B | 0.82±0.01 | 0.70±0.01 |
+  | C | 0.82±0.00 | 0.59±0.00 |
+  | D | 0.76±0.01 | 0.60±0.01 |
+
+- **Motor inventory is the same on every seed.**
+  - 64/67 B/C chars have a program.
+  - Only 2/9 name chars and 5-6/67 novel-object chars do.
+  - The 512-slot pool is full on every seed, at 7.5-7.6 programs per char (at most 14-16).
+- **Drift from stage A to the end** (Jaccard of the codes for two fixed probe lines, on all 3 seeds):
+
+  | code | range |
+  |---|---|
+  | SUP | 0.46-0.56 |
+  | DQ | 0.22-0.27 |
+  | DG | 0.21-0.38 |
+
+**What the agent says in the stage-D memory tasks** (seed 2, last 40 probes per task; `D_replies` in the JSON):
+- **name** "我叫什么": it completes 小 with a familiar 小-word ("小狗", "小猫", "小鸟"). It answers right only for 小红,
+  whose second char 红 has a program (from 红色).
+- **one-shot** "这是什么" (pointing at the novel object): it answers in the check frame ("不是", "吗不是", "是") or stays
+  silent. It never tries the new word; only 6 of the novel-object chars have programs.
+- **before** "刚才S是什么": it names some familiar object or echoes "这是什么". No scene memory reaches the reply.
+
+**B.10.2 Lesions over 3 seeds**, re-scored as probe-pooled accuracy.
+- Each lesion run has 273-292 probes; every probe counts once.
+- B.5 averaged the three stage means. There D:name and D:before have only 2-4 probes in the lesion stream, so 1 item
+  could swing the D mean by 0.25. The pooled numbers below supersede B.5. Script: `lesion_pooled.py`.
+
+| lesion | drop s0 / s1 / s2 | mean±sd | verdict over 3 seeds |
+|---|---|---|---|
+| readout W | +0.29 / +0.22 / +0.16 | 0.22±0.06 | reaches behaviour |
+| ECHO loop (dorsal copy) | +0.25 / +0.24 / +0.20 | 0.23±0.03 | reaches behaviour |
+| vision | +0.24 / +0.23 / +0.12 | 0.20±0.07 | reaches behaviour |
+| VL word↔vision templates | +0.10 / +0.19 / +0.08 | 0.12±0.06 | reaches behaviour |
+| echo copy gate G_H | +0.11 / +0.08 / +0.08 | 0.09±0.02 | reaches behaviour |
+| DQ (held line) | +0.11 / +0.03 / +0.04 | 0.06±0.04 | reaches behaviour (weakly on s1, s2) |
+| CTX (topic) | +0.07 / +0.00 / −0.01 | 0.02±0.04 | **not reliable** (seed 0 only) |
+| LEX chunks | +0.04 / +0.02 / −0.02 | 0.01±0.03 | **not reliable** |
+| SUP recurrent assemblies (REC) | +0.03 / +0.02 / −0.03 | 0.01±0.03 | **not reliable** |
+| SUP / DC as readout inputs | +0.01 / −0.00 / −0.01; +0.00 / −0.02 / −0.04 | ≤ 0 | passenger (DQ carries the context) |
+| visual copy gates Vo/Vc/Vn/Vl | −0.00 / +0.02 / +0.00 | 0.01±0.01 | passenger |
+| memory copy gates Vh/Vr | +0.00 / +0.00 / +0.01 | 0.00±0.01 | passenger |
+| hippocampus | +0.00 / +0.01 / −0.00 | 0.01±0.01 | passenger |
+| LA word↔location | −0.01 / −0.02 / −0.01 | −0.01±0.00 | passenger (slightly harmful) |
+
+**The lesion stream tests the FINAL agent (after stage D), and that agent has forgotten scene naming.** In the intact
+copy:
+- B:what is 0.00 / 0.11 / 0.00. During stage B it was 0.50: the agent now answers "这是什么" with "不是", the check-frame
+  answer of stage D (这是X吗 → 是/不是).
+- The C frames are kept: offer 0.64 / 1.00 / 1.00, count 0.88 / 0.70 / 0.58.
+
+So the lesions cannot test the routes behind B:what. A repeat on the agent right after stage B was queued, then
+dropped for time, so this stays untested. The memory
+routes cannot be tested either: the intact agent never answers D:name or D:before correctly, so there is nothing to
+lose.
+
+**B.10.3 One size variant** (seed 0, `runs/big_s0.{json,out}`).
+
+| part | default (v6) | size variant |
+|---|---|---|
+| program pool | 512 | 2,048 (×4) |
+| SUP | 3,000 / k 150 | 6,000 / k 300 |
+| DC, DQ, CA1 | 1,000 / 50 | 2,000 / 100 |
+| CTX | 500 / 25 | 1,000 / 50 |
+| DG / CA3 | 2,000 / 40 | 4,000 / 80 |
+| episode store | 3,000 | 6,000 |
+
+- Every area except the pool is ×2, with the same active fractions and the same fan-ins.
+- Run time to the end of D: 29 min, twice the default (12-15 min). With the lesions the whole run took 36 min.
+- "Moved" means the size run lies outside the 3-seed mean ± 2 sd, and by more than 0.05.
+
+| measure | 3 seeds, default | size variant | moves with size? |
+|---|---|---|---|
+| B what / where / slot | 0.50±0.01 / 0.36±0.03 / 0.12±0.04 | 0.53 / 0.41 / 0.09 | no |
+| C offer / count / colour / taste / ritual | 0.81 / 0.45 / 0.20 / 0.48 / 0.57 | 0.80 / 0.44 / 0.18 / 0.46 / 0.56 | no |
+| D check | 0.45±0.04 | 0.51 (late third 0.71) | no (+1.5 sd) |
+| **D name** | 0.03±0.01 | **0.03** (late third 0.05) | **no** |
+| D before | 0.02±0.02 | 0.03 | no |
+| **D one-shot** | 0.00 | **0.00** | **no** |
+| B / C / D ALL | 0.34 / 0.52 / 0.17 | 0.36 / 0.52 / 0.21 | no (D +0.04 from check, 2 sd) |
+| listening prediction B / C / D | 0.82 / 0.82 / 0.76 | 0.82 / 0.82 / 0.77 | no |
+| programs in the pool | 512 (full) | 624 of 2,048 | – |
+| **name chars with a program** | 2/9 | **7/9** | **yes** |
+| **novel-object chars with a program** | 5-6/67 | **17/67** | **yes** |
+| programs per char (duplicates) | 7.5-7.6 | 7.3 | no |
+| DG code, A → end (Jaccard) | 0.21-0.38 | 0.47-0.51 | yes (less drift) |
+| B:what kept after stage D | 0.00-0.11 | 0.00 | no |
+| **passengers** (pooled lesion drop): hippocampus / memory gates / visual gates / LA | +0.01 / 0.00 / +0.01 / −0.01 | −0.00 / −0.02 / −0.04 / −0.01 | **no: still passengers** (visual gates slightly harmful) |
+| routes that matter: W / ECHO / G_H / VL / DQ | +0.22 / +0.23 / +0.09 / +0.12 / +0.06 | +0.19 / +0.26 / +0.12 / +0.10 / +0.06 | unchanged |
+
+**What the size variant shows.**
+1. **Only the motor cap moves with size.**
+   - The bigger pool leaves room for the late chars, so most name chars get a program (7/9).
+   - It does not fix the duplicates (7.3 per char). The keep rule keeps every babble that sounds like a known
+     syllable, and under random physics 113 of the 35,960 four-muscle sets produce each char. Duplicates grow with
+     babbling, whatever the pool size.
+2. **D:name does not move even when the programs exist.**
+   - The bigger agent now says a name, but the wrong one: 小刚, 小军 or 小红 for 小强 (`D_replies`).
+   - Diagnosis: recall takes the argmax of the CA3 overlap over all stored episodes. The store holds up to ~160
+     "我叫X" lines from earlier dialogues (one per name dialogue of stage D). Nothing favours the recent one, and ties
+     go to the oldest.
+   - A bigger store only adds more old competitors. This is a rule problem: recency, the temporal context of the
+     lateral EC, is missing. Tested in B.10.5: a recency term lifts D:name to 0.07.
+3. **D:one-shot does not move, because the failure is not capacity.**
+   - The agent answers "这是什么" in the check frame ("不是", "是", "吗") or stays silent, also with 17 novel-object
+     chars in its inventory.
+   - Stage D's check training (这是X吗 → 是/不是) captures every "这是…" prompt. The same interference wipes out
+     B:what after stage D on every seed, and in the bigger agent too.
+4. **D:before does not move.** Nothing names the changed slot's old object; recall would have to bring back the old
+   scene and name its object.
+5. **The passengers stay passengers at twice the size**, and the routes that matter are the same.
+6. **The B/C open problems (slot, where, colour, taste, ritual) do not move.**
+
+In short, none of the open problems is a size problem; each points to a rule. The designer's "too small" hypothesis is
+not supported at ×2-4.
+
+**B.10.4 Recast mode and lawful physics** (seed 0, stage A 800 → B 1,000).
+Files: `runs/recast_s0.*`, `runs/recast_tl40_s0.*`, `runs/lawful_s0.*`.
+
+| run | B what / where / slot | B ALL (first → last third) | listening prediction (n-gram) | programs: total, B/C chars, per char | mechanics |
+|---|---|---|---|---|---|
+| model tutor, random physics (3 seeds) | 0.50 / 0.36 / 0.12 | 0.34±0.02 (0.39 → 0.59) | 0.82 (0.70) | 512, 64/67, 7.5 | exact |
+| **recast tutor**, v6 | 0.01 / 0.02 / 0.00 | **0.01** (0.02 → 0.01) | 0.87 (0.70) | 479, 64/67, 7.0 | exact; parrot 0.59 |
+| recast tutor, tag life 40 ticks | 0.22 / 0.20 / 0.01 | **0.15** (0.15 → 0.18); frozen-copy model-mode probe 0.26 | 0.82 (0.72) | 423, 63/67, 6.2 | exact; parrot 0.30 |
+| **lawful physics**, model tutor | 0.06 / 0.19 / 0.03 | **0.09** (0.05 → 0.20) | 0.81 (0.70) | **100**, 44/67, 1.9 | 88 garbled syllables; otherwise exact |
+
+**Recast mode does not work in v6: B 0.01.** The agent mostly repeats the question ("这是什么" → "这是什么", parrot
+0.59). A trace of the learning events (an instrumented 6-dialogue recast run) shows why:
+1. The recast arrives 20-35 ticks after the agent's own reply has ended. The eligibility tag lives 12 ticks, so the
+   recast's **first syllable is never learned** (tag age 26-38 at that syllable). Only the following syllables are
+   learned, and they are learned as continuations.
+2. The turn-role rule (a line starting ≤ 8 ticks after the previous line = a reply) files the recast as a new
+   initiative. After each recast the agent says something, so the next question is filed as a "reply".
+
+Both timings were tuned to model mode, where the model reply starts 3 ticks after the prompt. The rule was right; the
+time constants were too short for a tutor who waits for the child.
+
+Config-only fix: a tag life of 40 ticks (≈ 2.7 s, at 3 ticks per ~200 ms syllable). That is close to the 0.3-2 s
+window measured in striatal spines (Yagishita et al. 2014) and within the seconds-long traces reviewed by Gerstner et al.
+(2018). It lets the recast be learned in the context saved at
+the end of the agent's own line, where DQ still holds the question. Result: recast learning goes from 0.01 to **0.15** in stage B.
+- A frozen copy answers model-mode probes at 0.26, against 0.00 after v6 recast training.
+- Parroting halves (0.59 → 0.30).
+- It is still well below model mode (0.34; late third 0.59 vs 0.18).
+- The part not fixed is the turn role. The agent speaks after every recast, so the next question starts within
+  8 ticks of the agent's line and is filed as a "reply". The role should come from who spoke last and whether a
+  question is held in DQ, not from timing alone. Not yet tested.
+
+**Lawful physics works, but with a smaller and less exact motor inventory.**
+- Perception and learning by listening are unchanged: prediction 0.81 vs n-gram 0.70. Stage B learns
+  (0.05 → 0.20 within the stage).
+- The keep rule ("keep a babble whose own sound evokes a known syllable at cos ≥ 0.8") keeps only 100 programs.
+  Under lawful physics only gestures sharing 3-4 muscles with a char sound like it; under random physics all 113 sets
+  that the mouth rule maps to a char sound exactly like it.
+- Some kept programs produce a similar-sounding neighbour, which the world decodes as another char or as garble:
+  88 garbled syllables, and replies like "莓瓜" or "两球".
+- What lawful physics makes possible, and v6 does not use, is a forward/inverse model (DIVA-like): move the gesture
+  toward the heard target, and verify a program by the listener's reaction instead of the agent's own ear alone.
+  Stage B then reaches 0.09 instead of 0.34, and the cause is the mouth, not the mind.
+
+**A rule attempt that failed (reported, not adopted).** Variant: `prog_cap=2 babble_recruit=1 hip_recency=0.2`.
+- Idea: novelty-gated program keeping (at most 2 programs per syllable), plus recruiting the agent's own clear babbled
+  syllables as new syllable units, so that late words have a program before they are ever heard.
+- In a 200-dialogue smoke test it covered 8/9 name chars and 44/67 novel-object chars at 1.8 programs per char.
+- In the full run it **broke speech**: 3,294 garbled syllables in stage B ("西~是小西~是西~…"), B 0.03. Own-voice units
+  recruited at an unclean tick evidently link programs to junk sounds; I did not find the exact cause in the time.
+- I stopped the run after stage B (`runs/rules_s0.json`). The recency test was re-run on its own (B.10.5).
+
+**B.10.5 Testing the D:name diagnosis: pool 2,048 + recency-weighted recall** (seed 0, default PFC and hippocampus
+sizes; `runs/recency_s0.{json,out}`; `hip_recency=0.2`, `hip_tau=150`).
+- Recall score = CA3 overlap / k + 0.2 · exp(−Δt / 150 ticks). This is the brain's temporal context: a slowly drifting
+  lateral-EC time code that makes recent episodes closer to the current state (Tsao et al. 2018; Howard & Kahana 2002).
+- The pool is ×4 so that the name chars can have programs, as in the size run.
+
+| measure | 3 seeds (v6) | size run (pool 2,048, ×2 PFC + hippocampus) | pool 2,048 + recency |
+|---|---|---|---|
+| B / C / D ALL | 0.34±0.02 / 0.52±0.01 / 0.17±0.02 | 0.36 / 0.52 / 0.21 | 0.40 / 0.52 / 0.20 |
+| **D name** (last third) | 0.03±0.01 | 0.03 (0.05) | **0.07 (0.10)** |
+| right names among the last 25-30 name probes | – | 1 of 25 | 4 of 30 (小刚, 小军, 小华, 小强) |
+| D before / one-shot | 0.02 / 0.00 | 0.03 / 0.00 | 0.02 / 0.00 |
+| D check (last third) | 0.45±0.04 | 0.51 (0.71) | 0.49 (0.65) |
+| name chars / novel chars with a program | 2/9, 5-6/67 | 7/9, 17/67 | 7/9, 13/67 |
+| pooled lesion drop: hippocampus / memory gates | +0.01 / 0.00 | −0.00 / −0.02 | −0.01 / 0.00 |
+
+1. **Recency moves D:name a little:** 0.03 → 0.07, and 0.10 in the last third. With the bigger pool alone it stayed
+   at 0.03. This partly confirms the diagnosis, on one run.
+2. **Most name replies are still wrong** (another name, or a familiar 小-word such as 小猫 or 小鸟). The recalled
+   name has to beat the readout's own prediction through the memory copy gate, and that gate never learned a strong
+   weight: lesioning it changes nothing. The lesion stream has only 2 name probes, so the route cannot be isolated by
+   a lesion.
+3. **B rose to 0.40** on this run (what 0.58, where 0.42), 3 sd above the seed mean. I cannot attribute it without
+   more runs: recall feeds SUP through CA1, so recency changes B contexts too, and the bigger pool alone gave 0.36.
+4. **One-shot and before do not move**, as diagnosed: frame interference, and no scene memory that names the old
+   object.
+
+**B.10.6 Conclusions of the follow-up, for the synthesis**
+1. **Variance is small.** Seed sd is 0.01-0.02 on stage totals and 0.01-0.05 on most tasks; only count and ritual
+   reach 0.10-0.12. A single-run change of ≥ 0.05 on a stage total is ≥ 2.5 sd and worth taking seriously. Same-seed
+   rerun noise was not measured.
+2. **"Too small / not tuned" is not what limits this design.** ×4 programs with ×2 PFC and hippocampus moved nothing
+   beyond 2 sd. A config-only change of one time constant, the tag life, rescued recast learning from 0.01 to 0.15.
+   So did one recency term in recall, for D:name: 0.03 → 0.07, where a bigger store gave 0.03.
+3. **The three failures that block stage D are rule failures:**
+   - frame interference (one delta readout for all frames; D's check overwrites B's naming);
+   - recall without recency;
+   - a keep rule for programs that fills any pool with duplicates and never verifies with the listener.
+
+   Each has a brain-faithful remedy in this design's own vocabulary: hippocampal replay interleaving old frames
+   (`sleep()`, built but unused), the lateral-EC time code, and novelty-gated recruitment checked by the partner's
+   reaction.
+4. **The passengers stay passengers on every seed and at twice the size.** They are not starved of units; the delta
+   readout simply never needs them while the direct routes (W from vision, ECHO) carry the trained tasks. Under brief
+   rule 3 they should be removed from the default or given a task only they can solve. D:before and D:name with
+   recency are the candidates.
 
 ## Bench issues (for the coordinator; I did not change any metric)
 1. **Eye codes have no location structure.**  Each (slot, value) code is 4 shared + 4 slot-specific units at random
@@ -510,14 +824,20 @@ the seed variance is unmeasured.  Recast mode and lawful physics are implemented
    produces a given char with p ~ 3e-5 (it must share 3-4 muscles and be the first such char in the decoder's order),
    i.e. ~3x10^4 babbles per target char (SIMULATED: only 11 syllables got programs from 165 babbles in my first run).
    I used the bench's `vocab=` option with the bench's own 142 chars (then ~1,100 babbles cover 93 % of the B/C chars).
-   Lawful physics (now "checked" in v0.3) is the proper fix; my agent has not been run on it yet.
+   Lawful physics is the proper fix. My agent was run on it in the follow-up (B.10.4): with the 142-char lexicon it
+   keeps only 100 programs (44/67 B/C chars, 88 garbles in B) and reaches B 0.09. It needs an inverse model to
+   exploit the lawful sound.
 3. **Trap, not a bug:** v1's corollary-discharge timer runs for 4 ticks after every GO, even when the first boundary is
    then blocked by the model reply (gap_model = 3).  Agents must not use CD as their own-voice tag.
 4. In model mode 30 % of the model replies are spoken by the partner itself; speaker identity therefore cannot mark
    "reply" vs "question" — timing can (the model reply starts 3 ticks after the prompt, the next prompt >= 10 later).
-5. Process note: my multi-seed V100 job (`gpu/queue/brainlike_main1`) was submitted with 5 CPU processes before the
-   coordinator's limit of 4 per job was announced; it timed out without output (B.10).  My final runs used my bench
+5. Process note: my first multi-seed V100 job (`gpu/queue/brainlike_main1`) was submitted with 5 CPU processes before
+   the coordinator's limit of 4 per job was announced; it timed out after 40 min without a single line of output (not
+   even stage B, which takes 5-6 min locally), so I ran the follow-up locally, one process at a time (B.10).  My final runs used my bench
    copy taken from v0.3 at 02:59 (after the 02:56 redesign of D:before; that task's code is identical to v1.2's).
+6. **Recast timing:** in recast mode the recast starts 20-35 ticks after the agent's reply ends. In model mode the
+   model reply starts 3 ticks after the prompt. Agents tuned on model mode, with short eligibility traces or
+   timing-based turn roles, will silently fail in recast mode, as v6 did (B.10.4).
 
 ## Files (all in arch/v2/brainlike/)
 | file | what |
@@ -532,18 +852,52 @@ the seed variance is unmeasured.  Recast mode and lawful physics are implemented
 | `bench_run.py` | bench wrapper (vocab, eye layout, physics options via BL_PHYSICS / BL_VOCAB) |
 | `pipeline.py` | A -> B -> C -> D on the bench + listening-prediction vs n-gram + drift probe + lesions (frozen copies, fixed probe stream); saves the trained agent |
 | `final_tables.py`, `agg.py` | tables from pipeline JSONs |
+| `seeds_table.py` | multi-seed / variant summary (mean ± sd per task, learning, prediction, mechanics, motor inventory, drift, lesion drops) |
+| `lesion_pooled.py` | lesion effects as probe-pooled accuracy over seeds and variants (supersedes the stage-mean scoring) |
 | `stageA.py`, `cont_run.py`, `diag.py` | stage-A runs, continuation, instrumented diagnosis (per-boundary gates, candidates, predictions) |
-| `runs/` | all run outputs: `final_s0.{out,json}` + `final_s0_agent.pkl` (the final run), `final_v7_s0.*` (reverted variant), `diag4-10.out`, `A*.out`, smoke/crash JSONs; GPU multi-seed results in `../gpu/queue/brainlike_main1/result/` |
+| `runs/` | all run outputs: `final_s{0,1,2}.{out,json}` + `final_s{0,1,2}_agent.pkl` (the final v6 runs on 3 seeds), `big_s0.*` (size variant), `rules_s0.*` (failed rule attempt, stopped after B), `recast_s0.*`, `recast_tl40_s0.*`, `lawful_s0.*`, `recency_s0.*`, `queue_followup*.sh` + `queue.log` (the follow-up queue), `agent_v6_backup.py` / `pipeline_v6_backup.py` (code of the first report), `final_v7_s0.*` (reverted variant), `diag4-10.out`, `A*.out`, smoke/crash JSONs; the first GPU job's folder `../gpu/queue/brainlike_main1/result/` (empty logs: it timed out) |
 | `benchcopy/` | the bench v0.3 + one option `eye_layout='retino'` (`benchcopy_v02/` = the earlier copy) |
 | `world.py`, `run.py` | my early toy world (before the bench was ready) |
-| `design.md`, `cites.md`, `tests_section.md`, `progression.md`, `results_head.md`, `lesions_section.md`, `hold_section.md`, `bars_section.md`, `bench_issues.md`, `verdict.md`, `zh.md`, `assemble.sh` | the parts of `report.md` |
+| `head.md`, `verdict_v2.md`, `design.md`, `cites.md`, `a13.md`, `tests_section.md`, `progression.md`, `results_head.md`, `lesions_section.md`, `hold_section.md`, `bars_b9.md`, `followup_*.md`, `bench_issues.md`, `files.md`, `zh_v2.md`, `assemble.sh` | the parts of `report.md` (first-report versions kept as `runs/*.v1bak`, the first report as `runs/report_v1_backup.md`) |
 
 ## summary_zh
-1. 按"真实大脑的分工"设计并实现了完整架构：背侧"听→复述"（音节单元→语音回路→复制闸门→发音镜像）、腹侧"听→懂"（音节统计→词单元→词与看见的物体、位置的联结）、多层前额叶（浅层混合选择性；深层保持当前句和上一句；更慢的话题层；丘脑式放大回路；基底节闸门：对方说话时更新、回答时保持）、海马体一次记住情节。学习规则只有三类：设计者的先后顺序规则（序列区）、一起亮就加强并当场归一（联想区）、资格痕迹×第三因子（决策通路）。
-2. 全程不推肌肉：发音程序全靠咿呀学语自己找到（最终覆盖 B/C 阶段 96% 的音节）；说什么全靠"听别人怎么回答"学会。别人说话时嘴从不动、第 6 拍开口、每个字 3 拍，所有阶段都保持。
-3. 共享测试台结果（种子 0，对照官方基准：v1 靠推肌肉训练，B/C/D 为 0.12/0.19/0.19）：真正新出现的能力有两项——指着东西问"这是什么"答对 0.51（v1、先验、n-gram 都≤0.06），"你要X吗→要X"0.85、没教过的 X 上 0.86（n-gram 0.48，没教过的约 0）；三个阶段总分 0.33/0.51/0.19。但"在哪里""左边是什么""什么颜色"只到先验水平，"好不好吃"和寒暄低于先验/n-gram，D 阶段（是不是、记名字、刚才、一次学新词）没有学会。
-4. 设计者"前额叶就像语言模型里的循环网络"的想法正是这个架构的核心：边听边预测下一个音节，0.82/0.82/0.77，比同样数据上的 n-gram（0.71/0.59/0.61）好。
-5. 用回路"保持想法"：机制本身没问题（没有两拍来回跳、200 拍后还在、新句子能干净替换）；按内容构成的版本保持测试全过（20 选 1 解码 1.00），但行为没变好，所以最终版保留了带上下文的版本（解码 0.45）。
-6. 逐个摘除检验：读出层、复述通路、视觉、词-物联结、词单元、前额叶的保持层和话题层都确实影响行为；海马体、记忆复制闸门、视觉复制闸门、位置词联结在训练好的模型里是"乘客"，按规则需要修好或去掉。
-7. 迭代中最重要的发现：把 v1 的"自言自语计时器"当成"自己的声音"会删掉每个示范回答的第二个字（这是最初完全学不会的原因）；只靠漏电神经元挡不住两拍来回跳，要靠层内自保持回路。
-8. 还没解决：问"左边是什么"和颜色题较弱；D 阶段的记忆；后来才听到的字没有发音程序（程序池被重复程序占满）；只有一个种子的结果（三种子的服务器任务超时，没有输出）；"改说+奖励"模式和有规律的发音物理已实现但没测。
+1. **架构与学习方式**
+   - 按"真实大脑的分工"设计并实现了完整架构：
+     - 背侧"听→复述"：音节单元 → 语音回路 → 复制闸门 → 发音镜像。
+     - 腹侧"听→懂"：音节统计 → 词单元 → 词与看见的物体、位置的联结。
+     - 多层前额叶：浅层混合选择性；深层保持当前句和上一句；更慢的话题层；丘脑式放大回路；基底节闸门（对方说话时更新、回答时保持）。
+     - 海马体：一次记住情节。
+   - 学习规则只有三类：设计者的先后顺序规则（序列区）；一起亮就加强、并当场归一（联想区）；资格痕迹 × 第三因子（决策通路）。
+   - 全程不推肌肉：发音程序全靠咿呀学语自己找到，说什么全靠"听别人怎么回答"学会。
+2. **三个种子（0、1、2）的结果，结论稳定、方差很小**
+   - 三个阶段总分 B 0.34±0.02、C 0.52±0.01、D 0.17±0.02；官方基准（v1 靠推肌肉训练）为 0.12 / 0.19 / 0.19。
+   - "这是什么"答对 0.50±0.01（基准、先验、n-gram 都不超过 0.06）。
+   - "你要X吗→要X"答对 0.81±0.04，没教过的 X 上 0.78±0.07。
+   - 边听边预测下一个音节 0.82 / 0.82 / 0.76，都比 n-gram（0.70 / 0.59 / 0.60）好。
+   - 9 个阶段的说话机制全部精确：别人说话时嘴从不动，第 6 拍开口，每个字 3 拍。
+3. **逐个摘除检验（三个种子，按全部探针合计算分）**
+   - 确实影响行为的：读出层、复述通路、视觉、词与物的联结、复述闸门、保持层。
+   - 话题层、词单元、浅层联想：作用不稳定。
+   - 海马体、记忆复制闸门、视觉复制闸门、位置词联结：在每个种子上都是"乘客"。
+4. **放大模型没有解决问题**（程序池 4 倍，前额叶、海马体 2 倍）
+   - 所有未解决的问题都没有超出 2 个标准差的变化。
+   - 更大的程序池让后来才听到的字有了发音程序（名字的字 2/9 → 7/9），但"我叫什么"仍然答错：它会说一个名字，却是别的名字。
+   - 原因：回忆时在几百个相似的"我叫X"情节里，旧的和新的一样容易被选中，缺"最近"这个时间信息。加上"最近"权重后，"我叫什么"从 0.03 升到 0.07（最后三分之一为 0.10），部分证实了这个判断。
+   - 重复程序也没有减少（每个字约 7 个），这是保留规则的问题，不是大小的问题。
+5. **新发现：D 阶段的训练覆盖了 B 阶段**
+   - D 阶段大量练"这是X吗→是/不是"之后，问"这是什么"也答"不是"：B 阶段学会的命名从 0.50 掉到 0～0.11，C 阶段的句型保住了。
+   - 一次学新词失败也是同一个原因。
+   - 需要用睡眠回放或前额叶里的"规则/情境闸门"来解决。
+6. **"改说+奖励"模式和有规律的发音物理**
+   - 改说模式在 v6 里学不会（0.01，只会重复问题）：老师的改说在孩子说完后 20～35 拍才来，而资格痕迹只保留 12 拍，所以答案的第一个字永远学不到。把资格痕迹延长到 40 拍（约 2.7 秒）后升到 0.15，但仍低于示范模式（0.34），因为"轮次角色"规则还把下一个问题当成回答。
+   - 有规律的发音物理能用，但发音程序少且不准：100 个程序，88 个乱音，B 阶段 0.09。需要能利用"相似动作发相似声音"的逆模型。
+7. **尝试过但失败的规则**："自己咿呀出的清楚音节也直接收为音节单元"，在完整运行里让说话变成乱音（B 0.03），没有采用。
+8. **最重要的教训**：起作用的是正确的信号和规则，不是更多的神经元。最初完全学不会，是因为把 v1 的计时器当成了"自己的声音"；模型放大一倍，什么也没换来。
+9. **下一步，按顺序**：
+   1. 句型之间的干扰（回放或情境闸门）。
+   2. 回忆的"最近"信息。
+   3. 发音程序的保留规则（按新颖度，并由听者确认）。
+   4. 有规律物理下的逆模型。
+   5. 位置词和颜色题。
+   6. 竞争的句型（"好不好吃"）。
+   7. "乘客"部件。

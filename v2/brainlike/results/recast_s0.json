@@ -1,0 +1,365 @@
+{
+ "tag": "recast",
+ "seed": 0,
+ "cfg": {
+  "seed": 0,
+  "p_go": 0.5,
+  "p_new": 0.8
+ },
+ "tutor": "recast",
+ "stats_A": {
+  "heard": 4431,
+  "recruit": 67,
+  "own_det": 102,
+  "mir_learn": 102,
+  "babble": 2515,
+  "chunks": 18,
+  "learn_ev": 4428,
+  "end_ev": 1063,
+  "recall": 1096,
+  "encode": 1101,
+  "reward_learn": 95,
+  "kept": 930,
+  "practice": 595,
+  "fastmap": 2
+ },
+ "secs_A": 101.38076543807983,
+ "B": {
+  "B/slot": {
+   "acc": 0.0,
+   "n": 587,
+   "first": 0.04770017035775128,
+   "echo_free": 0.0,
+   "parrot": 0.6454663212435233,
+   "seen": 0.0,
+   "n_seen": 488,
+   "held": 0.0,
+   "n_held": 99
+  },
+  "B/what": {
+   "acc": 0.011152416356877323,
+   "n": 807,
+   "first": 0.5762081784386617,
+   "echo_free": 0.011152416356877323,
+   "parrot": 0.8808043875685557,
+   "seen": 0.011477761836441894,
+   "n_seen": 697,
+   "held": 0.00909090909090909,
+   "n_held": 110
+  },
+  "B/where": {
+   "acc": 0.021922428330522766,
+   "n": 593,
+   "first": 0.08094435075885328,
+   "echo_free": 0.021922428330522766,
+   "parrot": 0.14388489208633093,
+   "seen": 0.025540275049115914,
+   "n_seen": 509,
+   "held": 0.0,
+   "n_held": 84
+  },
+  "B/ALL": {
+   "acc": 0.011071967790639155,
+   "n": 1987,
+   "first": 0.27226975339708104,
+   "echo_free": 0.011071967790639155,
+   "parrot": 0.5858888888888888,
+   "seen": 0.012396694214876033,
+   "n_seen": 1694,
+   "held": 0.0034129692832764505,
+   "n_held": 293
+  },
+  "B/SCENE": {
+   "acc": 0.011071967790639155,
+   "n": 1987,
+   "first": 0.27226975339708104,
+   "echo_free": 0.011071967790639155,
+   "parrot": 0.5858888888888888,
+   "seen": 0.012396694214876033,
+   "n_seen": 1694,
+   "held": 0.0034129692832764505,
+   "n_held": 293
+  },
+  "B/mech": {
+   "mouth_while_partner": 0,
+   "exchanges_with_overlap": 0,
+   "latency_median": 6.0,
+   "frac_not_3": 0.0,
+   "garble": 0,
+   "extra_turns": 0,
+   "spoke": 0.6794162053346754
+  },
+  "B/one_shot": {
+   "n": 0,
+   "acc": null,
+   "retention": {}
+  },
+  "B/learning": {
+   "n": 1694,
+   "acc_early": 0.024822695035460994,
+   "acc_late": 0.0070921985815602835,
+   "same_items": 24,
+   "same_items_early": 0.021998919041929795,
+   "same_items_late": 0.007440476190476189
+  }
+ },
+ "B_late": {
+  "slot": 0.0,
+  "what": 0.0,
+  "where": 0.022
+ },
+ "B_examples": [
+  "中间是什么->这是什么",
+  "西瓜在哪里->右边是什么",
+  "这是什么->这是什么",
+  "左边是什么->是什么",
+  "右边是什么->这是什么",
+  "中间是什么->这是什么",
+  "这是什么->",
+  "这是什么->这是什么",
+  "这是什么->这是什么",
+  "左边是什么->",
+  "中间是什么->这是什么",
+  "这是什么->",
+  "右边是什么->",
+  "右边是什么->",
+  "中间是什么->这是什么",
+  "中间是什么->",
+  "这是什么->这是什么",
+  "右边是什么->这是什么",
+  "这是什么->这是什么",
+  "这是什么->这是什么"
+ ],
+ "B_predict": {
+  "readout": 0.8697361033127456,
+  "n1": 0.7003556054650946,
+  "n2": 0.6934306569343066,
+  "n3": 0.6831368145236758,
+  "n_events": 5343
+ },
+ "drift": {
+  "sup": [
+   [
+    0.42857142857142855,
+    0.5
+   ]
+  ],
+  "dq": [
+   [
+    0.08695652173913043,
+    0.2345679012345679
+   ]
+  ],
+  "dg": [
+   [
+    0.2903225806451613,
+    0.2698412698412698
+   ]
+  ]
+ },
+ "drift_A_to_end": {
+  "sup": [
+   0.42857142857142855,
+   0.5
+  ],
+  "dq": [
+   0.08695652173913043,
+   0.2345679012345679
+  ],
+  "dg": [
+   0.2903225806451613,
+   0.2698412698412698
+  ]
+ },
+ "motor": {
+  "n_prog": 479,
+  "pool": 512,
+  "distinct": 68,
+  "bc": "64/67",
+  "names": "2/9",
+  "novel": "6/67",
+  "per_char": 7.04,
+  "max_per_char": 16,
+  "n_syl": 67
+ },
+ "stats": {
+  "heard": 17102,
+  "recruit": 67,
+  "own_det": 11605,
+  "mir_learn": 11605,
+  "babble": 3076,
+  "chunks": 19,
+  "learn_ev": 15115,
+  "end_ev": 3740,
+  "recall": 3766,
+  "encode": 3778,
+  "reward_learn": 155,
+  "kept": 1191,
+  "practice": 759,
+  "fastmap": 2
+ },
+ "n_prog": 479,
+ "n_syl": 67,
+ "n_chunks": 21,
+ "lesion": {
+  "none": {
+   "B/slot": {
+    "acc": 0.0,
+    "n": 29,
+    "first": 0.0,
+    "echo_free": 0.0,
+    "parrot": 0.7258620689655173,
+    "seen": 0.0,
+    "n_seen": 23,
+    "held": 0.0,
+    "n_held": 6
+   },
+   "B/what": {
+    "acc": 0.0,
+    "n": 48,
+    "first": 0.9375,
+    "echo_free": 0.0,
+    "parrot": 0.975,
+    "seen": 0.0,
+    "n_seen": 43,
+    "held": 0.0,
+    "n_held": 5
+   },
+   "B/where": {
+    "acc": 0.0,
+    "n": 39,
+    "first": 0.07692307692307693,
+    "echo_free": 0.0,
+    "parrot": 0.0,
+    "seen": 0.0,
+    "n_seen": 32,
+    "held": 0.0,
+    "n_held": 7
+   },
+   "B/ALL": {
+    "acc": 0.0,
+    "n": 116,
+    "first": 0.41379310344827586,
+    "echo_free": 0.0,
+    "parrot": 0.5849137931034483,
+    "seen": 0.0,
+    "n_seen": 98,
+    "held": 0.0,
+    "n_held": 18
+   },
+   "B/SCENE": {
+    "acc": 0.0,
+    "n": 116,
+    "first": 0.41379310344827586,
+    "echo_free": 0.0,
+    "parrot": 0.5849137931034483,
+    "seen": 0.0,
+    "n_seen": 98,
+    "held": 0.0,
+    "n_held": 18
+   },
+   "B/mech": {
+    "mouth_while_partner": 0,
+    "exchanges_with_overlap": 0,
+    "latency_median": 6.0,
+    "frac_not_3": 0.0,
+    "garble": 0,
+    "extra_turns": 0,
+    "spoke": 1.0
+   },
+   "B/one_shot": {
+    "n": 0,
+    "acc": null,
+    "retention": {}
+   },
+   "B/learning": {
+    "n": 98,
+    "acc_early": 0.0,
+    "acc_late": 0.0,
+    "same_items": 14,
+    "same_items_early": 0.0,
+    "same_items_late": 0.0
+   }
+  },
+  "W": {
+   "B/slot": {
+    "acc": 0.0,
+    "n": 29,
+    "first": 0.0,
+    "echo_free": 0.0,
+    "parrot": 0.8391025641025642,
+    "seen": 0.0,
+    "n_seen": 23,
+    "held": 0.0,
+    "n_held": 6
+   },
+   "B/what": {
+    "acc": 0.0,
+    "n": 48,
+    "first": 1.0,
+    "echo_free": 0.0,
+    "parrot": 1.0,
+    "seen": 0.0,
+    "n_seen": 43,
+    "held": 0.0,
+    "n_held": 5
+   },
+   "B/where": {
+    "acc": 0.0,
+    "n": 39,
+    "first": 0.0,
+    "echo_free": 0.0,
+    "parrot": 0.612,
+    "seen": 0.0,
+    "n_seen": 32,
+    "held": 0.0,
+    "n_held": 7
+   },
+   "B/ALL": {
+    "acc": 0.0,
+    "n": 116,
+    "first": 0.41379310344827586,
+    "echo_free": 0.0,
+    "parrot": 0.8597643097643097,
+    "seen": 0.0,
+    "n_seen": 98,
+    "held": 0.0,
+    "n_held": 18
+   },
+   "B/SCENE": {
+    "acc": 0.0,
+    "n": 116,
+    "first": 0.41379310344827586,
+    "echo_free": 0.0,
+    "parrot": 0.8597643097643097,
+    "seen": 0.0,
+    "n_seen": 98,
+    "held": 0.0,
+    "n_held": 18
+   },
+   "B/mech": {
+    "mouth_while_partner": 0,
+    "exchanges_with_overlap": 0,
+    "latency_median": 6.0,
+    "frac_not_3": 0.0,
+    "garble": 0,
+    "extra_turns": 0,
+    "spoke": 0.853448275862069
+   },
+   "B/one_shot": {
+    "n": 0,
+    "acc": null,
+    "retention": {}
+   },
+   "B/learning": {
+    "n": 98,
+    "acc_early": 0.0,
+    "acc_late": 0.0,
+    "same_items": 14,
+    "same_items_early": 0.0,
+    "same_items_late": 0.0
+   }
+  }
+ },
+ "secs": 484.2441418170929
+}
