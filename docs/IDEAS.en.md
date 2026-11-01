@@ -244,6 +244,17 @@ new things overwrites old ones".
 
 **Plan.** After the synthesis and tuning, compare 1× / 4× / 16× in a rich world.
 
+**Designer's addendum (2026-11-01): scale the whole model together, never one part.** The PFC, the hippocampus, the
+conjunction layer, the ear and every other area grow by the same factor, and experience and the world grow with them.
+
+**Why it matters:** the meaning round's 4× check enlarged only the random conjunction layer. Every other part and the
+life length stayed the same, so each unit got a quarter of the training, and J fell by 0.11. That says "enlarging one
+part is wrong", not "scaling does not help". Machine learning shows the same: parameters and data must grow together
+(Hoffmann et al. 2022).
+
+**Scaling tests from now on:** the whole model at 1× / 4× / 16× with one global factor, with the world and experience
+enriched to match. A sweep of a single module does not count as a scaling test.
+
 ## 13. A simulated world on the server where many models live together
 
 **Version 1 done** (`v2/bench/world2`, selftest 25/25).
