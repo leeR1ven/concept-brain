@@ -1,5 +1,7 @@
 # concept-brain
 
+> **Architecture master document (the single authoritative version): [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** (Chinese; English version to follow). It consolidates what is right, wrong and undecided in the designer's earlier repos.
+
 [中文](README.md) | **English**
 
 A research prototype of a brain-inspired AI that **learns in real time, all the time**. There is no offline training

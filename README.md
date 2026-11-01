@@ -1,5 +1,7 @@
 # concept-brain
 
+> **架构总纲（唯一权威版本）：[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。** 设计者旧库里的对、错、待定内容都已综合整理在这里；以后只看这一份即可。
+
 **中文** | [English](README.en.md)
 
 模仿真实大脑、边运行边学的 AI 模型（研究原型）。设计见 [DESIGN.md](DESIGN.md)。
