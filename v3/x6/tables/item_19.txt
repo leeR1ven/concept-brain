@@ -1,0 +1,10 @@
+item 19: kicks (fractions of kicks; wrong pairings per 1,000 quiet ticks)
+  silent             random  0.035±0.008  cued  0.000±0.000  paired cued-random -0.035±0.008
+  single             random  0.169±0.018  cued  0.029±0.038  paired cued-random -0.140±0.048
+  real               random  0.341±0.013  cued  0.547±0.147  paired cued-random 0.205±0.140
+  chimera            random  0.455±0.020  cued  0.425±0.163  paired cued-random -0.031±0.151
+  anyheard           random  0.571±0.024  cued  0.907±0.054  paired cued-random 0.335±0.050
+  right              random  0.000±0.000  cued  0.653±0.078  paired cued-random 0.653±0.078
+  wrong_per_1000     random    112.6±3.4  cued    49.6±18.2  paired cued-random -63.0±15.8
+  wrong_in_per_1000  random     44.8±1.9  cued    41.3±15.1  paired cued-random -3.6±13.8
+  wrong_tc_per_1000  random     67.8±2.0  cued      8.3±3.7  paired cued-random -59.4±2.7
