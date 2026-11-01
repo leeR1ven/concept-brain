@@ -16,7 +16,7 @@ folder holds its report and its small analytic scripts.
 - **`eval/`:** a sealed test that cannot be passed by designing on it.
 
 **The synthesis is `synth/ARCH_v3_core.md`:** one fixed core of 4 mechanisms, 2 broadcasts, 2 objectives and 5 innate priors (17 sub-items), a 30-gene genome, lineage inheritance, the maturity rule, a neuron-level form for every part, a 13-step migration ladder from v2.2 and the first five experiments. An adversarial review follows. Paths of the form `arch/v2/...` refer to
-the coordinator's working tree; the published parts live in `v2/`, and v2.2 (`arch/v2/v22/`) is still in progress.
+the coordinator's working tree; the published parts live in `v2/` (v2.2 is `v2/v22/`).
 
 ## 中文摘要
 五位成员从不同角度回答同一个问题：怎样用一套固定的机制学会新本事，而不是每种能力加一个机制。
