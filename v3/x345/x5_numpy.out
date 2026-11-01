@@ -1,0 +1,2 @@
+{"backend": "numpy", "s": 1.0, "hipC": 1.0, "units": 55312, "synapses": 32402592, "build_s": 0.5, "active": {"ear_L1": 768, "ear_L2": 204, "ear_L3": 205, "aud": 41, "voice": 10, "eye_L1": 55, "eye_L2": 102, "pfc": 163, "hip": 63, "motor": 50}, "rss_mb": 473, "speech_ms": 7.3, "silent_ms": 6.33, "decay_pass_ms": 56.0, "decay_amortised_ms": 0.28}
+RSS 483920 KB 4.96 s

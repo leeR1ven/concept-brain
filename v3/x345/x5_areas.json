@@ -1,0 +1,371 @@
+[
+ {
+  "s": 1.0,
+  "hipC": 1.0,
+  "areas": {
+   "ear_L2": {
+    "speech": {
+     "drive_ms": 0.186,
+     "thr_ms": 0.052,
+     "learn_ms": 0.102
+    },
+    "silent": {
+     "drive_ms": 0.172,
+     "thr_ms": 0.032,
+     "learn_ms": 0.027
+    },
+    "decay_pass_ms": 0.04,
+    "synapses": 48640
+   },
+   "ear_L3": {
+    "speech": {
+     "drive_ms": 0.086,
+     "thr_ms": 0.05,
+     "learn_ms": 0.092
+    },
+    "silent": {
+     "drive_ms": 0.072,
+     "thr_ms": 0.033,
+     "learn_ms": 0.025
+    },
+    "decay_pass_ms": 0.03,
+    "synapses": 49152
+   },
+   "aud": {
+    "speech": {
+     "drive_ms": 0.137,
+     "thr_ms": 0.043,
+     "learn_ms": 0.175
+    },
+    "silent": {
+     "drive_ms": 0.108,
+     "thr_ms": 0.022,
+     "learn_ms": 0.02
+    },
+    "decay_pass_ms": 0.21,
+    "synapses": 131072
+   },
+   "voice": {
+    "speech": {
+     "drive_ms": 0.047,
+     "thr_ms": 0.022,
+     "learn_ms": 0.11
+    },
+    "silent": {
+     "drive_ms": 0.033,
+     "thr_ms": 0.014,
+     "learn_ms": 0.017
+    },
+    "decay_pass_ms": 0.04,
+    "synapses": 16384
+   },
+   "eye_L2": {
+    "speech": {
+     "drive_ms": 0.063,
+     "thr_ms": 0.043,
+     "learn_ms": 0.081
+    },
+    "silent": {
+     "drive_ms": 0.061,
+     "thr_ms": 0.028,
+     "learn_ms": 0.026
+    },
+    "decay_pass_ms": 0.03,
+    "synapses": 49152
+   },
+   "pfc": {
+    "speech": {
+     "drive_ms": 0.916,
+     "thr_ms": 0.206,
+     "learn_ms": 0.776
+    },
+    "silent": {
+     "drive_ms": 0.916,
+     "thr_ms": 0.222,
+     "learn_ms": 0.456
+    },
+    "decay_pass_ms": 6.69,
+    "synapses": 4978080
+   },
+   "hip": {
+    "speech": {
+     "drive_ms": 3.872,
+     "thr_ms": 0.171,
+     "learn_ms": 0.625
+    },
+    "silent": {
+     "drive_ms": 3.905,
+     "thr_ms": 0.175,
+     "learn_ms": 0.336
+    },
+    "decay_pass_ms": 14.5,
+    "synapses": 26999040
+   },
+   "motor": {
+    "speech": {
+     "drive_ms": 0.052,
+     "thr_ms": 0.031,
+     "learn_ms": 0.108
+    },
+    "silent": {
+     "drive_ms": 0.048,
+     "thr_ms": 0.031,
+     "learn_ms": 0.088
+    },
+    "decay_pass_ms": 0.1,
+    "synapses": 131072
+   }
+  },
+  "speech_ms": 8.05,
+  "silent_ms": 6.87,
+  "decay_amortised_ms": 0.108,
+  "synapses": 32402592,
+  "rss_mb": 281
+ },
+ {
+  "s": 4.0,
+  "hipC": 1.0,
+  "areas": {
+   "ear_L2": {
+    "speech": {
+     "drive_ms": 0.698,
+     "thr_ms": 0.14,
+     "learn_ms": 0.158
+    },
+    "silent": {
+     "drive_ms": 0.575,
+     "thr_ms": 0.143,
+     "learn_ms": 0.042
+    },
+    "decay_pass_ms": 0.07,
+    "synapses": 194560
+   },
+   "ear_L3": {
+    "speech": {
+     "drive_ms": 0.257,
+     "thr_ms": 0.139,
+     "learn_ms": 0.149
+    },
+    "silent": {
+     "drive_ms": 0.207,
+     "thr_ms": 0.171,
+     "learn_ms": 0.046
+    },
+    "decay_pass_ms": 0.07,
+    "synapses": 196608
+   },
+   "aud": {
+    "speech": {
+     "drive_ms": 0.529,
+     "thr_ms": 0.123,
+     "learn_ms": 0.428
+    },
+    "silent": {
+     "drive_ms": 0.477,
+     "thr_ms": 0.147,
+     "learn_ms": 0.032
+    },
+    "decay_pass_ms": 0.64,
+    "synapses": 524288
+   },
+   "voice": {
+    "speech": {
+     "drive_ms": 0.101,
+     "thr_ms": 0.033,
+     "learn_ms": 0.152
+    },
+    "silent": {
+     "drive_ms": 0.078,
+     "thr_ms": 0.019,
+     "learn_ms": 0.021
+    },
+    "decay_pass_ms": 0.13,
+    "synapses": 65536
+   },
+   "eye_L2": {
+    "speech": {
+     "drive_ms": 0.165,
+     "thr_ms": 0.12,
+     "learn_ms": 0.139
+    },
+    "silent": {
+     "drive_ms": 0.154,
+     "thr_ms": 0.12,
+     "learn_ms": 0.046
+    },
+    "decay_pass_ms": 0.05,
+    "synapses": 196608
+   },
+   "pfc": {
+    "speech": {
+     "drive_ms": 4.586,
+     "thr_ms": 0.801,
+     "learn_ms": 2.688
+    },
+    "silent": {
+     "drive_ms": 4.61,
+     "thr_ms": 0.842,
+     "learn_ms": 1.25
+    },
+    "decay_pass_ms": 28.15,
+    "synapses": 19912320
+   },
+   "hip": {
+    "speech": {
+     "drive_ms": 24.228,
+     "thr_ms": 0.492,
+     "learn_ms": 1.868
+    },
+    "silent": {
+     "drive_ms": 24.415,
+     "thr_ms": 0.478,
+     "learn_ms": 0.93
+    },
+    "decay_pass_ms": 40.16,
+    "synapses": 107996160
+   },
+   "motor": {
+    "speech": {
+     "drive_ms": 0.15,
+     "thr_ms": 0.076,
+     "learn_ms": 0.193
+    },
+    "silent": {
+     "drive_ms": 0.113,
+     "thr_ms": 0.073,
+     "learn_ms": 0.132
+    },
+    "decay_pass_ms": 0.39,
+    "synapses": 524288
+   }
+  },
+  "speech_ms": 38.41,
+  "silent_ms": 35.12,
+  "decay_amortised_ms": 0.348,
+  "synapses": 129610368,
+  "rss_mb": 558
+ },
+ {
+  "s": 4.0,
+  "hipC": 4.0,
+  "areas": {
+   "ear_L2": {
+    "speech": {
+     "drive_ms": 0.633,
+     "thr_ms": 0.134,
+     "learn_ms": 0.155
+    },
+    "silent": {
+     "drive_ms": 0.583,
+     "thr_ms": 0.143,
+     "learn_ms": 0.044
+    },
+    "decay_pass_ms": 0.07,
+    "synapses": 194560
+   },
+   "ear_L3": {
+    "speech": {
+     "drive_ms": 0.221,
+     "thr_ms": 0.135,
+     "learn_ms": 0.143
+    },
+    "silent": {
+     "drive_ms": 0.193,
+     "thr_ms": 0.168,
+     "learn_ms": 0.042
+    },
+    "decay_pass_ms": 0.07,
+    "synapses": 196608
+   },
+   "aud": {
+    "speech": {
+     "drive_ms": 0.475,
+     "thr_ms": 0.12,
+     "learn_ms": 0.398
+    },
+    "silent": {
+     "drive_ms": 0.403,
+     "thr_ms": 0.133,
+     "learn_ms": 0.026
+    },
+    "decay_pass_ms": 0.62,
+    "synapses": 524288
+   },
+   "voice": {
+    "speech": {
+     "drive_ms": 0.1,
+     "thr_ms": 0.034,
+     "learn_ms": 0.156
+    },
+    "silent": {
+     "drive_ms": 0.093,
+     "thr_ms": 0.025,
+     "learn_ms": 0.025
+    },
+    "decay_pass_ms": 0.1,
+    "synapses": 65536
+   },
+   "eye_L2": {
+    "speech": {
+     "drive_ms": 0.161,
+     "thr_ms": 0.12,
+     "learn_ms": 0.14
+    },
+    "silent": {
+     "drive_ms": 0.143,
+     "thr_ms": 0.117,
+     "learn_ms": 0.043
+    },
+    "decay_pass_ms": 0.06,
+    "synapses": 196608
+   },
+   "pfc": {
+    "speech": {
+     "drive_ms": 4.455,
+     "thr_ms": 0.805,
+     "learn_ms": 2.655
+    },
+    "silent": {
+     "drive_ms": 4.498,
+     "thr_ms": 0.83,
+     "learn_ms": 1.211
+    },
+    "decay_pass_ms": 24.18,
+    "synapses": 19912320
+   },
+   "hip": {
+    "speech": {
+     "drive_ms": 78.704,
+     "thr_ms": 0.514,
+     "learn_ms": 6.304
+    },
+    "silent": {
+     "drive_ms": 77.41,
+     "thr_ms": 0.496,
+     "learn_ms": 2.92
+    },
+    "decay_pass_ms": 137.12,
+    "synapses": 347996160
+   },
+   "motor": {
+    "speech": {
+     "drive_ms": 0.17,
+     "thr_ms": 0.081,
+     "learn_ms": 0.218
+    },
+    "silent": {
+     "drive_ms": 0.128,
+     "thr_ms": 0.078,
+     "learn_ms": 0.151
+    },
+    "decay_pass_ms": 0.5,
+    "synapses": 524288
+   }
+  },
+  "speech_ms": 97.03,
+  "silent_ms": 89.9,
+  "decay_amortised_ms": 0.814,
+  "synapses": 369610368,
+  "rss_mb": 558
+ }
+]

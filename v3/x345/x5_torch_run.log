@@ -1,0 +1,27 @@
+name, memory.used [MiB], memory.total [MiB]
+NVIDIA A800 80GB PCIe, 4 MiB, 81920 MiB
+torch 2.4.0+cu121 cuda True
+{"backend": "torch-cpu", "s": 0.25, "B": 2, "hipC": 1.0, "units": 13828, "synapses": 8100648, "weights_gb": 0.06, "peak_gpu_gb": 0, "speech_ms": 10.649, "silent_ms": 9.254, "decay_pass_ms": 89.29, "decay_amortised_ms": 0.4465, "speech_ms_per_agent": 5.3245, "silent_ms_per_agent": 4.627}
+{"backend": "torch-cuda", "s": 1, "B": 1, "hipC": 1, "units": 55312, "synapses": 32402592, "weights_gb": 0.12, "peak_gpu_gb": 0.44, "speech_ms": 10.721, "silent_ms": 6.385, "decay_pass_ms": 4.23, "decay_amortised_ms": 0.0212, "speech_ms_per_agent": 10.721, "silent_ms_per_agent": 6.385}
+{"backend": "torch-cuda", "s": 1, "B": 16, "hipC": 1, "units": 55312, "synapses": 32402592, "weights_gb": 1.93, "peak_gpu_gb": 2.47, "speech_ms": 13.647, "silent_ms": 12.112, "decay_pass_ms": 428.54, "decay_amortised_ms": 2.1427, "speech_ms_per_agent": 0.8529, "silent_ms_per_agent": 0.757}
+{"backend": "torch-cuda", "s": 1, "B": 64, "hipC": 1, "units": 55312, "synapses": 32402592, "weights_gb": 7.73, "peak_gpu_gb": 9.16, "speech_ms": 15.843, "silent_ms": 14.12, "decay_pass_ms": 20.94, "decay_amortised_ms": 0.1047, "speech_ms_per_agent": 0.2475, "silent_ms_per_agent": 0.2206}
+{"backend": "torch-cuda", "s": 4, "B": 1, "hipC": 1, "units": 221248, "synapses": 129610368, "weights_gb": 0.48, "peak_gpu_gb": 1.74, "speech_ms": 11.325, "silent_ms": 9.025, "decay_pass_ms": 1.47, "decay_amortised_ms": 0.0073, "speech_ms_per_agent": 11.325, "silent_ms_per_agent": 9.025}
+{"backend": "torch-cuda", "s": 4, "B": 16, "hipC": 1, "units": 221248, "synapses": 129610368, "weights_gb": 7.73, "peak_gpu_gb": 9.89, "speech_ms": 15.107, "silent_ms": 13.62, "decay_pass_ms": 20.95, "decay_amortised_ms": 0.1047, "speech_ms_per_agent": 0.9442, "silent_ms_per_agent": 0.8512}
+Traceback (most recent call last):
+  File "jobs/x5_tickbench/x5_bench.py", line 396, in <module>
+    r = bench_torch(s, B, hipC=hc)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "jobs/x5_tickbench/x5_bench.py", line 257, in bench_torch
+    p['w_t'] = torch.from_numpy(p['w']).to(dev).unsqueeze(0).repeat(B, 1).contiguous()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 19.07 GiB. GPU 0 has a total capacity of 79.15 GiB of which 65.66 GiB is free. Process 1564678 has 13.48 GiB memory in use. Of the allocated memory 12.97 GiB is allocated by PyTorch, and 35.66 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+{"backend": "torch-cuda", "s": 4, "B": 64, "hipC": 1, "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 19.07 GiB. GPU 0 has a total capacity of 79.15 GiB of which 65.66 GiB is free. Process 1564678 has 13.48 GiB memory in use. Of the allocated memory 12.97 GiB is allocated by PyTorch, and 35.66 MiB is reserved by PyTorch but unallocated. If reserved but unallocat"}
+Traceback (most recent call last):
+  File "jobs/x5_tickbench/x5_bench.py", line 396, in <module>
+    r = bench_torch(s, B, hipC=hc)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "jobs/x5_tickbench/x5_bench.py", line 257, in bench_torch
+    p['w_t'] = torch.from_numpy(p['w']).to(dev).unsqueeze(0).repeat(B, 1).contiguous()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 19.07 GiB. GPU 0 has a total capacity of 79.15 GiB of which 74.73 GiB is free. Process 1564678 has 4.41 GiB memory in use. Of the allocated memory 3.91 GiB is allocated by PyTorch, and 19.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+{"backend": "torch-cuda", "s": 1, "B": 64, "hipC": 4, "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 19.07 GiB. GPU 0 has a total capacity of 79.15 GiB of which 74.73 GiB is free. Process 1564678 has 4.41 GiB memory in use. Of the allocated memory 3.91 GiB is allocated by PyTorch, and 19.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated"}
