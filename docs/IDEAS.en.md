@@ -472,3 +472,35 @@ is tested on its own.
 - **Conclusion.** The combination that keeps learning is: a frozen inherited network, fast-weight working memory, an
   entity-keyed sparse, hippocampus-like store, and interleaved replay consolidation. This is the brain's division of
   labour: the hippocampus learns fast, the cortex slowly.
+
+## 19. Reproduction and merging (the designer's, from born-wired-cortex, 2026-09/10)
+
+**Idea:**
+- **The "genes" are the numbers in the instinct table.** The learning rules, inhibition and other general mechanisms
+  are the *species*, not the individual. Evolution tunes only those numbers and never the general mechanisms.
+- **Reproduction = generate at random → examine → keep the best → breed.** Each of a child's numbers comes 40 % from one
+  parent, 40 % from the other and 20 % as their average, then a few numbers mutate. "Merging a whole crowd of good
+  models together also works."
+- **Selection by an overall score:** "models that are good overall are merged to make the offspring".
+- **No hand-tuning of connections:** improvement comes only from breeding many, examining well and keeping the right
+  ones.
+- **Two brains into one:** two models with the same wiring each learn one skill; their learned weights are combined,
+  and the question is "does the merged model have both abilities?"
+
+**Results then** (born-wired paper, R18):
+- When the two lessons change disjoint connections, the merge does both (5/5 seeds). On the body, one parent learned to
+  walk and one to brace; the merge walks 0.66 m and braces.
+- Two parents taught opposite answers to the same cue merge into no answer (0.000).
+- The wiring must be identical. Merging preserves; it does not create.
+
+**Relation to today (2026-11-01):**
+- **Reproduction fits the fixed-mechanism round exactly.** The general mechanisms are the species (fixed code). The
+  genes are the few set points and innate parameters. Those of today's hundreds of hand-set numbers that survive should
+  be selected by evolution over many worlds and tasks, not tuned by us one by one. That is the brain's way: evolution
+  sets the innate part, life does the learning.
+- **The trap:** evolution can also "study the exam". The selection tasks must stay separate from the sealed new tasks;
+  born-wired also found that the task bank itself has to be audited.
+- **Merging needs the same wiring, with the two skills on different connections.** Today's agent creates syllable
+  categories in the order it hears them and regrows connections after pruning, so two individuals drift apart in
+  wiring and cannot be merged directly yet. The new core's fixed-size sparse wiring from birth would help.
+- **Merging is an engineering extra that brains cannot do; reproduction that passes on only genes is the brain's way.**
