@@ -1,0 +1,20 @@
+== out/life/L_base_s5_log.pkl: R=1 lines I spoke after: corrections 266, questions 991
+   timing gap<= 10: corrections captured 0.03 | questions wrongly captured 0.05
+   timing gap<= 20: corrections captured 0.16 | questions wrongly captured 0.10
+   timing gap<= 30: corrections captured 0.51 | questions wrongly captured 0.22
+   timing gap<= 40: corrections captured 1.00 | questions wrongly captured 0.35
+   timing gap<= 45: corrections captured 1.00 | questions wrongly captured 0.43
+   timing gap<= 60: corrections captured 1.00 | questions wrongly captured 0.54
+   take-up exact repeat: corrections 0.23 | questions 0.08
+   take-up repeat/piece: corrections 0.26 | questions 0.21
+   questions heard after my own utterance (R=1): 0.74 of 1731
+== out/life/L_base_s6_log.pkl: R=1 lines I spoke after: corrections 398, questions 1162
+   timing gap<= 10: corrections captured 0.00 | questions wrongly captured 0.05
+   timing gap<= 20: corrections captured 0.08 | questions wrongly captured 0.10
+   timing gap<= 30: corrections captured 0.60 | questions wrongly captured 0.19
+   timing gap<= 40: corrections captured 1.00 | questions wrongly captured 0.33
+   timing gap<= 45: corrections captured 1.00 | questions wrongly captured 0.41
+   timing gap<= 60: corrections captured 1.00 | questions wrongly captured 0.53
+   take-up exact repeat: corrections 0.20 | questions 0.09
+   take-up repeat/piece: corrections 0.24 | questions 0.24
+   questions heard after my own utterance (R=1): 0.79 of 1855

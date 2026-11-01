@@ -1,0 +1,1 @@
+run_v22.py tag=finG seed=4 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 rm=1 rm_train=1 rm_prune=1 rm_age=20000 rm_regrow=1 rm_alloc=flat veto_R1=1 veto_eps=0.1 veto_W=40 veto_gate=0.15 drift3=3000 lesion=gateR:0,rm_w:1,veto_R1:0 out=out/runs/finG_s4.json

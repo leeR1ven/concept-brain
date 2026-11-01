@@ -1,0 +1,6 @@
+life_v22.py tag=L_fdg seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 rm=1 rm_train=1 rm_prune=1 rm_age=20000 rm_regrow=1 rm_alloc=flat veto_R1=1 veto_eps=0.1 veto_W=40 veto_gate=0.15 veto_fast=0.04 dip_g=0.25
+life_v22.py tag=L_fdg seed=6 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 rm=1 rm_train=1 rm_prune=1 rm_age=20000 rm_regrow=1 rm_alloc=flat veto_R1=1 veto_eps=0.1 veto_W=40 veto_gate=0.15 veto_fast=0.04 dip_g=0.25
+run_v22.py tag=s12 seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s0.json
+run_v22.py tag=s12 seed=1 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s1.json
+run_v22.py tag=s12 seed=2 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s2.json
+run_v22.py tag=s12 seed=3 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s3.json

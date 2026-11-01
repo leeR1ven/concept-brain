@@ -1,0 +1,4 @@
+run_v22.py tag=base3k seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 drift3=3000 out=out/runs/base3k_s0.json
+run_v22.py tag=base3k seed=1 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 drift3=3000 out=out/runs/base3k_s1.json
+run_v22.py tag=base3k seed=2 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 drift3=3000 out=out/runs/base3k_s2.json
+run_v22.py tag=base3k seed=3 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 drift3=3000 out=out/runs/base3k_s3.json

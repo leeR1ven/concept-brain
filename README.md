@@ -16,7 +16,7 @@ python tests/test_parts.py sense     # 听觉区单独验证：听得清 / 记�
 
 ## v2（进行中）
 新一代架构的整体审查、共享测试台、三个独立原型和合成后的统一架构 ARCH_v2 在 [v2/](v2/README.md)
-（统一架构综合分 0.42→0.83，在新种子上 0.82；详见 [v2/synth/ARCH_v2.md](v2/synth/ARCH_v2.md)）。第二轮审查后的 ARCH_v2.1 能分清"谁在说话"，在诚实测量下综合分 1.00→1.18，没人教时不再学偏（[v2/v21/](v2/v21/report.md)）。学出来的词义编码让它在小测试里能按类别推广（没教过的食物和玩具 0.50→1.00，[v2/meaning/](v2/meaning/report.md)）。新的听觉前端让它在有噪声的开放世界里也能听清，人多时也好很多，安静测试台的结果逐位不变（[v2/hearing/](v2/hearing/report.md)）；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。
+（统一架构综合分 0.42→0.83，在新种子上 0.82；详见 [v2/synth/ARCH_v2.md](v2/synth/ARCH_v2.md)）。第二轮审查后的 ARCH_v2.1 能分清"谁在说话"，在诚实测量下综合分 1.00→1.18，没人教时不再学偏（[v2/v21/](v2/v21/report.md)）。ARCH_v2.2 学会了接受大人的纠正（一生回答 0.34→0.47–0.52，[v2/v22/](v2/v22/report.md)）。学出来的词义编码让它在小测试里能按类别推广（没教过的食物和玩具 0.50→1.00，[v2/meaning/](v2/meaning/report.md)）。新的听觉前端让它在有噪声的开放世界里也能听清，人多时也好很多，安静测试台的结果逐位不变（[v2/hearing/](v2/hearing/report.md)）；五份审查报告和共识在 [docs/review/](docs/review/SYNTHESIS.md)。下一版要换成"固定数量的通用机制"，设计讨论在 [docs/v3design/](docs/v3design/README.md)。
 设计者的核心思想及验证情况见 [docs/IDEAS.md](docs/IDEAS.md)。
 
 独立课题（与大脑架构无关）：把反向传播训练的大语言模型转换成赫布学习式模型，能否持续学习？结论和数据见 [side/llm2hebb/](side/llm2hebb/README.md)。

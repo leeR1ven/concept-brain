@@ -2,6 +2,13 @@
 
 # ARCH_v2.1: Steps 0–3 from review round 2
 
+> **Note (2026-11-01, found by v2.2):** `agent_v21.py` in this folder applies dips only after *self-initiated* speech.
+> That is the rejected `v21fin` variant, not the final config reported below, which dips after every own utterance.
+> The `rec_fix` confirmation (J 1.22) was run with this code. v2.2's copy (`../v22/agent_v21.py`) restores the reported
+> behaviour as `dip_scope='all'` (the default) and keeps the old one as `dip_scope='scene'`. The canonical re-baseline of
+> the reported v2.1 is J 1.184 ± 0.081 (5 seeds; `../v22/report.md` §1). The hearing and meaning rounds were built on
+> this folder's code; their comparisons are paired, so their deltas stand.
+
 The harness blocked writing `report.md` (twice), so the full report is here. Everything else is in this directory (`v2/v21/` in the repo; `out/` below is `results/` here; the unchanged ARCH_v2 files and `bench_copy/` are used from `../synth/`): code, all result JSONs, and the aggregate tables in `out/`.
 
 Labels: **SIMULATED** = my run, file named. **PROVED** = from code, counters or arithmetic. **CITED** = another report. **ASSUMED** = not checked.

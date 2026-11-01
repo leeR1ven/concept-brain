@@ -1,0 +1,36 @@
+== base seeds [0, 1, 2, 3, 4] viol 0
+  J 1.184 ± 0.081 | J2 1.701 ± 0.147 | F 0.795 ± 0.045 | RET -0.049 ± 0.026 | H 0.689 ± 0.095 | DR 0.967 ± 0.025
+  loss300 -0.034 ± 0.033 | loss900 -0.019 ± 0.033 | role 0.070 ± 0.028 | role held 0.079 ± 0.090 | held agent 0.700 ± 0.110 vs const 0.535 | all agent 0.839 echo 0.057 const 0.424
+  task acc  what 0.95 slot 0.76 where 0.92 offer 0.97 taste 0.74 colour 0.91 count 0.97 ritual 0.98 check 0.78
+  held-out  what 0.80 slot 0.30 where 0.82 offer 0.91 taste 0.55 colour 0.93 count 0.98 check 0.54
+  lesions (mean B/C/D final probe, intact F): gateR:0 0.628 vs 0.795 | val_veto:0 0.788 vs 0.795
+  secs 1400 | peak RSS 705 MB | dips [4, 12, 7, 14, 8] | R1 blocks [0, 0, 0, 0, 0] | rbar [None, None, None, None, None]
+== cf seeds [0, 1, 2, 3, 4] viol 0
+  J 1.191 ± 0.117 | J2 1.739 ± 0.208 | F 0.780 ± 0.066 | RET -0.016 ± 0.019 | H 0.731 ± 0.122 | DR 0.944 ± 0.062
+  loss300 -0.003 ± 0.017 | loss900 0.007 ± 0.015 | role 0.090 ± 0.031 | role held 0.102 ± 0.051 | held agent 0.748 ± 0.121 vs const 0.535 | all agent 0.832 echo 0.057 const 0.424
+  task acc  what 0.92 slot 0.81 where 0.97 offer 0.99 taste 0.96 colour 0.81 count 0.94 ritual 1.00 check 0.67
+  held-out  what 0.73 slot 0.46 where 0.97 offer 0.95 taste 0.87 colour 0.84 count 0.95 check 0.56
+  lesions (mean B/C/D final probe, intact F): gateR:0 0.584 vs 0.780 | rm_w:1 0.668 vs 0.780
+  secs 2633 | peak RSS 701 MB | dips [2, 9, 5, 8, 5] | R1 blocks [0, 0, 0, 0, 0] | rbar [None, None, None, None, None]
+== sq seeds [0, 1, 2, 3] viol 0
+  J 1.177 ± 0.105 | J2 1.715 ± 0.203 | F 0.783 ± 0.060 | RET -0.049 ± 0.013 | H 0.718 ± 0.133 | DR 0.956 ± 0.047
+  loss300 -0.033 ± 0.028 | loss900 -0.014 ± 0.040 | role 0.074 ± 0.022 | role held 0.082 ± 0.041 | held agent 0.724 ± 0.134 vs const 0.534 | all agent 0.828 echo 0.058 const 0.424
+  task acc  what 0.92 slot 0.79 where 0.94 offer 0.98 taste 0.76 colour 0.86 count 0.95 ritual 1.00 check 0.72
+  held-out  what 0.72 slot 0.39 where 0.91 offer 0.92 taste 0.63 colour 0.86 count 1.00 check 0.58
+  lesions (mean B/C/D final probe, intact F): gateR:0 0.591 vs 0.783 | rm_w:1 0.702 vs 0.783
+  secs 2721 | peak RSS 716 MB | dips [3, 12, 4, 7] | R1 blocks [0, 0, 0, 0] | rbar [None, None, None, None]
+== vW seeds [0, 1, 2, 3, 4] viol 0
+  J 0.950 ± 0.101 | J2 1.421 ± 0.152 | F 0.707 ± 0.052 | RET -0.100 ± 0.068 | H 0.628 ± 0.083 | DR 0.546 ± 0.034
+  loss300 0.312 ± 0.104 | loss900 0.437 ± 0.109 | role 0.064 ± 0.008 | role held 0.093 ± 0.009 | held agent 0.636 ± 0.088 vs const 0.535 | all agent 0.759 echo 0.057 const 0.424
+  task acc  what 0.95 slot 0.72 where 0.81 offer 0.92 taste 0.69 colour 0.90 count 0.93 ritual 0.76 check 0.60
+  held-out  what 0.81 slot 0.19 where 0.56 offer 0.82 taste 0.55 colour 0.93 count 0.96 check 0.49
+  lesions (mean B/C/D final probe, intact F): gateR:0 0.546 vs 0.707 | veto_R1:0 0.766 vs 0.707
+  secs 1390 | peak RSS 701 MB | dips [4, 11, 4, 12, 7] | R1 blocks [1062, 1276, 1152, 1156, 1118] | rbar [None, None, None, None, None]
+== fin seeds [0, 1, 2, 3, 4] viol 0
+  J 1.041 ± 0.020 | J2 1.578 ± 0.055 | F 0.739 ± 0.010 | RET -0.041 ± 0.020 | H 0.715 ± 0.048 | DR 0.574 ± 0.016
+  loss300 0.335 ± 0.065 | loss900 0.446 ± 0.092 | role 0.060 ± 0.016 | role held 0.071 ± 0.046 | held agent 0.719 ± 0.062 vs const 0.535 | all agent 0.797 echo 0.057 const 0.424
+  long untutored loss: 1500: 0.625 ± 0.095 (acc 0.284) | 2100: 0.792 ± 0.044 (acc 0.116) | 3000: 0.901 ± 0.064 (acc 0.008)
+  task acc  what 0.92 slot 0.78 where 0.94 offer 0.96 taste 0.83 colour 0.91 count 0.91 ritual 0.88 check 0.62
+  held-out  what 0.70 slot 0.38 where 0.89 offer 0.91 taste 0.76 colour 0.87 count 0.91 check 0.64
+  lesions (mean B/C/D final probe, intact F): gateR:0 0.545 vs 0.739 | rm_w:1 0.651 vs 0.739 | veto_R1:0 0.815 vs 0.739
+  secs 3833 | peak RSS 727 MB | dips [2, 7, 2, 10, 6] | R1 blocks [1099, 1205, 993, 1083, 996] | rbar [None, None, None, None, None]

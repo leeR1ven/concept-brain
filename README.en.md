@@ -117,6 +117,18 @@ listening, babbling and conversing.
   - Speed: about 250 agent-ticks/s at 64 agents, far below the 30k target. Today's agent does too little and too
     sequential work per event (awake recall is 70 % of the time). Numpy on server CPUs stays the sweep engine; the GPU
     version waits for the scaled-up model.
+- **ARCH_v2.2** ([v2/v22/report.md](v2/v22/report.md)): the canonical tie rule, the flat random layer inside v2.1, and
+  learning from corrections in life.
+  - Re-baselined ARCH_v2.1: J 1.184 (5 seeds). The `v21/` code turned out to be a rejected variant; v2.2 restores the
+    reported one.
+  - The random layer: J within noise, generalisation up on every seed, life free replies 0.34 / 0.28 → 0.38 / 0.40.
+  - The agent used to speak right after 77–87 % of corrections, so they were cancelled as questions. A reply to a line
+    that starts within 3 s of the agent's own speech is now held back while its learned value is low (10 % exploration,
+    and only while recent reward is high). Corrections learned 0.13–0.23 → 0.81–0.87; life free replies 0.47 / 0.52,
+    and in the last tenth of life 0.65 / 0.64, just above the same-life echo-or-constant reference; staged J 1.205.
+  - Retention collapses between 2,100 and 3,000 untutored dialogues (0.16; v2.1 0.54).
+  - The design round ([docs/v3design/](docs/v3design/README.md)) classes this veto as a hand rule fitted to the
+    bench's timing. v2.2 is the last version that adds a mechanism per ability.
 - **Learned meaning layer** ([v2/meaning/report.md](v2/meaning/report.md), Step 4; IDEAS #3, #5, #14). Every syllable
   gets, besides its fixed sound code, a code learned from context with a local rule, so syllables used in the same
   places become alike. The code feeds the random layer and the hippocampal cue.

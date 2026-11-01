@@ -1,0 +1,5 @@
+run_v22.py tag=s12 seed=0 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s0.json
+run_v22.py tag=s12 seed=1 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s1.json
+run_v22.py tag=s12 seed=2 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s2.json
+run_v22.py tag=s12 seed=3 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s3.json
+run_v22.py tag=s12 seed=4 proto=frozen ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 rec_fix=1 lesion=gateR:0 out=out/runs/s12_s4.json

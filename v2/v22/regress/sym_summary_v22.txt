@@ -1,0 +1,10 @@
+v2.2 symbolic regression (gen_probe_v22.py, gen_probe2_v22.py; local numpy 1.26; ral=1 ral_other=1; n=900; seeds 0-2)
+gen_probe   recast  MIX (canonical tie rule)  frozen seen 1.00 held 0.81 [0.75 0.667 1.0]  live held 0.76   (v21: 0.81 [0.75 0.67 1.0], 0.76: identical)
+gen_probe   recast  c_flat                    frozen seen 1.00 held 0.92 [0.833 0.917 1.0] live held 0.92
+gen_probe   mixed   MIX (canonical tie rule)  frozen seen 1.00 held 0.83 [0.75 0.75 1.0]   live held 0.80   (v21: 0.83 [0.75 0.75 1.0], 0.80: identical)
+gen_probe   mixed   c_flat                    frozen seen 1.00 held 0.89 [0.833 0.833 1.0] live held 0.86
+gen_probe2  class-dependent, heldstream 0     MIX held 0.25/0.50/0.75   c_flat held 0.25/0.50/0.75 (no class generalisation from either layer)
+secs per run: MIX 47-51, c_flat 130-145
+gen_probe   recast  sqrt (pow:0.5)            frozen held 0.89 [0.833 0.833 1.0]  live held 0.89
+gen_probe   mixed   sqrt (pow:0.5)            frozen held 0.92 [0.833 0.917 1.0]  live held 0.89
+gen_probe2  sqrt held 0.25/0.50/0.75 (unchanged)
