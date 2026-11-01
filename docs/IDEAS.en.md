@@ -270,6 +270,18 @@ gradients are not needed.
 mishearing turns one word into another, which is a different problem. Tolerance has to come from the syllable
 recognition level, such as lower confidence for unclear sound or an item clean-up there. Still open.
 
+**Designer's addendum (2026-11-01): correcting a misheard word may be a learned skill.** People mishear all the time
+and slowly learn to repair what they misheard from context and logic. The model may fail not because the mechanism is
+flawed but because it lacks the experience: it has never misheard anything, so it never practised. It may also lack
+enough general intelligence yet, or be so small that one wrong syllable changes too much.
+
+**Testable versions:**
+- Let the model mishear during life, from world2's noise and crowds, not only in a test that swaps one syllable.
+- Let the PFC's prediction take part in hearing. The PFC already predicts the next input; when a heard syllable is
+  unclear and the predicted one sounds close, hear the predicted one. This matches phonemic restoration: people "hear" a
+  sound masked by a cough from context (Warren 1970).
+- Compare a model that never misheard with one that often did, on the same mishearing test.
+
 ## 15. PFC excitability works like context length
 
 **Idea.** Adjust the PFC's excitability, i.e. how many neurons are active, and results differ, like context length. Find
