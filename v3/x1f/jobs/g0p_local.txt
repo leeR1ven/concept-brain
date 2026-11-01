@@ -1,0 +1,4 @@
+G0P_noL33 0 marks=100,300,1000,3000 th_m=4
+G0P_noL33 1 marks=100,300,1000,3000 th_m=4
+G0P_noL33 2 marks=100,300,1000,3000 th_m=4
+G0P_noL33 0 marks=100,300,1000,3000 th_m=4 g31=4.0 tag=_g31x4

@@ -1,0 +1,10 @@
+python3 -I run6.py G0P_noL33 0 marks=100,300,1000,3000,10000 th_m=4
+python3 -I run6.py G0P_noL33 1 marks=100,300,1000,3000,10000 th_m=4
+python3 -I run6.py G0P_noL33 2 marks=100,300,1000,3000,10000 th_m=4
+python3 -I run6.py G0P_noL33 0 marks=100,300,1000,3000,10000 th_m=4 g31=4.0 tag=_g31x4
+python3 -I run6.py G0P 0 marks=100,300,1000,3000,10000 th_m=4
+python3 -I listen_test.py seed=0 n=3000 g_listen=0.0
+python3 -I listen_test.py seed=0 n=3000 g_listen=0.8
+python3 -I listen_test.py seed=1 n=3000 g_listen=0.8
+python3 -I listen_test.py seed=2 n=3000 g_listen=0.8
+python3 -I listen_test.py seed=1 n=3000 g_listen=0.0
