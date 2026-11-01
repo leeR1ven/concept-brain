@@ -1,0 +1,12 @@
+fill 0.099 after 5000 episodes
+  age    10: recall overlap from a 50 % cue 0.87  (>= 0.9 on 0.33)
+  age   100: recall overlap from a 50 % cue 0.78  (>= 0.9 on 0.00)
+  age   300: recall overlap from a 50 % cue 0.51  (>= 0.9 on 0.00)
+  age   600: recall overlap from a 50 % cue 0.16  (>= 0.9 on 0.00)
+  age  1000: recall overlap from a 50 % cue 0.02  (>= 0.9 on 0.00)
+  age  2000: recall overlap from a 50 % cue 0.01  (>= 0.9 on 0.00)
+  age  4000: recall overlap from a 50 % cue 0.01  (>= 0.9 on 0.00)
+  age 100, cue 20 % (theta_rec 0.2 accepts such cues): recall overlap 0.45
+  age 100, cue 30 % (theta_rec 0.2 accepts such cues): recall overlap 0.70
+  replay from random kick: clean (>= 0.9 with a stored episode) 0.00; settled on the last episode 0.00
+  replay from cue 30 % of the last episode: clean (>= 0.9 with a stored episode) 1.00; settled on the last episode 1.00

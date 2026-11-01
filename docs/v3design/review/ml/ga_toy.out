@@ -1,0 +1,6 @@
+c20=0.25: defaults are 4.19 SD below the optimum; GA (120 lives) gains 1.83 ± 1.22 SD (best individual), population mean gain 1.68; ends worse than defaults in 2% of runs; fake genes drift |ln| 0.077
+c20=0.5: defaults are 8.39 SD below the optimum; GA (120 lives) gains 4.79 ± 2.73 SD (best individual), population mean gain 4.36; ends worse than defaults in 0% of runs; fake genes drift |ln| 0.079
+c20=1.0: defaults are 16.77 SD below the optimum; GA (120 lives) gains 10.98 ± 5.73 SD (best individual), population mean gain 10.07; ends worse than defaults in 0% of runs; fake genes drift |ln| 0.079
+gene audit, unpaired: effect 0.25 SD needs 251 lives per arm -> 30 genes x 3 arms = 22,579 lives ~ 10,223 CPU-h
+gene audit, unpaired: effect 0.5 SD needs 63 lives per arm -> 30 genes x 3 arms = 5,645 lives ~ 2,556 CPU-h
+gene audit, unpaired: effect 1.0 SD needs 16 lives per arm -> 30 genes x 3 arms = 1,411 lives ~ 639 CPU-h

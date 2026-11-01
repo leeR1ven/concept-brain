@@ -1,0 +1,34 @@
+== P5b "being responded to": my efference trace at the partner's next onset, untutored probe timing
+   (next probe at max(Q_end + 45, stop + 13), world.py; tau_e = 20, G14)
+   my stop at Q_end+ 8: next onset 37 ticks later, trace 0.16
+   my stop at Q_end+12: next onset 33 ticks later, trace 0.19
+   my stop at Q_end+16: next onset 29 ticks later, trace 0.23
+   my stop at Q_end+20: next onset 25 ticks later, trace 0.29
+   my stop at Q_end+24: next onset 21 ticks later, trace 0.35
+   my stop at Q_end+28: next onset 17 ticks later, trace 0.43
+   my stop at Q_end+32: next onset 13 ticks later, trace 0.52
+   my stop at Q_end+36: next onset 13 ticks later, trace 0.52
+   my stop at Q_end+40: next onset 13 ticks later, trace 0.52
+== M2 read literally: prediction synapse with an eligibility trace (tau_e 20) and m = 1 every tick
+   effective rate per event = eta / (1 - lambda) = 0.35 / 0.0488 = 7.2  (> 2: the normalised delta rule overshoots and diverges)
+== M2 eta * max(1/n_use, floor) vs the walk's constant eta 0.35 (p after n consistent exposures)
+   floor None: n=1: 0.35, n=3: 0.73, n=5: 0.88, n=10: 0.99
+   floor 0.1: n=1: 0.35, n=3: 0.53, n=5: 0.60, n=10: 0.68
+   floor 0.02: n=1: 0.35, n=3: 0.53, n=5: 0.60, n=10: 0.68
+   synapse with a long use history (n_use >> 1/floor), floor 0.1: p after 5 = 0.16
+== learned NoGo after late-start overlaps (§6.4: eta_v 0.3, |delta| 0.5, trace 0.5) to move it by 0.5
+   constant eta: 7 events (doc: "about 7"; checks.py uses eta_v 0.2 -> 10)
+   eta * max(1/n_use, 0.1): 48 events
+   eta * max(1/n_use, 0.02): 159 events
+== compute: §7.5 s = 4 column is a 1e6-tick life, but §4 sets L proportional to s
+   doc numbers at s = 4, L = 4e6: 8,000-24,000 s = 1.5-4.4 90-min jobs per life
+   gpuport (v2/gpuport/report.md, A800, B = 64): 259 ms per batched tick -> a 1e6-tick generation of 64 = 72 h; doc assumes 0.3-0.6 ms per batched tick (432-863x faster)
+== lineage loop: one generation of 12 on the A800 CPU runner (4 processes x 5,400 s per job)
+   life + probes 1630 s: 3 per process, 1 job(s) per generation, 15 h wall for 10 generations x 2 lineages at 2 slots
+   life + probes 2260 s: 2 per process, 2 job(s) per generation, 30 h wall for 10 generations x 2 lineages at 2 slots
+   life + probes 3260 s: 1 per process, 3 job(s) per generation, 45 h wall for 10 generations x 2 lineages at 2 slots
+== drift to 10,000 untutored on v2.2-speed code (finF s0 log: staged ~2,220 s, 300->3,000 untutored 1,487 s)
+   0.55 s per untutored dialogue -> staged + 10,000 = 7,727 s > 5,400 s job limit
+== maturity: exploration and babble after M (the doc's own numbers)
+   §6.3: eps 0.05 x ~1,600 object events = 80 exploratory utterances per life; post-M share 2/3 -> ~53
+   P1d babble r_bab 0.01 per idle tick: 0.85 x 1e6 x 2/3 x 0.01 = 5,667 post-M babble onsets

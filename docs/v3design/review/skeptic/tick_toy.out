@@ -1,0 +1,18 @@
+== event-level, threshold (= drift_toy ST)
+   frozen acc  format600: 0.98  free300: 0.98  free900: 0.98  free2100: 0.98  free3000: 0.98
+   live (right, silent, partner-token) {'format600_live': (0.61, 0.34, 0.0), 'free3000_live': (0.68, 0.3, 0.0)}
+== event-level, M4 accumulator
+   frozen acc  format600: 1.00  free300: 1.00  free900: 1.00  free2100: 1.00  free3000: 1.00
+   live (right, silent, partner-token) {'format600_live': (0.01, 0.99, 0.0), 'free3000_live': (0.7, 0.3, 0.0)}
+== tick-level O1, threshold
+   frozen acc  format600: 0.99  free300: 0.01  free900: 0.00  free2100: 0.00  free3000: 0.00
+   live (right, silent, partner-token) {'format600_live': (0.59, 0.41, 0.0), 'free3000_live': (0.01, 0.7, 0.28)}
+== tick-level O1, M4 accumulator
+   frozen acc  format600: 1.00  free300: 0.00  free900: 0.00  free2100: 0.00  free3000: 0.00
+   live (right, silent, partner-token) {'format600_live': (0.0, 1.0, 0.0), 'free3000_live': (0.01, 0.77, 0.21)}
+== event-level, acc, eta*max(1/n_use, 0.1)
+   frozen acc  format600: 0.98  free300: 0.99  free900: 0.99  free2100: 0.99  free3000: 0.99
+   live (right, silent, partner-token) {'format600_live': (0.0, 1.0, 0.0), 'free3000_live': (0.69, 0.3, 0.01)}
+== tick-level, acc, eta*max(1/n_use, 0.1)
+   frozen acc  format600: 0.97  free300: 0.01  free900: 0.00  free2100: 0.00  free3000: 0.00
+   live (right, silent, partner-token) {'format600_live': (0.0, 1.0, 0.0), 'free3000_live': (0.02, 0.97, 0.0)}

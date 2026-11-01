@@ -1,0 +1,43 @@
+== Part 1: sibling assembly agreement under first-encounter-order claims
+  independent syllables  N=2048 S=32 junk=0: fill 0.25; Jaccard across siblings: free-unit claims 0.658 | order-free top-k code 0.735
+  independent syllables  N=2048 S=32 junk=2: fill 0.38; Jaccard across siblings: free-unit claims 0.540 | order-free top-k code 0.716
+  independent syllables  N=2048 S=64 junk=0: fill 0.50; Jaccard across siblings: free-unit claims 0.542 | order-free top-k code 0.727
+  independent syllables  N=2048 S=64 junk=2: fill 0.75; Jaccard across siblings: free-unit claims 0.372 | order-free top-k code 0.713
+  independent syllables  N=2048 S=120 junk=0: fill 0.94; Jaccard across siblings: free-unit claims 0.307 | order-free top-k code 0.727
+  independent syllables  N=2048 S=120 junk=2: fill 1.41; Jaccard across siblings: free-unit claims 0.204 | order-free top-k code 0.720
+  independent syllables  N=8192 S=141 junk=0: fill 0.28; Jaccard across siblings: free-unit claims 0.590 | order-free top-k code 0.688
+  independent syllables  N=8192 S=141 junk=2: fill 0.41; Jaccard across siblings: free-unit claims 0.506 | order-free top-k code 0.690
+  sound-alike groups     N=2048 S=32 junk=0: fill 0.25; Jaccard across siblings: free-unit claims 0.429 | order-free top-k code 0.726
+  sound-alike groups     N=2048 S=32 junk=2: fill 0.38; Jaccard across siblings: free-unit claims 0.379 | order-free top-k code 0.732
+  sound-alike groups     N=2048 S=64 junk=0: fill 0.50; Jaccard across siblings: free-unit claims 0.424 | order-free top-k code 0.715
+  sound-alike groups     N=2048 S=64 junk=2: fill 0.75; Jaccard across siblings: free-unit claims 0.293 | order-free top-k code 0.714
+  sound-alike groups     N=2048 S=120 junk=0: fill 0.94; Jaccard across siblings: free-unit claims 0.238 | order-free top-k code 0.731
+  sound-alike groups     N=2048 S=120 junk=2: fill 1.41; Jaccard across siblings: free-unit claims 0.200 | order-free top-k code 0.726
+  sound-alike groups     N=8192 S=141 junk=0: fill 0.28; Jaccard across siblings: free-unit claims 0.456 | order-free top-k code 0.680
+  sound-alike groups     N=8192 S=141 junk=2: fill 0.41; Jaccard across siblings: free-unit claims 0.385 | order-free top-k code 0.680
+== Part 2: merging NLMS readouts (zero-shot child accuracy)
+  scenario disjoint+shared: parents on their own sets 1.0
+     mean          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     ties          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     use-weighted  {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     keep-larger   {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+  scenario with-conflict: parents on their own sets 1.0
+     mean          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0, 'conflict:A answer': 0.45}
+     ties          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0, 'conflict:A answer': 0.575}
+     use-weighted  {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0, 'conflict:A answer': 0.5}
+     keep-larger   {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0, 'conflict:A answer': 0.65}
+  scenario pool4: parents on their own sets 1.0
+     mean          {'shared': 1.0, 'one-parent': 0.078}
+     ties          {'shared': 1.0, 'one-parent': 1.0}
+     use-weighted  {'shared': 1.0, 'one-parent': 0.997}
+     keep-larger   {'shared': 1.0, 'one-parent': 1.0}
+  scenario drift0.1: parents on their own sets 1.0
+     mean          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     ties          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     use-weighted  {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     keep-larger   {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+  scenario drift0.3: parents on their own sets 1.0
+     mean          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 0.944}
+     ties          {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     use-weighted  {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}
+     keep-larger   {'shared(same answer)': 1.0, 'A-only': 1.0, 'B-only': 1.0}

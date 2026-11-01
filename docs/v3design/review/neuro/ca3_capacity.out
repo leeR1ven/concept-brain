@@ -1,0 +1,20 @@
+== design: N 1e4, C 1000, k 100 (Willshaw, no forgetting)
+  P=   250 {'recent': 0.977, 'mid': 0.981, 'old': 0.984, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.025}
+  P=  1000 {'recent': 0.87, 'mid': 0.861, 'old': 0.86, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.094}
+  P=  2500 {'recent': 0.247, 'mid': 0.256, 'old': 0.266, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.219}
+  P=  5000 {'recent': 0.028, 'mid': 0.023, 'old': 0.018, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.391}
+  P= 10000 {'recent': 0.012, 'mid': 0.01, 'old': 0.009, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.628}
+   [118 s]
+== denser-k: N 1e4, C 1000, k 300
+  P=   250 {'recent': 0.984, 'mid': 0.986, 'old': 0.984, 'replay_clean': 0.0, 'conn_inputs': 30.0, 'frac_W_on': 0.201}
+  P=  1000 {'recent': 0.071, 'mid': 0.07, 'old': 0.069, 'replay_clean': 0.0, 'conn_inputs': 30.0, 'frac_W_on': 0.592}
+  P=  2500 {'recent': 0.03, 'mid': 0.031, 'old': 0.03, 'replay_clean': 0.0, 'conn_inputs': 30.0, 'frac_W_on': 0.894}
+  P=  5000 {'recent': 0.029, 'mid': 0.032, 'old': 0.03, 'replay_clean': 0.0, 'conn_inputs': 30.0, 'frac_W_on': 0.989}
+   [213 s]
+== palimpsest: design + stochastic LTD p 0.01
+  P=   250 {'recent': 0.98, 'mid': 0.979, 'old': 0.977, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.024}
+  P=  1000 {'recent': 0.873, 'mid': 0.816, 'old': 0.786, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.09}
+  P=  2500 {'recent': 0.369, 'mid': 0.18, 'old': 0.089, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.195}
+  P=  5000 {'recent': 0.041, 'mid': 0.017, 'old': 0.014, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.314}
+  P= 10000 {'recent': 0.012, 'mid': 0.011, 'old': 0.011, 'replay_clean': 0.0, 'conn_inputs': 10.0, 'frac_W_on': 0.431}
+   [336 s]

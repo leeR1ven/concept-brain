@@ -1,0 +1,17 @@
+== r_5b graded
+   stay quiet          : onset Q_end+45, trace 0.19, return 0.037
+   extra at Q_end+13  : onset Q_end+45, trace 0.23, return 0.045  (advantage +0.008)
+   extra at Q_end+25  : onset Q_end+45, trace 0.43, return 0.083  (advantage +0.046)
+   extra at Q_end+30  : onset Q_end+46, trace 0.52, return 0.096  (advantage +0.059)
+   extra at Q_end+35  : onset Q_end+51, trace 0.52, return 0.074  (advantage +0.037)
+   extra at Q_end+29  : onset Q_end+45, trace 0.52, return 0.101  (advantage +0.064)
+   best extra-turn time Q_end+29 (the partner onset is predictable from the age bins)
+== r_5b threshold
+   stay quiet          : onset Q_end+45, trace 0.19, return 0.000
+   extra at Q_end+13  : onset Q_end+45, trace 0.23, return 0.000  (advantage +0.000)
+   extra at Q_end+25  : onset Q_end+45, trace 0.43, return 0.000  (advantage +0.000)
+   extra at Q_end+30  : onset Q_end+46, trace 0.52, return 0.184  (advantage +0.184)
+   extra at Q_end+35  : onset Q_end+51, trace 0.52, return 0.142  (advantage +0.142)
+   extra at Q_end+29  : onset Q_end+45, trace 0.52, return 0.194  (advantage +0.194)
+   best extra-turn time Q_end+29 (the partner onset is predictable from the age bins)
+== contingent r_5b (response minus the response expected without my act): every option returns 0; no incentive

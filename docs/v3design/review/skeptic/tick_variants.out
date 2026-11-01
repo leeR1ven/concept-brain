@@ -1,0 +1,8 @@
+tick-level, format, p_sil 0.0, thr: format600 0.95  free300 0.06  free900 0.06  free3000 0.06  | live free (right, silent, partner) (0.08, 0.46, 0.46)
+tick-level, format, p_sil 0.0, acc: format600 1.00  free300 0.01  free900 0.00  free3000 0.00  | live free (right, silent, partner) (0.02, 0.69, 0.29)
+tick-level, format, p_sil 0.3, thr: format600 0.99  free300 0.01  free900 0.00  free3000 0.00  | live free (right, silent, partner) (0.01, 0.7, 0.28)
+tick-level, format, p_sil 0.3, acc: format600 1.00  free300 0.00  free900 0.00  free3000 0.00  | live free (right, silent, partner) (0.01, 0.77, 0.21)
+tick-level, model, p_sil 0.0, thr: model600 1.00  free300 1.00  free900 1.00  free3000 1.00  | live free (right, silent, partner) (1.0, 0.0, 0.0)
+tick-level, model, p_sil 0.0, acc: model600 1.00  free300 0.00  free900 0.00  free3000 0.00  | live free (right, silent, partner) (0.01, 0.69, 0.29)
+tick-level, model, p_sil 0.3, thr: model600 1.00  free300 0.04  free900 0.00  free3000 0.00  | live free (right, silent, partner) (0.02, 0.7, 0.28)
+tick-level, model, p_sil 0.3, acc: model600 1.00  free300 0.00  free900 0.00  free3000 0.00  | live free (right, silent, partner) (0.01, 0.77, 0.21)

@@ -1,0 +1,11 @@
+rule                                              R1 survival  R2 latency R3 old back R3 survival
+plain NLMS (today R2)                                      10           2        0.00           8
+|w| meta w0=0.05                                           19           4        0.00          16
+|w| meta w0=0.01                                           43           7        0.00          38
+use meta ucap=5 floor 0.1                                  32           4        0.00          20
+use meta ucap=5 floor 0.02                                 32           4        0.00          20
+|w|+use (designer form) w0 .05 ucap 5 floor .1             75           7        0.00          42
+Benna-Fusi 2-var g .2 C2 20                                 3           1        0.00           3
+Benna-Fusi 2-var g .5 C2 50                                 1           1        0.00           1
+confirmed-consolidation k .2 decay .05                     12           2        0.00          10
+(survival/latency in presentations of the context; x32 = dialogues in a 32-question world)

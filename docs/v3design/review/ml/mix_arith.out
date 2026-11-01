@@ -1,0 +1,10 @@
+P(branch fires), fan-in 3: {'LATEST': 0.036, 'THOUGHT': 0.134, 'EYE': 0.113, 'MEAN': 0.091, 'P4': 0.256, 'CA1': 0.03}
+  6-syllable line   (recall on): anchor 0.0362 x random 0.110^2 -> eligible MIX units = 21.0  (k-WTA target 1 % = 480; v2.2 RandMix ~365 active)
+  6-syllable line   (no recall): anchor 0.0362 x random 0.126^2 -> eligible MIX units = 27.5  (k-WTA target 1 % = 480; v2.2 RandMix ~365 active)
+  1-syllable event  (recall on): anchor 0.0058 x random 0.110^2 -> eligible MIX units = 3.4  (k-WTA target 1 % = 480; v2.2 RandMix ~365 active)
+  1-syllable event  (no recall): anchor 0.0058 x random 0.126^2 -> eligible MIX units = 4.4  (k-WTA target 1 % = 480; v2.2 RandMix ~365 active)
+  fan-in for P(branch) = 0.4 on LATEST: 42 lines
+  fan-in for P(branch) = 0.4 on THOUGHT: 11 lines
+  fan-in for P(branch) = 0.4 on EYE: 13 lines
+  CA3 N=10000 a=0.01 C=2500 (aC=25): F1 by M {500: 1.0, 1000: 1.0, 2000: 0.999, 4000: 0.994, 8000: 0.883, 16000: 0.123}
+  CA3 N=10000 a=0.01 C=5000 (aC=50): F1 by M {500: 1.0, 1000: 1.0, 2000: 1.0, 4000: 1.0, 8000: 1.0, 16000: 0.785}

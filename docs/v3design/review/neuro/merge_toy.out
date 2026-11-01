@@ -1,0 +1,6 @@
+== always new trace (today)
+   format600: 0.99±0.03  format600_traces: 1199  free300: 0.99±0.03  free900: 0.99±0.03  free2100: 0.99±0.03  free3000: 0.99±0.03  free3000_traces: 4199
+== merge, DG anchored on LATEST x age
+   format600: 0.99±0.01  format600_traces: 300  free300: 1.00±0.00  free900: 1.00±0.00  free2100: 1.00±0.00  free3000: 1.00±0.00  free3000_traces: 846
+== merge, DG = sum of normalised pathways (no anchor), overlap >= 0.6
+   format600: 0.89±0.05  format600_traces: 51  free300: 0.82±0.07  free900: 0.79±0.03  free2100: 0.80±0.06  free3000: 0.80±0.08  free3000_traces: 106

@@ -1,0 +1,16 @@
+== A  drift_toy setting (crisp bins, no world jitter)
+  S   format600: 0.99±0.01 (lat 1.0)  free300: 0.09±0.06 (lat 1.0)  free1000: 0.00±0.00 (lat 1.0)  free3000: 0.00±0.00 (lat 1.0)  free10000: 0.00±0.00 (lat 1.0)
+  ST  format600: 0.99±0.01 (lat 4.7)  free300: 0.99±0.01 (lat 5.3)  free1000: 0.99±0.01 (lat 5.3)  free3000: 0.99±0.01 (lat 5.3)  free10000: 0.99±0.01 (lat 5.3)
+== B  per-event jitter x[0.75,1.33] on all delays (development range)
+  ST  format600: 1.00±0.00 (lat 4.4)  free300: 0.99±0.01 (lat 4.8)  free1000: 0.99±0.01 (lat 4.8)  free3000: 0.99±0.01 (lat 4.8)  free10000: 1.00±0.00 (lat 4.8)
+== C  per-event jitter x[0.5,2] on all delays (sealed range)
+  S   format600: 0.98±0.01 (lat 1.0)  free300: 0.09±0.05 (lat 1.0)  free1000: 0.00±0.00 (lat 1.0)  free3000: 0.00±0.00 (lat 1.0)  free10000: 0.00±0.00 (lat 1.0)
+  ST  format600: 0.94±0.05 (lat 3.8)  free300: 0.96±0.03 (lat 4.0)  free1000: 0.96±0.03 (lat 4.0)  free3000: 0.96±0.03 (lat 4.0)  free10000: 0.96±0.03 (lat 4.0)
+== D  graded log-Gaussian time cells, sigma 0.85 oct, no jitter
+  ST  format600: 0.99±0.01 (lat 4.2)  free300: 0.98±0.01 (lat 4.4)  free1000: 0.98±0.01 (lat 4.4)  free3000: 0.98±0.01 (lat 4.4)  free10000: 0.98±0.01 (lat 4.4)
+== E  graded sigma 0.85 + jitter x[0.5,2]
+  ST  format600: 0.97±0.05 (lat 3.2)  free300: 0.97±0.04 (lat 3.7)  free1000: 0.98±0.03 (lat 3.8)  free3000: 0.96±0.05 (lat 4.0)  free10000: 0.93±0.06 (lat 4.4)
+== F  C + metaplasticity |w| (w0 0.3)
+  ST  format600: 0.94±0.02 (lat 4.0)  free300: 0.97±0.02 (lat 4.1)  free1000: 0.97±0.02 (lat 4.1)  free3000: 0.97±0.02 (lat 4.1)  free10000: 0.97±0.02 (lat 4.1)
+== G  C + metaplasticity |w| + use (w0 0.3, ucap 5)
+  ST  format600: 1.00±0.00 (lat 4.1)  free300: 1.00±0.00 (lat 4.2)  free1000: 1.00±0.00 (lat 4.2)  free3000: 0.99±0.01 (lat 4.2)  free10000: 0.99±0.01 (lat 4.3)

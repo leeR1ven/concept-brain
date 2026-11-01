@@ -15,7 +15,7 @@ folder holds its report and its small analytic scripts.
 - **`develop/`:** innate drives, the world and a curriculum.
 - **`eval/`:** a sealed test that cannot be passed by designing on it.
 
-**The synthesis is `synth/ARCH_v3_core.md`:** one fixed core of 4 mechanisms, 2 broadcasts, 2 objectives and 5 innate priors (17 sub-items), a 30-gene genome, lineage inheritance, the maturity rule, a neuron-level form for every part, a 13-step migration ladder from v2.2 and the first five experiments. An adversarial review follows. Paths of the form `arch/v2/...` refer to
+**The synthesis is `synth/ARCH_v3_core.md`:** one fixed core of 4 mechanisms, 2 broadcasts, 2 objectives and 5 innate priors (17 sub-items), a 30-gene genome, lineage inheritance, the maturity rule, a neuron-level form for every part, a 13-step migration ladder from v2.2 and the first five experiments. **Adversarial review (`review/`):** four reviewers (development, ML, neuroscience, skeptic engineer) answered one question, "is it sound and buildable?", from their backgrounds, with small toy checks. All four say "fix, then build" and name 5 FATAL-as-written problems: babbling and speech release that cannot reach zero errors, replay that collides with the held context, per-tick prediction that collapses, and a world seed per generation that invalidates inheritance. `review/REVISION_BRIEF.md` lists them together with the designer's own specification, which binds revision 2. Paths of the form `arch/v2/...` refer to
 the coordinator's working tree; the published parts live in `v2/` (v2.2 is `v2/v22/`).
 
 ## 中文摘要
@@ -33,3 +33,4 @@ the coordinator's working tree; the published parts live in `v2/` (v2.2 is `v2/v
 - **发育：** 大人纠正孩子却学不进去，主要是世界的问题。现在的世界从不示范"问题后面紧跟答案"（自问自答、旁听别人问答、把问答重说一遍）。只要世界有这些，一个不加任何角色规则的学习者就能学会，而且不忘。
 - **综合方案（`synth/ARCH_v3_core.md`）：** 4 个通用机制（各脑区同一种电路、一条三因子学习规则、海马一次记忆加回放、基底节闸门）、2 个广播信号、5 项先天部分；关键新结构是前额叶记"最近一件事是谁说的、过去了多久"；30 个基因，265 个手调参数删掉 189 个；同一血统长大后融合生成后代；最终成品为纯神经元；从 v2.2 出发分 13 步迁移。
 - **测试：** 先冻结代码，再出题；新题型连设计者都没见过，只开封一次；模型只能看到感官输入；放大必须是整个模型按同一个倍数放大。
+- **审查（`review/`）：** 四位审查者（发育、机器学习、神经科学、工程）都认为"先修再建"，指出 5 个按原文会失败的问题：咿呀和说话闸门做不到长大后 0 错误、回放和手里的问题冲突、每一拍都学"预测下一刻"会崩、每一代换世界种子会让继承作废；还有很多尺寸和计算量估计偏乐观。修改要求连同设计者原来的设计说明一起写在 `review/REVISION_BRIEF.md`。

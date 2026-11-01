@@ -1,0 +1,6 @@
+realistic mix, care continues 50 %                      S   format: acc 0.59 echo 0.39 sil 0.02  free300: acc 0.31 echo 0.66 sil 0.03  free900: acc 0.35 echo 0.62 sil 0.03  free3000: acc 0.31 echo 0.65 sil 0.04
+realistic mix, care continues 50 %                      ST  format: acc 0.63 echo 0.36 sil 0.00  free300: acc 0.75 echo 0.24 sil 0.00  free900: acc 0.69 echo 0.31 sil 0.00  free3000: acc 0.65 echo 0.35 sil 0.00
+W1 as specified, care continues 50 %                    S   format: acc 1.00 echo 0.00 sil 0.00  free300: acc 0.83 echo 0.14 sil 0.03  free900: acc 0.83 echo 0.14 sil 0.03  free3000: acc 0.83 echo 0.16 sil 0.01
+W1 as specified, care continues 50 %                    ST  format: acc 1.00 echo 0.00 sil 0.00  free300: acc 0.99 echo 0.00 sil 0.00  free900: acc 0.99 echo 0.00 sil 0.00  free3000: acc 1.00 echo 0.00 sil 0.00
+moves on 10 %, care continues 50 %                      S   format: acc 0.99 echo 0.01 sil 0.00  free300: acc 0.81 echo 0.16 sil 0.03  free900: acc 0.74 echo 0.20 sil 0.06  free3000: acc 0.66 echo 0.31 sil 0.03
+moves on 10 %, care continues 50 %                      ST  format: acc 0.99 echo 0.01 sil 0.00  free300: acc 1.00 echo 0.00 sil 0.00  free900: acc 1.00 echo 0.00 sil 0.00  free3000: acc 1.00 echo 0.00 sil 0.00

@@ -1,0 +1,4 @@
+  P=  2500: fill 0.025, recall overlap from 50 % cue 0.99, synapses 31 M
+  P=  5000: fill 0.048, recall overlap from 50 % cue 0.98, synapses 31 M
+  P= 10000: fill 0.095, recall overlap from 50 % cue 0.85, synapses 31 M
+  P= 15000: fill 0.138, recall overlap from 50 % cue 0.62, synapses 31 M

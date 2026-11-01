@@ -1,0 +1,16 @@
+== ST, no replay, no distractors
+   format600: 0.98±0.01  format600_dis: 0.98±0.01  free300: 0.99±0.01  free900: 0.99±0.01  free2100: 0.99±0.01  free3000: 0.99±0.01  free3000_dis: 0.99±0.01
+== ST, replay=stored
+   format600: 0.99±0.01  format600_dis: 0.99±0.01  free300: 1.00±0.00  free900: 1.00±0.00  free2100: 1.00±0.00  free3000: 1.00±0.00  free3000_dis: 1.00±0.00
+== ST, replay=live (anchor stays on live LATEST)
+   format600: 0.99±0.01  format600_dis: 0.99±0.01  free300: 0.26±0.08  free900: 0.02±0.01  free2100: 0.01±0.01  free3000: 0.00±0.00  free3000_dis: 0.00±0.00
+== ST, distractors r=0.005/tick
+   format600: 0.98±0.01  format600_dis: 0.96±0.02  free300: 0.99±0.01  free900: 0.99±0.01  free2100: 0.99±0.01  free3000: 0.99±0.01  free3000_dis: 0.97±0.02
+== ST, distractors r=0.02/tick (crowd-like)
+   format600: 0.94±0.03  format600_dis: 0.90±0.02  free300: 0.96±0.01  free900: 0.96±0.01  free2100: 0.96±0.01  free3000: 0.96±0.01  free3000_dis: 0.84±0.01
+== ST, replay=stored + distractors r=0.02
+   format600: 0.99±0.01  format600_dis: 0.95±0.03  free300: 1.00±0.00  free900: 1.00±0.00  free2100: 1.00±0.00  free3000: 1.00±0.00  free3000_dis: 0.94±0.03
+== ST, independent per-event jitter x[0.5,2] on format wait and give-up
+   format600: 0.97±0.02  format600_dis: 0.97±0.02  free300: 0.97±0.01  free900: 0.97±0.02  free2100: 0.96±0.02  free3000: 0.96±0.02  free3000_dis: 0.96±0.02
+== ST, independent per-event jitter x[0.75,1.33]
+   format600: 0.99±0.01  format600_dis: 0.99±0.01  free300: 0.99±0.01  free900: 0.99±0.01  free2100: 0.99±0.01  free3000: 0.99±0.01  free3000_dis: 0.99±0.01

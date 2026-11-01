@@ -1,0 +1,56 @@
+{
+ "plain NLMS (today R2)": {
+  "R1_survival": 10.0,
+  "R2_latency": 2.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 8.0
+ },
+ "|w| meta w0=0.05": {
+  "R1_survival": 19.0,
+  "R2_latency": 4.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 15.5
+ },
+ "|w| meta w0=0.01": {
+  "R1_survival": 43.0,
+  "R2_latency": 7.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 37.5
+ },
+ "use meta ucap=5 floor 0.1": {
+  "R1_survival": 32.0,
+  "R2_latency": 4.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 20.0
+ },
+ "use meta ucap=5 floor 0.02": {
+  "R1_survival": 32.0,
+  "R2_latency": 4.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 20.0
+ },
+ "|w|+use (designer form) w0 .05 ucap 5 floor .1": {
+  "R1_survival": 75.0,
+  "R2_latency": 7.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 42.0
+ },
+ "Benna-Fusi 2-var g .2 C2 20": {
+  "R1_survival": 3.0,
+  "R2_latency": 1.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 3.0
+ },
+ "Benna-Fusi 2-var g .5 C2 50": {
+  "R1_survival": 1.0,
+  "R2_latency": 1.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 1.0
+ },
+ "confirmed-consolidation k .2 decay .05": {
+  "R1_survival": 11.5,
+  "R2_latency": 2.0,
+  "R3_oldback": 0.0,
+  "R3_survival": 9.5
+ }
+}

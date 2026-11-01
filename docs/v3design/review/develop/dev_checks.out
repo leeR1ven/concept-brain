@@ -1,0 +1,32 @@
+== values: harm (w_upset = 1.5 w_plea) vs help when the harm is perceived k ticks after the praise
+   gamma 0.8: help wins once harm lags by > 1.8 ticks (0.14 s at 75 ms/tick)
+   gamma 0.95: help wins once harm lags by > 7.9 ticks (0.59 s at 75 ms/tick)
+   gamma 0.99: help wins once harm lags by > 40.3 ticks (3.03 s at 75 ms/tick)
+== values: praise k ticks after the decision, discounted gamma^k; eligibility exp(-k/20)
+   k= 20: 0.95^k=3.58e-01  0.99^k=8.18e-01  trace=3.68e-01
+   k= 50: 0.95^k=7.69e-02  0.99^k=6.05e-01  trace=8.21e-02
+   k=100: 0.95^k=5.92e-03  0.99^k=3.66e-01  trace=6.74e-03
+   k=200: 0.95^k=3.51e-05  0.99^k=1.34e-01  trace=4.54e-05
+   k=400: 0.95^k=1.23e-09  0.99^k=1.80e-02  trace=2.06e-09
+== post-maturity babble hazard (P1d: r_bab 0.01 per idle tick, constant gene; babble noise below M4)
+   extra-turn hazard per answered exchange 0.079; post-M answers 947; expected extra turns 75; P(0) = 2.1e-33
+   babble inside the first 5 ticks of an answer window (becomes the reply): 0.049 per exchange
+== maturity at 5,000 heard syllables
+   bench life (per 1e6 ticks)  : M after  0.32 units, questions to the agent before M ~ 574
+   world2 4 agents             : M after  5.21 units, questions to the agent before M ~ 168
+   world2 16 agents            : M after  8.93 units, questions to the agent before M ~  93
+   child (ASSUMED 18,000 syllables/day): M after 0.28 child-days
+== experience per life and lineage (ASSUMED 18,000 heard syllables per child-day)
+   one bench life = 0.86 child-days; 10 generations in sequence = 8.6 child-days; all 240 lives = 206 child-days (mostly parallel copies)
+   child at 12 months ~427 bench lives; at 24 months ~841
+   lineage CPU (240 lives x 1,630 s, CITED synth) = 109 CPU-h; one 1e8-tick life at 1,000 s per 1e6 ticks = 28 CPU-h
+== greeting walk (6.3): delta rule over the 2 bin features of tau 30 (bins 3,4); accumulate (G+u)*e, G 0, e = p
+   visits  1: p(tau30) 0.35; release at tau 31, first syllable ~35 vs partner greets at 30: partner first
+   visits  1: p(tau30) 0.35; release at tau 31, first syllable ~35 vs partner greets at 22: partner first
+   visits  1: p(tau30) 0.35; release at tau 31, first syllable ~35 vs partner greets at 40: agent first
+   visits  5: p(tau30) 0.88; release at tau 19, first syllable ~23 vs partner greets at 30: agent first
+   visits  5: p(tau30) 0.88; release at tau 19, first syllable ~23 vs partner greets at 22: partner first
+   visits  5: p(tau30) 0.88; release at tau 19, first syllable ~23 vs partner greets at 40: agent first
+   visits 10: p(tau30) 0.99; release at tau 18, first syllable ~22 vs partner greets at 30: agent first
+   visits 10: p(tau30) 0.99; release at tau 18, first syllable ~22 vs partner greets at 22: partner first
+   visits 10: p(tau30) 0.99; release at tau 18, first syllable ~22 vs partner greets at 40: agent first

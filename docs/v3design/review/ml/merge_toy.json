@@ -1,0 +1,185 @@
+{
+ "part1": {
+  "independent_N2048_S32_junk0": {
+   "claims": 0.658,
+   "flyhash": 0.735
+  },
+  "independent_N2048_S32_junk2": {
+   "claims": 0.54,
+   "flyhash": 0.716
+  },
+  "independent_N2048_S64_junk0": {
+   "claims": 0.542,
+   "flyhash": 0.727
+  },
+  "independent_N2048_S64_junk2": {
+   "claims": 0.372,
+   "flyhash": 0.713
+  },
+  "independent_N2048_S120_junk0": {
+   "claims": 0.307,
+   "flyhash": 0.727
+  },
+  "independent_N2048_S120_junk2": {
+   "claims": 0.204,
+   "flyhash": 0.72
+  },
+  "independent_N8192_S141_junk0": {
+   "claims": 0.59,
+   "flyhash": 0.688
+  },
+  "independent_N8192_S141_junk2": {
+   "claims": 0.506,
+   "flyhash": 0.69
+  },
+  "grouped_N2048_S32_junk0": {
+   "claims": 0.429,
+   "flyhash": 0.726
+  },
+  "grouped_N2048_S32_junk2": {
+   "claims": 0.379,
+   "flyhash": 0.732
+  },
+  "grouped_N2048_S64_junk0": {
+   "claims": 0.424,
+   "flyhash": 0.715
+  },
+  "grouped_N2048_S64_junk2": {
+   "claims": 0.293,
+   "flyhash": 0.714
+  },
+  "grouped_N2048_S120_junk0": {
+   "claims": 0.238,
+   "flyhash": 0.731
+  },
+  "grouped_N2048_S120_junk2": {
+   "claims": 0.2,
+   "flyhash": 0.726
+  },
+  "grouped_N8192_S141_junk0": {
+   "claims": 0.456,
+   "flyhash": 0.68
+  },
+  "grouped_N8192_S141_junk2": {
+   "claims": 0.385,
+   "flyhash": 0.68
+  }
+ },
+ "part2": {
+  "disjoint+shared": {
+   "mean": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "ties": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "use-weighted": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "keep-larger": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "parents_own": 1.0
+  },
+  "with-conflict": {
+   "mean": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0,
+    "conflict:A answer": 0.45
+   },
+   "ties": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0,
+    "conflict:A answer": 0.575
+   },
+   "use-weighted": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0,
+    "conflict:A answer": 0.5
+   },
+   "keep-larger": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0,
+    "conflict:A answer": 0.65
+   },
+   "parents_own": 1.0
+  },
+  "pool4": {
+   "mean": {
+    "shared": 1.0,
+    "one-parent": 0.078
+   },
+   "ties": {
+    "shared": 1.0,
+    "one-parent": 1.0
+   },
+   "use-weighted": {
+    "shared": 1.0,
+    "one-parent": 0.997
+   },
+   "keep-larger": {
+    "shared": 1.0,
+    "one-parent": 1.0
+   },
+   "parents_own": 1.0
+  },
+  "drift0.1": {
+   "mean": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "ties": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "use-weighted": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "keep-larger": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "parents_own": 1.0
+  },
+  "drift0.3": {
+   "mean": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 0.944
+   },
+   "ties": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "use-weighted": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "keep-larger": {
+    "shared(same answer)": 1.0,
+    "A-only": 1.0,
+    "B-only": 1.0
+   },
+   "parents_own": 1.0
+  }
+ }
+}

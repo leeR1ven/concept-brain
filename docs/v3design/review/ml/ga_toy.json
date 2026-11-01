@@ -1,0 +1,26 @@
+{
+ "0.25": {
+  "default_regret": 4.19,
+  "gain_mean": 1.83,
+  "gain_sd": 1.22,
+  "p_worse": 0.03,
+  "pop_gain": 1.68,
+  "fake_gene_abs_logdrift": 0.077
+ },
+ "0.5": {
+  "default_regret": 8.39,
+  "gain_mean": 4.79,
+  "gain_sd": 2.73,
+  "p_worse": 0.0,
+  "pop_gain": 4.36,
+  "fake_gene_abs_logdrift": 0.079
+ },
+ "1.0": {
+  "default_regret": 16.77,
+  "gain_mean": 10.98,
+  "gain_sd": 5.73,
+  "p_worse": 0.0,
+  "pop_gain": 10.07,
+  "fake_gene_abs_logdrift": 0.079
+ }
+}
