@@ -1,0 +1,9 @@
+{"scenario": "fixed_in", "seed": 0, "secs": 45.8, "rss": 245}
+{"scenario": "fixed_in+stable_ids", "seed": 0, "secs": 44.7, "rss": 245}
+{"scenario": "pool4", "seed": 0, "secs": 77.0, "rss": 352}
+{"scenario": "fixed_in", "seed": 1, "secs": 42.7, "rss": 352}
+{"scenario": "fixed_in+stable_ids", "seed": 1, "secs": 42.6, "rss": 352}
+{"scenario": "pool4", "seed": 1, "secs": 73.4, "rss": 352}
+{"scenario": "fixed_in", "seed": 2, "secs": 42.8, "rss": 352}
+{"scenario": "fixed_in+stable_ids", "seed": 2, "secs": 43.3, "rss": 352}
+{"scenario": "pool4", "seed": 2, "secs": 79.1, "rss": 352}
