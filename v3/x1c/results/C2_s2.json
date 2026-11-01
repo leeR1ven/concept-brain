@@ -1,0 +1,928 @@
+{
+ "arm": "C2",
+ "seed": 2,
+ "cfg": {
+  "world": {
+   "care": "format",
+   "distract": false
+  },
+  "brain": {
+   "act": "own"
+  }
+ },
+ "held": [
+  [
+   0,
+   4
+  ],
+  [
+   1,
+   2
+  ],
+  [
+   1,
+   3
+  ],
+  [
+   1,
+   6
+  ],
+  [
+   2,
+   4
+  ],
+  [
+   2,
+   6
+  ],
+  [
+   2,
+   7
+  ],
+  [
+   3,
+   2
+  ],
+  [
+   3,
+   3
+  ],
+  [
+   3,
+   7
+  ]
+ ],
+ "probes": {
+  "teach300": {
+   "seen": {
+    "n": 22,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "held": {
+    "n": 10,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "per_frame_seen": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "per_frame_held": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   }
+  },
+  "teach600": {
+   "seen": {
+    "n": 22,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "held": {
+    "n": 10,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "per_frame_seen": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "per_frame_held": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   }
+  },
+  "corr": {
+   "seen": {
+    "n": 22,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "held": {
+    "n": 10,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "per_frame_seen": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "per_frame_held": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   }
+  },
+  "free300": {
+   "seen": {
+    "n": 22,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "held": {
+    "n": 10,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "per_frame_seen": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "per_frame_held": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   }
+  },
+  "free1000": {
+   "seen": {
+    "n": 22,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "held": {
+    "n": 10,
+    "acc": 0.0,
+    "first": 0.0,
+    "echo": 0.0,
+    "silent": 1.0,
+    "garble": 0.0,
+    "talk": 0.0
+   },
+   "per_frame_seen": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   },
+   "per_frame_held": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+   }
+  }
+ },
+ "mech": {
+  "teach0-300": {
+   "n_ex": 300,
+   "resp_rate": 0.01,
+   "online_acc": 0.0,
+   "echo_per_ex": 0.0,
+   "talkover_per_ex": 0.0233,
+   "yieldfail_per_ex": 0.0,
+   "garble_per_ex": 0.0533,
+   "extra_per_ex": 0.0333,
+   "self_answer": 0.99,
+   "lat_mean": 1.67
+  },
+  "teach300-600": {
+   "n_ex": 300,
+   "resp_rate": 0.0,
+   "online_acc": 0.0,
+   "echo_per_ex": 0.0,
+   "talkover_per_ex": 0.01,
+   "yieldfail_per_ex": 0.0,
+   "garble_per_ex": 0.0067,
+   "extra_per_ex": 0.0,
+   "self_answer": 1.0,
+   "lat_mean": null
+  },
+  "corr": {
+   "n_ex": 300,
+   "resp_rate": 0.0,
+   "online_acc": 0.0,
+   "echo_per_ex": 0.0,
+   "talkover_per_ex": 0.0333,
+   "yieldfail_per_ex": 0.0,
+   "garble_per_ex": 0.0133,
+   "extra_per_ex": 0.0,
+   "self_answer": 1.0,
+   "lat_mean": null
+  },
+  "free300": {
+   "n_ex": 300,
+   "resp_rate": 0.0,
+   "online_acc": 0.0,
+   "echo_per_ex": 0.0,
+   "talkover_per_ex": 0.01,
+   "yieldfail_per_ex": 0.0,
+   "garble_per_ex": 0.01,
+   "extra_per_ex": 0.0,
+   "self_answer": 0.0,
+   "lat_mean": null
+  },
+  "free1000": {
+   "n_ex": 0,
+   "resp_rate": 0.0,
+   "online_acc": 0.0,
+   "echo_per_ex": 0.0,
+   "talkover_per_ex": 0.0,
+   "yieldfail_per_ex": 0.0,
+   "garble_per_ex": 0.0,
+   "extra_per_ex": 0.0,
+   "self_answer": 0.0,
+   "lat_mean": null
+  }
+ },
+ "empty": {
+  "teach": {
+   "utts": 3,
+   "per100": 0.111,
+   "syl": 6,
+   "sample": [
+    "~~吃",
+    "~",
+    "~~"
+   ]
+  },
+  "free": {
+   "utts": 0,
+   "per100": 0.0,
+   "syl": 0,
+   "sample": []
+  }
+ },
+ "motion": {
+  "teach": {
+   "n_active": 122.7,
+   "turnover1": 0.462,
+   "turnover5": 0.463,
+   "stuck20": 0.537,
+   "distinct": 56,
+   "ticks": 2701
+  },
+  "free": {
+   "n_active": 133.4,
+   "turnover1": 0.667,
+   "turnover5": 0.662,
+   "stuck20": 0.35,
+   "distinct": 2,
+   "ticks": 4000
+  }
+ },
+ "probe_detail_teach": [
+  {
+   "f": 0,
+   "x": 0,
+   "held": false,
+   "A": [
+    "香"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 1,
+   "held": false,
+   "A": [
+    "香"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 2,
+   "held": false,
+   "A": [
+    "香"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 3,
+   "held": false,
+   "A": [
+    "香"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 4,
+   "held": true,
+   "A": [
+    "不",
+    "能",
+    "吃"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 5,
+   "held": false,
+   "A": [
+    "不",
+    "能",
+    "吃"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 6,
+   "held": false,
+   "A": [
+    "不",
+    "能",
+    "吃"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 0,
+   "x": 7,
+   "held": false,
+   "A": [
+    "不",
+    "能",
+    "吃"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 0,
+   "held": false,
+   "A": [
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 1,
+   "held": false,
+   "A": [
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 2,
+   "held": true,
+   "A": [
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 3,
+   "held": true,
+   "A": [
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 4,
+   "held": false,
+   "A": [
+    "不",
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 5,
+   "held": false,
+   "A": [
+    "不",
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 6,
+   "held": true,
+   "A": [
+    "不",
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 1,
+   "x": 7,
+   "held": false,
+   "A": [
+    "不",
+    "要"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 0,
+   "held": false,
+   "A": [
+    "绿",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 1,
+   "held": false,
+   "A": [
+    "红",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 2,
+   "held": false,
+   "A": [
+    "红",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 3,
+   "held": false,
+   "A": [
+    "绿",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 4,
+   "held": true,
+   "A": [
+    "黄",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 5,
+   "held": false,
+   "A": [
+    "黄",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 6,
+   "held": true,
+   "A": [
+    "黄",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 2,
+   "x": 7,
+   "held": true,
+   "A": [
+    "红",
+    "的"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 0,
+   "held": false,
+   "A": [
+    "大"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 1,
+   "held": false,
+   "A": [
+    "大"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 2,
+   "held": true,
+   "A": [
+    "小"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 3,
+   "held": true,
+   "A": [
+    "小"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 4,
+   "held": false,
+   "A": [
+    "大"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 5,
+   "held": false,
+   "A": [
+    "小"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 6,
+   "held": false,
+   "A": [
+    "小"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  },
+  {
+   "f": 3,
+   "x": 7,
+   "held": true,
+   "A": [
+    "大"
+   ],
+   "syl": null,
+   "lat": null,
+   "correct": false,
+   "first": false,
+   "echo": false,
+   "silent": true,
+   "garble": false,
+   "talk": false
+  }
+ ],
+ "correction": {
+  "changed": [
+   [
+    2,
+    0
+   ],
+   [
+    2,
+    1
+   ],
+   [
+    3,
+    5
+   ],
+   [
+    3,
+    6
+   ]
+  ],
+  "latency": {
+   "(2, 0)": {
+    "first_new_after_teachings": null,
+    "n_asks": 23,
+    "seq": "-----------------------"
+   },
+   "(2, 1)": {
+    "first_new_after_teachings": null,
+    "n_asks": 8,
+    "seq": "--------"
+   },
+   "(3, 5)": {
+    "first_new_after_teachings": null,
+    "n_asks": 9,
+    "seq": "---------"
+   },
+   "(3, 6)": {
+    "first_new_after_teachings": null,
+    "n_asks": 13,
+    "seq": "-------------"
+   }
+  },
+  "probe_new": 0.0,
+  "probe_old": 0.0
+ },
+ "time_s": 418.8,
+ "speech_route": {
+  "heard": 0.562,
+  "inner": 0.325,
+  "recall": 0.0,
+  "pfc_motor": 0.113,
+  "onsets": 54
+ },
+ "ms_per_tick": 4.51,
+ "layer_counts": {
+  "n1": {
+   "mean": 74.0,
+   "min": 0,
+   "max": 209,
+   "p_zero": 0.12,
+   "p_sat": 0.317,
+   "size": 212
+  },
+  "n2": {
+   "mean": 127.5,
+   "min": 0,
+   "max": 400,
+   "p_zero": 0.627,
+   "p_sat": 0.322,
+   "size": 400
+  },
+  "n3": {
+   "mean": 130.9,
+   "min": 0,
+   "max": 400,
+   "p_zero": 0.669,
+   "p_sat": 0.326,
+   "size": 400
+  }
+ }
+}

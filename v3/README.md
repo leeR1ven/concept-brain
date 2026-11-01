@@ -6,3 +6,4 @@ Each folder is one experiment from the v3 design round (`docs/v3design/`). The a
 |---|---|---|
 | `x345/` | X3: pure-neuron hippocampus (chain-fed, Hebbian, no records); X4: merging siblings' learned weights; X5: tick cost on CPU and A800 | `x345/REPORT.md` |
 | `x4b/` | the designer's 40/40/20 merge rule and other operators; does a merged child relearn its parents' lessons faster than a fresh birth? | `x4b/REPORT.md` |
+| `x1c/` | the designer's core (ARCHITECTURE.md) on a continuous tick-by-tick dialogue stream, 12 arms × 5 seeds; answers 0 in every arm | `x1c/REPORT.md` |

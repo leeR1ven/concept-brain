@@ -1,0 +1,360 @@
+======== B 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 0.58±0.46
+  teach_garble: 0.34±0.39
+  teach_talk_during_Q: 0.42±0.48
+  held_acc: 0.00±0.00
+  free_last: free3000
+  free_acc: 0.00±0.00
+  free_echo: 0.02±0.04
+  free_silent: 0.20±0.40
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.55±0.08
+  teach_talkover_per_ex: 0.03±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 1.59±0.23
+  teach_extra_per_ex: 1.19±0.22
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.01
+  free_resp_rate: 0.44±0.06
+  free_talkover_per_ex: 0.01±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.44±0.06
+  free_extra_per_ex: 0.37±0.03
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.48±0.36
+  empty_free_per100: 0.02±0.01
+  motion_teach: {'n_active': '38.62±0.29', 'turnover1': '0.01±0.00', 'turnover5': '0.03±0.01', 'stuck20': '0.88±0.06', 'distinct': '114.80±86.35'}
+  motion_free: {'n_active': '33.64±2.45', 'turnover1': '0.01±0.00', 'turnover5': '0.03±0.00', 'stuck20': '0.87±0.03', 'distinct': '150.20±39.13'}
+  layers: {'n1': {'mean': '18.84±0.42', 'min': '0.00±0.00', 'max': '66.40±3.44', 'p_zero': '0.16±0.01', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '18.68±0.50', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.29±0.01', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '36.24±0.54', 'min': '1.20±2.40', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.02±0.01', 'inner': '0.34±0.03', 'recall': '0.00±0.00', 'pfc_motor': '0.63±0.04', 'onsets': '3088.40±409.83'}
+  ms_per_tick: 0.74±0.02
+  time_s: 152.22±5.04
+======== C 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 1.00±0.00
+  teach_garble: 0.00±0.00
+  teach_talk_during_Q: 0.00±0.00
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 1.00±0.00
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.00±0.00
+  teach_talkover_per_ex: 0.00±0.00
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 0.00±0.00
+  teach_extra_per_ex: 0.00±0.00
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.00±0.00
+  empty_free_per100: 0.00±0.00
+  motion_teach: {'n_active': '400.00±0.00', 'turnover1': '0.00±0.00', 'turnover5': '0.00±0.00', 'stuck20': '1.00±0.00', 'distinct': '1.00±0.00'}
+  motion_free: {'n_active': '400.00±0.00', 'turnover1': '0.00±0.00', 'turnover5': '0.00±0.00', 'stuck20': '1.00±0.00', 'distinct': '1.00±0.00'}
+  layers: {'n1': {'mean': '193.64±3.82', 'min': '0.00±0.00', 'max': '195.20±3.66', 'p_zero': '0.00±0.00', 'p_sat': '0.94±0.05'}, 'n2': {'mean': '398.12±0.60', 'min': '0.00±0.00', 'max': '400.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.99±0.00'}, 'n3': {'mean': '398.18±0.64', 'min': '0.00±0.00', 'max': '400.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.99±0.00'}}
+  route: {'heard': '0.02±0.02', 'inner': '0.79±0.13', 'recall': '0.00±0.00', 'pfc_motor': '0.19±0.11', 'onsets': '7.20±3.49'}
+  ms_per_tick: 0.68±0.01
+  time_s: 63.04±0.66
+======== C2 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 1.00±0.00
+  teach_garble: 0.00±0.00
+  teach_talk_during_Q: 0.00±0.00
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 1.00±0.00
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.00±0.01
+  teach_talkover_per_ex: 0.01±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 0.02±0.02
+  teach_extra_per_ex: 0.01±0.02
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.05±0.04
+  empty_free_per100: 0.00±0.01
+  motion_teach: {'n_active': '100.06±18.66', 'turnover1': '0.41±0.18', 'turnover5': '0.41±0.17', 'stuck20': '0.58±0.15', 'distinct': '55.00±31.32'}
+  motion_free: {'n_active': '133.32±0.04', 'turnover1': '0.67±0.00', 'turnover5': '0.66±0.00', 'stuck20': '0.35±0.00', 'distinct': '5.00±2.53'}
+  layers: {'n1': {'mean': '72.42±2.08', 'min': '0.00±0.00', 'max': '206.00±6.57', 'p_zero': '0.13±0.01', 'p_sat': '0.31±0.01'}, 'n2': {'mean': '125.48±2.44', 'min': '0.00±0.00', 'max': '400.00±0.00', 'p_zero': '0.62±0.01', 'p_sat': '0.30±0.02'}, 'n3': {'mean': '129.50±2.61', 'min': '0.00±0.00', 'max': '400.00±0.00', 'p_zero': '0.67±0.00', 'p_sat': '0.32±0.01'}}
+  route: {'heard': '0.32±0.23', 'inner': '0.40±0.11', 'recall': '0.00±0.00', 'pfc_motor': '0.28±0.13', 'onsets': '60.60±24.59'}
+  ms_per_tick: 4.39±0.27
+  time_s: 409.20±24.05
+======== A 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 0.37±0.09
+  teach_garble: 0.63±0.09
+  teach_talk_during_Q: 1.00±0.00
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.58±0.21
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.60±0.05
+  teach_talkover_per_ex: 0.03±0.00
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 2.05±0.15
+  teach_extra_per_ex: 1.51±0.09
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.94±0.18
+  empty_free_per100: 0.66±0.19
+  motion_teach: {'n_active': '17.68±7.15', 'turnover1': '0.30±0.09', 'turnover5': '0.33±0.08', 'stuck20': '0.45±0.08', 'distinct': '496.60±133.84'}
+  motion_free: {'n_active': '16.54±6.28', 'turnover1': '0.25±0.08', 'turnover5': '0.31±0.07', 'stuck20': '0.40±0.06', 'distinct': '653.60±149.24'}
+  layers: {'n1': {'mean': '15.14±0.23', 'min': '0.00±0.00', 'max': '64.80±3.06', 'p_zero': '0.19±0.00', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '25.06±0.79', 'min': '0.00±0.00', 'max': '217.20±13.50', 'p_zero': '0.36±0.01', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '39.32±1.37', 'min': '0.00±0.00', 'max': '369.80±16.93', 'p_zero': '0.35±0.04', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.02±0.00', 'inner': '0.45±0.02', 'recall': '0.00±0.00', 'pfc_motor': '0.53±0.02', 'onsets': '5483.20±780.26'}
+  ms_per_tick: 1.48±0.02
+  time_s: 156.30±1.68
+======== B_nlms 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 0.60±0.39
+  teach_garble: 0.40±0.39
+  teach_talk_during_Q: 0.42±0.48
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.41±0.30
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.24±0.15
+  teach_talkover_per_ex: 0.02±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 0.78±0.49
+  teach_extra_per_ex: 0.54±0.34
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.10±0.06
+  empty_free_per100: 0.02±0.02
+  motion_teach: {'n_active': '35.82±1.17', 'turnover1': '0.01±0.00', 'turnover5': '0.03±0.00', 'stuck20': '0.86±0.03', 'distinct': '103.40±23.60'}
+  motion_free: {'n_active': '31.62±1.86', 'turnover1': '0.01±0.00', 'turnover5': '0.03±0.00', 'stuck20': '0.83±0.03', 'distinct': '189.80±44.59'}
+  layers: {'n1': {'mean': '12.48±2.09', 'min': '0.00±0.00', 'max': '42.40±1.85', 'p_zero': '0.18±0.04', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '16.40±2.66', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.33±0.06', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '33.76±1.48', 'min': '2.00±4.00', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.03±0.01', 'inner': '0.17±0.05', 'recall': '0.00±0.00', 'pfc_motor': '0.80±0.06', 'onsets': '1402.40±448.91'}
+  ms_per_tick: 0.69±0.03
+  time_s: 70.80±6.78
+======== B_nopart 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 0.23±0.31
+  teach_garble: 0.76±0.30
+  teach_talk_during_Q: 0.80±0.40
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.20±0.24
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.56±0.11
+  teach_talkover_per_ex: 0.02±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 1.78±0.27
+  teach_extra_per_ex: 1.22±0.15
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.27±0.07
+  empty_free_per100: 0.07±0.02
+  motion_teach: {'n_active': '39.00±0.00', 'turnover1': '0.02±0.03', 'turnover5': '0.05±0.03', 'stuck20': '0.79±0.05', 'distinct': '191.20±65.29'}
+  motion_free: {'n_active': '39.00±0.00', 'turnover1': '0.02±0.01', 'turnover5': '0.07±0.02', 'stuck20': '0.65±0.07', 'distinct': '414.40±135.27'}
+  layers: {'n1': {'mean': '21.72±1.92', 'min': '0.00±0.00', 'max': '62.20±6.11', 'p_zero': '0.11±0.01', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '21.56±0.65', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.20±0.02', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '39.00±0.00', 'min': '5.20±10.40', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.02±0.01', 'inner': '0.31±0.07', 'recall': '0.00±0.00', 'pfc_motor': '0.67±0.07', 'onsets': '2861.40±460.19'}
+  ms_per_tick: 0.80±0.03
+  time_s: 90.06±4.17
+======== B_fast 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.02±0.04
+  teach_silent: 0.23±0.32
+  teach_garble: 0.77±0.32
+  teach_talk_during_Q: 0.64±0.45
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.20±0.40
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.81±0.05
+  teach_talkover_per_ex: 0.03±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 2.49±0.12
+  teach_extra_per_ex: 1.77±0.14
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.01±0.01
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.52±0.28
+  empty_free_per100: 0.07±0.05
+  motion_teach: {'n_active': '38.00±0.79', 'turnover1': '0.02±0.01', 'turnover5': '0.08±0.04', 'stuck20': '0.74±0.13', 'distinct': '379.40±228.85'}
+  motion_free: {'n_active': '31.40±2.93', 'turnover1': '0.02±0.02', 'turnover5': '0.07±0.07', 'stuck20': '0.75±0.14', 'distinct': '443.20±457.54'}
+  layers: {'n1': {'mean': '27.24±1.31', 'min': '0.00±0.00', 'max': '67.00±3.41', 'p_zero': '0.04±0.01', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '24.12±0.66', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.13±0.02', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '35.50±1.40', 'min': '0.60±1.20', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.02±0.01', 'inner': '0.39±0.05', 'recall': '0.00±0.00', 'pfc_motor': '0.59±0.05', 'onsets': '3231.40±178.81'}
+  ms_per_tick: 0.89±0.04
+  time_s: 106.34±5.77
+======== B_hip 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 0.40±0.49
+  teach_garble: 0.60±0.49
+  teach_talk_during_Q: 0.60±0.49
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.51±0.42
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.60±0.11
+  teach_talkover_per_ex: 0.02±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 1.90±0.33
+  teach_extra_per_ex: 1.34±0.27
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.54±0.33
+  empty_free_per100: 0.03±0.02
+  motion_teach: {'n_active': '38.92±0.07', 'turnover1': '0.01±0.00', 'turnover5': '0.03±0.01', 'stuck20': '0.89±0.03', 'distinct': '104.20±53.93'}
+  motion_free: {'n_active': '34.30±1.34', 'turnover1': '0.00±0.00', 'turnover5': '0.02±0.00', 'stuck20': '0.88±0.02', 'distinct': '125.80±24.58'}
+  layers: {'n1': {'mean': '21.22±1.07', 'min': '0.00±0.00', 'max': '61.60±3.44', 'p_zero': '0.13±0.01', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '20.22±0.69', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.24±0.02', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '37.24±0.27', 'min': '1.60±3.20', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.02±0.00', 'inner': '0.37±0.03', 'recall': '0.00±0.00', 'pfc_motor': '0.61±0.03', 'onsets': '2235.40±236.21'}
+  ms_per_tick: 1.02±0.02
+  time_s: 112.56±3.52
+======== B_dist 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.00±0.00
+  teach_silent: 0.71±0.40
+  teach_garble: 0.29±0.40
+  teach_talk_during_Q: 0.40±0.49
+  held_acc: 0.00±0.00
+  free_last: free1000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.86±0.15
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.61±0.10
+  teach_talkover_per_ex: 0.02±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 1.87±0.33
+  teach_extra_per_ex: 1.31±0.24
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.00±0.00
+  free_resp_rate: 0.00±0.00
+  free_talkover_per_ex: 0.00±0.00
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.00±0.00
+  free_extra_per_ex: 0.00±0.00
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 1.09±0.63
+  empty_free_per100: 0.69±0.54
+  motion_teach: {'n_active': '38.66±0.53', 'turnover1': '0.01±0.00', 'turnover5': '0.05±0.01', 'stuck20': '0.66±0.08', 'distinct': '291.60±99.61'}
+  motion_free: {'n_active': '35.16±0.81', 'turnover1': '0.01±0.00', 'turnover5': '0.05±0.00', 'stuck20': '0.64±0.02', 'distinct': '487.20±23.59'}
+  layers: {'n1': {'mean': '21.18±0.65', 'min': '0.00±0.00', 'max': '65.80±1.72', 'p_zero': '0.11±0.01', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '20.64±0.77', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.21±0.02', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '37.12±0.12', 'min': '6.80±6.62', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.16±0.13', 'inner': '0.30±0.04', 'recall': '0.00±0.00', 'pfc_motor': '0.54±0.10', 'onsets': '3633.00±697.79'}
+  ms_per_tick: 0.79±0.01
+  time_s: 86.62±2.07
+======== B_real 5 seeds
+  teach_seen_acc: 0.00±0.00
+  teach_first: 0.00±0.00
+  teach_echo: 0.01±0.02
+  teach_silent: 0.45±0.42
+  teach_garble: 0.53±0.40
+  teach_talk_during_Q: 0.62±0.47
+  held_acc: 0.00±0.00
+  free_last: free3000
+  free_acc: 0.00±0.00
+  free_echo: 0.00±0.00
+  free_silent: 0.77±0.39
+  corr_new: 0.00±0.00
+  corr_first_new: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+  teach_resp_rate: 0.53±0.11
+  teach_talkover_per_ex: 0.03±0.01
+  teach_yieldfail_per_ex: 0.00±0.00
+  teach_garble_per_ex: 1.59±0.34
+  teach_extra_per_ex: 1.13±0.31
+  teach_online_acc: 0.00±0.00
+  teach_echo_per_ex: 0.01±0.01
+  free_resp_rate: 0.41±0.07
+  free_talkover_per_ex: 0.01±0.01
+  free_yieldfail_per_ex: 0.00±0.00
+  free_garble_per_ex: 0.39±0.07
+  free_extra_per_ex: 0.35±0.05
+  free_online_acc: 0.00±0.00
+  free_echo_per_ex: 0.00±0.00
+  empty_teach_per100: 0.25±0.08
+  empty_free_per100: 0.02±0.02
+  motion_teach: {'n_active': '38.40±0.36', 'turnover1': '0.00±0.00', 'turnover5': '0.02±0.00', 'stuck20': '0.90±0.02', 'distinct': '74.80±24.06'}
+  motion_free: {'n_active': '34.38±1.15', 'turnover1': '0.01±0.00', 'turnover5': '0.02±0.00', 'stuck20': '0.90±0.02', 'distinct': '130.40±53.95'}
+  layers: {'n1': {'mean': '18.62±0.16', 'min': '0.00±0.00', 'max': '61.60±1.36', 'p_zero': '0.16±0.01', 'p_sat': '0.00±0.00'}, 'n2': {'mean': '18.34±0.41', 'min': '0.00±0.00', 'max': '29.00±0.00', 'p_zero': '0.30±0.01', 'p_sat': '0.00±0.00'}, 'n3': {'mean': '36.52±0.49', 'min': '2.80±3.49', 'max': '39.00±0.00', 'p_zero': '0.00±0.00', 'p_sat': '0.00±0.00'}}
+  route: {'heard': '0.03±0.01', 'inner': '0.34±0.03', 'recall': '0.00±0.00', 'pfc_motor': '0.64±0.03', 'onsets': '3166.20±426.77'}
+  ms_per_tick: 0.75±0.01
+  time_s: 159.56±3.32
