@@ -1,0 +1,1 @@
+RNpm_L8 0 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_locRNpm_Lq_OH

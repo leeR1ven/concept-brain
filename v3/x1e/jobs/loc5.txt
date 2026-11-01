@@ -1,0 +1,4 @@
+R1e_L8 0 n_teach=300 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_loc_q1
+RNpm_L8 0 n_teach=300 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 f3=0.3176 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_loc_q1
+R1e_L8 0 n_teach=300 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.3 c_mb=1.2 theta_m=0.35 tag=_loc_q2
+RNpm_L8 0 n_teach=300 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 f3=0.3176 g_ret_mot=0.3 c_mb=1.2 theta_m=0.35 tag=_loc_q2

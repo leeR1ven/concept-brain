@@ -1,0 +1,10 @@
+R1e_oracle 0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 2 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 3 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 4 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+RNpm_oracle 0 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 1 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 2 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 3 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 4 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q

@@ -1,0 +1,2 @@
+RNpm_L8_x4 0 n_teach=300 n_corr=0 n_free=0 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_loc_q1_x4_g2
+RNpm_L8_x4 0 n_teach=300 n_corr=0 n_free=0 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.7 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_loc_q1_x4_g2_g31.7

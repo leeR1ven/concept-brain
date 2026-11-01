@@ -1,0 +1,20 @@
+RNpm_L8_x4 0 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_Lq_OH_x4
+RNpm_L8_x4 1 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_Lq_OH_x4
+RNpm_L8_x4 2 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_Lq_OH_x4
+RNpm_L8_x4 3 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_Lq_OH_x4
+RNpm_L8_x4 4 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_Lq_OH_x4
+RNpm_x4 0 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_q_ref_OH_x4
+RNpm_x4 1 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_q_ref_OH_x4
+RNpm_x4 2 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_q_ref_OH_x4
+RNpm_x4 3 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_q_ref_OH_x4
+RNpm_x4 4 f3=0.2667 g31=0.5 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_RNpm_q_ref_OH_x4
+R1e_L8_x4 0 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_Lq_OH_x4
+R1e_L8_x4 1 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_Lq_OH_x4
+R1e_L8_x4 2 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_Lq_OH_x4
+R1e_L8_x4 3 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_Lq_OH_x4
+R1e_L8_x4 4 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_Lq_OH_x4
+R1e_x4 0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_q_ref_OH_x4
+R1e_x4 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_q_ref_OH_x4
+R1e_x4 2 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_q_ref_OH_x4
+R1e_x4 3 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_q_ref_OH_x4
+R1e_x4 4 g_ret_mot=0.15 c_mb=2.0 theta_m=0.35 w_overhear=1000 n_corr=0 n_free=0 tag=_R1e_q_ref_OH_x4

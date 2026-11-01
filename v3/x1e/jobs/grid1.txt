@@ -1,0 +1,281 @@
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.999 f3=0.2824 a33=0.5 tag=_g1_e0.005_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.999 f3=0.2824 a33=0.0 tag=_g1_e0.005_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.999 f3=0.3176 a33=0.5 tag=_g1_e0.005_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.999 f3=0.3176 a33=0.0 tag=_g1_e0.005_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.999 f3=0.3529 a33=0.5 tag=_g1_e0.005_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.999 f3=0.3529 a33=0.0 tag=_g1_e0.005_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.99 f3=0.2824 a33=0.5 tag=_g1_e0.005_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.99 f3=0.2824 a33=0.0 tag=_g1_e0.005_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.99 f3=0.3176 a33=0.5 tag=_g1_e0.005_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.99 f3=0.3176 a33=0.0 tag=_g1_e0.005_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.99 f3=0.3529 a33=0.5 tag=_g1_e0.005_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.99 f3=0.3529 a33=0.0 tag=_g1_e0.005_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.95 f3=0.2824 a33=0.5 tag=_g1_e0.005_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.95 f3=0.2824 a33=0.0 tag=_g1_e0.005_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.95 f3=0.3176 a33=0.5 tag=_g1_e0.005_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.95 f3=0.3176 a33=0.0 tag=_g1_e0.005_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.95 f3=0.3529 a33=0.5 tag=_g1_e0.005_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.005 dec_33=0.95 f3=0.3529 a33=0.0 tag=_g1_e0.005_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.999 f3=0.2824 a33=0.5 tag=_g1_e0.02_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.999 f3=0.2824 a33=0.0 tag=_g1_e0.02_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.999 f3=0.3176 a33=0.5 tag=_g1_e0.02_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.999 f3=0.3176 a33=0.0 tag=_g1_e0.02_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.999 f3=0.3529 a33=0.5 tag=_g1_e0.02_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.999 f3=0.3529 a33=0.0 tag=_g1_e0.02_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.99 f3=0.2824 a33=0.5 tag=_g1_e0.02_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.99 f3=0.2824 a33=0.0 tag=_g1_e0.02_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.99 f3=0.3176 a33=0.5 tag=_g1_e0.02_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.99 f3=0.3176 a33=0.0 tag=_g1_e0.02_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.99 f3=0.3529 a33=0.5 tag=_g1_e0.02_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.99 f3=0.3529 a33=0.0 tag=_g1_e0.02_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.95 f3=0.2824 a33=0.5 tag=_g1_e0.02_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.95 f3=0.2824 a33=0.0 tag=_g1_e0.02_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.95 f3=0.3176 a33=0.5 tag=_g1_e0.02_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.95 f3=0.3176 a33=0.0 tag=_g1_e0.02_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.95 f3=0.3529 a33=0.5 tag=_g1_e0.02_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1.0 eta33=0.02 dec_33=0.95 f3=0.3529 a33=0.0 tag=_g1_e0.02_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.999 f3=0.2667 a33=0.5 tag=_g2_e0.005_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.999 f3=0.2667 a33=0.0 tag=_g2_e0.005_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.999 f3=0.3 a33=0.5 tag=_g2_e0.005_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.999 f3=0.3 a33=0.0 tag=_g2_e0.005_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.999 f3=0.3333 a33=0.5 tag=_g2_e0.005_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.999 f3=0.3333 a33=0.0 tag=_g2_e0.005_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2667 a33=0.5 tag=_g2_e0.005_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2667 a33=0.0 tag=_g2_e0.005_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.3 a33=0.5 tag=_g2_e0.005_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.3 a33=0.0 tag=_g2_e0.005_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.3333 a33=0.5 tag=_g2_e0.005_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.3333 a33=0.0 tag=_g2_e0.005_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2667 a33=0.5 tag=_g2_e0.005_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2667 a33=0.0 tag=_g2_e0.005_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.3 a33=0.5 tag=_g2_e0.005_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.3 a33=0.0 tag=_g2_e0.005_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.3333 a33=0.5 tag=_g2_e0.005_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.3333 a33=0.0 tag=_g2_e0.005_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.999 f3=0.2667 a33=0.5 tag=_g2_e0.02_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.999 f3=0.2667 a33=0.0 tag=_g2_e0.02_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.999 f3=0.3 a33=0.5 tag=_g2_e0.02_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.999 f3=0.3 a33=0.0 tag=_g2_e0.02_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.999 f3=0.3333 a33=0.5 tag=_g2_e0.02_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.999 f3=0.3333 a33=0.0 tag=_g2_e0.02_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2667 a33=0.5 tag=_g2_e0.02_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2667 a33=0.0 tag=_g2_e0.02_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.3 a33=0.5 tag=_g2_e0.02_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.3 a33=0.0 tag=_g2_e0.02_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.3333 a33=0.5 tag=_g2_e0.02_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.3333 a33=0.0 tag=_g2_e0.02_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2667 a33=0.5 tag=_g2_e0.02_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2667 a33=0.0 tag=_g2_e0.02_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.3 a33=0.5 tag=_g2_e0.02_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.3 a33=0.0 tag=_g2_e0.02_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.3333 a33=0.5 tag=_g2_e0.02_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.3333 a33=0.0 tag=_g2_e0.02_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 f3=0.24 a33=0.5 tag=_g4_e0.005_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 f3=0.24 a33=0.0 tag=_g4_e0.005_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 f3=0.27 a33=0.5 tag=_g4_e0.005_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 f3=0.27 a33=0.0 tag=_g4_e0.005_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 f3=0.3 a33=0.5 tag=_g4_e0.005_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 f3=0.3 a33=0.0 tag=_g4_e0.005_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.24 a33=0.5 tag=_g4_e0.005_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.24 a33=0.0 tag=_g4_e0.005_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.27 a33=0.5 tag=_g4_e0.005_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.27 a33=0.0 tag=_g4_e0.005_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.3 a33=0.5 tag=_g4_e0.005_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.3 a33=0.0 tag=_g4_e0.005_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.24 a33=0.5 tag=_g4_e0.005_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.24 a33=0.0 tag=_g4_e0.005_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.27 a33=0.5 tag=_g4_e0.005_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.27 a33=0.0 tag=_g4_e0.005_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.3 a33=0.5 tag=_g4_e0.005_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.3 a33=0.0 tag=_g4_e0.005_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 f3=0.24 a33=0.5 tag=_g4_e0.02_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 f3=0.24 a33=0.0 tag=_g4_e0.02_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 f3=0.27 a33=0.5 tag=_g4_e0.02_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 f3=0.27 a33=0.0 tag=_g4_e0.02_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 f3=0.3 a33=0.5 tag=_g4_e0.02_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 f3=0.3 a33=0.0 tag=_g4_e0.02_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.24 a33=0.5 tag=_g4_e0.02_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.24 a33=0.0 tag=_g4_e0.02_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.27 a33=0.5 tag=_g4_e0.02_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.27 a33=0.0 tag=_g4_e0.02_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.3 a33=0.5 tag=_g4_e0.02_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.3 a33=0.0 tag=_g4_e0.02_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.24 a33=0.5 tag=_g4_e0.02_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.24 a33=0.0 tag=_g4_e0.02_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.27 a33=0.5 tag=_g4_e0.02_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.27 a33=0.0 tag=_g4_e0.02_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.3 a33=0.5 tag=_g4_e0.02_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.3 a33=0.0 tag=_g4_e0.02_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 f3=0.2 a33=0.5 tag=_g8_e0.005_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 f3=0.2 a33=0.0 tag=_g8_e0.005_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 f3=0.225 a33=0.5 tag=_g8_e0.005_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 f3=0.225 a33=0.0 tag=_g8_e0.005_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 f3=0.25 a33=0.5 tag=_g8_e0.005_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 f3=0.25 a33=0.0 tag=_g8_e0.005_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.5 tag=_g8_e0.005_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.0 tag=_g8_e0.005_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.225 a33=0.5 tag=_g8_e0.005_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.225 a33=0.0 tag=_g8_e0.005_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.25 a33=0.5 tag=_g8_e0.005_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.25 a33=0.0 tag=_g8_e0.005_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.5 tag=_g8_e0.005_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.0 tag=_g8_e0.005_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.225 a33=0.5 tag=_g8_e0.005_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.225 a33=0.0 tag=_g8_e0.005_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.25 a33=0.5 tag=_g8_e0.005_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.25 a33=0.0 tag=_g8_e0.005_d0.95_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 f3=0.2 a33=0.5 tag=_g8_e0.02_d0.999_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 f3=0.2 a33=0.0 tag=_g8_e0.02_d0.999_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 f3=0.225 a33=0.5 tag=_g8_e0.02_d0.999_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 f3=0.225 a33=0.0 tag=_g8_e0.02_d0.999_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 f3=0.25 a33=0.5 tag=_g8_e0.02_d0.999_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 f3=0.25 a33=0.0 tag=_g8_e0.02_d0.999_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.5 tag=_g8_e0.02_d0.99_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.0 tag=_g8_e0.02_d0.99_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.225 a33=0.5 tag=_g8_e0.02_d0.99_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.225 a33=0.0 tag=_g8_e0.02_d0.99_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.25 a33=0.5 tag=_g8_e0.02_d0.99_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.25 a33=0.0 tag=_g8_e0.02_d0.99_t6_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.5 tag=_g8_e0.02_d0.95_t4.8_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.0 tag=_g8_e0.02_d0.95_t4.8_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.225 a33=0.5 tag=_g8_e0.02_d0.95_t5.4_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.225 a33=0.0 tag=_g8_e0.02_d0.95_t5.4_a0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.25 a33=0.5 tag=_g8_e0.02_d0.95_t6_a0.5
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.25 a33=0.0 tag=_g8_e0.02_d0.95_t6_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 a33=0.5 tag=_g4_e0.005_d0.999_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.999 a33=0.0 tag=_g4_e0.005_d0.999_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 a33=0.5 tag=_g4_e0.005_d0.99_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 a33=0.0 tag=_g4_e0.005_d0.99_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 a33=0.5 tag=_g4_e0.005_d0.95_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 a33=0.0 tag=_g4_e0.005_d0.95_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 a33=0.5 tag=_g4_e0.02_d0.999_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.999 a33=0.0 tag=_g4_e0.02_d0.999_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 a33=0.5 tag=_g4_e0.02_d0.99_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 a33=0.0 tag=_g4_e0.02_d0.99_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 a33=0.5 tag=_g4_e0.02_d0.95_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 a33=0.0 tag=_g4_e0.02_d0.95_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 a33=0.5 tag=_g8_e0.005_d0.999_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.999 a33=0.0 tag=_g8_e0.005_d0.999_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 a33=0.5 tag=_g8_e0.005_d0.99_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 a33=0.0 tag=_g8_e0.005_d0.99_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 a33=0.5 tag=_g8_e0.005_d0.95_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 a33=0.0 tag=_g8_e0.005_d0.95_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 a33=0.5 tag=_g8_e0.02_d0.999_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.999 a33=0.0 tag=_g8_e0.02_d0.999_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 a33=0.5 tag=_g8_e0.02_d0.99_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 a33=0.0 tag=_g8_e0.02_d0.99_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 a33=0.5 tag=_g8_e0.02_d0.95_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 a33=0.0 tag=_g8_e0.02_d0.95_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.005 dec_33=0.999 a33=0.5 tag=_g16_e0.005_d0.999_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.005 dec_33=0.999 a33=0.0 tag=_g16_e0.005_d0.999_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.005 dec_33=0.99 a33=0.5 tag=_g16_e0.005_d0.99_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.005 dec_33=0.99 a33=0.0 tag=_g16_e0.005_d0.99_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.005 dec_33=0.95 a33=0.5 tag=_g16_e0.005_d0.95_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.005 dec_33=0.95 a33=0.0 tag=_g16_e0.005_d0.95_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.02 dec_33=0.999 a33=0.5 tag=_g16_e0.02_d0.999_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.02 dec_33=0.999 a33=0.0 tag=_g16_e0.02_d0.999_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.02 dec_33=0.99 a33=0.5 tag=_g16_e0.02_d0.99_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.02 dec_33=0.99 a33=0.0 tag=_g16_e0.02_d0.99_a0
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.02 dec_33=0.95 a33=0.5 tag=_g16_e0.02_d0.95_a0.5
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=16.0 eta33=0.02 dec_33=0.95 a33=0.0 tag=_g16_e0.02_d0.95_a0
+RNpm 0 n_teach=600 n_corr=0 n_free=0 tag=_ref
+R1e 0 n_teach=600 n_corr=0 n_free=0 tag=_ref
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2667 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.005_d0.99_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.3 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.005_d0.99_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.1333 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.005_d0.99_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.005_d0.99_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2667 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.005_d0.99_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.1333 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.005_d0.99_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.005_d0.99_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.99 f3=0.2667 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.005_d0.99_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2667 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.005_d0.95_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.3 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.005_d0.95_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.1333 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.005_d0.95_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.005_d0.95_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2667 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.005_d0.95_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.1333 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.005_d0.95_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.005_d0.95_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.005 dec_33=0.95 f3=0.2667 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.005_d0.95_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2667 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.02_d0.99_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.3 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.02_d0.99_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.1333 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.02_d0.99_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.02_d0.99_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2667 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.02_d0.99_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.1333 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.02_d0.99_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.02_d0.99_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.99 f3=0.2667 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.02_d0.99_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2667 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.02_d0.95_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.3 a33=0.5 pm_ff=0 homeo3=1 tag=_g2_e0.02_d0.95_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.1333 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.02_d0.95_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.02_d0.95_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2667 a33=0.5 pm_ff=1 homeo3=0 tag=_g2_e0.02_d0.95_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.1333 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.02_d0.95_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.02_d0.95_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2.0 eta33=0.02 dec_33=0.95 f3=0.2667 a33=0.5 pm_ff=1 homeo3=1 tag=_g2_e0.02_d0.95_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.24 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.005_d0.99_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.27 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.005_d0.99_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.12 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.005_d0.99_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.18 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.005_d0.99_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.24 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.005_d0.99_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.12 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.005_d0.99_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.18 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.005_d0.99_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.99 f3=0.24 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.005_d0.99_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.24 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.005_d0.95_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.27 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.005_d0.95_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.12 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.005_d0.95_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.18 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.005_d0.95_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.24 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.005_d0.95_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.12 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.005_d0.95_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.18 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.005_d0.95_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.005 dec_33=0.95 f3=0.24 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.005_d0.95_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.24 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.02_d0.99_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.27 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.02_d0.99_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.12 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.02_d0.99_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.18 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.02_d0.99_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.24 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.02_d0.99_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.12 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.02_d0.99_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.18 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.02_d0.99_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.99 f3=0.24 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.02_d0.99_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.24 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.02_d0.95_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.27 a33=0.5 pm_ff=0 homeo3=1 tag=_g4_e0.02_d0.95_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.12 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.02_d0.95_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.18 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.02_d0.95_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.24 a33=0.5 pm_ff=1 homeo3=0 tag=_g4_e0.02_d0.95_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.12 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.02_d0.95_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.18 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.02_d0.95_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4.0 eta33=0.02 dec_33=0.95 f3=0.24 a33=0.5 pm_ff=1 homeo3=1 tag=_g4_e0.02_d0.95_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.005_d0.99_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.225 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.005_d0.99_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.1 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.005_d0.99_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.15 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.005_d0.99_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.005_d0.99_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.1 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.005_d0.99_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.15 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.005_d0.99_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.005_d0.99_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.005_d0.95_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.225 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.005_d0.95_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.1 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.005_d0.95_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.15 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.005_d0.95_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.005_d0.95_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.1 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.005_d0.95_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.15 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.005_d0.95_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.005 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.005_d0.95_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.02_d0.99_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.225 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.02_d0.99_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.1 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.02_d0.99_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.15 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.02_d0.99_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.02_d0.99_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.1 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.02_d0.99_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.15 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.02_d0.99_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.99 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.02_d0.99_t4.8_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.02_d0.95_t4.8_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.225 a33=0.5 pm_ff=0 homeo3=1 tag=_g8_e0.02_d0.95_t5.4_a0.5_pf0_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.1 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.02_d0.95_t2.4_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.15 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.02_d0.95_t3.6_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=0 tag=_g8_e0.02_d0.95_t4.8_a0.5_pf1_h0
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.1 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.02_d0.95_t2.4_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.15 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.02_d0.95_t3.6_a0.5_pf1_h1
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8.0 eta33=0.02 dec_33=0.95 f3=0.2 a33=0.5 pm_ff=1 homeo3=1 tag=_g8_e0.02_d0.95_t4.8_a0.5_pf1_h1
+RNpm 0 n_teach=600 n_corr=0 n_free=0 pm_ff=0 homeo3=1 f3=0.3 tag=_ref_pf0_h1_t5.4
+RNpm 0 n_teach=600 n_corr=0 n_free=0 pm_ff=1 homeo3=0 f3=0.2 tag=_ref_pf1_h0_t3.6
+RNpm 0 n_teach=600 n_corr=0 n_free=0 pm_ff=1 homeo3=1 f3=0.2 tag=_ref_pf1_h1_t3.6

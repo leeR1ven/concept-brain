@@ -1,0 +1,1 @@
+R1e_L8_x4 0 n_teach=100 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 tag=_loc_x4smoke

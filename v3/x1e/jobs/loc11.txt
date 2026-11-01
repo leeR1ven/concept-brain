@@ -1,0 +1,1 @@
+R1e_L8 0 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_locR1e_Lq_OH

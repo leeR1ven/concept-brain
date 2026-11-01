@@ -1,0 +1,3 @@
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8 eta33=0.02 dec_33=0.999 f3=0.225 held33=False tag=_loc_g8_noheld
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=8 eta33=0.02 dec_33=0.999 f3=0.225 tag=_loc_g8_held
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 held33=False tag=_loc_q1_g2_noheld

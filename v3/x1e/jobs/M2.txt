@@ -1,0 +1,45 @@
+R1e_L8 0 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_Lq_OH
+R1e_L8 1 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_Lq_OH
+R1e_L8 2 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_Lq_OH
+R1e_L8 3 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_Lq_OH
+R1e_L8 4 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_Lq_OH
+R1e 0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_q_ref_OH
+R1e 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_q_ref_OH
+R1e 2 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_q_ref_OH
+R1e 3 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_q_ref_OH
+R1e 4 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_R1e_q_ref_OH
+R1e_L8 0 g33=1 eta33=0.02 dec_33=0.95 tag=_R1e_L
+R1e_L8 1 g33=1 eta33=0.02 dec_33=0.95 tag=_R1e_L
+R1e_L8 2 g33=1 eta33=0.02 dec_33=0.95 tag=_R1e_L
+R1e_L8 3 g33=1 eta33=0.02 dec_33=0.95 tag=_R1e_L
+R1e_L8 4 g33=1 eta33=0.02 dec_33=0.95 tag=_R1e_L
+R1e_L8 0 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_Lq
+R1e_L8 1 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_Lq
+R1e_L8 2 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_Lq
+R1e_L8 3 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_Lq
+R1e_L8 4 g33=1 eta33=0.02 dec_33=0.95 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_Lq
+R1e_oracle 0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 2 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 3 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+R1e_oracle 4 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_R1e_oracle_q
+RNpm_oracle 0 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 1 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 2 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 3 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_oracle 4 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_RNpm_oracle_q
+RNpm_L8 0 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_Lq_OH_v2
+RNpm_L8 1 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_Lq_OH_v2
+RNpm_L8 2 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_Lq_OH_v2
+RNpm_L8 3 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_Lq_OH_v2
+RNpm_L8 4 g33=2 eta33=0.02 dec_33=0.95 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_Lq_OH_v2
+RNpm 0 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_q_ref_OH_v2
+RNpm 1 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_q_ref_OH_v2
+RNpm 2 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_q_ref_OH_v2
+RNpm 3 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_q_ref_OH_v2
+RNpm 4 f3=0.2667 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_RNpm_q_ref_OH_v2
+R1e_oracle 0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 k3=10 tag=_R1e_oracle_q_k10
+R1e_oracle 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 k3=10 tag=_R1e_oracle_q_k10
+R1e_oracle 2 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 k3=10 tag=_R1e_oracle_q_k10
+R1e_oracle 3 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 k3=10 tag=_R1e_oracle_q_k10
+R1e_oracle 4 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 k3=10 tag=_R1e_oracle_q_k10

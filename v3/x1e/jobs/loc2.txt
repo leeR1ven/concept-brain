@@ -1,0 +1,3 @@
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 nrm31=arch g31=1.0 a31=0.0 tag=_loc_g1_d95_a31z
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 f3=0.3176 a31=0.0 tag=_loc_g1_d95_t54_a31z
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 f3=0.3176 tag=_loc_g1_d95_t54

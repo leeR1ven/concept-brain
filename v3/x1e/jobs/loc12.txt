@@ -1,0 +1,3 @@
+R1e 0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 w_overhear=3000 tag=_locR1e_q_ref_OH
+R1e_oracle 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 k3=10 tag=_locR1e_oracle_q_k10
+R1e_oracle 1 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_locR1e_oracle_q

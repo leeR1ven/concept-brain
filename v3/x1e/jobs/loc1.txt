@@ -1,0 +1,3 @@
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=2 eta33=0.02 dec_33=0.99 tag=_loc_g2_d99
+RNpm_L8 0 n_teach=600 n_corr=0 n_free=0 g33=4 eta33=0.02 dec_33=0.99 f3=0.27 homeo3=1 tag=_loc_g4_d99_h1
+R1e_L8 0 n_teach=600 n_corr=0 n_free=0 g33=1 eta33=0.02 dec_33=0.95 tag=_loc_g1_d95

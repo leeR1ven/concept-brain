@@ -1,0 +1,1 @@
+R1e_oracle 0 n_teach=600 n_corr=0 n_free=0 g_ret_mot=0.15 c_mb=2.0 theta_m=0.26 tag=_loc_q1
