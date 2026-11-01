@@ -1,0 +1,7 @@
+stage A: records 455, heard lines 496, heard syllables 1886, kinds {'overheard': 130, 'statement': 236, 'play': 89}
+stage B: records 2024, heard lines 3507, heard syllables 13019, kinds {'recast': 1483, 'probe': 541}
+stage BC: records 1987, heard lines 3446, heard syllables 13184, kinds {'recast': 1459, 'probe': 528}
+stage BCDD: records 2062, heard lines 3378, heard syllables 12894, kinds {'recast': 1316, 'probe': 608, 'statement': 138}
+staged protocol total: heard lines 10827, syllables 40983, world ticks 486918, 7.8s
+object-name exposures: {'苹果': 458, '香蕉': 468, '饼干': 504, '牛奶': 519, '西瓜': 582, '葡萄': 456, '小狗': 435, '小猫': 356, '皮球': 407, '汽车': 390, '小鸟': 428, '鸭子': 411} mean 451.2
+life 10^6 ticks (seed 5, recast): ex records 3091, heard lines 4071, syllables 15457, kinds {'social': 852, 'probe': 835, 'recast': 941, 'overheard': 39, 'statement': 424}, ticks 1000668

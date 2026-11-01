@@ -1,0 +1,16 @@
+p1 (one branch hits a given item) = 0.0910
+m=1: p=9.10e-02  units per type for 10 responders = 110  types C(14,1)=14  total = 1,538
+m=2: p=8.29e-03  units per type for 10 responders = 1,207  types C(14,2)=91  total = 109,834
+m=3: p=7.54e-04  units per type for 10 responders = 13,260  types C(14,3)=364  total = 4,826,638
+m=4: p=6.86e-05  units per type for 10 responders = 145,677  types C(14,4)=1001  total = 145,822,727
+m=5: p=6.25e-06  units per type for 10 responders = 1,600,438  types C(14,5)=2002  total = 3,204,077,372
+today: ~47.9k units / 45 populations = ~1,060 per type -> 8.8 responders per specific pair
+
+# data budget (arithmetic; fractions ASSUMED)
+staged J protocol: 3,300 dialogues; 2,000 dialogues ~ 190k ticks (bench README) -> ~3.1e5 ticks
+heard syllables ~ (0.2-0.4 of ticks carry another voice) / 3 ticks per syllable -> ~2e4-4e4
+life 1e6 ticks -> ~7e4-1.3e5 heard syllables; world2 10-day life (3e5 ticks, ~130 lines/day) -> ~1.3e3 lines ~ 5e3 syllables
+GEN weights: ~4.8e4 conjunction units x 257 outputs ~ 1.2e7
+syllables per weight ~ 2e-3 - 1e-2   (Chinchilla compute-optimal ~ 20 tokens per parameter, Hoffmann et al. 2022)
+child by age 5 ~ 6e7 words (Frank 2023)  -> 3-4 orders of magnitude more than one bench life
+config keys counted: Cfg 84 + TCfg 5 + SCfg 17 + RCfg 26 + ThinkAgent 30 + AgentV21 12 + SynthAgent 7 + h_* 19 + MeanCodes 22 + RandMix 21 = 243

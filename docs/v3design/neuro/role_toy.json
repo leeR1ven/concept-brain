@@ -1,0 +1,732 @@
+{
+ "model->free": {
+  "A": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.594
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.695
+   }
+  },
+  "B": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 0.775,
+    "acc_sd": 0.067,
+    "role_conf": 0.07
+   },
+   "free600": {
+    "acc": 0.019,
+    "acc_sd": 0.015,
+    "role_conf": 0.534
+   }
+  },
+  "R": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.018
+   }
+  },
+  "C0": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.018
+   }
+  },
+  "C1": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.572
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.728
+   }
+  },
+  "C2": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.018
+   }
+  },
+  "C3": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.018
+   }
+  },
+  "C4": {
+   "model600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.018
+   }
+  }
+ },
+ "recast->free": {
+  "A": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.59
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.682
+   }
+  },
+  "B": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.019,
+    "acc_sd": 0.025,
+    "role_conf": 0.366
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.726
+   }
+  },
+  "R": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.019
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.012
+   }
+  },
+  "C0": {
+   "recast1500": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.169
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.162
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.169
+   }
+  },
+  "C1": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.558
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.718
+   }
+  },
+  "C2": {
+   "recast1500": {
+    "acc": 0.556,
+    "acc_sd": 0.067,
+    "role_conf": 0.021
+   },
+   "free300": {
+    "acc": 0.612,
+    "acc_sd": 0.058,
+    "role_conf": 0.024
+   },
+   "free600": {
+    "acc": 0.619,
+    "acc_sd": 0.054,
+    "role_conf": 0.02
+   }
+  },
+  "C3": {
+   "recast1500": {
+    "acc": 0.643,
+    "acc_sd": 0.098,
+    "role_conf": 0.021
+   },
+   "free300": {
+    "acc": 0.643,
+    "acc_sd": 0.098,
+    "role_conf": 0.018
+   },
+   "free600": {
+    "acc": 0.643,
+    "acc_sd": 0.098,
+    "role_conf": 0.023
+   }
+  },
+  "C4": {
+   "recast1500": {
+    "acc": 0.544,
+    "acc_sd": 0.073,
+    "role_conf": 0.021
+   },
+   "free300": {
+    "acc": 0.587,
+    "acc_sd": 0.078,
+    "role_conf": 0.019
+   },
+   "free600": {
+    "acc": 0.594,
+    "acc_sd": 0.086,
+    "role_conf": 0.02
+   }
+  }
+ },
+ "model->recast->free": {
+  "A": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.582
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.69
+   }
+  },
+  "B": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.681,
+    "acc_sd": 0.139,
+    "role_conf": 0.073
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.595
+   }
+  },
+  "R": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.017
+   }
+  },
+  "C0": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.017
+   }
+  },
+  "C1": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.555
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.734
+   }
+  },
+  "C2": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 0.994,
+    "acc_sd": 0.012,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.017
+   }
+  },
+  "C3": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.017
+   }
+  },
+  "C4": {
+   "model300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": null
+   },
+   "recast600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.017
+   }
+  }
+ },
+ "recast+takeup0.85->free": {
+  "A": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.595
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.707
+   }
+  },
+  "B": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.025
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.486
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.749
+   }
+  },
+  "R": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.018
+   },
+   "free300": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   }
+  },
+  "C0": {
+   "recast1500": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.166
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.152
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.162
+   }
+  },
+  "C1": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.02
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.553
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.733
+   }
+  },
+  "C2": {
+   "recast1500": {
+    "acc": 0.525,
+    "acc_sd": 0.087,
+    "role_conf": 0.031
+   },
+   "free300": {
+    "acc": 0.55,
+    "acc_sd": 0.088,
+    "role_conf": 0.011
+   },
+   "free600": {
+    "acc": 0.563,
+    "acc_sd": 0.099,
+    "role_conf": 0.018
+   }
+  },
+  "C3": {
+   "recast1500": {
+    "acc": 0.581,
+    "acc_sd": 0.094,
+    "role_conf": 0.029
+   },
+   "free300": {
+    "acc": 0.588,
+    "acc_sd": 0.091,
+    "role_conf": 0.016
+   },
+   "free600": {
+    "acc": 0.588,
+    "acc_sd": 0.091,
+    "role_conf": 0.024
+   }
+  },
+  "C4": {
+   "recast1500": {
+    "acc": 0.575,
+    "acc_sd": 0.092,
+    "role_conf": 0.03
+   },
+   "free300": {
+    "acc": 0.575,
+    "acc_sd": 0.092,
+    "role_conf": 0.014
+   },
+   "free600": {
+    "acc": 0.581,
+    "acc_sd": 0.083,
+    "role_conf": 0.023
+   }
+  }
+ },
+ "recast+takeup1.0->free": {
+  "A": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.612
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.689
+   }
+  },
+  "B": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.024
+   },
+   "free300": {
+    "acc": 0.006,
+    "acc_sd": 0.012,
+    "role_conf": 0.488
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.768
+   }
+  },
+  "R": {
+   "recast1500": {
+    "acc": 0.525,
+    "acc_sd": 0.102,
+    "role_conf": 0.025
+   },
+   "free300": {
+    "acc": 0.538,
+    "acc_sd": 0.113,
+    "role_conf": 0.015
+   },
+   "free600": {
+    "acc": 0.538,
+    "acc_sd": 0.113,
+    "role_conf": 0.018
+   }
+  },
+  "C0": {
+   "recast1500": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.17
+   },
+   "free300": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.176
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.182
+   }
+  },
+  "C1": {
+   "recast1500": {
+    "acc": 1.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.015
+   },
+   "free300": {
+    "acc": 0.006,
+    "acc_sd": 0.012,
+    "role_conf": 0.579
+   },
+   "free600": {
+    "acc": 0.0,
+    "acc_sd": 0.0,
+    "role_conf": 0.733
+   }
+  },
+  "C2": {
+   "recast1500": {
+    "acc": 0.506,
+    "acc_sd": 0.109,
+    "role_conf": 0.025
+   },
+   "free300": {
+    "acc": 0.525,
+    "acc_sd": 0.119,
+    "role_conf": 0.021
+   },
+   "free600": {
+    "acc": 0.519,
+    "acc_sd": 0.113,
+    "role_conf": 0.024
+   }
+  },
+  "C3": {
+   "recast1500": {
+    "acc": 0.606,
+    "acc_sd": 0.116,
+    "role_conf": 0.024
+   },
+   "free300": {
+    "acc": 0.606,
+    "acc_sd": 0.116,
+    "role_conf": 0.014
+   },
+   "free600": {
+    "acc": 0.606,
+    "acc_sd": 0.116,
+    "role_conf": 0.024
+   }
+  },
+  "C4": {
+   "recast1500": {
+    "acc": 0.563,
+    "acc_sd": 0.084,
+    "role_conf": 0.024
+   },
+   "free300": {
+    "acc": 0.575,
+    "acc_sd": 0.092,
+    "role_conf": 0.017
+   },
+   "free600": {
+    "acc": 0.581,
+    "acc_sd": 0.094,
+    "role_conf": 0.024
+   }
+  }
+ }
+}

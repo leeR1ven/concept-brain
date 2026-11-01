@@ -1,0 +1,34 @@
+# Design round v3: a fixed set of general mechanisms
+
+The designer's request (2026-11-01): "最好想个办法不用为了让模型实现某项能力而不停的加机制，而是固定数量的机制就能学会任何事情。"
+In English: find a way to stop adding a mechanism for every new ability, so that a fixed number of mechanisms can learn
+anything.
+
+Five members answered the same question from different angles: audit, neuroscience, learning theory, development and
+evaluation. They worked from one shared brief, `BRIEF.md`. This round is design only, with no training. Each member's
+folder holds its report and its small analytic scripts.
+- **`audit/`:** an inventory of all 83 mechanisms and 265 knobs of today's agent, each classed as generic, learnable,
+  innate or scaffolding.
+- **`neuro/`:** the brain's repeated toolkit.
+- **`learning/`:** what "learn anything" can mean, local credit assignment, the cost of depth, and the global scale
+  factor.
+- **`develop/`:** innate drives, the world and a curriculum.
+- **`eval/`:** a sealed test that cannot be passed by designing on it.
+
+A synthesis into one core (`ARCH_v3_core`) and an adversarial review follow. Paths of the form `arch/v2/...` refer to
+the coordinator's working tree; the published parts live in `v2/`, and v2.2 (`arch/v2/v22/`) is still in progress.
+
+## 中文摘要
+五位成员从不同角度回答同一个问题：怎样用一套固定的机制学会新本事，而不是每种能力加一个机制。
+
+- **盘点：** 现在的模型有 83 个机制、265 个手调参数。ARCH_v2 之后新加的 21 个机制里，只有 3 个是通用的；很多时间常数是照着测试世界的节奏定的。
+- **大脑：** 大脑用的是一小套反复使用的零件：
+  - 同一种皮层回路；
+  - 基底节"选择并放行"（说话和思考都由它选）；
+  - 海马体一次记住加回放；
+  - 几种全脑广播信号；
+  - 一族可塑性规则。
+  - 再加少数先天部分：连线蓝图、脑干节律、朝向人脸和声音、驱力和社交奖励。
+- **学习理论：** "学会任何事"字面上做不到，能做到的是"机制数量不随能力增加"。最大的风险是：不用反向传播，在一生连续学习中能否学到抽象的中间表示。
+- **发育：** 大人纠正孩子却学不进去，主要是世界的问题。现在的世界从不示范"问题后面紧跟答案"（自问自答、旁听别人问答、把问答重说一遍）。只要世界有这些，一个不加任何角色规则的学习者就能学会，而且不忘。
+- **测试：** 先冻结代码，再出题；新题型连设计者都没见过，只开封一次；模型只能看到感官输入；放大必须是整个模型按同一个倍数放大。
