@@ -1,0 +1,420 @@
+========== R1e 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.00±0.00/1.00±0.00/1.00±0.00
+  teach600_spec_own/other_max: 0.07±0.05 / 0.07±0.05
+  teach600_top_is_answer@12: 0.04±0.06
+  teach600_hub_share: 0.80±0.20 车苹甜球不
+  teach600_release: 0.00±0.00 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.036±0.007
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 2.948±0.073
+  teach600_mech_extra_per_ex: 2.191±0.078
+  teach600_mech_resp_rate: 0.973±0.027
+  teach600_mech_echo_per_ex: 0.001±0.001
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.01±0.02
+  corr_silent/garble/talk: 0.01±0.02/0.92±0.16/1.00±0.00
+  corr_spec_own/other_max: 0.09±0.03 / 0.07±0.02
+  corr_top_is_answer@12: 0.07±0.05
+  corr_hub_share: 0.59±0.30 啥香能车要
+  corr_release: 0.00±0.00 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.031±0.013
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 2.938±0.069
+  corr_mech_extra_per_ex: 2.207±0.038
+  corr_mech_resp_rate: 0.980±0.018
+  corr_mech_echo_per_ex: 0.002±0.003
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.00±0.00
+  free1000_silent/garble/talk: 0.04±0.05/0.95±0.07/1.00±0.00
+  free1000_spec_own/other_max: 0.06±0.04 / 0.05±0.03
+  free1000_top_is_answer@12: 0.03±0.05
+  free1000_hub_share: 0.79±0.08 饭香桃香啥
+  free1000_release: 0.00±0.00 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.010±0.002
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 0.920±0.014
+  free1000_mech_extra_per_ex: 0.963±0.030
+  free1000_mech_resp_rate: 0.957±0.033
+  free1000_mech_echo_per_ex: 0.002±0.002
+  quality_over_time: {'teach100': {'resp': '0.95±0.05', 'garble': '0.94±0.05', 'clear': '0.33±0.03', 'ans_syl_hit': '0.02±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.98±0.02', 'garble': '0.93±0.02', 'clear': '0.48±0.04', 'ans_syl_hit': '0.03±0.02', 'first': '0.01±0.01', 'full': '0.00±0.00'}, 'teach600': {'resp': '0.97±0.03', 'garble': '0.90±0.02', 'clear': '0.53±0.06', 'ans_syl_hit': '0.03±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'corr': {'resp': '0.98±0.02', 'garble': '0.90±0.01', 'clear': '0.51±0.06', 'ans_syl_hit': '0.04±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free300': {'resp': '0.96±0.01', 'garble': '0.89±0.02', 'clear': '0.54±0.03', 'ans_syl_hit': '0.04±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.96±0.03', 'garble': '0.89±0.02', 'clear': '0.58±0.03', 'ans_syl_hit': '0.04±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.000±0.000', 'teach300': '0.005±0.010', 'teach600': '0.001±0.001', 'corr': '0.000±0.000', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.00±0.00', 'first': '0.01±0.02', 'silent': '0.00±0.00', 'garble': '1.00±0.00', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.84±0.04'}
+  FORCED_lag12: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.01±0.02', 'garble': '0.99±0.02', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.87±0.07'}
+  path_same@0/6/12: 0.25±0.07/0.28±0.08/0.30±0.09
+  path_cross@0/6/12: 0.23±0.06/0.26±0.08/0.29±0.09
+  path_decq@0/6/12: 0.05±0.01/0.05±0.02/0.04±0.01
+  path_damage0.1@12: 0.81±0.09
+  path_within_J1: 0.87±0.05
+  layers: {'n2': {'mean': '28.680±0.147', 'max': '29.000±0.000', 'p_zero': '0.001±0.001', 'p_sat': '0.000±0.000'}, 'n3': {'mean': '34.320±0.331', 'max': '39.000±0.000', 'p_zero': '0.002±0.000', 'p_sat': '0.000±0.000'}}
+  route: {'heard': '0.01±0.00', 'inner': '0.26±0.04', 'recall': '0.00±0.00', 'pfc_motor': '0.72±0.04', 'onsets': '5840.40±208.03'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.55±0.05', 'turnover5': '0.11±0.01', 'distinct': '1386.60±156.83'}
+  empty_per100_teach/free: 0.33±0.02 / 0.06±0.05
+  ms_per_tick: 0.87±0.01
+========== R1e_shape 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.00±0.00/0.69±0.39/1.00±0.00
+  teach600_spec_own/other_max: 0.04±0.02 / 0.04±0.02
+  teach600_top_is_answer@12: 0.00±0.00
+  teach600_hub_share: 0.66±0.25 号车蕉车甜
+  teach600_release: 0.00±0.00 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.031±0.011
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 2.939±0.151
+  teach600_mech_extra_per_ex: 2.172±0.129
+  teach600_mech_resp_rate: 0.966±0.044
+  teach600_mech_echo_per_ex: 0.001±0.001
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.00±0.00
+  corr_silent/garble/talk: 0.01±0.02/0.80±0.40/1.00±0.00
+  corr_spec_own/other_max: 0.10±0.05 / 0.09±0.05
+  corr_top_is_answer@12: 0.10±0.10
+  corr_hub_share: 0.83±0.20 红大鞋蕉不
+  corr_release: 0.00±0.00 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.033±0.013
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 2.927±0.096
+  corr_mech_extra_per_ex: 2.153±0.089
+  corr_mech_resp_rate: 0.963±0.033
+  corr_mech_echo_per_ex: 0.001±0.001
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.00±0.00
+  free1000_silent/garble/talk: 0.01±0.02/0.67±0.42/1.00±0.00
+  free1000_spec_own/other_max: 0.07±0.04 / 0.06±0.04
+  free1000_top_is_answer@12: 0.03±0.04
+  free1000_hub_share: 0.73±0.26 饭蕉红蕉鞋
+  free1000_release: 0.00±0.00 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.010±0.003
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 0.937±0.016
+  free1000_mech_extra_per_ex: 0.975±0.021
+  free1000_mech_resp_rate: 0.972±0.018
+  free1000_mech_echo_per_ex: 0.002±0.003
+  quality_over_time: {'teach100': {'resp': '0.93±0.12', 'garble': '0.92±0.12', 'clear': '0.39±0.10', 'ans_syl_hit': '0.01±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.96±0.06', 'garble': '0.91±0.05', 'clear': '0.52±0.06', 'ans_syl_hit': '0.04±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach600': {'resp': '0.97±0.04', 'garble': '0.90±0.03', 'clear': '0.53±0.07', 'ans_syl_hit': '0.04±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'corr': {'resp': '0.96±0.03', 'garble': '0.90±0.03', 'clear': '0.51±0.05', 'ans_syl_hit': '0.02±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free300': {'resp': '0.96±0.04', 'garble': '0.90±0.02', 'clear': '0.59±0.06', 'ans_syl_hit': '0.04±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.97±0.02', 'garble': '0.91±0.02', 'clear': '0.60±0.07', 'ans_syl_hit': '0.05±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.070±0.025', 'teach300': '0.058±0.015', 'teach600': '0.079±0.011', 'corr': '0.054±0.013', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.00±0.00', 'garble': '0.96±0.04', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.87±0.05'}
+  FORCED_lag12: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.00±0.00', 'garble': '0.96±0.05', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.87±0.08'}
+  path_same@0/6/12: 0.61±0.17/0.58±0.18/0.58±0.19
+  path_cross@0/6/12: 0.57±0.15/0.57±0.17/0.57±0.19
+  path_decq@0/6/12: 0.11±0.07/0.05±0.02/0.03±0.01
+  path_damage0.1@12: 0.81±0.12
+  path_within_J1: 0.88±0.09
+  layers: {'n2': {'mean': '28.720±0.117', 'max': '29.000±0.000', 'p_zero': '0.001±0.000', 'p_sat': '0.000±0.000'}, 'n3': {'mean': '34.420±0.397', 'max': '39.000±0.000', 'p_zero': '0.002±0.001', 'p_sat': '0.000±0.000'}}
+  route: {'heard': '0.01±0.00', 'inner': '0.27±0.04', 'recall': '0.00±0.00', 'pfc_motor': '0.71±0.05', 'onsets': '5701.00±189.05'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.57±0.07', 'turnover5': '0.12±0.01', 'distinct': '1367.40±244.93'}
+  empty_per100_teach/free: 0.34±0.01 / 0.04±0.01
+  ms_per_tick: 0.86±0.02
+========== RNpm 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.37±0.34/0.63±0.34/0.61±0.48
+  teach600_spec_own/other_max: 0.13±0.07 / 0.11±0.06
+  teach600_top_is_answer@12: 0.01±0.02
+  teach600_hub_share: 0.79±0.12 的么苹苹苹
+  teach600_release: 0.00±0.00 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.021±0.011
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 2.167±0.922
+  teach600_mech_extra_per_ex: 1.537±0.690
+  teach600_mech_resp_rate: 0.694±0.274
+  teach600_mech_echo_per_ex: 0.005±0.007
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.00±0.00
+  corr_silent/garble/talk: 0.24±0.31/0.76±0.31/0.80±0.40
+  corr_spec_own/other_max: 0.17±0.10 / 0.14±0.09
+  corr_top_is_answer@12: 0.02±0.02
+  corr_hub_share: 0.70±0.22 的香苹苹啥
+  corr_release: 0.00±0.00 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.019±0.011
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 2.265±0.907
+  corr_mech_extra_per_ex: 1.611±0.662
+  corr_mech_resp_rate: 0.726±0.282
+  corr_mech_echo_per_ex: 0.010±0.006
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.00±0.00
+  free1000_silent/garble/talk: 0.20±0.17/0.79±0.18/0.40±0.49
+  free1000_spec_own/other_max: 0.14±0.10 / 0.11±0.10
+  free1000_top_is_answer@12: 0.01±0.01
+  free1000_hub_share: 0.74±0.14 苹么苹苹啥
+  free1000_release: 0.00±0.00 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.013±0.006
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 0.816±0.107
+  free1000_mech_extra_per_ex: 0.437±0.327
+  free1000_mech_resp_rate: 0.794±0.121
+  free1000_mech_echo_per_ex: 0.011±0.009
+  quality_over_time: {'teach100': {'resp': '0.63±0.26', 'garble': '0.62±0.26', 'clear': '0.30±0.15', 'ans_syl_hit': '0.02±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.67±0.24', 'garble': '0.67±0.24', 'clear': '0.36±0.28', 'ans_syl_hit': '0.05±0.08', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach600': {'resp': '0.69±0.27', 'garble': '0.69±0.28', 'clear': '0.38±0.28', 'ans_syl_hit': '0.07±0.13', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'corr': {'resp': '0.73±0.28', 'garble': '0.72±0.28', 'clear': '0.43±0.30', 'ans_syl_hit': '0.06±0.11', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free300': {'resp': '0.77±0.14', 'garble': '0.77±0.14', 'clear': '0.40±0.22', 'ans_syl_hit': '0.02±0.04', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.79±0.12', 'garble': '0.79±0.12', 'clear': '0.45±0.23', 'ans_syl_hit': '0.04±0.08', 'first': '0.01±0.02', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.000±0.000', 'teach300': '0.002±0.004', 'teach600': '0.001±0.001', 'corr': '0.002±0.004', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.00±0.00', 'first': '0.06±0.13', 'silent': '0.11±0.11', 'garble': '0.85±0.10', 'q_with_answer_pred': '0.78±0.28', 'said_when_pred': '0.62±0.11'}
+  FORCED_lag12: {'acc': '0.03±0.05', 'first': '0.05±0.11', 'silent': '0.19±0.11', 'garble': '0.77±0.12', 'q_with_answer_pred': '0.48±0.44', 'said_when_pred': '0.51±0.28'}
+  path_same@0/6/12: 0.52±0.21/0.39±0.31/0.39±0.35
+  path_cross@0/6/12: 0.38±0.21/0.37±0.30/0.38±0.35
+  path_decq@0/6/12: 0.16±0.03/0.05±0.02/0.03±0.02
+  path_damage0.1@12: 0.47±0.33
+  path_within_J1: 0.45±0.27
+  layers: {'n2': {'mean': '58.720±36.357', 'max': '263.200±17.429', 'p_zero': '0.214±0.144', 'p_sat': '0.000±0.000'}, 'n3': {'mean': '70.360±53.702', 'max': '349.600±43.702', 'p_zero': '0.323±0.202', 'p_sat': '0.001±0.001'}}
+  route: {'heard': '0.01±0.00', 'inner': '0.44±0.09', 'recall': '0.00±0.00', 'pfc_motor': '0.55±0.09', 'onsets': '4743.80±571.67'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.72±0.25', 'turnover5': '0.09±0.06', 'distinct': '1077.00±1063.60'}
+  empty_per100_teach/free: 0.24±0.11 / 0.02±0.01
+  ms_per_tick: 0.69±0.12
+========== RNpm_shape 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.24±0.28/0.76±0.28/0.80±0.40
+  teach600_spec_own/other_max: 0.18±0.08 / 0.15±0.07
+  teach600_top_is_answer@12: 0.03±0.04
+  teach600_hub_share: 0.64±0.15 吃么苹苹要
+  teach600_release: 0.03±0.05 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.026±0.018
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 2.037±1.014
+  teach600_mech_extra_per_ex: 1.424±0.708
+  teach600_mech_resp_rate: 0.631±0.293
+  teach600_mech_echo_per_ex: 0.005±0.004
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.01±0.02
+  corr_silent/garble/talk: 0.21±0.20/0.78±0.22/0.80±0.40
+  corr_spec_own/other_max: 0.16±0.07 / 0.14±0.06
+  corr_top_is_answer@12: 0.01±0.01
+  corr_hub_share: 0.72±0.11 苹么苹苹苹
+  corr_release: 0.00±0.00 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.025±0.012
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 2.205±0.910
+  corr_mech_extra_per_ex: 1.514±0.660
+  corr_mech_resp_rate: 0.703±0.246
+  corr_mech_echo_per_ex: 0.002±0.001
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.00±0.00
+  free1000_silent/garble/talk: 0.28±0.16/0.72±0.16/0.21±0.40
+  free1000_spec_own/other_max: 0.09±0.09 / 0.07±0.06
+  free1000_top_is_answer@12: 0.00±0.00
+  free1000_hub_share: 0.82±0.11 苹么苹苹苹
+  free1000_release: 0.00±0.00 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.012±0.007
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 0.733±0.150
+  free1000_mech_extra_per_ex: 0.231±0.241
+  free1000_mech_resp_rate: 0.706±0.139
+  free1000_mech_echo_per_ex: 0.006±0.010
+  quality_over_time: {'teach100': {'resp': '0.68±0.25', 'garble': '0.68±0.24', 'clear': '0.28±0.17', 'ans_syl_hit': '0.03±0.03', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.63±0.24', 'garble': '0.62±0.24', 'clear': '0.26±0.16', 'ans_syl_hit': '0.02±0.02', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach600': {'resp': '0.63±0.29', 'garble': '0.63±0.30', 'clear': '0.30±0.18', 'ans_syl_hit': '0.01±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'corr': {'resp': '0.70±0.25', 'garble': '0.70±0.25', 'clear': '0.32±0.18', 'ans_syl_hit': '0.01±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free300': {'resp': '0.72±0.17', 'garble': '0.72±0.17', 'clear': '0.30±0.13', 'ans_syl_hit': '0.00±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.71±0.14', 'garble': '0.71±0.14', 'clear': '0.31±0.12', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.056±0.042', 'teach300': '0.035±0.026', 'teach600': '0.040±0.026', 'corr': '0.045±0.029', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.00±0.00', 'first': '0.01±0.02', 'silent': '0.07±0.07', 'garble': '0.92±0.08', 'q_with_answer_pred': '0.91±0.16', 'said_when_pred': '0.56±0.21'}
+  FORCED_lag12: {'acc': '0.04±0.07', 'first': '0.07±0.12', 'silent': '0.05±0.07', 'garble': '0.91±0.12', 'q_with_answer_pred': '0.66±0.38', 'said_when_pred': '0.73±0.07'}
+  path_same@0/6/12: 0.48±0.19/0.33±0.29/0.30±0.33
+  path_cross@0/6/12: 0.34±0.21/0.30±0.30/0.29±0.32
+  path_decq@0/6/12: 0.14±0.03/0.05±0.02/0.03±0.02
+  path_damage0.1@12: 0.47±0.31
+  path_within_J1: 0.39±0.29
+  layers: {'n2': {'mean': '48.300±34.238', 'max': '231.600±48.417', 'p_zero': '0.271±0.120', 'p_sat': '0.000±0.000'}, 'n3': {'mean': '55.360±49.840', 'max': '322.200±69.341', 'p_zero': '0.393±0.183', 'p_sat': '0.000±0.001'}}
+  route: {'heard': '0.01±0.00', 'inner': '0.40±0.06', 'recall': '0.00±0.00', 'pfc_motor': '0.59±0.06', 'onsets': '4692.80±1556.59'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.82±0.18', 'turnover5': '0.06±0.05', 'distinct': '508.40±777.52'}
+  empty_per100_teach/free: 0.25±0.09 / 0.04±0.04
+  ms_per_tick: 0.62±0.11
+========== RNg 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.71±0.19/0.29±0.19/0.60±0.49
+  teach600_spec_own/other_max: 0.20±0.37 / 0.20±0.37
+  teach600_top_is_answer@12: 0.00±0.00
+  teach600_hub_share: 1.00±0.00 苹苹苹苹苹
+  teach600_release: 0.20±0.40 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.017±0.016
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 1.263±0.674
+  teach600_mech_extra_per_ex: 0.921±0.475
+  teach600_mech_resp_rate: 0.334±0.209
+  teach600_mech_echo_per_ex: 0.000±0.000
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.00±0.00
+  corr_silent/garble/talk: 0.63±0.22/0.37±0.22/0.60±0.49
+  corr_spec_own/other_max: 0.21±0.37 / 0.20±0.38
+  corr_top_is_answer@12: 0.00±0.00
+  corr_hub_share: 1.00±0.00 苹苹苹苹苹
+  corr_release: 0.20±0.40 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.017±0.014
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 1.266±0.666
+  corr_mech_extra_per_ex: 0.931±0.484
+  corr_mech_resp_rate: 0.331±0.192
+  corr_mech_echo_per_ex: 0.001±0.001
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.00±0.00
+  free1000_silent/garble/talk: 0.69±0.18/0.31±0.18/0.01±0.02
+  free1000_spec_own/other_max: 0.17±0.32 / 0.17±0.32
+  free1000_top_is_answer@12: 0.00±0.00
+  free1000_hub_share: 1.00±0.00 苹苹苹苹苹
+  free1000_release: 0.20±0.40 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.008±0.006
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 0.339±0.195
+  free1000_mech_extra_per_ex: 0.027±0.021
+  free1000_mech_resp_rate: 0.335±0.194
+  free1000_mech_echo_per_ex: 0.000±0.000
+  quality_over_time: {'teach100': {'resp': '0.31±0.20', 'garble': '0.31±0.20', 'clear': '0.07±0.10', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.35±0.21', 'garble': '0.35±0.21', 'clear': '0.07±0.08', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach600': {'resp': '0.33±0.21', 'garble': '0.33±0.21', 'clear': '0.06±0.07', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'corr': {'resp': '0.33±0.19', 'garble': '0.33±0.19', 'clear': '0.06±0.08', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free300': {'resp': '0.33±0.21', 'garble': '0.33±0.21', 'clear': '0.06±0.06', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.34±0.19', 'garble': '0.33±0.19', 'clear': '0.06±0.05', 'ans_syl_hit': '0.00±0.00', 'first': '0.00±0.00', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.000±0.000', 'teach300': '0.000±0.000', 'teach600': '0.000±0.000', 'corr': '0.000±0.000', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.70±0.19', 'garble': '0.30±0.19', 'q_with_answer_pred': '0.39±0.35', 'said_when_pred': '0.65±0.34'}
+  FORCED_lag12: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.69±0.19', 'garble': '0.31±0.19', 'q_with_answer_pred': '0.21±0.39', 'said_when_pred': '0.40±0.49'}
+  path_same@0/6/12: 0.45±0.28/0.21±0.40/0.20±0.40
+  path_cross@0/6/12: 0.30±0.35/0.21±0.40/0.20±0.40
+  path_decq@0/6/12: 0.10±0.05/0.01±0.01/0.00±0.01
+  path_damage0.1@12: 0.22±0.39
+  path_within_J1: 0.25±0.38
+  layers: {'n2': {'mean': '88.840±149.366', 'max': '190.800±109.147', 'p_zero': '0.437±0.221', 'p_sat': '0.197±0.394'}, 'n3': {'mean': '86.140±155.830', 'max': '231.800±91.353', 'p_zero': '0.572±0.289', 'p_sat': '0.198±0.397'}}
+  route: {'heard': '0.07±0.08', 'inner': '0.29±0.20', 'recall': '0.00±0.00', 'pfc_motor': '0.64±0.27', 'onsets': '1965.60±1063.04'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.98±0.01', 'turnover5': '0.01±0.01', 'distinct': '24.80±25.58'}
+  empty_per100_teach/free: 0.14±0.06 / 0.01±0.01
+  ms_per_tick: 0.52±0.11
+========== RNpm_oracle 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.52±0.29/0.48±0.29/0.61±0.48
+  teach600_spec_own/other_max: 0.07±0.05 / 0.07±0.04
+  teach600_top_is_answer@12: 0.00±0.00
+  teach600_hub_share: 1.00±0.01 苹苹苹苹苹
+  teach600_release: 0.00±0.00 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.023±0.012
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 1.759±0.542
+  teach600_mech_extra_per_ex: 1.291±0.325
+  teach600_mech_resp_rate: 0.504±0.286
+  teach600_mech_echo_per_ex: 0.003±0.007
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.00±0.00
+  corr_silent/garble/talk: 0.57±0.20/0.42±0.19/0.80±0.40
+  corr_spec_own/other_max: 0.06±0.03 / 0.05±0.02
+  corr_top_is_answer@12: 0.00±0.00
+  corr_hub_share: 1.00±0.01 苹苹苹苹苹
+  corr_release: 0.00±0.00 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.025±0.013
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 1.729±0.573
+  corr_mech_extra_per_ex: 1.266±0.340
+  corr_mech_resp_rate: 0.495±0.292
+  corr_mech_echo_per_ex: 0.004±0.008
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.00±0.00
+  free1000_silent/garble/talk: 0.54±0.25/0.45±0.25/0.02±0.04
+  free1000_spec_own/other_max: 0.04±0.03 / 0.04±0.02
+  free1000_top_is_answer@12: 0.00±0.00
+  free1000_hub_share: 0.99±0.01 苹苹苹苹苹
+  free1000_release: 0.00±0.00 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.012±0.006
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 0.456±0.251
+  free1000_mech_extra_per_ex: 0.075±0.062
+  free1000_mech_resp_rate: 0.426±0.232
+  free1000_mech_echo_per_ex: 0.001±0.002
+  quality_over_time: {'teach100': {'resp': '0.53±0.19', 'garble': '0.51±0.18', 'clear': '0.11±0.12', 'ans_syl_hit': '0.02±0.02', 'first': '0.01±0.01', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.52±0.27', 'garble': '0.49±0.23', 'clear': '0.11±0.17', 'ans_syl_hit': '0.01±0.02', 'first': '0.01±0.01', 'full': '0.00±0.00'}, 'teach600': {'resp': '0.50±0.29', 'garble': '0.48±0.26', 'clear': '0.12±0.18', 'ans_syl_hit': '0.01±0.02', 'first': '0.00±0.01', 'full': '0.00±0.00'}, 'corr': {'resp': '0.50±0.29', 'garble': '0.47±0.27', 'clear': '0.11±0.17', 'ans_syl_hit': '0.01±0.02', 'first': '0.00±0.01', 'full': '0.00±0.00'}, 'free300': {'resp': '0.41±0.20', 'garble': '0.40±0.20', 'clear': '0.06±0.09', 'ans_syl_hit': '0.01±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.43±0.23', 'garble': '0.42±0.23', 'clear': '0.07±0.09', 'ans_syl_hit': '0.01±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.008±0.010', 'teach300': '0.006±0.010', 'teach600': '0.003±0.007', 'corr': '0.005±0.009', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.05±0.04', 'first': '0.48±0.23', 'silent': '0.00±0.00', 'garble': '0.65±0.18', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.95±0.07'}
+  FORCED_lag12: {'acc': '0.05±0.06', 'first': '0.39±0.29', 'silent': '0.00±0.00', 'garble': '0.72±0.22', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.91±0.07'}
+  path_same@0/6/12: 0.44±0.05/0.16±0.20/0.15±0.19
+  path_cross@0/6/12: 0.23±0.11/0.14±0.18/0.14±0.17
+  path_decq@0/6/12: 0.16±0.02/0.02±0.02/0.02±0.02
+  path_damage0.1@12: 0.33±0.36
+  path_within_J1: 0.21±0.21
+  layers: {'n2': {'mean': '18.360±7.027', 'max': '171.400±39.657', 'p_zero': '0.511±0.111', 'p_sat': '0.000±0.000'}, 'n3': {'mean': '22.060±6.074', 'max': '250.600±55.525', 'p_zero': '0.436±0.054', 'p_sat': '0.000±0.000'}}
+  route: {'heard': '0.03±0.01', 'inner': '0.29±0.11', 'recall': '0.00±0.00', 'pfc_motor': '0.69±0.11', 'onsets': '2941.40±996.17'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.97±0.03', 'turnover5': '0.03±0.02', 'distinct': '50.20±40.33'}
+  empty_per100_teach/free: 0.34±0.15 / 0.02±0.01
+  ms_per_tick: 0.52±0.05
+========== R1e_oracle 5 seeds
+  teach_mark: teach600
+  free_mark: free1000
+  teach600_seen_acc: 0.00±0.00
+  teach600_held_acc: 0.00±0.00
+  teach600_first: 0.00±0.00
+  teach600_silent/garble/talk: 0.00±0.00/1.00±0.00/0.82±0.36
+  teach600_spec_own/other_max: 0.20±0.01 / 0.09±0.02
+  teach600_top_is_answer@12: 0.02±0.02
+  teach600_hub_share: 0.14±0.02 苹苹桃苹蕉
+  teach600_release: 0.00±0.00 pred -> said 0.00±0.00
+  teach600_mech_talkover_per_ex: 0.025±0.010
+  teach600_mech_yieldfail_per_ex: 0.000±0.000
+  teach600_mech_garble_per_ex: 3.167±0.034
+  teach600_mech_extra_per_ex: 2.215±0.028
+  teach600_mech_resp_rate: 0.995±0.005
+  teach600_mech_echo_per_ex: 0.000±0.000
+  corr_seen_acc: 0.00±0.00
+  corr_held_acc: 0.00±0.00
+  corr_first: 0.00±0.00
+  corr_silent/garble/talk: 0.00±0.00/1.00±0.00/1.00±0.00
+  corr_spec_own/other_max: 0.20±0.01 / 0.09±0.03
+  corr_top_is_answer@12: 0.02±0.02
+  corr_hub_share: 0.15±0.03 苹苹桃苹苹
+  corr_release: 0.00±0.00 pred -> said 0.00±0.00
+  corr_mech_talkover_per_ex: 0.025±0.010
+  corr_mech_yieldfail_per_ex: 0.000±0.000
+  corr_mech_garble_per_ex: 3.185±0.049
+  corr_mech_extra_per_ex: 2.211±0.054
+  corr_mech_resp_rate: 0.992±0.001
+  corr_mech_echo_per_ex: 0.000±0.000
+  free1000_seen_acc: 0.00±0.00
+  free1000_held_acc: 0.00±0.00
+  free1000_first: 0.01±0.02
+  free1000_silent/garble/talk: 0.00±0.00/1.00±0.00/1.00±0.00
+  free1000_spec_own/other_max: 0.17±0.01 / 0.09±0.01
+  free1000_top_is_answer@12: 0.01±0.01
+  free1000_hub_share: 0.16±0.05 苹苹苹蕉蕉
+  free1000_release: 0.00±0.00 pred -> said 0.00±0.00
+  free1000_mech_talkover_per_ex: 0.012±0.003
+  free1000_mech_yieldfail_per_ex: 0.000±0.000
+  free1000_mech_garble_per_ex: 1.147±0.037
+  free1000_mech_extra_per_ex: 0.958±0.026
+  free1000_mech_resp_rate: 0.994±0.002
+  free1000_mech_echo_per_ex: 0.001±0.001
+  quality_over_time: {'teach100': {'resp': '0.99±0.01', 'garble': '0.99±0.01', 'clear': '0.92±0.05', 'ans_syl_hit': '0.07±0.01', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach300': {'resp': '0.99±0.01', 'garble': '0.99±0.01', 'clear': '0.95±0.02', 'ans_syl_hit': '0.15±0.09', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'teach600': {'resp': '1.00±0.00', 'garble': '1.00±0.00', 'clear': '0.95±0.03', 'ans_syl_hit': '0.15±0.10', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'corr': {'resp': '0.99±0.00', 'garble': '0.99±0.00', 'clear': '0.93±0.04', 'ans_syl_hit': '0.10±0.07', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free300': {'resp': '1.00±0.00', 'garble': '1.00±0.00', 'clear': '0.95±0.03', 'ans_syl_hit': '0.12±0.06', 'first': '0.00±0.00', 'full': '0.00±0.00'}, 'free1000': {'resp': '0.99±0.00', 'garble': '0.99±0.00', 'clear': '0.96±0.01', 'ans_syl_hit': '0.12±0.05', 'first': '0.00±0.00', 'full': '0.00±0.00'}}
+  pleased_per_ex_over_time: {'teach100': '0.002±0.004', 'teach300': '0.000±0.000', 'teach600': '0.001±0.001', 'corr': '0.001±0.001', 'free300': '0.000±0.000', 'free1000': '0.000±0.000'}
+  FORCED_lag6: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.00±0.00', 'garble': '1.00±0.00', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.81±0.04'}
+  FORCED_lag12: {'acc': '0.00±0.00', 'first': '0.00±0.00', 'silent': '0.00±0.00', 'garble': '1.00±0.00', 'q_with_answer_pred': '1.00±0.00', 'said_when_pred': '0.83±0.08'}
+  path_same@0/6/12: 0.60±0.27/0.59±0.27/0.59±0.27
+  path_cross@0/6/12: 0.59±0.27/0.59±0.27/0.59±0.27
+  path_decq@0/6/12: 0.03±0.02/0.03±0.01/0.04±0.02
+  path_damage0.1@12: 0.85±0.07
+  path_within_J1: 1.00±0.00
+  layers: {'n2': {'mean': '28.380±0.147', 'max': '29.000±0.000', 'p_zero': '0.010±0.002', 'p_sat': '0.000±0.000'}, 'n3': {'mean': '22.920±0.397', 'max': '40.000±0.000', 'p_zero': '0.007±0.001', 'p_sat': '0.000±0.000'}}
+  route: {'heard': '0.01±0.00', 'inner': '0.26±0.05', 'recall': '0.00±0.00', 'pfc_motor': '0.73±0.05', 'onsets': '6314.60±330.63'}
+  correction_new/old: 0.00±0.00 / 0.00±0.00
+  motion_free: {'stuck20': '0.85±0.03', 'turnover5': '0.03±0.01', 'distinct': '91.60±26.08'}
+  empty_per100_teach/free: 0.33±0.03 / 0.07±0.02
+  ms_per_tick: 0.91±0.01
