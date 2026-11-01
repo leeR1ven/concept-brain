@@ -1,6 +1,7 @@
 """share of random 4-muscle babbles that the real mouth rule decodes as garble '~' (full mouth / lexicon mouth)."""
+import os
 import sys, numpy as np
-sys.path.insert(0, 'v2/bench')
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'v2', 'bench'))
 from physics import Voice, corpus_chars
 from world import LEXICON_CHARS
 v = Voice(corpus_chars(), seed=0, physics='lawful'); rng = np.random.default_rng(3)

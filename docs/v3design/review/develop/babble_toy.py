@@ -12,10 +12,11 @@ Also reported: (i) random babbling alone (how many lexicon chars a random babble
 inverse (best linear map), (iii) an oracle decoder that knows the 32 muscle patterns (information bound).
 Run: python3 -I babble_toy.py
 """
+import os
 import sys, itertools, json
 import numpy as np
 
-sys.path.insert(0, 'v2/bench')
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'v2', 'bench'))
 from physics import Voice, corpus_chars       # noqa: E402  (read-only import)
 from world import LEXICON_CHARS               # noqa: E402
 

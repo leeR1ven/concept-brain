@@ -12,10 +12,11 @@ replaces only the WORLD (the caregiver), with behaviours real caregivers show af
 Output: frozen accuracy on all 32 (frame, filler) pairs, and the share of answers that are QUESTION tokens (echo).
 Run: python3 -I caregiver_toy.py
 """
+import os
 import sys, json
 import numpy as np
 
-sys.path.insert(0, 'docs/v3design/synth')
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'synth'))
 from drift_toy import Agent, NF, NX, ANS          # noqa: E402  (read-only import; that file is not modified)
 
 

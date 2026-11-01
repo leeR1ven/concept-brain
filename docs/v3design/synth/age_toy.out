@@ -1,0 +1,14 @@
+SW windows (age -> winning units): {1: [1, 2], 3: [3, 2], 5: [3, 4], 10: [4, 5], 16: [5, 6], 30: [6, 5], 45: [6, 7], 90: [7, 8], 180: [8, 7]}
+SF units still on: {1: [0, 1, 2, 3, 4, 5, 6, 7, 8], 5: [2, 3, 4, 5, 6, 7, 8], 10: [3, 4, 5, 6, 7, 8], 45: [5, 6, 7, 8], 90: [6, 7, 8]}
+== W1 as specified
+  ST: format: acc 1.00 echo 0.00 silent 0.00  free300: acc 0.99 echo 0.00 silent 0.00  free900: acc 0.99 echo 0.00 silent 0.00  free3000: acc 0.99 echo 0.00 silent 0.00
+  SF: format: acc 1.00 echo 0.00 silent 0.00  free300: acc 0.39 echo 0.60 silent 0.01  free900: acc 0.00 echo 0.99 silent 0.01  free3000: acc 0.00 echo 0.99 silent 0.01
+  SW: format: acc 1.00 echo 0.00 silent 0.00  free300: acc 0.99 echo 0.00 silent 0.00  free900: acc 0.99 echo 0.00 silent 0.00  free3000: acc 0.99 echo 0.00 silent 0.00
+== moves on 10 %
+  ST: format: acc 0.99 echo 0.01 silent 0.00  free300: acc 0.94 echo 0.06 silent 0.00  free900: acc 0.71 echo 0.29 silent 0.00  free3000: acc 0.10 echo 0.90 silent 0.00
+  SF: format: acc 0.99 echo 0.01 silent 0.00  free300: acc 0.21 echo 0.79 silent 0.00  free900: acc 0.01 echo 0.99 silent 0.00  free3000: acc 0.00 echo 1.00 silent 0.00
+  SW: format: acc 0.99 echo 0.01 silent 0.00  free300: acc 0.94 echo 0.06 silent 0.00  free900: acc 0.71 echo 0.29 silent 0.00  free3000: acc 0.10 echo 0.90 silent 0.00
+== realistic mix (move-on 15 %, re-ask 30 %, jitter 50 %), care continues 50 %
+  ST: format: acc 0.63 echo 0.36 silent 0.00  free300: acc 0.75 echo 0.24 silent 0.00  free900: acc 0.69 echo 0.31 silent 0.00  free3000: acc 0.65 echo 0.35 silent 0.00
+  SF: format: acc 0.51 echo 0.47 silent 0.01  free300: acc 0.30 echo 0.69 silent 0.01  free900: acc 0.42 echo 0.58 silent 0.00  free3000: acc 0.56 echo 0.44 silent 0.00
+  SW: format: acc 0.63 echo 0.36 silent 0.00  free300: acc 0.75 echo 0.24 silent 0.00  free900: acc 0.71 echo 0.29 silent 0.00  free3000: acc 0.68 echo 0.33 silent 0.00
