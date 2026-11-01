@@ -605,14 +605,20 @@ as a "thinking range", held by their links. A few unrelated characters firing do
 
 **Designer's correction (2026-11-01):** "海马体确实应该什么都存，但是想想我之前说的，权重越[高越难]增长，即使是每天都接收到的相同信息，也不会让权重增长太多，这样就不怕记住太多无用的记忆。而且本质上也没有无用记忆，这个世界本就是这样，每天都看见天空，难道看见天空就是无用记忆吗。"
 - The hippocampus stores everything; memories are not sorted into useful and useless.
-- Today's hippocampus takes a new cell for every heard line and overwrites the weakest when full, so a line heard a
-  hundred times is stored a hundred times and crowds out rare episodes.
-- Instead, an experience that nearly matches an existing memory strengthens that memory and takes no new cell. The
-  increment follows #22: the stronger it is, the harder it grows. The sky seen every day becomes one strong, bounded
-  memory, and rare experiences keep their place.
+- **The designer's hippocampus (stated 2026-10-29):** the hippocampus has its own population of neurons. Every area's
+  signals reach it through chain neurons (dedicated 1:1 lines), and it stores by Hebbian connections among those
+  neurons. Memory lives in the connections; there is no "one more memory = one more neuron" mechanism. Its connections
+  grow faster and decay faster than the cortex's. It holds short-term memory only and does no logical thinking;
+  long-term memory is the cortex learning slowly, helped by recall.
+- So information seen every day only strengthens the same connections again and again. Under #22, the stronger they
+  are, the harder they grow, so nothing piles up.
+- Today's code stores "one new memory cell and one record per heard line". It is a shortcut written for fast
+  experiments, does not match the designer's design, and is among the parts #21 removes. The earlier proposal
+  "a repeated experience strengthens the existing memory cell" only patched that wrong mechanism and is withdrawn. The
+  new version implements the hippocampus the designer's way.
 
 **A different, rejected attempt:** "only surprising lines enter the thought" was rejected (ARCH_v2 §7 #10), because a
 line must enter the thought to be learned. The designer's version does not block input. It makes the thinking range
 wider and steadier.
 
-**Test:** two arms in experiment X2: (T) a wider, more persistent thought; (H') the hippocampus stores everything; a repeated experience strengthens the existing memory, with saturating growth.
+**Test:** two arms in experiment X2: (T) a wider, more persistent thought; (H') withdrawn (see above).
