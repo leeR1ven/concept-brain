@@ -1,0 +1,108 @@
+
+==== physics=x1c  eta_minus/eta=1.0  seeds=[0, 1, 2, 3, 4]
+  stand-in ceiling: inner correct 0.86±0.03  hear correct 0.27±0.34  inner garble 0.14±0.03
+  -- after 2000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.01±0.01     0.00±0.00    0.00±0.00     0.69±0.12     0.30±0.34    0.00±0.00        0.01±0.01     0.00±0.00    0.00±0.00   0.52±0.05       0.12±0.00
+  same   0.00±0.00     0.00±0.00    0.00±0.00     0.01±0.03     0.00±0.00    0.00±0.00        0.01±0.02     0.01±0.01    0.02±0.02   1.27±0.03       2.43±0.06
+  redup  0.00±0.00     0.00±0.00    0.00±0.00     0.26±0.31     0.11±0.22    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.69±0.05       0.65±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.58±0.23     0.23±0.40    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.71±0.06       0.21±0.00
+   paired same - base: inner-correct -0.006±0.013 [0.0, 0.0, 0.0, -0.03, 0.0]  top4 +0.024±0.025
+   paired redup - base: inner-correct -0.006±0.013 [0.0, 0.0, 0.0, -0.03, 0.0]  top4 +0.000±0.000
+   paired imit - base: inner-correct -0.006±0.013 [0.0, 0.0, 0.0, -0.03, 0.0]  top4 +0.000±0.000
+  -- after 5000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.66±0.18     0.36±0.35    0.00±0.00        0.00±0.00     0.01±0.01    0.00±0.00   0.53±0.05       0.12±0.00
+  same   0.01±0.01     0.00±0.00    0.00±0.00     0.01±0.03     0.00±0.00    0.01±0.01        0.02±0.01     0.01±0.02    0.15±0.06   1.23±0.02       2.35±0.03
+  redup  0.00±0.00     0.00±0.00    0.00±0.00     0.28±0.33     0.13±0.29    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.65±0.09       0.65±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.56±0.23     0.26±0.43    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.73±0.06       0.21±0.00
+   paired same - base: inner-correct +0.006±0.013 [0.03, 0.0, 0.0, 0.0, 0.0]  top4 +0.147±0.055
+   paired redup - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- verdict at 2000 (pre-registered: inner correct >= 0.5 and >= base + 0.3 in every seed)
+   base: FAIL
+   same: FAIL
+   redup: FAIL
+   imit: FAIL
+  imitations per life: [688, 672, 642, 652, 655]  babble outcomes (seed0 base): {'babbles': 5000, 'clear': 6, 'mumble': 1262, 'garble': 3732, 'imitations': 0}
+
+==== physics=x1c  eta_minus/eta=0.5  seeds=[0, 1, 2, 3, 4]
+  stand-in ceiling: inner correct 0.86±0.03  hear correct 0.27±0.34  inner garble 0.14±0.03
+  -- after 2000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.44±0.24     0.18±0.34    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.49±0.04       0.24±0.00
+  same   0.01±0.01     0.00±0.00    0.00±0.00     0.01±0.03     0.00±0.00    0.01±0.01        0.05±0.02     0.04±0.03    0.36±0.08   1.37±0.02       4.87±0.11
+  redup  0.01±0.01     0.00±0.00    0.00±0.00     0.01±0.03     0.00±0.00    0.00±0.00        0.02±0.02     0.01±0.03    0.05±0.05   1.17±0.02       1.30±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.29±0.39     0.19±0.37    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.95±0.05       0.43±0.01
+   paired same - base: inner-correct +0.006±0.013 [0.03, 0.0, 0.0, 0.0, 0.0]  top4 +0.359±0.076
+   paired redup - base: inner-correct +0.006±0.013 [0.03, 0.0, 0.0, 0.0, 0.0]  top4 +0.047±0.049
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- after 5000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.42±0.31     0.18±0.34    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.48±0.03       0.24±0.00
+  same   0.01±0.03     0.00±0.00    0.00±0.00     0.01±0.01     0.00±0.00    0.01±0.01        0.09±0.06     0.02±0.03    0.58±0.08   1.32±0.02       4.71±0.06
+  redup  0.01±0.01     0.00±0.00    0.00±0.00     0.01±0.01     0.00±0.00    0.00±0.00        0.02±0.03     0.02±0.04    0.06±0.03   1.14±0.01       1.30±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.24±0.33     0.19±0.39    0.00±0.00        0.01±0.01     0.00±0.00    0.00±0.00   0.95±0.12       0.42±0.00
+   paired same - base: inner-correct +0.012±0.026 [0.06, 0.0, 0.0, 0.0, 0.0]  top4 +0.582±0.079
+   paired redup - base: inner-correct +0.006±0.013 [0.03, 0.0, 0.0, 0.0, 0.0]  top4 +0.059±0.029
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- verdict at 2000 (pre-registered: inner correct >= 0.5 and >= base + 0.3 in every seed)
+   base: FAIL
+   same: FAIL
+   redup: FAIL
+   imit: FAIL
+  imitations per life: [688, 672, 642, 652, 655]  babble outcomes (seed0 base): {'babbles': 5000, 'clear': 6, 'mumble': 1262, 'garble': 3732, 'imitations': 0}
+
+==== physics=lawful  eta_minus/eta=1.0  seeds=[0, 1, 2, 3, 4]
+  stand-in ceiling: inner correct 0.86±0.03  hear correct 0.27±0.34  inner garble 0.14±0.03
+  -- after 2000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.60±0.21     0.24±0.37    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.18±0.01       0.08±0.00
+  same   0.05±0.12     0.02±0.05    0.01±0.03     0.13±0.23     0.01±0.03    0.03±0.07        0.23±0.03     0.17±0.04    0.82±0.06   2.98±0.03       3.11±0.08
+  redup  0.00±0.00     0.00±0.00    0.00±0.00     0.24±0.32     0.06±0.14    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.36±0.03       0.66±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.47±0.25     0.23±0.42    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.25±0.03       0.16±0.00
+   paired same - base: inner-correct +0.053±0.118 [0.26, 0.0, 0.0, 0.0, 0.0]  top4 +0.824±0.055
+   paired redup - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- after 5000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.49±0.18     0.23±0.37    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.16±0.03       0.08±0.00
+  same   0.02±0.04     0.01±0.03    0.01±0.01     0.14±0.27     0.01±0.03    0.02±0.05        0.21±0.04     0.17±0.03    0.87±0.04   2.80±0.01       2.90±0.04
+  redup  0.00±0.00     0.00±0.00    0.00±0.00     0.26±0.31     0.13±0.29    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.37±0.04       0.66±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.47±0.24     0.24±0.43    0.00±0.00        0.00±0.00     0.01±0.01    0.00±0.00   0.23±0.02       0.16±0.00
+   paired same - base: inner-correct +0.018±0.039 [0.09, 0.0, 0.0, 0.0, 0.0]  top4 +0.871±0.045
+   paired redup - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- verdict at 2000 (pre-registered: inner correct >= 0.5 and >= base + 0.3 in every seed)
+   base: FAIL
+   same: FAIL
+   redup: FAIL
+   imit: FAIL
+  imitations per life: [688, 672, 642, 652, 655]  babble outcomes (seed0 base): {'babbles': 5000, 'clear': 6, 'mumble': 1262, 'garble': 3732, 'imitations': 0}
+
+==== physics=lawful  eta_minus/eta=0.5  seeds=[0, 1, 2, 3, 4]
+  stand-in ceiling: inner correct 0.86±0.03  hear correct 0.27±0.34  inner garble 0.14±0.03
+  -- after 2000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.30±0.26     0.08±0.17    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.20±0.02       0.17±0.00
+  same   0.03±0.07     0.02±0.04    0.01±0.03     0.11±0.22     0.01±0.01    0.03±0.07        0.19±0.03     0.16±0.04    0.87±0.03   2.82±0.03       6.21±0.15
+  redup  0.03±0.07     0.02±0.04    0.01±0.01     0.07±0.16     0.01±0.01    0.04±0.08        0.14±0.04     0.12±0.02    0.78±0.04   2.26±0.03       1.30±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.18±0.27     0.15±0.31    0.01±0.01        0.01±0.03     0.00±0.00    0.00±0.00   0.40±0.03       0.31±0.01
+   paired same - base: inner-correct +0.029±0.066 [0.15, 0.0, 0.0, 0.0, 0.0]  top4 +0.871±0.034
+   paired redup - base: inner-correct +0.029±0.066 [0.15, 0.0, 0.0, 0.0, 0.0]  top4 +0.782±0.039
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- after 5000 babbles
+  arm    inner-correct  inner-clear  hear-correct  inner-garble  hear-garble  total-norm-inner  oracle-inner  oracle-hear  top4-exact  w_true/w_other  potent/depress
+  base   0.00±0.00     0.00±0.00    0.00±0.00     0.24±0.29     0.05±0.11    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.13±0.00       0.17±0.00
+  same   0.02±0.04     0.01±0.01    0.00±0.00     0.11±0.22     0.02±0.04    0.03±0.07        0.20±0.05     0.15±0.02    0.94±0.03   2.63±0.01       5.82±0.08
+  redup  0.02±0.05     0.01±0.01    0.00±0.00     0.06±0.13     0.02±0.04    0.02±0.04        0.15±0.04     0.09±0.05    0.82±0.05   2.15±0.02       1.30±0.00
+  imit   0.00±0.00     0.00±0.00    0.00±0.00     0.14±0.22     0.16±0.36    0.00±0.00        0.00±0.00     0.00±0.00    0.00±0.00   0.32±0.03       0.31±0.00
+   paired same - base: inner-correct +0.018±0.039 [0.09, 0.0, 0.0, 0.0, 0.0]  top4 +0.941±0.029
+   paired redup - base: inner-correct +0.024±0.053 [0.12, 0.0, 0.0, 0.0, 0.0]  top4 +0.824±0.047
+   paired imit - base: inner-correct +0.000±0.000 [0.0, 0.0, 0.0, 0.0, 0.0]  top4 +0.000±0.000
+  -- verdict at 2000 (pre-registered: inner correct >= 0.5 and >= base + 0.3 in every seed)
+   base: FAIL
+   same: FAIL
+   redup: FAIL
+   imit: FAIL
+  imitations per life: [688, 672, 642, 652, 655]  babble outcomes (seed0 base): {'babbles': 5000, 'clear': 6, 'mumble': 1262, 'garble': 3732, 'imitations': 0}

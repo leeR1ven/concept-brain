@@ -1,0 +1,10 @@
+x1c stand-in margin median 1.50, share>=1.67 0.41, share>=1 1.00
+  same r=1.0: learned margin median 0.87, share>=1.67 0.00, share>=1 0.06
+  same r=0.5: learned margin median 0.99, share>=1.67 0.00, share>=1 0.44
+  redup r=1.0: learned margin median 0.20, share>=1.67 0.00, share>=1 0.00
+  redup r=0.5: learned margin median 0.88, share>=1.67 0.00, share>=1 0.06
+lawful stand-in margin median 1.50, share>=1.67 0.41, share>=1 1.00
+  same r=1.0: learned margin median 1.08, share>=1.67 0.00, share>=1 0.88
+  same r=0.5: learned margin median 1.11, share>=1.67 0.00, share>=1 0.88
+  redup r=1.0: learned margin median 0.11, share>=1.67 0.00, share>=1 0.00
+  redup r=0.5: learned margin median 1.06, share>=1.67 0.00, share>=1 0.82
