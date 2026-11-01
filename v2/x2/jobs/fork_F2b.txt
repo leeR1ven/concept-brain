@@ -1,0 +1,11 @@
+drift_x2.py load=ck/x2base_s0_tr.pkl.gz tag=x2rlbase seed=0 marks=0 relearn=1 rounds=20 out=out/runs/relearn_x2base_s0.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2rlbase seed=1 marks=0 relearn=1 rounds=20 out=out/runs/relearn_x2base_s1.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2rlbase seed=2 marks=0 relearn=1 rounds=20 out=out/runs/relearn_x2base_s2.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2hor2 seed=1 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=hip.gamma:0.99975" out=out/runs/drift_x2hor2_s1.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2amn seed=1 marks=300,900,1500 diag=1 les=900,1500 "dset=amnesia:1" out=out/runs/drift_x2amn_s1.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2noprune seed=1 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=mix.prune_on:0" out=out/runs/drift_x2noprune_s1.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2hipown seed=1 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=c.ral_hip_own:1" out=out/runs/drift_x2hipown_s1.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2norec seed=2 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=c.recall_n:0" out=out/runs/drift_x2norec_s2.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2nosil seed=2 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=u.reply:0.3;nogo:1.01;veto_R1:0" out=out/runs/drift_x2nosil_s2.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2hor2 seed=2 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=hip.gamma:0.99975" out=out/runs/drift_x2hor2_s2.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2amn seed=2 marks=300,900,1500 diag=1 les=900,1500 "dset=amnesia:1" out=out/runs/drift_x2amn_s2.json

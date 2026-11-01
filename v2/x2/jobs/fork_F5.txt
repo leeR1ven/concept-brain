@@ -1,0 +1,8 @@
+drift_x2.py load=ck/x2hor2L_s0_d6000.pkl.gz tag=x2hor2L seed=0 marks=8000,10000 diag=1 les=10000 save_at=10000 out=out/runs/drift_x2hor2L_s0_c10k.json
+drift_x2.py load=ck/x2base_s0_tr.pkl.gz tag=x2nodip seed=0 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=dip:0" out=out/runs/drift_x2nodip_s0.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2nodip seed=1 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=dip:0" out=out/runs/drift_x2nodip_s1.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2nodip seed=2 marks=300,900,1500,2100,3000 diag=1 les=2100,3000 "dset=dip:0" out=out/runs/drift_x2nodip_s2.json
+drift_x2.py load=ck/x2base_s0_tr.pkl.gz tag=x2norecnodip seed=0 marks=300,900,1500 diag=1 les=900,1500 "dset=c.recall_n:0;dip:0" out=out/runs/drift_x2norecnodip_s0.json
+drift_x2.py load=ck/x2base_s1_tr.pkl.gz tag=x2norecnodip seed=1 marks=300,900,1500 diag=1 les=900,1500 "dset=c.recall_n:0;dip:0" out=out/runs/drift_x2norecnodip_s1.json
+drift_x2.py load=ck/x2base_s2_tr.pkl.gz tag=x2norecnodip seed=2 marks=300,900,1500 diag=1 les=900,1500 "dset=c.recall_n:0;dip:0" out=out/runs/drift_x2norecnodip_s2.json
+life_x2.py tag=L_selfrep seed=5 ticks=1000000 chunk=100000 ral=1 ral_other=1 say_rec=1 say_loc=1 scene_held=1 val_veto=0.2 dip=1 act_T=60 soc_feats=1 rec_fix=1 rm=1 rm_train=1 rm_prune=1 rm_age=20000 rm_regrow=1 rm_alloc=flat veto_R1=1 veto_eps=0.1 veto_W=40 veto_gate=0.15 veto_fast=0.04 ral_hip_own=1 ral_replay_own=1
