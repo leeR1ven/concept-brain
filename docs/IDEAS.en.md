@@ -622,3 +622,17 @@ line must enter the thought to be learned. The designer's version does not block
 wider and steadier.
 
 **Test:** two arms in experiment X2: (T) a wider, more persistent thought; (H') withdrawn (see above).
+
+## 24. The designer's answers to revision 2's three questions (2026-11-01)
+
+**1. No representation of "how long ago".** "不用管过了多久，不要用程序员的逻辑看待神经网络，模型接触的一直是连续的信息，连续回忆一件事时自然就有'过了多久'这种感觉。这不需要有任何神经元来表示，先听到一个字，再听到一个字，这两个字有先后顺序，本质上就是时间啊。"
+- No time cells, no timing by unequal fatigue rates, and no count of units still on. Time is the order that temporal Hebbian learning picks up.
+- Experiments must use a continuous stream and a continuous network. Do not cut the world into symbolic events ("question, answer, so many ticks later") and test on those.
+
+**2. Slow correction: both mechanisms.** "改正慢应该是你说的两种机制都有吧，小机制你可以自己判断，自己测试哪个好用，哪个能用。"
+- Firm memories stay hard to change, while new learning lands first on fast-changing connections. We test and choose the exact form.
+
+**3. Good or bad cannot be judged from the amount of response.** "回应多少不能判断好坏，不应该用'这次得到的回应，比平常多还是少'来定正负。"
+- The running-mean sign ("more or less response than usual") is withdrawn.
+- Good and bad come only from innate values: the other person pleased or upset, hunger relieved, and so on (#17).
+- A response by itself is not good.
