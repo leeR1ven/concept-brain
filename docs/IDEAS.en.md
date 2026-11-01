@@ -600,11 +600,19 @@ as a "thinking range", held by their links. A few unrelated characters firing do
   can keep more content for longer without disturbing the reply.
 - Widen the thinking range, with a global threshold setting how much is active (#15: PFC excitability works like
   context length).
-- A hippocampal episode is strengthened when its recall is followed by a correct prediction or a reward, and weakens
-  otherwise. Recall prefers strong episodes, so useless chatter fades by itself.
+- ~~A hippocampal episode is strengthened when its recall is followed by a correct prediction or a reward, and weakens
+  otherwise~~ (corrected by the designer, below).
+
+**Designer's correction (2026-11-01):** "海马体确实应该什么都存，但是想想我之前说的，权重越[高越难]增长，即使是每天都接收到的相同信息，也不会让权重增长太多，这样就不怕记住太多无用的记忆。而且本质上也没有无用记忆，这个世界本就是这样，每天都看见天空，难道看见天空就是无用记忆吗。"
+- The hippocampus stores everything; memories are not sorted into useful and useless.
+- Today's hippocampus takes a new cell for every heard line and overwrites the weakest when full, so a line heard a
+  hundred times is stored a hundred times and crowds out rare episodes.
+- Instead, an experience that nearly matches an existing memory strengthens that memory and takes no new cell. The
+  increment follows #22: the stronger it is, the harder it grows. The sky seen every day becomes one strong, bounded
+  memory, and rare experiences keep their place.
 
 **A different, rejected attempt:** "only surprising lines enter the thought" was rejected (ARCH_v2 §7 #10), because a
 line must enter the thought to be learned. The designer's version does not block input. It makes the thinking range
 wider and steadier.
 
-**Test:** two arms in experiment X2: (T) a wider, more persistent thought; (H) useful episodes recalled first.
+**Test:** two arms in experiment X2: (T) a wider, more persistent thought; (H') the hippocampus stores everything; a repeated experience strengthens the existing memory, with saturating growth.
