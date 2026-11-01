@@ -1,0 +1,36 @@
+T6_s0 arm=L2 pF=1.0 gamma2=0.99995 seed=0 beta2=6.0
+L20_s0 arm=L2 pF=1.0 gamma2=0.99995 seed=0 beta2=6.0 ctx_now=1
+LEAN_s0 arm=L2 pF=1.0 gamma2=0.99995 seed=0 beta2=6.0 lean=1
+T6_s1 arm=L2 pF=1.0 gamma2=0.99995 seed=1 beta2=6.0
+L20_s1 arm=L2 pF=1.0 gamma2=0.99995 seed=1 beta2=6.0 ctx_now=1
+LEAN_s1 arm=L2 pF=1.0 gamma2=0.99995 seed=1 beta2=6.0 lean=1
+T6_s2 arm=L2 pF=1.0 gamma2=0.99995 seed=2 beta2=6.0
+L20_s2 arm=L2 pF=1.0 gamma2=0.99995 seed=2 beta2=6.0 ctx_now=1
+LEAN_s2 arm=L2 pF=1.0 gamma2=0.99995 seed=2 beta2=6.0 lean=1
+T6_s3 arm=L2 pF=1.0 gamma2=0.99995 seed=3 beta2=6.0
+L20_s3 arm=L2 pF=1.0 gamma2=0.99995 seed=3 beta2=6.0 ctx_now=1
+LEAN_s3 arm=L2 pF=1.0 gamma2=0.99995 seed=3 beta2=6.0 lean=1
+T6_s4 arm=L2 pF=1.0 gamma2=0.99995 seed=4 beta2=6.0
+L20_s4 arm=L2 pF=1.0 gamma2=0.99995 seed=4 beta2=6.0 ctx_now=1
+LEAN_s4 arm=L2 pF=1.0 gamma2=0.99995 seed=4 beta2=6.0 lean=1
+T6_s5 arm=L2 pF=1.0 gamma2=0.99995 seed=5 beta2=6.0
+L20_s5 arm=L2 pF=1.0 gamma2=0.99995 seed=5 beta2=6.0 ctx_now=1
+LEAN_s5 arm=L2 pF=1.0 gamma2=0.99995 seed=5 beta2=6.0 lean=1
+T6_s6 arm=L2 pF=1.0 gamma2=0.99995 seed=6 beta2=6.0
+L20_s6 arm=L2 pF=1.0 gamma2=0.99995 seed=6 beta2=6.0 ctx_now=1
+LEAN_s6 arm=L2 pF=1.0 gamma2=0.99995 seed=6 beta2=6.0 lean=1
+T6_s7 arm=L2 pF=1.0 gamma2=0.99995 seed=7 beta2=6.0
+L20_s7 arm=L2 pF=1.0 gamma2=0.99995 seed=7 beta2=6.0 ctx_now=1
+LEAN_s7 arm=L2 pF=1.0 gamma2=0.99995 seed=7 beta2=6.0 lean=1
+T6_s8 arm=L2 pF=1.0 gamma2=0.99995 seed=8 beta2=6.0
+L20_s8 arm=L2 pF=1.0 gamma2=0.99995 seed=8 beta2=6.0 ctx_now=1
+LEAN_s8 arm=L2 pF=1.0 gamma2=0.99995 seed=8 beta2=6.0 lean=1
+T6_s9 arm=L2 pF=1.0 gamma2=0.99995 seed=9 beta2=6.0
+L20_s9 arm=L2 pF=1.0 gamma2=0.99995 seed=9 beta2=6.0 ctx_now=1
+LEAN_s9 arm=L2 pF=1.0 gamma2=0.99995 seed=9 beta2=6.0 lean=1
+BENCH_s0 arm=L2 pF=1.0 gamma2=0.99995 seed=0 beta2=6.0 n_ins=0
+BENCH_s1 arm=L2 pF=1.0 gamma2=0.99995 seed=1 beta2=6.0 n_ins=0
+BENCH_s2 arm=L2 pF=1.0 gamma2=0.99995 seed=2 beta2=6.0 n_ins=0
+BENCH_s3 arm=L2 pF=1.0 gamma2=0.99995 seed=3 beta2=6.0 n_ins=0
+BENCH_s4 arm=L2 pF=1.0 gamma2=0.99995 seed=4 beta2=6.0 n_ins=0
+LETTER_s0 arm=L2 pF=1.0 gamma2=0.99995 seed=0 beta2=6.0 eta_ff_off=0.05 eta_K=0.05

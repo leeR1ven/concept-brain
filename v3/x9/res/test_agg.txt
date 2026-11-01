@@ -1,0 +1,403 @@
+dir res/test
+
+== B0  seeds [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  held decode pooled 15/40 = 0.375
+  within > between on 1/10; cross-modal matched > mismatched on 10/10
+  held decode (class code)               0.375 ± 0.177
+  held margin                            -0.003 ± 0.004
+  seen decode (LOO)                      0.217 ± 0.137
+  within                                 0.025 ± 0.002
+  between                                0.031 ± 0.002
+  within/between                         0.825 ± 0.097
+  cross-modal matched                    0.078 ± 0.003
+  cross-modal mismatched                 0.047 ± 0.002
+  cross-modal diff                       0.032 ± 0.002
+  cross-modal 12-way top-1               0.850 ± 0.057
+  drift whole area, words                0.014 ± 0.002
+  drift class code                       0.013 ± 0.003
+  collapse index (class layer chars)     0.029 ± 0.000
+  collapse index (whole area)            0.029 ± 0.000
+  whole-area word within                 0.062 ± 0.003
+  whole-area word between                0.067 ± 0.002
+
+== BENCH  seeds [0, 1, 2, 3, 4]
+  held decode pooled 10/20 = 0.500
+  within > between on 2/5; cross-modal matched > mismatched on 5/5
+  held decode (class code)               0.500 ± 0.177
+  held margin                            -0.007 ± 0.025
+  seen decode (LOO)                      0.533 ± 0.183
+  within                                 0.103 ± 0.027
+  between                                0.102 ± 0.025
+  within/between                         1.012 ± 0.086
+  cross-modal matched                    0.047 ± 0.003
+  cross-modal mismatched                 0.037 ± 0.002
+  cross-modal diff                       0.010 ± 0.002
+  cross-modal 12-way top-1               0.344 ± 0.064
+  cross-modal top-1, deep layer          0.133 ± 0.023
+  drift whole area, words                0.057 ± 0.006
+  drift class code                       0.113 ± 0.009
+  drift input layer, words               0.021 ± 0.002
+  drift deep layer, words                0.093 ± 0.010
+  collapse index (class layer chars)     0.041 ± 0.000
+  collapse index (whole area)            0.034 ± 0.000
+  deep layer word-union within           0.091 ± 0.011
+  deep layer word-union between          0.085 ± 0.007
+  whole-area word within                 0.076 ± 0.006
+  whole-area word between                0.077 ± 0.004
+
+== L20  seeds [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  held decode pooled 20/40 = 0.500
+  within > between on 3/10; cross-modal matched > mismatched on 10/10
+  held decode (class code)               0.500 ± 0.167
+  held margin                            -0.001 ± 0.005
+  seen decode (LOO)                      0.350 ± 0.214
+  within                                 0.029 ± 0.002
+  between                                0.032 ± 0.003
+  within/between                         0.930 ± 0.141
+  cross-modal matched                    0.066 ± 0.003
+  cross-modal mismatched                 0.044 ± 0.002
+  cross-modal diff                       0.021 ± 0.002
+  cross-modal 12-way top-1               0.786 ± 0.045
+  cross-modal top-1, deep layer          0.308 ± 0.056
+  drift whole area, words                0.035 ± 0.005
+  drift class code                       0.055 ± 0.013
+  drift input layer, words               0.014 ± 0.002
+  drift deep layer, words                0.055 ± 0.008
+  collapse index (class layer chars)     0.030 ± 0.000
+  collapse index (whole area)            0.030 ± 0.000
+  deep layer word-union within           0.062 ± 0.003
+  deep layer word-union between          0.063 ± 0.002
+  whole-area word within                 0.062 ± 0.003
+  whole-area word between                0.065 ± 0.002
+
+== LEAN  seeds [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  held decode pooled 18/40 = 0.450
+  within > between on 10/10; cross-modal matched > mismatched on 10/10
+  held decode (class code)               0.450 ± 0.105
+  held margin                            -0.018 ± 0.018
+  seen decode (LOO)                      1.000 ± 0.000
+  within                                 0.133 ± 0.024
+  between                                0.076 ± 0.017
+  within/between                         1.800 ± 0.471
+  cross-modal matched                    0.061 ± 0.004
+  cross-modal mismatched                 0.041 ± 0.003
+  cross-modal diff                       0.020 ± 0.003
+  cross-modal 12-way top-1               0.572 ± 0.083
+  cross-modal top-1, deep layer          0.214 ± 0.081
+  drift whole area, words                0.046 ± 0.006
+  drift class code                       0.092 ± 0.018
+  drift input layer, words               0.017 ± 0.003
+  drift deep layer, words                0.076 ± 0.011
+  collapse index (class layer chars)     0.039 ± 0.001
+  collapse index (whole area)            0.033 ± 0.000
+  deep layer word-union within           0.095 ± 0.007
+  deep layer word-union between          0.072 ± 0.005
+  whole-area word within                 0.077 ± 0.004
+  whole-area word between                0.069 ± 0.002
+
+== LETTER  seeds [0, 1, 2, 3, 4]
+  held decode pooled 19/20 = 0.950
+  within > between on 5/5; cross-modal matched > mismatched on 5/5
+  held decode (class code)               0.950 ± 0.112
+  held margin                            0.184 ± 0.037
+  seen decode (LOO)                      0.933 ± 0.091
+  within                                 0.295 ± 0.044
+  between                                0.114 ± 0.020
+  within/between                         2.622 ± 0.376
+  cross-modal matched                    0.064 ± 0.005
+  cross-modal mismatched                 0.048 ± 0.003
+  cross-modal diff                       0.016 ± 0.002
+  cross-modal 12-way top-1               0.489 ± 0.082
+  cross-modal top-1, deep layer          0.172 ± 0.012
+  drift whole area, words                0.132 ± 0.011
+  drift class code                       0.161 ± 0.022
+  drift input layer, words               0.124 ± 0.007
+  drift deep layer, words                0.141 ± 0.019
+  collapse index (class layer chars)     0.055 ± 0.002
+  collapse index (whole area)            0.042 ± 0.001
+  deep layer word-union within           0.158 ± 0.016
+  deep layer word-union between          0.080 ± 0.007
+  whole-area word within                 0.124 ± 0.006
+  whole-area word between                0.086 ± 0.003
+
+== T3  seeds [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  held decode pooled 29/40 = 0.725
+  within > between on 10/10; cross-modal matched > mismatched on 10/10
+  held decode (class code)               0.725 ± 0.079
+  held margin                            0.060 ± 0.025
+  seen decode (LOO)                      0.800 ± 0.172
+  within                                 0.145 ± 0.019
+  between                                0.064 ± 0.007
+  within/between                         2.277 ± 0.379
+  cross-modal matched                    0.066 ± 0.011
+  cross-modal mismatched                 0.043 ± 0.007
+  cross-modal diff                       0.022 ± 0.005
+  cross-modal 12-way top-1               0.569 ± 0.107
+  cross-modal top-1, deep layer          0.208 ± 0.051
+  drift whole area, words                0.043 ± 0.004
+  drift class code                       0.094 ± 0.008
+  drift input layer, words               0.014 ± 0.002
+  drift deep layer, words                0.072 ± 0.005
+  collapse index (class layer chars)     0.045 ± 0.003
+  collapse index (whole area)            0.036 ± 0.001
+  deep layer word-union within           0.098 ± 0.006
+  deep layer word-union between          0.069 ± 0.004
+  whole-area word within                 0.079 ± 0.004
+  whole-area word between                0.068 ± 0.003
+
+== T6  seeds [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  held decode pooled 37/40 = 0.925
+  within > between on 10/10; cross-modal matched > mismatched on 10/10
+  held decode (class code)               0.925 ± 0.169
+  held margin                            0.089 ± 0.025
+  seen decode (LOO)                      0.933 ± 0.117
+  within                                 0.166 ± 0.020
+  between                                0.068 ± 0.009
+  within/between                         2.455 ± 0.359
+  cross-modal matched                    0.062 ± 0.008
+  cross-modal mismatched                 0.040 ± 0.005
+  cross-modal diff                       0.022 ± 0.003
+  cross-modal 12-way top-1               0.622 ± 0.107
+  cross-modal top-1, deep layer          0.250 ± 0.054
+  drift whole area, words                0.049 ± 0.005
+  drift class code                       0.114 ± 0.012
+  drift input layer, words               0.014 ± 0.002
+  drift deep layer, words                0.084 ± 0.009
+  collapse index (class layer chars)     0.040 ± 0.002
+  collapse index (whole area)            0.033 ± 0.001
+  deep layer word-union within           0.112 ± 0.005
+  deep layer word-union between          0.072 ± 0.005
+  whole-area word within                 0.086 ± 0.003
+  whole-area word between                0.069 ± 0.003
+
+== Tb1  seeds [0, 1, 2, 3, 4]
+  held decode pooled 12/20 = 0.600
+  within > between on 5/5; cross-modal matched > mismatched on 5/5
+  held decode (class code)               0.600 ± 0.137
+  held margin                            0.009 ± 0.003
+  seen decode (LOO)                      0.633 ± 0.075
+  within                                 0.077 ± 0.005
+  between                                0.066 ± 0.005
+  within/between                         1.170 ± 0.033
+  cross-modal matched                    0.052 ± 0.002
+  cross-modal mismatched                 0.039 ± 0.002
+  cross-modal diff                       0.012 ± 0.001
+  cross-modal 12-way top-1               0.406 ± 0.082
+  drift whole area, words                0.083 ± 0.005
+  drift class code                       0.063 ± 0.005
+  collapse index (class layer chars)     0.030 ± 0.000
+  collapse index (whole area)            0.030 ± 0.000
+  whole-area word within                 0.079 ± 0.002
+  whole-area word between                0.073 ± 0.003
+
+== Tl03  seeds [0, 1, 2, 3, 4]
+  held decode pooled 16/20 = 0.800
+  within > between on 2/5; cross-modal matched > mismatched on 5/5
+  held decode (class code)               0.800 ± 0.112
+  held margin                            0.020 ± 0.008
+  seen decode (LOO)                      0.433 ± 0.091
+  within                                 0.129 ± 0.012
+  between                                0.124 ± 0.012
+  within/between                         1.039 ± 0.066
+  cross-modal matched                    0.165 ± 0.011
+  cross-modal mismatched                 0.153 ± 0.012
+  cross-modal diff                       0.011 ± 0.003
+  cross-modal 12-way top-1               0.244 ± 0.087
+  drift whole area, words                0.141 ± 0.054
+  drift class code                       0.153 ± 0.054
+  collapse index (class layer chars)     0.058 ± 0.004
+  collapse index (whole area)            0.058 ± 0.004
+  whole-area word within                 0.249 ± 0.017
+  whole-area word between                0.243 ± 0.016
+
+-- paired B0 - L20 (10 seeds)
+  P_held         -0.125 ± 0.212  (up on 1/10)
+  P_margin       -0.003 ± 0.005  (up on 3/10)
+  P_within       -0.004 ± 0.003  (up on 0/10)
+  P_between      -0.001 ± 0.002  (up on 4/10)
+  P_wb           -0.003 ± 0.005  (up on 3/10)
+  xm_diff        0.010 ± 0.002  (up on 10/10)
+  xm_top1        0.064 ± 0.056  (up on 8/10)
+  drift_words    -0.020 ± 0.003  (up on 0/10)
+  P_drift        -0.042 ± 0.010  (up on 0/10)
+  P_collapse     -0.001 ± 0.000  (up on 0/10)
+
+-- paired BENCH - L20 (5 seeds)
+  P_held         -0.050 ± 0.209  (up on 1/5)
+  P_margin       -0.008 ± 0.021  (up on 2/5)
+  P_within       0.073 ± 0.027  (up on 5/5)
+  P_between      0.071 ± 0.028  (up on 5/5)
+  P_wb           0.001 ± 0.009  (up on 3/5)
+  xm_diff        -0.012 ± 0.002  (up on 0/5)
+  xm_top1        -0.456 ± 0.091  (up on 0/5)
+  drift_words    0.025 ± 0.008  (up on 5/5)
+  P_drift        0.065 ± 0.019  (up on 5/5)
+  P_collapse     0.011 ± 0.000  (up on 5/5)
+
+-- paired LEAN - L20 (10 seeds)
+  P_held         -0.050 ± 0.158  (up on 1/10)
+  P_margin       -0.017 ± 0.016  (up on 0/10)
+  P_within       0.104 ± 0.024  (up on 10/10)
+  P_between      0.045 ± 0.019  (up on 10/10)
+  P_wb           0.059 ± 0.029  (up on 10/10)
+  xm_diff        -0.001 ± 0.003  (up on 4/10)
+  xm_top1        -0.214 ± 0.082  (up on 0/10)
+  drift_words    0.012 ± 0.008  (up on 10/10)
+  P_drift        0.037 ± 0.027  (up on 10/10)
+  P_collapse     0.009 ± 0.001  (up on 10/10)
+
+-- paired LETTER - L20 (5 seeds)
+  P_held         0.400 ± 0.285  (up on 4/5)
+  P_margin       0.183 ± 0.037  (up on 5/5)
+  P_within       0.265 ± 0.045  (up on 5/5)
+  P_between      0.084 ± 0.021  (up on 5/5)
+  P_wb           0.181 ± 0.038  (up on 5/5)
+  xm_diff        -0.006 ± 0.003  (up on 0/5)
+  xm_top1        -0.311 ± 0.066  (up on 0/5)
+  drift_words    0.101 ± 0.008  (up on 5/5)
+  P_drift        0.112 ± 0.019  (up on 5/5)
+  P_collapse     0.024 ± 0.002  (up on 5/5)
+
+-- paired T3 - L20 (10 seeds)
+  P_held         0.225 ± 0.184  (up on 7/10)
+  P_margin       0.060 ± 0.024  (up on 10/10)
+  P_within       0.116 ± 0.021  (up on 10/10)
+  P_between      0.033 ± 0.007  (up on 10/10)
+  P_wb           0.083 ± 0.022  (up on 10/10)
+  xm_diff        0.001 ± 0.004  (up on 3/10)
+  xm_top1        -0.217 ± 0.121  (up on 0/10)
+  drift_words    0.008 ± 0.002  (up on 10/10)
+  P_drift        0.039 ± 0.011  (up on 10/10)
+  P_collapse     0.014 ± 0.003  (up on 10/10)
+
+-- paired T6 - L20 (10 seeds)
+  P_held         0.425 ± 0.237  (up on 9/10)
+  P_margin       0.090 ± 0.026  (up on 10/10)
+  P_within       0.137 ± 0.021  (up on 10/10)
+  P_between      0.037 ± 0.009  (up on 10/10)
+  P_wb           0.100 ± 0.021  (up on 10/10)
+  xm_diff        0.001 ± 0.002  (up on 7/10)
+  xm_top1        -0.164 ± 0.121  (up on 0/10)
+  drift_words    0.014 ± 0.003  (up on 10/10)
+  P_drift        0.059 ± 0.014  (up on 10/10)
+  P_collapse     0.009 ± 0.002  (up on 10/10)
+
+-- paired Tb1 - L20 (5 seeds)
+  P_held         0.050 ± 0.274  (up on 1/5)
+  P_margin       0.009 ± 0.007  (up on 4/5)
+  P_within       0.047 ± 0.005  (up on 5/5)
+  P_between      0.035 ± 0.008  (up on 5/5)
+  P_wb           0.011 ± 0.004  (up on 5/5)
+  xm_diff        -0.009 ± 0.002  (up on 0/5)
+  xm_top1        -0.394 ± 0.108  (up on 0/5)
+  drift_words    0.052 ± 0.008  (up on 5/5)
+  P_drift        0.014 ± 0.016  (up on 4/5)
+  P_collapse     -0.000 ± 0.000  (up on 1/5)
+
+-- paired Tl03 - L20 (5 seeds)
+  P_held         0.250 ± 0.177  (up on 4/5)
+  P_margin       0.020 ± 0.012  (up on 5/5)
+  P_within       0.099 ± 0.012  (up on 5/5)
+  P_between      0.094 ± 0.014  (up on 5/5)
+  P_wb           0.005 ± 0.011  (up on 3/5)
+  xm_diff        -0.011 ± 0.004  (up on 0/5)
+  xm_top1        -0.556 ± 0.096  (up on 0/5)
+  drift_words    0.109 ± 0.058  (up on 5/5)
+  P_drift        0.104 ± 0.064  (up on 4/5)
+  P_collapse     0.028 ± 0.004  (up on 5/5)
+
+-- paired BENCH - B0 (5 seeds)
+  P_held         0.100 ± 0.224  (up on 3/5)
+  P_margin       -0.005 ± 0.024  (up on 2/5)
+  P_within       0.077 ± 0.027  (up on 5/5)
+  P_between      0.071 ± 0.028  (up on 5/5)
+  P_wb           0.006 ± 0.006  (up on 4/5)
+  xm_diff        -0.022 ± 0.003  (up on 0/5)
+  xm_top1        -0.494 ± 0.099  (up on 0/5)
+  drift_words    0.044 ± 0.007  (up on 5/5)
+  P_drift        0.102 ± 0.011  (up on 5/5)
+  P_collapse     0.012 ± 0.000  (up on 5/5)
+
+-- paired L20 - B0 (10 seeds)
+  P_held         0.125 ± 0.212  (up on 5/10)
+  P_margin       0.003 ± 0.005  (up on 7/10)
+  P_within       0.004 ± 0.003  (up on 10/10)
+  P_between      0.001 ± 0.002  (up on 6/10)
+  P_wb           0.003 ± 0.005  (up on 7/10)
+  xm_diff        -0.010 ± 0.002  (up on 0/10)
+  xm_top1        -0.064 ± 0.056  (up on 1/10)
+  drift_words    0.020 ± 0.003  (up on 10/10)
+  P_drift        0.042 ± 0.010  (up on 10/10)
+  P_collapse     0.001 ± 0.000  (up on 10/10)
+
+-- paired LEAN - B0 (10 seeds)
+  P_held         0.075 ± 0.237  (up on 4/10)
+  P_margin       -0.014 ± 0.018  (up on 2/10)
+  P_within       0.107 ± 0.023  (up on 10/10)
+  P_between      0.045 ± 0.018  (up on 10/10)
+  P_wb           0.062 ± 0.027  (up on 10/10)
+  xm_diff        -0.012 ± 0.003  (up on 0/10)
+  xm_top1        -0.278 ± 0.100  (up on 0/10)
+  drift_words    0.032 ± 0.007  (up on 10/10)
+  P_drift        0.079 ± 0.020  (up on 10/10)
+  P_collapse     0.010 ± 0.001  (up on 10/10)
+
+-- paired LETTER - B0 (5 seeds)
+  P_held         0.550 ± 0.209  (up on 5/5)
+  P_margin       0.186 ± 0.038  (up on 5/5)
+  P_within       0.270 ± 0.046  (up on 5/5)
+  P_between      0.084 ± 0.019  (up on 5/5)
+  P_wb           0.186 ± 0.039  (up on 5/5)
+  xm_diff        -0.016 ± 0.003  (up on 0/5)
+  xm_top1        -0.350 ± 0.095  (up on 0/5)
+  drift_words    0.120 ± 0.010  (up on 5/5)
+  P_drift        0.150 ± 0.021  (up on 5/5)
+  P_collapse     0.025 ± 0.002  (up on 5/5)
+
+-- paired T3 - B0 (10 seeds)
+  P_held         0.350 ± 0.211  (up on 9/10)
+  P_margin       0.063 ± 0.024  (up on 10/10)
+  P_within       0.119 ± 0.019  (up on 10/10)
+  P_between      0.033 ± 0.006  (up on 10/10)
+  P_wb           0.086 ± 0.019  (up on 10/10)
+  xm_diff        -0.009 ± 0.005  (up on 1/10)
+  xm_top1        -0.281 ± 0.127  (up on 0/10)
+  drift_words    0.029 ± 0.002  (up on 10/10)
+  P_drift        0.081 ± 0.006  (up on 10/10)
+  P_collapse     0.015 ± 0.003  (up on 10/10)
+
+-- paired T6 - B0 (10 seeds)
+  P_held         0.550 ± 0.284  (up on 9/10)
+  P_margin       0.092 ± 0.025  (up on 10/10)
+  P_within       0.140 ± 0.019  (up on 10/10)
+  P_between      0.037 ± 0.009  (up on 10/10)
+  P_wb           0.103 ± 0.018  (up on 10/10)
+  xm_diff        -0.009 ± 0.003  (up on 0/10)
+  xm_top1        -0.228 ± 0.138  (up on 0/10)
+  drift_words    0.034 ± 0.004  (up on 10/10)
+  P_drift        0.101 ± 0.011  (up on 10/10)
+  P_collapse     0.010 ± 0.002  (up on 10/10)
+
+-- paired Tb1 - B0 (5 seeds)
+  P_held         0.200 ± 0.209  (up on 3/5)
+  P_margin       0.012 ± 0.006  (up on 5/5)
+  P_within       0.051 ± 0.004  (up on 5/5)
+  P_between      0.035 ± 0.007  (up on 5/5)
+  P_wb           0.016 ± 0.004  (up on 5/5)
+  xm_diff        -0.020 ± 0.003  (up on 0/5)
+  xm_top1        -0.433 ± 0.099  (up on 0/5)
+  drift_words    0.070 ± 0.006  (up on 5/5)
+  P_drift        0.052 ± 0.006  (up on 5/5)
+  P_collapse     0.001 ± 0.000  (up on 5/5)
+
+-- paired Tl03 - B0 (5 seeds)
+  P_held         0.400 ± 0.224  (up on 5/5)
+  P_margin       0.023 ± 0.006  (up on 5/5)
+  P_within       0.103 ± 0.011  (up on 5/5)
+  P_between      0.094 ± 0.012  (up on 5/5)
+  P_wb           0.010 ± 0.005  (up on 5/5)
+  xm_diff        -0.021 ± 0.004  (up on 0/5)
+  xm_top1        -0.594 ± 0.080  (up on 0/5)
+  drift_words    0.128 ± 0.056  (up on 5/5)
+  P_drift        0.142 ± 0.056  (up on 5/5)
+  P_collapse     0.029 ± 0.004  (up on 5/5)

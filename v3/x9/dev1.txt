@@ -1,0 +1,8 @@
+Tl_b10 arm=Tl seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.1
+Tl_b20 arm=Tl seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.2
+Tl_b40 arm=Tl seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.4
+Tb_b10 arm=Tb seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.1
+Tb_b20 arm=Tb seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.2
+Tbl_b10 arm=Tbl seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.1
+Tbl_b20 arm=Tbl seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.2
+B0_off0 arm=B0 seed=100 eta_ff_off=0.0 g_E=0.05

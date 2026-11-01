@@ -1,0 +1,8 @@
+Tb_a40_b04 arm=Tb seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.4
+Tb_a40_b07 arm=Tb seed=100 eta_ff_off=0.0 g_E=0.05 beta=0.7
+Tb_a15_b06 arm=Tb seed=100 eta_ff_off=0.0 cA=15 g_E=0.13 beta=0.6
+Tb_a15_b10 arm=Tb seed=100 eta_ff_off=0.0 cA=15 g_E=0.13 beta=1.0
+Tb_a15_b16 arm=Tb seed=100 eta_ff_off=0.0 cA=15 g_E=0.13 beta=1.6
+Tb_a15_b10_i3k arm=Tb seed=100 eta_ff_off=0.0 cA=15 g_E=0.13 beta=1.0 n_ins=3000 ins_gap=600
+Tb_a15_b16_i3k arm=Tb seed=100 eta_ff_off=0.0 cA=15 g_E=0.13 beta=1.6 n_ins=3000 ins_gap=600
+B0_a15 arm=B0 seed=100 eta_ff_off=0.0 cA=15 g_E=0.13

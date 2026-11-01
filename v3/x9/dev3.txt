@@ -1,0 +1,8 @@
+L2_b03 arm=L2 seed=100 beta2=0.3
+L2_b10 arm=L2 seed=100 beta2=1.0
+L2_b30 arm=L2 seed=100 beta2=3.0
+L2_b10_cK20 arm=L2 seed=100 beta2=1.0 cK=20
+L2_b10_eK arm=L2 seed=100 beta2=1.0 eta_K=0.02
+L2_b10_i3k arm=L2 seed=100 beta2=1.0 n_ins=3000 ins_gap=600
+L2_b10_slow arm=L2 seed=100 beta2=1.0 gamma2=0.99995
+L2_b10_f10 arm=L2 seed=100 beta2=1.0 f2=0.1
