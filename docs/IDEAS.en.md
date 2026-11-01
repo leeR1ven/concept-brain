@@ -552,3 +552,28 @@ build every shortcut is swapped back to neurons or proven equivalent.
 They drifted away from the designer's original design: binary neurons, distributed codes, random connections from
 birth, and loops that hold thoughts. They are also why one misheard syllable costs about 30 % (#14) and why models
 cannot be merged (#19).
+
+## 22. Strong, frequently used connections resist change: learn once, keep it (designer, 2026-11-01)
+
+**Idea:** "模型容易崩溃还有个原因，可能是有些权重太容易改变了，对于常使用的连接权重，应该是权重越高，越难上升，也越难下降。这样可能会保证权重稳定性……总之让模型学会一个能力后不会那么容易忘记，甚至一辈子不忘。"
+In English: the more a connection is used and the stronger it is, the harder it should be to raise and to lower, so that
+a learned ability is not easily forgotten, ideally for life.
+
+**Brain basis:** synapses show metaplasticity: how easily a synapse changes itself changes with experience (Abraham &
+Bear 1996). Used synapses are stabilised, and some dendritic spines last a lifetime (Yang, Pan & Gan 2009). In theory,
+synapses with several timescales make memory lifetime grow with the number of synapses (Fusi, Drew & Abbott 2005;
+Benna & Fusi 2016). Machine learning does something similar by lowering the learning rate of important connections
+(EWC: Kirkpatrick et al. 2017; Synaptic Intelligence: Zenke et al. 2017).
+
+**Place in the fixed core:** a property of the single plasticity rule, the same for every synapse, not a new mechanism.
+
+**A related earlier test:** the tuning round (`v2/tune/report.md`) tried "maturation", where each input unit's rate fell
+with its use, regardless of weight. Alone it helped a little; combined, it gave no net gain and was switched off. It
+targeted a different problem (interference between stages), before role-aware listening. The designer's version is per
+synapse, depends on weight and use, and slows change in both directions, so it is worth testing again.
+
+**Caution:** if wrong lessons are locked in too, they can never be corrected. The test must also measure relearning:
+change a few answers and count how many lessons the new answer takes.
+
+**Test:** experiment X2, on v2.2's collapse after 3,000 untutored dialogues, together with finding the collapse's real
+cause.
