@@ -1,6 +1,6 @@
 # Read-only census: list every named knob (with default) per layer, for the v3 gene table.
 # Run: python3 -B knob_list.py   (no .pyc written into the repo)
-import sys, inspect, os, re
+import os, sys, inspect, os, re
 R = 'v2'
 for d in ('synth', 'v21', 'hearing', 'meaning', 'randmix'):
     sys.path.insert(0, os.path.join(R, d))

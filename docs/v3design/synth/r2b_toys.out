@@ -1,0 +1,4 @@
+part1 W1 as specified | SFH (count code + designer rule): {'format': [0.0, 0.0, 1.0], 'free300': [0.0, 0.0, 1.0], 'free900': [0.0, 0.0, 1.0], 'free3000': [0.18, 0.0, 0.82]}
+part1 realistic mix, care continues 50 % | SFH (count code + designer rule): {'format': [0.0, 0.0, 1.0], 'free300': [0.0, 0.0, 1.0], 'free900': [0.0, 0.0, 1.0], 'free3000': [0.0, 0.0, 1.0]}
+part2 arm A (per tenth: first-greeting rate at arrivals, empty-room releases) [(0.48, 76.0), (0.82, 128.8), (1.0, 160.0), (1.0, 160.0), (1.0, 160.0), (1.0, 160.0), (1.0, 160.0), (1.0, 160.0), (1.0, 160.0), (1.0, 160.0)]
+part2 arm B (per tenth: first-greeting rate at arrivals, empty-room releases) [(0.44, 8.6), (0.6, 3.0), (0.76, 3.8), (0.8, 1.6), (0.8, 0.2), (0.8, 0.8), (0.83, 1.6), (0.9, 3.0), (0.78, 1.0), (0.62, 0.6)]
