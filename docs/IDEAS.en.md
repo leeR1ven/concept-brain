@@ -529,3 +529,26 @@ allowed early in life, and once the model is grown up they must reach 0 and stay
 **Why:** real infants overlap with adults early and learn turn-taking slowly. Requiring 0 errors from birth forced us
 to hand-write turn reflexes fitted to the bench world's timing. Allowing childhood errors lets those reflexes be deleted
 and learned from experience. The innate brake, "pause when someone else is talking", stays.
+
+## 21. The final product must be a pure-neuron model (designer's decision, 2026-11-01)
+
+**Decision:** the final model consists only of neurons, synapses, local learning rules and a few broadcast signals. It
+uses no symbols (IDs, lists), no key-value tables and no task-specific code. Only the simulator itself (one update rule
+for every neuron and synapse each tick), the world and the body sit outside the neurons.
+
+**Exception during development:** a piece of code may stand in for a neuron circuit in tests, but only if it is
+equivalent to that circuit (for example, picking the strongest few directly instead of simulating inhibitory neurons)
+and it makes the tests faster. Each such shortcut must name its circuit and pass an equivalence check. Before the final
+build every shortcut is swapped back to neurons or proven equivalent.
+
+**Why:** to experiment quickly, today's model uses many program parts:
+- syllable IDs;
+- a thought list of at most 12 IDs;
+- weight tables looked up by feature name;
+- hippocampal episodes stored as records;
+- timers;
+- vision codes handed over by the world.
+
+They drifted away from the designer's original design: binary neurons, distributed codes, random connections from
+birth, and loops that hold thoughts. They are also why one misheard syllable costs about 30 % (#14) and why models
+cannot be merged (#19).
