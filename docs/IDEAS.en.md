@@ -521,6 +521,14 @@ connections.** "等模型长大后可以融合然后再稍微随机化连接，�
     Inheriting learned connections directly is an engineering shortcut, closer to culture and teaching. That is
     acceptable for our goal.
 
+**Designer's addendum (2026-11-01, after the X4 merge experiment): the merged offspring does not simply know many
+things.** "融合后的模型不是直接就会很多事，而是有整体大概的记忆，就像孩子一样还需要重新学习，只是可能学得更快，甚至有些能力天生就有。"
+In English: the merged model carries an overall rough memory and, like a child, must relearn; it may only learn
+faster, and some abilities may be there from birth.
+- So a merge is judged by how much **faster** the offspring relearns its parents' abilities than a fresh birth does,
+  and by which abilities are **present at birth**.
+- How much of the parents' knowledge survives on day 0 is a secondary number, not the pass criterion.
+
 ## 20. Errors are allowed in childhood; 0 errors are required once grown up (designer's decision, 2026-11-01)
 
 **Decision:** the old principle forbade any talk-over or garble from birth. Now occasional overlaps and errors are
