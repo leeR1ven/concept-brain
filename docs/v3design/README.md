@@ -15,7 +15,7 @@ folder holds its report and its small analytic scripts.
 - **`develop/`:** innate drives, the world and a curriculum.
 - **`eval/`:** a sealed test that cannot be passed by designing on it.
 
-A synthesis into one core (`ARCH_v3_core`) and an adversarial review follow. Paths of the form `arch/v2/...` refer to
+**The synthesis is `synth/ARCH_v3_core.md`:** one fixed core of 4 mechanisms, 2 broadcasts, 2 objectives and 5 innate priors (17 sub-items), a 30-gene genome, lineage inheritance, the maturity rule, a neuron-level form for every part, a 13-step migration ladder from v2.2 and the first five experiments. An adversarial review follows. Paths of the form `arch/v2/...` refer to
 the coordinator's working tree; the published parts live in `v2/`, and v2.2 (`arch/v2/v22/`) is still in progress.
 
 ## 中文摘要
@@ -31,4 +31,5 @@ the coordinator's working tree; the published parts live in `v2/`, and v2.2 (`ar
   - 再加少数先天部分：连线蓝图、脑干节律、朝向人脸和声音、驱力和社交奖励。
 - **学习理论：** "学会任何事"字面上做不到，能做到的是"机制数量不随能力增加"。最大的风险是：不用反向传播，在一生连续学习中能否学到抽象的中间表示。
 - **发育：** 大人纠正孩子却学不进去，主要是世界的问题。现在的世界从不示范"问题后面紧跟答案"（自问自答、旁听别人问答、把问答重说一遍）。只要世界有这些，一个不加任何角色规则的学习者就能学会，而且不忘。
+- **综合方案（`synth/ARCH_v3_core.md`）：** 4 个通用机制（各脑区同一种电路、一条三因子学习规则、海马一次记忆加回放、基底节闸门）、2 个广播信号、5 项先天部分；关键新结构是前额叶记"最近一件事是谁说的、过去了多久"；30 个基因，265 个手调参数删掉 189 个；同一血统长大后融合生成后代；最终成品为纯神经元；从 v2.2 出发分 13 步迁移。
 - **测试：** 先冻结代码，再出题；新题型连设计者都没见过，只开封一次；模型只能看到感官输入；放大必须是整个模型按同一个倍数放大。

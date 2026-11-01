@@ -1,0 +1,32 @@
+knobs 265 {'size': 11, 'gene': 38, 'del': 189, 'species': 25, 'seed': 2} unmapped []
+G1   a_mix  conjunction-area active fraction                 <- RandMix.alpha
+G2   k_th   items held in the slow persistent area           <- SCfg.ct_k
+G3   lam    held-content factor when a new event loads       <- SCfg.ct_lam
+G4   th_acc category acceptance threshold                    <- DevAgent.theta_z
+G5   tau_set adaptive set-point time constant                <- AgentH.h_tau, MeanCodes.tau_b, SoundGate.tau
+G6   k_on   present-margin above the set-point (ear, eye, brake) <- AgentH.h_kon, Body.f_thr, SoundGate.k_on
+G7   tau_fat fatigue time constant                           <- SCfg.ct_fat_tau
+G8   w_td   top-down (restoration) weight cap                <- (new)
+G9   T0     shortest time-cell bin                           <- (new)
+G10  eta_p  prediction-form rate                             <- Cfg.eta, Cfg.eta_critic, Cfg.eta_recall, ThinkAgent.eta_oth
+G11  eta_v  value-form rate (actor, gates)                   <- Cfg.eta_g, Cfg.eta_actor, RCfg.eta_act, ThinkAgent.eta_go
+G12  eta_r  representation-form rate floor (sensory)         <- DevAgent.z_rate
+G13  r_eta  plasticity ratio per hierarchy level             <- Cfg.eta_prime, Cfg.eta_attd, SCfg.ct_assoc_eta, MeanCodes.eta_min, RandMix.eta
+G14  tau_e  eligibility time constant                        <- RCfg.act_T, AgentV21.react_T
+G15  T_pr   prune age in the unit's own firings              <- Cfg.prune_age, RandMix.age
+G16  a_dg   DG active fraction                               <- Cfg.hip_kdg
+G17  h_hip  hippocampal half-life / capacity                 <- Cfg.hip_gamma
+G18  rho_rec recency exponent of recall                      <- SCfg.hip_rho
+G19  th_rec recall overlap threshold                         <- Cfg.hip_theta
+G20  n_rep  reactivations per quiet period                   <- Cfg.recall_n
+G21  u      urgency per tick                                 <- ThinkAgent.u_reply
+G22  eps    exploration rate                                 <- (new)
+G23  tau_ref refractoriness after release                    <- (new)
+G24  gamma  TD discount per tick                             <- (new)
+G25  tau_mu ACh-like mode time constant                      <- DevAgent.quiet_ticks, SynthAgent.quiet_ticks
+G26  r_bab  spontaneous babble rate                          <- Body.babble_rate
+G27  w_food value: hunger relief                             <- (new)
+G28  w_resp value: being responded to                        <- (new)
+G29  w_plea value: other pleased                             <- (new)
+G30  w_upset value: other upset or hurt (>= 1.5 w_plea)      <- (new)
+genes fed by today's knobs: 21  new genes: 9  total genes: 30

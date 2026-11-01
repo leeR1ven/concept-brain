@@ -1,0 +1,68 @@
+== (a) delta rule: p after n consistent exposures, eta 0.35 (bench R2)
+   n=1: p = 1 - 0.65^n = 0.350
+   n=2: p = 1 - 0.65^n = 0.577
+   n=3: p = 1 - 0.65^n = 0.725
+   n=5: p = 1 - 0.65^n = 0.884
+   n=8: p = 1 - 0.65^n = 0.968
+== accumulator I += G*e + u (bound 1), u = 0.15
+   G=1.0, e=0.6: step 0.75/tick -> release after 2 ticks
+   G=0.8, e=0.6: step 0.63/tick -> release after 2 ticks
+   G=1.0, e=0.0: step 0.15/tick -> release after 7 ticks
+   G=0.3, e=0.3: step 0.24/tick -> release after 5 ticks
+== soft log time bins [2^k, 2^(k+2)): which bins each delay activates
+   tau=  1: bins [0]
+   tau=  3: bins [0, 1]
+   tau=  5: bins [1, 2]
+   tau=  6: bins [1, 2]
+   tau=  8: bins [2, 3]
+   tau= 10: bins [2, 3]
+   tau= 12: bins [2, 3]
+   tau= 16: bins [3, 4]
+   tau= 30: bins [3, 4]
+   tau= 33: bins [4, 5]
+   tau= 45: bins [4, 5]
+   tau= 60: bins [4, 5]
+== (b) restoration s = m + w*pi; accept if s >= 0.75; w = w_max*(1 - pi_ear)
+   w_max 0.15, pi_ear 1.0: w = 0.000
+   w_max 0.15, pi_ear 0.33: w = 0.100
+   w_max 0.15, pi_ear 0.0: w = 0.150
+   w=0.10 m=0.68 pi=0.85: s=0.765 -> accepted
+   w=0.10 m=0.66 pi=0.85: s=0.745 -> not accepted
+   w=0.10 m=0.7 pi=0.6: s=0.760 -> accepted
+   w=0.10 m=0.62 pi=0.1: s=0.630 -> not accepted
+   w=0.10 m=0.7 pi=0.3: s=0.730 -> not accepted
+   clean window vs another lexicon char: 0.96 - 0.77 = 0.19 > w_max 0.15 -> never overridden
+== eligibility decay e^(-dt/tau_e), tau_e = 20 ticks
+   dt=5: 0.78
+   dt=11: 0.58
+   dt=16: 0.45
+   dt=25: 0.29
+   dt=32: 0.20
+   dt=45: 0.11
+== learned NoGo after late-start overlaps: step = eta_v * |delta| * e, eta_v 0.2, |delta| 0.5, e 0.5
+   step 0.050 per event -> 10 events to move Go-NoGo by 0.5
+== pure-neuron build, s = 1 (ASSUMED sizes; synapses = units x fan-in)
+   EAR0 (fixed local 3-D)             units   1920  synapses   0.01 M
+   SYL assemblies (k=16)              units   2048  synapses   0.13 M
+   VOICE                              units    256  synapses   0.02 M
+   EYE (adapting)                     units   1024  synapses   0.00 M
+   VR eye->word                       units   2048  synapses   0.07 M
+   MEAN                               units    512  synapses   0.13 M
+   LATEST (item x age x source)       units  16384  synapses   0.05 M
+   THOUGHT (persistent)               units   4096  synapses   0.26 M
+   TIME + P4 detectors                units     64  synapses   0.00 M
+   MIX conjunctions                   units  48000  synapses   0.43 M
+   GEN out (fan-out 64 from MIX)      units   2049  synapses   3.07 M
+   M4 gates + critic (event-driven: 480 active inputs) units     11  synapses   0.53 M
+   motor programs + forward/inverse   units   2048  synapses   0.26 M
+   DG                                 units   6000  synapses   0.07 M
+   CA3 (fixed fan-in 1000)            units  10000  synapses  10.00 M
+   CA1 -> cortex                      units  10000  synapses   0.64 M
+   total units 106 k, synapses 15.7 M, lit synaptic events per speech tick ~0.16 M
+   memory (4 B weight + 4 B index per synapse) ~125 MB at s=1, ~502 MB at s=4
+   CPU numpy, s=1: ~498 s per 1e6-tick life (speech 328 + silent 170)
+   CPU numpy, s=4: ~1,993 s per 1e6-tick life (speech 1,313 + silent 680)
+   born-wired calibration: 750k cells / 2M synapses at 13.3 ms per tick, unbatched consumer GPU -> 1e6 ticks = 13,300 s if a v3 agent cost the same per tick
+== lineage loop on the A800 CPU runner (4 processes x 90 min per job)
+   one life + probes 1630 s -> 12 lives per job; P=12 per generation -> 1 job/generation
+   10 generations x 2 lineages = 20 jobs ~ 15 h wall at 2 slots

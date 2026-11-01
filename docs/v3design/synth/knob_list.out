@@ -1,0 +1,29 @@
+== Cfg (85)
+   V=400, n_eye=400, eta=0.35, eta_g=0.5, eta_sleep=0.2, mature=0.0, gain=1.0, floor=0.25, max_len=8, use_gen=True, copy_prompt=True, copy_next=True, copy_comp=True, hippo=True, ctx=True, att_learn=True, match=True, kappa=2.0, focus=True, reward_actor=True, sleep_replay=True, learn_listen=True, retino=True, branch_norm=False, rf_focus=True, rf_thr=0.6, eta_prime=0.02, eta_attd=0.02, match_thr=0.6, rec_thr=0.85, vis_rec=True, self_ground=True, rate_max=0.4, conf_min=6, match_n=6, attd_n=2, prime_internal=False, hip_gamma=0.9995, hip_cap=3000, hip_ndg=3000, hip_kdg=60, mix_cap=600000, ctx_n=800, ctx_k=24, gen_mmin=0.0, sleep_mode='strength', sleep_passes=3, sleep_k=60, hip_theta=0.2, hip_bigram=False, own_rotate=False, dialogue_reset=False, role_units=False, gate_noid=False, gate_freq=False, hip_novelty=1.0, contingency=10, w_scene=1.0, w_ctx=1.0, ctx_lam=0.9, ctx_homeo=True, mat_norm=0.0, mature_g=0.0, gate_mmin=0.0, eta_critic=0.2, eta_actor=0.3, wd_gen=0.0, wd_gate=0.0, wd_every=200, recall_n=0, eta_recall=0.2, rec_pow=1.0, rec_boost=0.0, split_use=0, split_err=0.5, split_n=5, recruit_p=1.0, prune_age=0, prune_every=20000, ctx_beta=2.0, ctx_tau=200.0, match_min=0.5, match_gap=0.3, att_thr=0.5, seed=0
+== TCfg (5)
+   think_k=8, ior=True, adopt_margin=0.05, nop_keys=True, scene_recall=True
+== SCfg (17)
+   ct=False, ct_lam=0.3, ct_theta=0.5, ct_tau=0.0, ct_k=12, ct_own=0.0, ct_surp=0.0, ct_gain=1.0, ct_assoc=0.0, ct_assoc_eta=0.02, ct_fat=0.1, ct_fat_tau=20.0, hip_rho=0.5, seg=0, rel=False, name_ctx=0.0, name_vr_only=True
+== RCfg (26)
+   ral=0, ral_W=12, ral_cont='r', ral_theta=0.3, ral_T=60, ral_strict=0, ral_hip_own=0, ral_replay_own=0.0, ral_cut=1, ral_init=0.0, ral_other=0, ral_W_other=6, ral_q=0, ral_q_eta=0.1, ral_q_thr=0.5, ral_q_prior=0.5, say_rec=0, say_loc=0, say_gain=1.0, say_loc_thr=0.8, say_noprompt=1, scene_held=0, val_act=0, eta_act=0.05, act_T=0, rec_fix=0
+== DevAgent (7)
+   seed=0, V=256, theta_z=0.75, z_rate=0.1, learn_cats=True, quiet_ticks=12, life_eye=False
+== ThinkAgent (24)
+   policy='free', theta_I=1.0, g0_reply=1.0, g0_scene=0.3, u_reply=0.05, u_scene=0.0, beta=2.0, g_max=3.0, nogo=0.25, nogo_late=0.05, L=10, eta_oth=0.2, eta_go=0.2, learn_turn=True, tau_w=7, urg_gate=True, close_on_scene=True, oth_kind=False, brake_now=False, eye_feats=False, no_react=False, late_release=True, u_R1=1.0, own_tail=False
+== SynthAgent (6)
+   quiet_ticks=<class 'int'>, wander=<class 'int'>, rebind=<class 'int'>, wander_after=<class 'int'>, turn_feats=<class 'str'>, init_min_tau=<class 'int'>
+== AgentV21 (5)
+   voice=<class 'int'>, val_veto=<class 'float'>, dip=<class 'int'>, soc_feats=<class 'int'>, react_T=<class 'int'>
+== AgentH (16)
+   h_gate=<class 'int'>, h_back=<class 'int'>, h_relock=<class 'int'>, h_vbound=<class 'int'>, h_nocreate=<class 'int'>, h_conf=<class 'int'>, h_level=<class 'int'>, h_denoise=<class 'int'>, h_kon=<class 'float'>, h_koff=<class 'float'>, h_kback=<class 'float'>, h_tau=<class 'float'>, h_trim=<class 'float'>, h_stuck=<class 'int'>, h_lock=<class 'float'>, h_lvth=<class 'float'>
+== MeanCodes (20)
+   V=400, D=512, kx=6, km=16, eta_min=0.002, tau_b=20000.0, h=0.2, U=20, m_min=0.02, n_min=3, mode='ri', alpha=0.5, kcl=16, eta_c=0.02, tau_cl=500.0, eps=0.001, bfloor=-1.0, init='rand', max_swap=2, kcls=6
+== RandMix (20)
+   scale=1.0, fan=3, alpha=0.01, n_c=512, k_c=16, k_s=16, n_f=240, code='acou', r_f=24, train=0, eta=0.02, every=200, prune=0, age=20000, regrow=1, birth=1.0, min_units=32, theta=1.0, cache_cap=20000, alloc='mix'
+== Body (16)
+   n_prog=2048, cue_w=10.0, end_push=100.0, theta=0.02, rho=1.0, end_rule='max', Ub=0.1, rep=0.0, breath=12, f_w=0.01, f_thr=0.1, cd_len=4, recruit='cue', babble_rate=0.0, keep='reward', keep_window=15
+== SoundGate (8)
+   k_on=7.0, k_off=4.0, tau=500.0, stuck=600, backtrack=1, nu_min=0.0, k_trim=4.0, k_back=None
+== AgentV22 (10)
+   veto_R1='int', dip_scope='str', dip_g='float', dip_pthr='float', veto_eps='float', veto_W='int', veto_rel='float', veto_gate='float', veto_fast='float', gain_reply='int'
+total 265
