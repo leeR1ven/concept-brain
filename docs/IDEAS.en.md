@@ -504,3 +504,28 @@ is tested on its own.
   categories in the order it hears them and regrows connections after pruning, so two individuals drift apart in
   wiring and cannot be merged directly yet. The new core's fixed-size sparse wiring from birth would help.
 - **Merging is an engineering extra that brains cannot do; reproduction that passes on only genes is the brain's way.**
+
+**Designer's addendum (2026-11-01): merge the grown-ups, add a little randomness, and the offspring are born with
+connections.** "等模型长大后可以融合然后再稍微随机化连接，生成后代，这时后代已经有一定的连接后，就不需要专门的机制去控制它该什么时候干什么了。"
+- Generation 0 has only the general mechanisms and a few innate parts. It learns from experience when to speak and how
+  to take turns, with errors allowed in childhood (#20).
+- When they are grown up, the learned connections of good individuals are merged, slightly randomised, and become the
+  birth connections of the offspring. "When to do what" then comes from inherited connections, with no dedicated rule.
+- **Points to watch:**
+  - Only individuals with the same birth wiring can be merged directly. Offspring of one lineage are all born from
+    the same merged model, so they can be merged; generation 0 must start from one shared birth wiring.
+  - Learned skills (the slow cortical connections) are inherited; specific memories are not, so the hippocampus and
+    the thought start empty. Drives and values stay innate and fixed, and are never merged away.
+  - Sealed test tasks must never appear in any ancestor's life, or the exam would be inherited.
+  - Brains inherit only genes; learned behaviour becomes innate only over many generations (the Baldwin effect).
+    Inheriting learned connections directly is an engineering shortcut, closer to culture and teaching. That is
+    acceptable for our goal.
+
+## 20. Errors are allowed in childhood; 0 errors are required once grown up (designer's decision, 2026-11-01)
+
+**Decision:** the old principle forbade any talk-over or garble from birth. Now occasional overlaps and errors are
+allowed early in life, and once the model is grown up they must reach 0 and stay there.
+
+**Why:** real infants overlap with adults early and learn turn-taking slowly. Requiring 0 errors from birth forced us
+to hand-write turn reflexes fitted to the bench world's timing. Allowing childhood errors lets those reflexes be deleted
+and learned from experience. The innate brake, "pause when someone else is talking", stays.
