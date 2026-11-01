@@ -577,3 +577,34 @@ change a few answers and count how many lessons the new answer takes.
 
 **Test:** experiment X2, on v2.2's collapse after 3,000 untutored dialogues, together with finding the collapse's real
 cause.
+
+## 23. Think on one's own when alone, recall what was useful and regular; a wide thinking range that input cannot easily break (designer, 2026-11-01)
+
+**Idea:** "实际大脑在无人时也会自己思考，回忆曾经有用有规律的事情，而不是塞满无用经历，这需要模型前额叶思考的范围不那么小，相当于多一点的上下文，即使外界信号进来也不会强行吸引前额叶注意力导致没法沉浸思考，有点像我研究的文字网络，即使激活几个和主要思考范围无关的其他字，也不会影响整个文字网络的思考范围。"
+
+**How today differs:** every heard line enters the thought at full strength, and older content is cut to 30 %, with at
+most 12 items, so one line from outside washes the thought away. The hippocampus stores every line, fills up with
+useless chatter during untutored use, and recalls at random. This may be one cause of the long-run collapse.
+
+**The designer's char network works the way the idea asks:** one global threshold keeps about 20–30 characters active
+as a "thinking range", held by their links. A few unrelated characters firing do not change the range.
+
+**Brain basis:**
+- PFC persistent activity resists distractors: held content survives irrelevant stimuli (Miller, Erickson & Desimone
+  1996). The basal ganglia decide what enters working memory (O'Reilly & Frank 2006).
+- The brain thinks and recalls spontaneously at rest (the default-mode network).
+- Replay prefers useful experiences (Mattar & Daw 2018), and rewarded ones are replayed more (Singer & Frank 2009).
+
+**In the fixed core (no new mechanism):**
+- The v3 design already separates the latest event from older thought. Replies read the latest event, so the thought
+  can keep more content for longer without disturbing the reply.
+- Widen the thinking range, with a global threshold setting how much is active (#15: PFC excitability works like
+  context length).
+- A hippocampal episode is strengthened when its recall is followed by a correct prediction or a reward, and weakens
+  otherwise. Recall prefers strong episodes, so useless chatter fades by itself.
+
+**A different, rejected attempt:** "only surprising lines enter the thought" was rejected (ARCH_v2 §7 #10), because a
+line must enter the thought to be learned. The designer's version does not block input. It makes the thinking range
+wider and steadier.
+
+**Test:** two arms in experiment X2: (T) a wider, more persistent thought; (H) useful episodes recalled first.
