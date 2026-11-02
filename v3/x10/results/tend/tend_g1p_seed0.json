@@ -1,0 +1,25 @@
+{
+ "arm": "g1p",
+ "config": {
+  "inhib": "P1",
+  "loop": "recip",
+  "g_loop": 1.0,
+  "w44": 0.0,
+  "g44": 0.1,
+  "g_hh": 0.1,
+  "g_h1": 0.1,
+  "g_ret_force": 1.6,
+  "force_per_muscle": 8,
+  "b_block": 1.2,
+  "g1p_margin": 0.1
+ },
+ "profile": {
+  "x_share": 0.8694852941176471,
+  "best_rival": 0.9659926470588235,
+  "rivals_ge_half": 33.0,
+  "x_first": 0.08823529411764706,
+  "total_share": 0.8128063924172345,
+  "muscles_ge_half": 23.294117647058822,
+  "n": 34
+ }
+}

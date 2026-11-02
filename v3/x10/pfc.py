@@ -47,15 +47,16 @@ class PFC:
         self.patch = [geom.patches(p, c['patch'], seed + 530 + l) for l, p in enumerate(self.pos)]
         self.theta = [c['theta1'], None, None, None]
         self.g_l = [c['g_pm'], None, None, None]                 # patch-neuron gain per layer (L1: internal drive)
+        self.G1P = None                                     # gen-0 speech wiring, set by g1p.py (acquired part)
         self.L1, self.L1ext = Pop(n1), Pop(n1)
         self.L2, self.L3, self.L4 = Pop(n), Pop(n), Pop(n)
         self.x_int = torch.zeros(n1, dtype=torch.bool, device=DEV)
 
     def tables(self):
-        return self.ff + [self.loop, self.lat, self.L41, self.L44]
+        return self.ff + [self.loop, self.lat, self.L41, self.L44] + ([self.G1P] if self.G1P is not None else [])
 
     def plastic(self):
-        return [self.L41, self.L44]
+        return [self.L41, self.L44] + ([self.G1P] if self.G1P is not None else [])
 
     # ------------------------------------------------------------------ inhibition [P4]
     def inhib(self, d, l, g=None):
@@ -116,6 +117,8 @@ class PFC:
         """x_ext: bool [n1], the chain input S(t-1). Returns the internally lit copies (they send returns)."""
         a4 = self.L4.on                                                     # L4(t-1), as a mask
         d1 = self.loop.drive(a4) + self.L41.drive(a4)
+        if self.G1P is not None:
+            d1 = d1 + self.G1P.drive(a4)
         x_int = self.inhib(d1, 0) > self.theta[0]
         if force_int is not None:                                           # DIAGNOSTIC hook only
             x_int = x_int | force_int
@@ -148,6 +151,8 @@ class PFC:
         ro = self.L4.rose()
         ev, rs, rc = self.l1_post()
         self.L41.learn(el, ro, ev, rs, rc)
+        if self.G1P is not None:                                            # the same rule and post event as L41
+            self.G1P.learn(el, ro, ev, rs, rc)
         r4 = self.L4.rose()
         self.L44.learn(el, ro, r4, r4, self.L4.age_prev <= fw)
 

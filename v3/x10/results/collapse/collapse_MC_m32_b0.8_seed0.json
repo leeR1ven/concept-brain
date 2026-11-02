@@ -1,0 +1,302 @@
+{
+ "mode": "collapse",
+ "arm": "MC m32 b0.8",
+ "config": {
+  "inhib": "P1",
+  "loop": "recip",
+  "g_loop": 1.0,
+  "w44": 0.0,
+  "g44": 0.1,
+  "g_hh": 0.1,
+  "g_h1": 0.1,
+  "mc": true,
+  "force_per_muscle": 32,
+  "b_block": 0.8,
+  "g_ret_force": 1.6
+ },
+ "seed": 0,
+ "n1": 4754,
+ "calib": {
+  "pfc_counts": [
+   712.9710083007812,
+   712.968017578125,
+   712.8480224609375,
+   712.8309936523438
+  ],
+  "pfc_theta": [
+   1.0,
+   0.06461468700188236,
+   0.11701156052115003,
+   0.11942179073767463
+  ],
+  "pfc_g": [
+   1.0,
+   1.0,
+   0.75,
+   0.75
+  ],
+  "hip": {
+   "theta": 0.20074709504887145,
+   "mean": 50.0,
+   "p10": 22.0,
+   "p90": 92.0
+  },
+  "online": {
+   "theta": [
+    1.0,
+    0.06461468700188236,
+    0.11701156052115003,
+    0.11942179073767463
+   ],
+   "theta_hs": 0.2028348038805438,
+   "last_counts": [
+    782.1,
+    807.0,
+    806.3,
+    812.3,
+    44.9,
+    760.8,
+    50.2
+   ],
+   "first_counts": [
+    650.4,
+    662.9,
+    636.8,
+    633.3,
+    38.5,
+    635.0,
+    37.0
+   ]
+  }
+ },
+ "chain_report": [
+  {
+   "area": "sound",
+   "layer": "A1",
+   "units": 2160,
+   "cut": [
+    0.002,
+    0.9
+   ],
+   "in_band": 0.7712962627410889,
+   "never_on": 0.22870369255542755,
+   "always_on": 0.0,
+   "chained": 1666,
+   "chained_in_band": 1666,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 1666,
+   "copies_hip": 1666,
+   "lit_silence": 213.1623077392578,
+   "lit_speech": 338.31304931640625
+  },
+  {
+   "area": "sound",
+   "layer": "A2",
+   "units": 2160,
+   "cut": [
+    0.108,
+    0.9
+   ],
+   "in_band": 0.2532407343387604,
+   "never_on": 0.7467592358589172,
+   "always_on": 0.0,
+   "chained": 547,
+   "chained_in_band": 547,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 547,
+   "copies_hip": 547,
+   "lit_silence": 132.10791015625,
+   "lit_speech": 191.6072235107422
+  },
+  {
+   "area": "sound",
+   "layer": "A3",
+   "units": 2160,
+   "cut": [
+    0.07200000000000001,
+    0.9
+   ],
+   "in_band": 0.3810185194015503,
+   "never_on": 0.6189814805984497,
+   "always_on": 0.0,
+   "chained": 823,
+   "chained_in_band": 823,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 823,
+   "copies_hip": 823,
+   "lit_silence": 60.0849494934082,
+   "lit_speech": 172.8529052734375
+  },
+  {
+   "area": "sound",
+   "layer": "A4",
+   "units": 2160,
+   "cut": [
+    0.045000000000000005,
+    0.9
+   ],
+   "in_band": 0.3212963044643402,
+   "never_on": 0.6787036657333374,
+   "always_on": 0.0,
+   "chained": 694,
+   "chained_in_band": 694,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 694,
+   "copies_hip": 694,
+   "lit_silence": 25.008026123046875,
+   "lit_speech": 91.8661117553711
+  },
+  {
+   "area": "motor",
+   "layer": "force",
+   "units": 768,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 768,
+   "copies_hip": 768,
+   "birth_rate_mean": 0.0
+  },
+  {
+   "area": "motor",
+   "layer": "stop",
+   "units": 256,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 256,
+   "copies_hip": 256,
+   "birth_rate_mean": 0.4528485834598541
+  },
+  {
+   "area": "motor",
+   "layer": "block",
+   "units": 256,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 0.5,
+   "copies_pfc": 0,
+   "copies_hip": 0,
+   "birth_rate_mean": 0.5
+  }
+ ],
+ "registry": {
+  "MC": {
+   "set": "MC",
+   "links": 323584,
+   "gain": 7.130875587463379,
+   "mc_rel": 1.2
+  }
+ },
+ "collapse": {
+  "clean": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "other": 0.0,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  },
+  "2of4": {
+   "n": 34,
+   "stronger": 0.38235294117647056,
+   "weaker": 0.0,
+   "garble": 0.2647058823529412,
+   "silent": 0.0,
+   "other": 0.35294117647058826,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  },
+  "noise": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "other": 0.0,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  },
+  "60/40 share0": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "garble": 0.0,
+   "silent": 1.0,
+   "other": 0.0,
+   "garble_any": 0.0,
+   "onset_garble": 0.0,
+   "ticks_to_settle": null
+  },
+  "50/50 share0": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "garble": 0.0,
+   "silent": 1.0,
+   "other": 0.0,
+   "garble_any": 0.0,
+   "onset_garble": 0.0,
+   "ticks_to_settle": null
+  },
+  "60/40 share1": {
+   "n": 34,
+   "stronger": 0.7647058823529411,
+   "weaker": 0.0,
+   "garble": 0.23529411764705882,
+   "silent": 0.0,
+   "other": 0.0,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  },
+  "50/50 share1": {
+   "n": 34,
+   "stronger": 0.20588235294117646,
+   "weaker": 0.17647058823529413,
+   "garble": 0.5,
+   "silent": 0.0,
+   "other": 0.11764705882352941,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  },
+  "60/40 share2": {
+   "n": 34,
+   "stronger": 0.029411764705882353,
+   "weaker": 0.0,
+   "garble": 0.9705882352941176,
+   "silent": 0.0,
+   "other": 0.0,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  },
+  "50/50 share2": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "other": 0.0,
+   "garble_any": 1.0,
+   "onset_garble": 1.0,
+   "ticks_to_settle": null
+  }
+ }
+}

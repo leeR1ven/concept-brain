@@ -13,7 +13,6 @@ import os
 from brain import Brain
 from common import config, log, save_json
 from life import Life
-from wiring import wire_g1
 import probes
 
 ap = argparse.ArgumentParser()
@@ -29,6 +28,8 @@ ap.add_argument('--configs', default=None, help='json list of overrides (a1L mod
 ap.add_argument('--quick', action='store_true')
 ap.add_argument('--a1_dialogues', type=int, default=50)
 ap.add_argument('--l_dialogues', type=int, default=300)
+ap.add_argument('--seeds', default=None, help='comma list (choose mode)')
+ap.add_argument('--context', action='store_true', help='context test at birth and at the end of a1L (choose mode)')
 a = ap.parse_args()
 os.makedirs(a.out, exist_ok=True)
 base_over = json.loads(a.base)
@@ -61,6 +62,36 @@ def build(life, over):
 
 
 bd = 30 if a.quick else 200
+
+if a.mode == 'choose':   # candidates x seeds: newborn checks + learning-on stability (extended a1L when >= 1000)
+    for seed in [int(x) for x in a.seeds.split(',')]:
+        a.seed = seed
+        life = Life(config(a.s, birth_dialogues=bd, **base_over), seed, wire=False)
+        for over in json.loads(open(a.configs).read()):
+            o = {**base_over, **over}
+            name = name_of(o)
+            c, traj = build(life, o)
+            ctx = {}
+            if a.context:
+                ctx['birth'] = probes.context_test(life, reps=2 if a.quick else 4)
+            act = probes.activity(life, 5 if a.quick else a.a1_dialogues)
+            cod = probes.newborn_codes(life, n_ctx=2 if a.quick else 4, n_noise=1, lags=12)
+            st = probes.stability(life, 30 if a.quick else a.l_dialogues) if a.l_dialogues > 0 else None
+            if a.context and st is not None:
+                ctx['after_a1L'] = probes.context_test(life, reps=2 if a.quick else 4)
+            res = dict(config=o, seed=seed, n1=life.brain.n1, calib=life.brain.calib, registry=life.registry,
+                       a1=act, a1_pass=probes.a1_pass(act), codes=cod, stability=st, context=ctx)
+            save_json(os.path.join(a.out, 'choose_' + name + '.json'), res)
+            log('choose', name, 'a1', res['a1_pass'], 'a2', cod['a2_pass'], 'a3', cod['a3_pass'],
+                'lag12', round(cod['L4_decode'][12], 3), 'Hs J margin', round(cod['Hs_J_margin'], 3),
+                'a1L', st and st['pass_'], 'ext', st and st.get('pass_ext'),
+                'trend', st and {k: round(v['ratio'], 2) for k, v in st.get('trend', {}).items()})
+            for when, cx in ctx.items():
+                for arm, v in cx.items():
+                    log('context', when, arm, 'L4 q32', [round(z, 2) for z in v['L4_q32']], 'Hs q32',
+                        [round(z, 2) for z in v.get('Hs_q32', [])], 'remembered until', v.get('L4_remembered_until'))
+    raise SystemExit(0)
+
 life = Life(config(a.s, birth_dialogues=bd, **base_over), a.seed, wire=False)
 
 if a.mode == 'newborn':
@@ -97,7 +128,6 @@ elif a.mode == 'sens':   # one-at-a-time sensitivity around the base configurati
         o = {**base_over, **extra}
         name = name_of(o)
         c, traj = build(life, o)
-        life.registry['G1'], life.codes = wire_g1(life.brain, life.coch, life.ph)
         act = probes.activity(life, 5 if a.quick else 30)
         cod = probes.newborn_codes(life, n_ctx=2 if a.quick else 4, n_noise=1, lags=12)
         st = probes.stability(life, 30 if a.quick else a.l_dialogues)
@@ -126,7 +156,6 @@ else:  # a1L: learning-on stability with the remedy ladder (§四.10 order); eve
             o = {**base_over, **over, **extra}
             name = name_of(o)
             c, traj = build(life, o)
-            life.registry['G1'], life.codes = wire_g1(life.brain, life.coch, life.ph)
             act = probes.activity(life, 5 if a.quick else 30)
             st = probes.stability(life, 30 if a.quick else a.l_dialogues)
             save_json(os.path.join(a.out, 'a1L_' + name + '.json'), dict(config=o, rung=rung, calib=life.brain.calib,

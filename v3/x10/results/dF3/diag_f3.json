@@ -1,0 +1,61 @@
+{
+ "arm": "F3",
+ "config": {
+  "inhib": "P1",
+  "loop": "recip",
+  "g_loop": 1.0,
+  "w44": 0.0,
+  "g44": 0.1,
+  "g_hh": 0.1,
+  "g_h1": 0.1,
+  "g_ret_force": 1.6,
+  "force_per_muscle": 8,
+  "b_block": 1.2,
+  "band_cut_a12": 0.6
+ },
+ "scaffold": {
+  "arm": "F3",
+  "ticks": 13770,
+  "forced_syllables": 1020,
+  "forced_ticks_decoded_right": 0.9990196078431373,
+  "windows_ok": 1.0
+ },
+ "t0-1 (before forcing)": {
+  "n": 1020,
+  "J_inner_x": 0.16871924566638158,
+  "J_heard_x": 0.08051782598396134,
+  "J_inner_other": 0.11811538873893715,
+  "J_held": 0.18811990940168377,
+  "size": 715.371568627451
+ },
+ "t0 (forced tick)": {
+  "n": 1020,
+  "J_inner_x": 0.20017048195313758,
+  "J_heard_x": 0.08175393264761345,
+  "J_inner_other": 0.1204252722154678,
+  "J_held": 0.15728758646083532,
+  "size": 835.4147058823529
+ },
+ "t0+1 (force copies rise)": {
+  "n": 1020,
+  "J_inner_x": 0.20712529118735193,
+  "J_heard_x": 0.0796640325317381,
+  "J_inner_other": 0.12165293822770451,
+  "J_held": 0.15636994387029438,
+  "size": 849.9960784313726
+ },
+ "links_from_inner_code": {
+  "l4_units_with_learned_weight_median": 3030.0,
+  "top4_exact": 0.0,
+  "margin_median": 0.553562730550766,
+  "true_other_weight_ratio": 1.1087133884429932,
+  "n_syllables": 34
+ },
+ "links_from_heard_code": {
+  "l4_units_with_learned_weight_median": 3030.0,
+  "top4_exact": 0.0,
+  "margin_median": 0.27877627313137054,
+  "true_other_weight_ratio": 1.0927542448043823,
+  "n_syllables": 34
+ }
+}

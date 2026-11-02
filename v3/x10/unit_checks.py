@@ -146,18 +146,32 @@ ok6 = g['hip'] < g['motor'] < g['pfc'] and all(
     for n, v in tg.items())
 check('6 decay order hippocampus < motor/G1 < PFC (per 200 ticks)', ok6, gammas=g, tables=tg)
 
-# 7. G1 is in the decaying (acquired) part
+# 7. G1P (gen-0 speech wiring inside the PFC) is in the decaying, learning part
 life = Life(config(a.s, birth_dialogues=60), 0)
-G1 = life.brain.motor.G1
+G1 = life.brain.pfc.G1P
 w0 = G1.w.clone()
 in_plastic = any(tb is G1 for tb in life.brain.plastic())
 G1.decay()
 pl = (1.0 / (1.0 + w0 / c['w_ref'])).clamp_min(c['floor'])
 exp = w0 - (1 - G1.gamma) * w0 * pl
 exp[exp < c['prune']] = 0
-ok7 = in_plastic and not G1.birth and torch.allclose(G1.w, exp, atol=1e-7) and float(w0.sum()) > 0
-check('7 G1 is in the decaying part (concave-slowed decay applied)', ok7, gamma=G1.gamma, links=int((w0 > 0).sum()),
-      registry=life.registry['G1'])
+ok7 = in_plastic and not G1.birth and torch.allclose(G1.w, exp, atol=1e-7) and float(w0.sum()) > 0 \
+    and G1.gamma == gammas(c)['pfc'] and G1.eta == c['eta']
+check('7 G1P is in the decaying, learning part (gamma_pfc, the rule, concave decay)', ok7, gamma=G1.gamma,
+      links=int((w0 > 0).sum()), registry=life.registry['G1P'])
+
+# 9. no table maps sound-area units to force neurons (designer 11-02: sound -> action only through the PFC)
+b9 = life.brain
+targets_force = [tb.name for tb in b9.tables() if tb.n_post == b9.motor.nf and not tb.name.startswith('motor MC')]
+import inspect as _insp
+motor_args = list(_insp.signature(type(b9.motor).step).parameters)
+ok9 = not targets_force and all(t.name.startswith('motor MC') and t.n_pre == b9.motor.nf for t in b9.motor.tables()) \
+    and not hasattr(b9.motor, 'G1') \
+    and motor_args == ['self', 'a0', 'ret_force', 'ret_stop', 'scaffold']
+check('9 no table maps sound-area units to force neurons; force neurons get only their 1:1 returns (the scaffold '
+      'argument is the teacher program of the learned-speech arm, off by default)', ok9,
+      tables_targeting_force_neurons=targets_force, motor_step_args=motor_args,
+      g1p_targets='PFC L1 force copies', tables=[(tb.name, tb.n_pre, tb.n_post) for tb in b9.tables()])
 
 # 8. count preservation at birth: the calibrated feed-forward PFC (birth loop and lateral off, so L1 = chain
 #    input) passes on about as many units as it receives, online, in silence and in speech. With the default loop
@@ -208,6 +222,46 @@ with probes.Frozen(life):
         b.step(torch.as_tensor(A0[0], device=DEV), 0.0)
         play_ok += int(bool(b.sound.state[layer][unit]))
 check('extra: a return alone lights its own sound unit (g_ret 1.05)', play_ok == 20, lit=play_ok, of=20)
+
+
+# 10. MC pattern pools (gen-0 motor synergy, 11-02): Dale (excitatory group -> own syllable's force neurons only,
+#     inhibitory group -> other muscles' force neurons only, weights >= 0, subtracted), one sampled force neuron per
+#     muscle of the syllable, every MC table acquired and decaying at gamma_motor, nothing from outside the motor
+#     area reaches force neurons; a clean 0/1 syllable input is said clean and stops when the input stops.
+from motor import Motor
+cm = config(a.s, mc=True, force_per_muscle=8, g_ret_force=1.6, b_block=1.2)
+mot = Motor(cm, life.coch, gammas(cm))
+reg = mot.set_mc(life.ph.need_mat)
+need = torch.as_tensor(life.ph.need_mat, device=DEV)
+nI, mm = cm['mc_nI'], mot.m
+syl_of = torch.arange(need.shape[0] * nI, device=DEV) // nI
+ok_e = ok_i = ok_s = True
+for p in range(0, need.shape[0] * nI, 7):
+    s_ = int(syl_of[p])
+    own = need[s_][mot.muscle_of]
+    te = mot.mc_exc.idx[p][mot.mc_exc.idx[p] < mot.nf].long()
+    ti = mot.mc_inh.idx[p][mot.mc_inh.idx[p] < mot.nf].long()
+    ok_e &= bool(own[te].all()) and te.numel() == int(own.sum())
+    ok_i &= bool((~own[ti]).all()) and ti.numel() == int((~own).sum())
+    for tb in (mot.mc_in_e, mot.mc_in_i):
+        pre = torch.nonzero((tb.idx == p).any(1)).squeeze(1)
+        ok_s &= sorted(mot.muscle_of[pre].tolist()) == sorted(torch.nonzero(need[s_]).squeeze(1).tolist())
+w_ok = all(bool((t.w >= 0).all()) and not t.birth and t.gamma == gammas(cm)['motor'] for t in mot.tables())
+said = []
+a0_sil = torch.as_tensor(A0[int(np.nonzero(sil)[0][0])], device=DEV)      # a silent tick (no brake)
+for x in range(0, need.shape[0], 3):
+    mot.force.set(torch.zeros(mot.nf, dtype=torch.bool, device=DEV))
+    seq = []
+    for t in range(6):
+        mot.inject = need[x][mot.muscle_of].float() if t < 3 else None
+        mus = mot.step(a0_sil, torch.zeros(mot.nf, dtype=torch.bool, device=DEV),
+                       torch.zeros(mot.ns, dtype=torch.bool, device=DEV))
+        seq.append(life.ph.decode(mus.cpu().numpy()))
+    mot.inject = None
+    said.append(seq[:3] == [('s', x)] * 3 and seq[4:] == [None, None])
+check('10. MC pools: Dale split, sampling, acquired at gamma_motor; clean input said and stops', ok_e and ok_i and ok_s
+      and w_ok and all(said), exc_targets_own=ok_e, inh_targets_rivals=ok_i, samples_one_per_muscle=ok_s,
+      acquired_decaying=w_ok, clean_said_and_stops=f'{sum(said)}/{len(said)}', registry=reg)
 
 save_json(a.out, R)
 sys.exit(0 if all(v['ok'] for v in R.values()) else 1)

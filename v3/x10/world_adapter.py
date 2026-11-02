@@ -108,7 +108,7 @@ class ScriptedEnv:
             key = ('s' if mouth[0] == 'm' else mouth[0], mouth[1])
             if key != self.last_key:
                 self.syl.append('~' if mouth[0] == 'g' else SYL[mouth[1]])
-                self.events.append((self.t, adult is not None))
+                self.events.append((self.t, adult is not None, mouth[0]))
             self.last_key = key
         else:
             self.last_key = None

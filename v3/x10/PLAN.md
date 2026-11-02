@@ -628,3 +628,357 @@ Registered additions:
   - R4: R3 plus g_ih 2 and patch gain +0.5.
 - **Sensitivity sweep** (`run_a.py --mode sens`): 20 one-at-a-time variations. Results: `results/sens/`, tables from `agg_sens.py`.
 - **Hippocampal reproducibility:** `probes.py:newborn_codes` also reports the Hs Jaccard margin (same question in another context minus another question of the same frame).
+
+## Addendum 11-02 (coordinator decisions on stage a; pre-registered before the runs)
+
+**a2, registered revision.**
+- The hippocampal part of a2 becomes: Hs Jaccard margin (same question in another context − another question of the same frame) ≥ 0.1.
+- Hs 32-way decoding is still reported as a number.
+- Reason: ARCH §四.19 ("same input → same code") and designer 11-02 ("模型分不开相同的经历很正常，先不管"). By H3 the hippocampus has no birth recurrence, so its lag-0 code holds only the current input.
+- `probes.py:newborn_codes` computes the margin in every run.
+
+**Configuration choice (step 2).**
+- Candidates: P1, reciprocal loop, g_loop 1.0, medium PFC, default rates, plus one of:
+  - (A) w44 0.5 + R2;
+  - (B) w44 0 + R2;
+  - (C) w44 0 + R3.
+- Seeds 0–3 for each: newborn checks (a1, a2, a3), then the **extended a1L**: 1,000 learning dialogues in windows of 10 dialogues.
+- A window passes if the PFC ratios are in [0.5, 2], Hs is in [0.5, 2] × kh, and no layer exceeds 50 % in that window.
+- **Extended a1L passes** if:
+  - ≥ 95 % of windows pass;
+  - L4's mean over the last 100 dialogues is ≤ 1.2 × its mean at dialogue 500 (dialogues 490–509);
+  - the same holds for Hs.
+- Slopes of L4, Hs and A4 over the last 500 dialogues are reported per 100 dialogues.
+- **Rule:**
+  - Among candidates that pass a1, the revised a2 and the extended a1L on all 4 seeds, take the highest mean lag-12 decoding.
+  - If two are within 0.03 of each other, prefer normal learning rates (A or B).
+  - The runner-up becomes the (c) arm.
+
+**Large PFC (step 3).**
+- Large preset × g_loop {1.5, 2.0}, with P1, reciprocal, w44 0, R2.
+- Each run: birth checks plus a1L over 300 dialogues, on seeds 0 and 1.
+- It joins (c) as an arm if it passes a1 and a3 with lag 12 ≥ the chosen medium configuration's.
+
+**G1 construction (step 4, approved; ARCH §二.11.1, §二.12).**
+- G1's input matrix uses only A1 units that the child's own voice does not light.
+- Rule: a unit is cut if, for any of the child's own syllables, it fires in ≥ `g1_own_cut` = 0.2 of that syllable's ticks.
+- G1 stays in the plastic, decaying part. There is no new gate, and the brake still reads only the input layer.
+- Reported per syllable: A1 code units kept vs before; any syllable below ⅓ is flagged.
+- Then the registered sweep g_ret {0.8, 1.05, 1.3} × G1 scale g1_rel {1.2, 1.5, 2.0} on candidate A, with b1–b6.
+- The b1–b7 pass criteria are unchanged: the setting that passes b1–b6 with the smallest g_ret, then full (b) on the chosen configuration.
+
+## Addendum 11-02 (designer: no sound → motor connection; learned speech first). Registered before the (b) runs
+
+**G1 is removed.**
+- Designer: "听觉区神经元不应该直接连接运动区神经元，而是通过前额叶间接建立联系" (ARCH §二.7, §二.11.1/3, a6de412).
+- The motor area now has no input table. A force neuron's only excitatory input is its own 1:1 return chain, with return drive = g_ret_force × (its threshold + tonic blocking).
+- Unit check 9 asserts that no table targets force neurons.
+
+**Main (b) arm: learned speech** (designer: "一开始强制模型按规律说话，模型自动就会听到自己的声音，然后把声音和动作联系起来", f86147a).
+- Gen-0 scaffold "forced regular speaking" (`scaffold.py`): the teacher program fires syllable x's force neurons on the forced ticks, bypassing the blockers. It is outside the brain and logged.
+- No speech wiring; learning on everywhere; brake and own-voice handling unchanged.
+- Patterns: 30 forced syllables per syllable in each arm, in random order; syllable 3 ticks, gap 3, pause 12.
+  - F1 repetition: x x x.
+  - F2 single: x, then a pause (control).
+  - F3: an adult says x, then the child is forced to say x x.
+- Afterwards, with the scaffold off:
+  - b1 by inner hearing (x's sound copies lit internally in PFC L1);
+  - an "adult says x, then 12 silent ticks" probe;
+  - shares said clear / mumble / garble / other / silent;
+  - b2–b7;
+  - link diagnostics on L4 → force copies: true/other weight ratio, top-4 exact, margin (X7: about 1.5 needed);
+  - the a1L windows during the scaffold, and lag-12 hold afterwards.
+- If F1 or F3 passes b1/b2, it replaces hand wiring. Otherwise G1P is used, and the report names the failing link: order, margin, or generalisation from own to adult voice.
+
+**Comparison / fallback: G1P** (`g1p.py`), gen-0 hand wiring inside the PFC.
+- From: L4 units that represent x on the frozen newborn. They fire in ≥ 50 % of x's L4 ticks (4–9 after onset) in the four adult voices, and ≥ 0.3 more often than for any other syllable. Syllables with fewer than 10 units are flagged.
+- To: x's force copies in PFC L1.
+- Fit: NNLS (ridge 0.3), with one gain giving g1p_rel × θ_1.
+- Same form as L41: acquired part, two-layer weights, γ_pfc, and the same rule and post event.
+- Arms: (i) adult voices only; (ii) also dropping units that the child's own voice lights in ≥ 20 % of x's ticks.
+- Registered sweep: g_ret_force {1.1, 1.3, 1.6} × g1p_rel {1.2, 1.5, 2.0}, with b1–b6. Pick the arm and setting that pass b1–b6 with the smallest g_ret_force, then full (b) on the step-2 configuration.
+
+**Echo.** The PFC holds the last heard syllable for about 12 ticks, so the child may repeat what it heard (b4, b7, adult-hold probe). This is reported; no fix is added without the coordinator.
+- **G1P selection, registered variant (added after the smoke run, before any full (b) run).** The specified rule (p ≥ 0.5, margin 0.3) finds 0–10 L4 units per syllable at s = 1; 33 of 34 syllables are flagged. A relaxed margin of 0.1 is run next to it. Both are reported; the choice goes by the stage-(b) results.
+
+## Addendum 11-02 (b): diagnosis and arm M, registered before the runs
+
+**diag_g1p** (config A, G1P margin 0.1):
+- **(iii) return vs blocking is the first blocker.** Lighting x's force copies directly gives no speech (force neurons 0, silent 1.00). The return drive is 0.91 (g_ret_force 1.3), but the inhibition is 1.05: tonic 0.4 plus about one stop neuron on in silence (the PFC holds stop copies and returns them). A return needs > 1.35.
+- **(i)** L4 codes at birth are weakly syllable-specific. Jaccard: different syllables 0.84, same syllable in two voices 0.86, against the pre-onset state 0.66.
+- **(ii)** Selective L4 units peak 6–8 ticks after onset (margin 0.3: median 14.5) and are 0 in the first 3 ticks.
+- **The G1P link itself works:** during inner hearing, 91 % of x's selected units fire, and the drive into x's own force copies is 3.9 against θ_1 = 1.
+
+**Arm M** (coordinator; ARCH §二.7 "亮的力度神经元越多，力越大", §二.4/§五 proportions):
+- m force neurons per muscle (`force_per_muscle`), with m ∈ {1, 8, 32} at s = 1. Thresholds are graded within each muscle's population: θ_m (1 + k/m).
+- Each force neuron has its own 1:1 chain copy at a random L1 position.
+- The body reads a muscle as on when ≥ ⌈m/2⌉ of its force neurons fire.
+- Tonic blocking (4m), ladder blocking (4m) and stop neurons (8m) scale with m, with inhibition normalised by 8m, so the competition keeps its birth balance.
+- **Return gain:** g_ret_force = 1.6, from the registered sweep {1.1, 1.3, 1.6}. It is the smallest value that clears tonic blocking plus one or two stop neurons: 1.6 × 0.7 = 1.12 > 0.3 + 0.4 + 0.25. A G1P run at m = 1 with 1.6 isolates the m effect.
+- **Runs, seed 0, config A:**
+  - G1P at m {1, 8, 32}, margin 0.1;
+  - F1 and F3 at m {8, 32}.
+- **Reported:**
+  - b1–b7 and the speech-link probes;
+  - the L41 true/other ratio, top-4 and margin;
+  - the number of distinct L4 units with a learned weight > 0.01 onto x's force copies;
+  - a1L windows during the scaffold, plus the full activity budget there (first / middle / last window, forced and unforced ticks);
+  - lag 12 afterwards.
+- Secondary knob, only if M fails: r_learn 0.25 for L4 → L1.
+
+## Addendum 11-02 (a): Hs pre-decision, registered before the clean choose reruns
+
+The choose01 runs had the old G1 wired, which kept 2–5 force neurons firing continuously, so they were rerun with no speech wiring. If the clean reruns still show Hs settling above 2 × kh while the trend is flat:
+1. **§四.10 order first.** Add one arm with g_hh = g_h1 = 0.05, all else as the candidate, on seeds 0–1. If it brings Hs within 2 × kh without dropping the revised a2 (Hs J margin) below 0.1 or the mean lag 12 by more than 0.03, adopt it for all candidates.
+2. **Only if that fails:** the window bound becomes Hs ≤ 3 × kh. Reason: what matters for one unbroken life is no runaway (a flat trend). This is reported as a revision.
+
+a3 is judged on the clean runs only.
+
+## Addendum 11-02 (a): context test, registered before running
+
+Designer: "增加上下文应该可以把事情记得更久吧。可以测试一下" (more context should help the model remember longer; test it).
+
+**Probe** (`probes.py:context_test`): the a3 probe with lags 0 / 6 / 12 / 24 / 48 ticks after the question, the same 32 questions, and 4 repetitions per question (voices C1 / C2 alternating, fresh noise). Arms:
+- **K0:** unrelated preceding context, as in a3 (silence, a narration about a random item, another question, a TV line; one per repetition).
+- **K1:** a narration about the same item just before the question (`world.narration(x)`, for example 苹 红 的), then the question.
+- **K1c:** a narration of the same form about a different item x′, then the question about x. K1 − K1c isolates the effect of related context from that of more sound.
+- **K2:** a richer item inside the question: the item carried by 2 syllables (x plus its colour, from props) in place of the single filler, in the same frame.
+- **K3** (hippocampal cue, speaker change) is not run: it needs a second speaker / scene axis that the probe world does not have, so it is not cheap.
+
+**Measures** at each lag:
+- 32-way decoding of the question from PFC L4 and from Hs;
+- filler-given-frame decoding (8-way) from PFC L4 and from Hs;
+- motion J of L4;
+- "how long it is remembered": the first lag at which 32-way decoding falls to chance + 0.1 or below.
+
+The decoder trains on 2 repetitions and tests on the other 2, both ways.
+
+**Runs:**
+- At birth (learning off) for candidates A, B and C on seeds 0–1 (B and C share a newborn).
+- On the learned brain at the end of the extended a1L for B and C on seeds 0–1, run in the same process, so no checkpoint has to survive between jobs.
+- The results are reported side by side; they do not enter the (a) decision rule.
+
+## Addendum 11-02 (a): fast-PFC test (main) and a small excitability comparison, registered before running
+
+**Fast PFC.** Designer: "其实让前额叶像海马体一样更容易改变，也能记住前几拍的事情，而且更简单". Compare the synaptic theory of working memory (Mongillo, Barak & Tsodyks 2008).
+
+The arms change only the PFC acquired tables (L4 → L1 and L4 ↔ L4). The rule, two-layer weights, concave factor and single decay are unchanged. Base: candidate C (P1, reciprocal, g_loop 1.0, w44 0, learned gains 0.1, η_H 0.1).
+
+| arm | PFC η (η⁻ = η/2) | γ_pfc |
+|---|---|---|
+| F0 | 0.005 | 0.99995 |
+| F5 | 0.025 | 0.999 |
+| F20 | 0.1 (hippocampal level) | 0.99 (hippocampal) |
+
+F5 and F20 knowingly break "deeper layers decay slower" for the PFC; this is the designer's test and is recorded as such. s = 1, seed 0, then seed 1. Measures:
+- **a3 probe with learning on** (`probes.question_codes(learn=True)`): the full state, including all plastic weights, is restored between trials, so fast weights act only within a trial.
+  - Lags 0 / 6 / 12 / 24 / 48 ticks; 32-way and filler-given-frame decoding.
+  - Remembered until: the first lag at which decoding falls to chance + 0.1 or below.
+  - Motion J (must stay < 0.9).
+  - Input influence: Jaccard of L4 at lag 0 between different questions.
+  - The same probe with learning off, as a check that any gain comes from the weights.
+- **One-shot.** Each of the 10 held-out pairs is heard once: adult C1 asks, adult C2 answers 3 ticks later. Then 12 silent ticks, then D ∈ {200, 500, 1,000, 2,000} ticks of ordinary overheard dialogue, learning on throughout.
+  - Then Q is heard again with learning off, and we check whether A's first-syllable code is the most driven syllable copy in L1 (internal drive, ticks 1–6).
+  - Hit rate vs D, against a no-exposure control. The full state is restored between trials.
+- **Stability and long-term knowledge.**
+  - 5 held-out pairs are each heard 20 times at the start (interleaved).
+  - Then a1L runs for 300 learning dialogues: windows, trend and activity budget.
+  - The 5 pairs are probed right after teaching and again after the 300 dialogues: is the taught answer still top-driven?
+
+**Excitability comparison** (reduced). Base C, medium preset. The online birth calibration also moves the L1 internal threshold θ_1 until internally lit copies ≈ k × chain-lit copies, for k ∈ {1, 2}. g_loop is raised only if θ_1 reaches its floor; L2–L4 stay count-preserving to L1's total. Reported:
+- a1 counts;
+- the share of internally lit copies whose feature was lit externally in the last 1–12 ticks (held context) vs others;
+- the same decoding / remembered-until / motion / input-influence measures (learning off);
+- L4 syllable specificity (Jaccard between syllable codes);
+- a1L over 300 dialogues;
+- the largest k the medium preset holds with every layer ≤ 50 % on.
+
+## Addendum 11-02 (b, a): b_block sweep and band-overlap check, registered before running
+
+**b_block sweep** (coordinator, inside §二.7: "没把握时结果是不说，而不是说错").
+- Motor parameter b_block ∈ {0.8, 1.2, 1.6}, with g_ret_force 1.6.
+- A sharp syllable keeps passing (no ladder recruited). A full-ladder mixture is blocked once b_block ≳ 1.0.
+- Garble and silent are reported separately.
+- M2 (already running) is the b_block 0.8 point. Later (b) runs use the sweep.
+
+**Band-overlap check** (birth only, candidate C base, medium preset).
+- First, trace syllable overlap back through the chain: Jaccard between codes of different syllables (same voice), and of the same syllable in two voices.
+  - Measured in sound A1–A4 (chained units), PFC L1ext, L2, L3 and L4 (`probes.layer_overlap`).
+  - Each population is read in its own latency window after the onset.
+- Then vary the chain band's upper cut, keeping medium's depth-relative low cuts:
+  - A1 upper cut ∈ {0.9, 0.6, 0.3} with A2 at 0.9;
+  - A1 = A2 upper cut ∈ {0.6, 0.3}.
+- Reported: syllable overlap at L1 and L4, L1 silence/speech counts (a1 floor: silence ≥ 0.2 × speech), a1, a3 and lag 12.
+- Reason: the designer says near-input often-on units carry no features (ARCH §二.3; the band is tunable per area).
+
+**Order:** fast-PFC test (main), band-overlap check, excitability k ∈ {1, 2}, large PFC.
+
+## Addendum 11-02 (b): motor collapse wiring MC (hand-wiring register §4 entry), registered before running
+
+Designer (ARCH §二.7, d15527d): "手动接线只是给他一个说正确话的倾向……可以让说的倾向自己坍缩成正确的肌肉动作。这需要我们提前给运动区肌肉神经元布置一些连接，让其总是能坍缩到正确的肌肉激活顺序。"
+
+**§4 register entry MC** (generation 0, motor area). The links sit in the acquired, decaying part (γ_motor), learn by the same rule, and are inherited.
+- **(a) Pattern completion:** excitatory force → force links between the force neurons of different muscles of the same syllable: W(i → j) = Σ_syllables [muscle(i), muscle(j) ∈ syllable] / n_syllables(muscle(i)). Muscles shared by many syllables pull proportionally less.
+  - The table goes through the usual two-layer weights. One gain is set so that 2 fully active muscles of a syllable drive each of its other 2 muscles' force neurons at `mc_rel` = 1.2 × their release level (threshold + tonic blocking), median over syllables.
+  - Timing: force(t − 1) → force(t), so a pattern settles over a few ticks.
+- **(b) Order:** skipped. In the X1c body a syllable is one simultaneous 4-muscle set held 3 ticks, with no within-syllable order.
+- **(c) Competition:** the existing blocking ladder, recruited by the pooled drive, is the global inhibition. Pattern excitation plus global inhibition gives winner-take-all among syllable patterns.
+  - No gate, no syllable-detector neurons, b_block swept over {0.8, 1.2, 1.6}.
+  - Inhibitory neurons between rival patterns would be added only if needed (none yet).
+- m = 8 force neurons per muscle as main, m = 32 as a check.
+
+**Collapse test first** (no PFC involved). A diagnostic hook injects drive into the force neurons for 3 ticks (in units of the return drive), then the system runs 6 free ticks. Conditions:
+- clean x;
+- 2 of x's 4 muscles;
+- 60/40 and 50/50 mixtures of x and y, with y sharing 0, 1 or 2 muscles;
+- x plus noise (uniform 0–0.3 on all force neurons).
+
+Reported: the share that collapses to the stronger syllable, to the weaker, garble, silent; ticks until the decoded mouth settles; garble on the onset ticks reported separately.
+
+**Then (b) with MC** on top of G1P and of the learned arms F1 / F3, b1–b7 as before.
+
+**Base change (coordinator 11-02, before any fast / band / MC run).**
+- Candidate B (P1, reciprocal, g_loop 1.0, w44 0, learned gains 0.1, η 0.02, η_H 0.3) is the tentative base for the fast-PFC test, the band check and (b) with MC.
+- Fast arms relative to B: F0 η 0.02 / γ 0.99995; F5 η 0.1 / γ 0.999; F20 η 0.4 / γ 0.99.
+- Choose seeds 2–3 run later on the final configuration, as the confirmation before freezing.
+
+**Fast test, trajectory added** (designer: "有没有可能是训练的不够才显得记不住问题").
+- For every arm, the a3 probe runs at 0, 100, 300 and 1,000 learning dialogues: lags 0 / 6 / 12 / 24 / 48, filler-given-frame, motion J.
+- The probe runs with learning off for F0, and both on and off for F5 / F20.
+- It runs in one process (`run_fast.py --mode traj`), so no checkpoint has to survive between jobs.
+- a3 at birth is not blocking (§6a: proceed with the best and flag); d2 re-measures the hold in (c).
+
+## Revision 11-02: a3 demoted to a diagnostic; the memory criterion is functional and whole-brain
+
+Designer: "停顿12拍还认得出问题这个测试本就有点问题，你是测试他的记忆能力吗？如果是记忆能力，海马体不是能记住吗？"
+
+- **a3** (PFC hold of a question through a pause, learning off) is now a DIAGNOSTIC of the PFC loop (§二.4 "回路保持想法"). It is reported but is no pass criterion anywhere (stage a, d2). Reason: with learning off the hippocampus stores nothing, and in the architecture remembering across time is the hippocampus's job (X6b: Q → A across the pause 0.94–1.00).
+- **Memory criterion, learning on:**
+  - (i) One-shot Q → A across the pause, as in the fast test. On rehearing Q, is A's code lit?
+    - Reported per route: the PFC route (internal drive from L4 onto A's copies in L1) and the hippocampal route (A's copies lit internally in the hippocampal copy layer H1, whose returns re-light A's sound units).
+    - The rehear probe also runs with learning on; the full state is restored between trials.
+  - (ii) In (c), the answer after the pause remains the real test.
+- **Fast test:** the a3 numbers are also reported with every table learning (hippocampus included) during the probe, with the full state restored between trials. The question is decoded from PFC L1int ∪ L4 and from Hs.
+
+## Reprioritisation 11-02 (designer: "你先让模型能有规律的听到声音作出正确回应吧，保持之类的不用测试的")
+
+- **Dropped as separate tests:** hold / a3 probes (a3 stays only as a number inside existing probes, never a criterion), the excitability k test, the context probes, and the standalone fast-PFC hold test.
+  - The fast-PFC seed-0 job had already started and cannot be cancelled (the runner has no cancel), so it finishes and is reported as data only.
+- **Focus: hearing speech and responding correctly.**
+  1. Speech basics (b): the MC collapse test, then (b) with MC on top of G1P and of the learned arms F1 / F3, with the b_block sweep.
+  2. Then (c) per §二.11 on base B, with the registered pass criteria (above the per-frame baseline).
+     - Arms: fast PFC F5 (η × 5, γ 0.999), judged by answers; large PFC only if (c) fails at medium.
+     - The one-shot Q → A probe at each checkpoint, split by route; answer accuracy at every checkpoint.
+  3. The band-overlap check stays as a cheap birth-only diagnostic of speech specificity.
+  4. Choose seeds 2–3 run on the final configuration as confirmation before freezing for (c).
+
+## Addendum 11-02 (c): MC revised to pattern pools (hand-wiring register §4, replaces the pairwise MC)
+
+**Why.** The pairwise force → force MC ran away: all 24 muscles came on and stayed on.
+- A numpy copy of the motor area (it reproduces the no-MC GPU row exactly) showed that pairwise links cannot tell 34 overlapping 4-of-24 muscle sets apart.
+- (i) MC-inh (muscle-level inhibition between rarely co-occurring muscles) and (ii) tagged force sub-populations did not fix it either.
+- The collapse test's input was also wrong. A force neuron's return is 0/1 (its PFC copy is lit or not), so a mixture means shares of lit force neurons, not weaker drive. The GPU collapse test now uses 0/1 input.
+
+**MC entry (generation 0, motor area, acquired part, γ_motor, the one rule, inherited).** Per syllable two conjunction groups of mc_nI = 16 neurons, a gen-0 motor synergy. They are not program neurons and run no sequence (X1c syllables are simultaneous).
+- Each group neuron samples one force neuron from each of the syllable's 4 muscles (lineage seed) and fires in the same tick when all its sampled force neurons fire. These are fast interneurons; the threshold is 7/8 of its full input drive.
+- The excitatory group projects to the syllable's own force neurons. One fully active group gives mc_e = 3 × the median release.
+- The inhibitory group projects to the force neurons of the 20 muscles outside the syllable, with mc_i = 4 × the median release. Its links stay inhibitory (≥ 0, subtracted).
+- Two-layer weights as everywhere. Gains are calibrated once at birth on one fully active group.
+- The groups are driven only by the tendency of the same tick, so the motor area alone is below release, nothing holds after the tendency stops, and completion only sharpens (option (a)).
+- Rejected in numpy (they lost 60/40 or 90/70): the within-muscle tie fix (V1); and P2, return drive below release with the pools lifting it (60/40 fell to 0–0.40).
+
+**Numpy table (0/1 input, 34 trials per condition).**
+
+| | clean | 60/40 → stronger | 90/70 → stronger | 80/80 one syllable / garble | 50/50 garble | 2 of 4 | after input stops |
+|---|---|---|---|---|---|---|---|
+| no MC | 1.00 | 1.00 | 0 | 0 / 1.00 | 1.00 | garble | 0 ticks |
+| pools, m = 8 | 1.00 | 1.00 | 0.86 | 0.62 / 0.33 | 0.84 | garble | 0 ticks |
+| pools, m = 32 | 1.00 | 0.97 | 0.96 | 0.52 / 0.38 | 0.85 | garble | 0 ticks |
+
+Clean onset garble is 0 everywhere. Ties stay garble (not met: "50/50 mostly silent").
+
+**Next.** GPU collapse test (no MC vs pools, m 8 / 32), then (b) with pools on G1P and F1 / F3. x10_tend reports the mixtures that actually arrive.
+
+## Addendum 11-02 (d): the real tendency carries no syllable; overlap trace first
+
+**x10_tend (base B, m 8, seed 0).** When x is lit in PFC L1 (inner hearing), the returns that reach the force neurons are:
+- G1P: 81 % of all force neurons, 23 of 24 muscles over half; x's share 0.87, best rival's 0.97; x ranks first 0.09 (chance 0.03);
+- F3: 11 % lit, x first 0.03.
+
+So the bottleneck is upstream of the motor area. (b) with MC is held until a configuration gives a tendency in which x ranks first for ≥ 0.5 of the syllables.
+
+**Overlap trace (birth only, `run_fast.py --mode band`, `probes2.overlap_trace`).**
+- Layers: A1–A4 (chained units), L1ext, L2, L3, L4, each read at its latency, per slice and pooled over the syllable's 3 slices.
+- Jaccard for different syllables (same voice), the same syllable in two voices, and syllable vs silence; also evoked codes (on in the syllable, off in silence).
+- L4 under inner hearing vs heard.
+- Variants (ARCH §二.3: near-input often-on units carry no features; deep units are mostly feature units; band and per-layer rates tunable per area):
+  - medium (A1 ≤ 0.9);
+  - A1 ≤ 0.6 and A1 ≤ 0.3;
+  - A1 + A2 ≤ 0.6 and A1 + A2 ≤ 0.3;
+  - sound rates × 0.5.
+- Each with a1 (including the silence floor) and the a2 numbers.
+
+Then x10_tend2: the tendency tick by tick, plus spontaneous returns.
+
+## Addendum 11-02 (e): P1 (band) and P2 (G1P from heard ∩ inner), approved by the coordinator
+
+**Overlap record.** On medium at birth, the L4 different-syllable Jaccard is 0.32. Other layers, pooled over the 3 slices:
+
+| A1 | A2 | A3 | A4 | L1ext | L2 | L3 | L4 |
+|---|---|---|---|---|---|---|---|
+| 0.41 | 0.55 | 0.34 | 0.30 | 0.53 | 0.36 | 0.31 | 0.32 |
+
+The "84 %" quoted earlier comes from diag_g1p, a different measurement:
+- base C (w44 0 + R3);
+- L4 codes = units on in ≥ half of ticks 4–9 after onset, mean over two adult voices;
+- the codes include the held pre-onset state, which dominates L4 (the syllable vs pre-onset Jaccard was also high).
+
+The two numbers are not comparable.
+
+**P1 (ARCH §二.3: near-input often-on units carry no features; the band is tunable per area).** Chain band upper cut 0.6 on A1 and A2 (`band_cut_a12=0.6`; lower cuts unchanged).
+- At birth the L4 different-syllable Jaccard drops from 0.32 to 0.14, and L4 vs silence from 0.27 to 0.09.
+- Inner x vs heard x / heard y: 0.18 / 0.06 (medium 0.31 / 0.21).
+- a1 failed only on one Hs-empty tick. It is re-measured on P1 with a1 (50 dialogues) and a 300-dialogue a1L (seed 0). If the empty tick recurs, it is fixed through the existing online Hs threshold calibration.
+
+**P2 (hand-wiring register §4, G1P revised; designer: "前额叶最后一层代表某个声音的神经元").**
+- The L4 units that represent x are those on, with margin, both when x is heard (four adult voices) and when the PFC thinks x (inner hearing: x's sound code lit in PFC L1 for 3 ticks, L4 read 3–9 ticks later); `g1p_src='both'`, margin 0.1.
+- The gain is set from the inner state: thinking x drives x's own force copies at g1p_rel × θ1 (median).
+- Controls: heard-only (old) and inner-only.
+
+**Check.** x10_tend on P1 + P2. Target: x ranked first for ≥ 0.5 of syllables, with a moderate total lit share. F3 runs on P1 too. Only then (b) with MC pools.
+
+**Result x10_P1g / x10_P1f (seed 0; ticks 10–16 = x thought; "nothing forced" = the same ticks with no inner hearing).**
+
+| run | x share / best rival / rivals ≥ half / x first / total lit | nothing forced: total lit | units per syllable (min / median) |
+|---|---|---|---|
+| base B, G1P heard (margin 0.1) | 0.87 / 0.96 / 32.9 / 0.05 / 0.79 | 0.68 | — |
+| P1, G1P heard | 0.83 / 0.91 / 28.8 / 0.18 / 0.67 | 0.00 | 5 / 22 |
+| P1, P2 (heard ∩ inner) | 0.66 / 0.72 / 8.8 / 0.39 / 0.35 | 0.00 | 0 / 3 |
+| **P1, G1P inner** | 0.68 / 0.51 / 3.0 / **0.83** (1.00 on ticks 10–13) / 0.25 | 0.02 | 15 / 42 |
+| P1, F3 (learned) | 0.08 / 0.19 / 0 / 0.02 / 0.09 | 0.08 | — |
+
+- P1 alone removes the push with nothing thought (0.68 → 0.00).
+- P1 passes a1 (Hs min 3, no empty tick) and the 300-dialogue a1L.
+- Heard ∩ inner leaves too few units (32 of 34 syllables have < 10).
+- The inner-only selection meets the target: the units that represent x when the PFC thinks x.
+- (b) with MC pools runs on P1 + G1P inner (main), with no-MC and P1 + P2 (both) as comparisons.
+
+**Decision 11-02 (coordinator): new base for speech = P1 + G1P inner** (`band_cut_a12=0.6`, `g1p_src='inner'`, margin 0.1, gain from the inner drive). Basis: ARCH §二.11.1 "模型心里想到一个字的声音，就能本能地说出来"; thinking x is when G1P must fire.
+- P2 (heard ∩ inner) was not kept: 32 of 34 syllables had < 10 units (median 3), and x ranked first only 0.39.
+- Evoked-only restriction (off in ordinary listening, 0.1 / 0.2) changed little: inner + evoked gives x first 0.82, nothing-thought 0.00. Not adopted.
+- Watch b4 echo.
+
+**F3 diagnostic (x10_dF3, `diag_f3.py`).** At the forced muscle onsets of the F3 scaffold on P1:
+- Jaccard of L4 with x's inner code, x's heard code, other syllables' inner codes and the ordinary held state, at t0 − 1, t0 and t0 + 1;
+- the learned L4 → force-copy links read from x's inner code and from its heard code (true / other, margin, top-4 exact).
+
+Hypothesis: the scaffold teaches from the heard / held state, but speech is triggered by the inner state.
+
+**Learned speech route (F3 / F4): tested, not working in X10 (coordinator 11-02).**
+- F4 (one forced x, timed 6 ticks after the adult's x, inside the thought window) did no better than F3. Learned link true/other 1.12, margin 0.50, top-4 0; x first in the tendency 0.09.
+- Cause: L4 at speech onsets is large (~25 % on) and mostly shared across syllables, so the one rule learns the shared part. G1P avoids this through its margin selection.
+- G1P-inner is the gen-0 speech link: registered, decaying, learning on top. No PFC change now.
+
+**Note for (c).** Answers rely on the same mechanism: learned L4(t) → L1(t + 1) links read from a mostly shared, ~25 %-on L4 (cf. X1e: "同时亮的太多，学到的连接把所有先后顺序平均掉了").
+- Each checkpoint reports the learned Q → A link per question (`probes2.qa_link_stats`): L4 after the question drives L41 into L1. Reported: the answer's code drive vs other codes (ratio, ranked first) and the raw weight ratio, for seen and held-out pairs.
+- If (c) fails with ratios near 1, the next lever is L4 sparsity / specificity (ARCH §四.20), and F4 is retested on that PFC.

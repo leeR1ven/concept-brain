@@ -8,7 +8,7 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 |---|---|---|
 | 2.1 | binary neurons | every state is a `torch.bool` tensor: `learning.py:Pop`, `sound.py:SoundArea.step`, `pfc.py:PFC.step`, `hippocampus.py:Hippocampus.step`, `motor.py:Motor.step` |
 | 2.1 | inhibitory = ordinary neurons with negative outputs | blocking and stop neurons: `motor.py:Motor.step` (`inh` term); patch inhibitory neurons: `pfc.py:PFC.inhib`, `hippocampus.py:Hippocampus.inhib1`; Hs same-tick mean-drive inhibition: `hippocampus.py:Hippocampus.step` |
-| 2.1 | distributed codes, no item neurons | no syllable id in any brain module. Ids appear only in `world_adapter.py`, `wiring.py:measure_codes` (birth measurement for G1) and `probes.py` (scoring) |
+| 2.1 | distributed codes, no item neurons | no syllable id in any brain module. Ids appear only in `world_adapter.py`, `wiring.py:measure_codes` and `g1p.py` (birth measurement for G1P), `motor.py:Motor.set_mc` (gen-0 motor synergy groups, built from the body's muscle table) and `probes.py` / `probes2.py` (scoring) |
 | 2.1 | thermometer pairs, always exactly half on | `world_adapter.py:Cochlea.code` (asserts half on every tick) |
 | 2.1 | deeper sensory layers sparser; threshold set from the unit's own received signal, rising with depth; sensory only | `sound.py:SoundArea.calibrate` (per-unit (1 − r_l) quantile of its own birth drive; r_l = 0.20 / 0.12 / 0.08 / 0.05). PFC thresholds are fixed per layer: `pfc.py:PFC.calibrate` |
 | 2.1 | signal strength = number lit | loudness → thermometer levels: `world_adapter.py:Cochlea.energy`, `Cochlea.code`. Split/delete off |
@@ -33,7 +33,7 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | 2.4 | thinking-range size | follows from `pfc.py:PFC.calibrate` (count preservation); `rho` in `common.py:config` for arm ρ4 |
 | 2.4 | rarely co-active inhibit, related excite | net effect of `pfc.py:PFC.inhib` (patch neuron) and the learned `L44` (`PFC.step`, `PFC.learn`); diagnostic d7: `probes.py:lateral_sign` |
 | 2.4 | continuous, no resets; excitability knob | no reset anywhere. `probes.py:Frozen` restores neuron states after probes only. Knobs `g_loop`, `w44` in `common.py:config` |
-| 2.4 | speech caused by thought | `brain.py:Brain.step`: the only routes to muscles are G1 (from sound A1) and motor returns, in `motor.py:Motor.step` |
+| 2.4 | speech caused by thought | `brain.py:Brain.step`: the only excitatory route to force neurons is their 1:1 return from internally lit PFC L1 copies (`motor.py:Motor.step`, `ret_force`); MC pools act inside the motor area only. Unit check 9 |
 | 2.5 | output = internally lit L1 copies → 1:1 returns | `pfc.py:PFC.step` returns `x_int`; `brain.py:Brain.step` → `Chains.scatter` → `SoundArea.step` / `Motor.step` next tick |
 | 2.5 | return strength tunable; return weaker than next-item link | `common.py:config(g_ret)`; `sound.py:SoundArea.calibrate` (`ret_w`); d10 in `probes.py:table_stats` |
 | 2.5 | prediction biases hearing | `sound.py:SoundArea.step` (return drive adds to the feed-forward drive) |
@@ -45,7 +45,9 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | 2.7 | competition, no hard gate | `motor.py:Motor.step` (ladder blocking recruited by pooled drive P; no count rule) |
 | 2.7 | blocking without chains; stop with chains | `brain.py:Chains.__init__` (force and stop sources only) |
 | 2.7 | brake reads only the input layer, graded by loudness | `world_adapter.py:Cochlea.__init__` (`brake_lines`: other voices' up lines; own timbre left out = birth wiring); `motor.py:Motor.step` (`brake`) |
-| 2.7 | sound → muscle hand-wired in gen 0, decaying | `wiring.py:wire_g1`, `motor.py:Motor.set_g1` (acquired `ByPre`, γ_motor) |
+| 2.7 | sound and action linked only through the PFC (designer 11-02); gen-0 tendency | G1P inside the PFC: `g1p.py:wire_g1p` (L4 → force copies in L1, acquired, γ_pfc); learned arm: `scaffold.py` (forced regular speaking, F1 / F2 / F3) |
+| 2.7 | representation collapse in the motor area (gen-0 MC) | `motor.py:Motor.set_mc`, `Motor._pools`, `Motor.step`, `Motor.learn` (per-syllable excitatory and inhibitory conjunction groups, same tick, acquired, γ_motor); `common.py:config(mc, mc_nI, mc_k, mc_e, mc_i)` |
+| 2.7 | force neurons per muscle (arm M) | `common.py:config(force_per_muscle)`, `motor.py:Motor.__init__` |
 | 2.7 | babbling, within-syllable order, motor association area | — not needed (overhearing; X1c body) |
 | 2.7 | stop after speaking learned; PFC stop | stop copies are PFC inputs (`brain.py:Chains`); learned only via `PFC.learn` |
 | 2.8 | held-form rule; co-rising; fall does nothing | `learning.py:ByPre.learn` with the eligibility from `learning.py:Pop.elig_prev` / `Pop.rose` |
@@ -98,19 +100,22 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | R4 acquired ≥ 0 | `learning.py:ByPre._apply` (`clamp_min(0)`) |
 | R5 no reward | `brain.py:Brain.step` (assert) |
 | M1 force grades | `motor.py:Motor.__init__` (`thr_f`), `Motor.step` |
-| M2 blocking: tonic + ladder | `motor.py:Motor.step`; ladder set in `wiring.py:wire_g1` |
+| M2 blocking: tonic + ladder | `motor.py:Motor.__init__` (`ladder`), `Motor.step`; `b_block` in `common.py:config` |
 | M3 stop | `motor.py:Motor.step` |
 | M4 brake (own timbre excluded = birth wiring) | `world_adapter.py:Cochlea.__init__` (`brake_lines`), `motor.py:Motor.step` |
-| M5 G1 from sound A1 (equal latency with the brake) | `wiring.py:wire_g1` (sources `chains.sound_idx[0]`), `motor.py:Motor.g1_drive` |
-| M6 release scale | `wiring.py:wire_g1` (gain, ladder) |
+| M5 (removed 11-02: no sound → motor link) | — `wiring.py:wire_g1` is kept unused for reference |
+| M6 return drive into a force neuron = g_ret_force × (threshold + tonic blocking) | `motor.py:Motor.__init__` (`ret_drive`) |
 | H1 hippocampal copies | `brain.py:Brain.step` (the same `x_ext` feeds `Hippocampus.step`) |
 | H2 Hs: fixed recode, fixed threshold, same-tick inhibition | `hippocampus.py:Hippocampus.__init__`, `calibrate`, `step` |
 | H3 no birth recurrence; learned HH, H1t | `hippocampus.py:Hippocampus.__init__`, `learn` |
 | H4 no store/recall switch | `hippocampus.py:Hippocampus.step` (learned links always act) |
 | H5 nothing added for alike-starting episodes | — (nothing to implement) |
-| G1 gen-0 sound → muscle | `wiring.py:measure_codes`, `select_codes`, `nnls`, `g1_quality`, `wire_g1` (A-matrix variant chosen by the map's own quality); `motor.py:Motor.set_g1` |
+| G1P gen-0 PFC L4 → force copies (replaces G1) | `wiring.py:measure_codes`, `select_codes`, `nnls`; `g1p.py:measure_l4`, `select_l4`, `wire_g1p`; `life.py:Life.wire` |
+| MC gen-0 motor pattern pools | `motor.py:Motor.set_mc` (lineage seed + 950), `life.py:Life.wire_mc`; unit check 10 |
+| scaffold (learned-speech arm, teacher program outside the brain) | `scaffold.py:script`, `scaffold.run`; hook `motor.py:Motor.step(scaffold)` |
 | DPC (diagnostic) | — only if (c) fails; not built |
-| DIAGNOSTIC forced inner hearing | `brain.py:Brain.step(force_int)` → `pfc.py:PFC.step(force_int)`; used only by `probes.py:forced_say`, `speech_basics` |
+| DIAGNOSTIC forced inner hearing | `brain.py:Brain.step(force_int)` → `pfc.py:PFC.step(force_int)`; used only by `probes.py:forced_say`, `speech_basics`, `probes2.py:tendency_profile` |
+| DIAGNOSTIC 0/1 force-neuron input (collapse test) | `motor.py:Motor.inject`; used only by `probes2.py:collapse_test` |
 | birth period | `life.py:Life.__init__` (child silent, learning off) |
 
 ## C. Harnesses and checks
@@ -118,8 +123,10 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | stage | file |
 |---|---|
 | (a) a1 / a2 / a3 over the grids (`--grid loop`: inhibition × loop form × g_loop × w44; `--grid size`: PFC size × threshold fractions + the old band-everywhere) | `run_a.py`, `probes.py:activity`, `a1_pass`, `question_codes`, `decode`, `newborn_codes` |
-| (b) b1–b7 | `run_b.py`, `probes.py:speech_basics`, `forced_say` |
-| (c) checkpoints | `run_c.py`, `probes.py:qa_probe` (primary pass, d3, d4), `newborn_codes` (d1, d2), `table_stats` (d6, d10), `return_share` (d8), `lateral_sign` (d7), d9 inline. d5 (G1 sharpness) is not coded: `motor.last` holds the drive for it |
+| (b) b1–b7 | `run_b.py` (`--arm g1p\|F1\|F2\|F3`), `probes.py:speech_basics`, `forced_say`, `speech_links`, `force_link_stats` |
+| (b) motor collapse test; tendency profile | `run_fast.py --mode collapse`, `probes2.py:collapse_test`; `run_tend.py`, `probes2.py:tendency_profile` |
+| stage-(a) choice; band check; memory probes | `run_a.py --mode choose`, `agg_choose.py`; `run_fast.py --mode band`, `probes2.py:layer_overlap`; `probes2.py:codes_ext`, `one_shot` (route split), `long_term` |
+| (c) checkpoints | `run_c.py` (`--speech g1p\|F1\|F3`), `probes.py:qa_probe` (primary pass, d3, d4), `newborn_codes` (d1, d2; a3 a number only), `table_stats` (d6, d10), `return_share` (d8), `lateral_sign` (d7, last checkpoint), `probes2.py:one_shot` (memory by route), d9 inline |
 | unit checks | `unit_checks.py` |
 | timing pilot | `timing.py` |
 

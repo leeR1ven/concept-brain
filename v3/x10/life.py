@@ -1,4 +1,4 @@
-"""One life: the physics, the cochlea, the birth period (child silent, learning off), the brain, G1, and the loop that
+"""One life: the physics, the cochlea, the birth period (child silent, learning off), the brain, G1P, and the loop that
 runs a world tick by tick. Everything the brain gets is A0 (and r = 0.0)."""
 import numpy as np
 import torch
@@ -6,7 +6,7 @@ import torch
 import world as W
 from brain import Brain
 from common import DEV, log
-from wiring import wire_g1
+from wiring import measure_codes, select_codes
 from world_adapter import Cochlea, ScriptedEnv, make_overhear
 
 
@@ -30,10 +30,22 @@ class Life:
         self.registry = {}
         self.codes = None
         self.muscles = mute
-        if wire:
-            self.registry['G1'], self.codes = wire_g1(self.brain, self.coch, self.ph)
-            log(f"G1: {self.registry['G1']}")
         self.probe_env = ScriptedEnv(self.ph, self.coch)
+        if wire:
+            self.wire()
+
+    def wire(self):
+        """generation-0 speech wiring G1P (inside the PFC) and the syllable sound codes used by the forced probes"""
+        from g1p import wire_g1p
+        self.codes = select_codes(measure_codes(self.brain, self.coch))
+        self.registry['G1P'] = wire_g1p(self)
+        log(f"G1P: {self.registry['G1P']}")
+        self.wire_mc()
+
+    def wire_mc(self):
+        if self.c['mc']:
+            self.registry['MC'] = self.brain.motor.set_mc(self.ph.need_mat)
+            log(f"MC: {self.registry['MC']}")
 
     def tick(self):
         """one tick of the running world: the brain's muscles go into the world, the world's sound comes back"""

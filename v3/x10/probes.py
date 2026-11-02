@@ -20,6 +20,7 @@ def play(life, script, mute=False, rec=None, force=None):
         b.force_int = None if force is None else force.get(t)
         a0 = env.step(None if mute else m, adult=adult, mute=mute)
         m = b.step(torch.as_tensor(a0, device=DEV), 0.0).cpu().numpy()
+        life.last_mouth = m                                  # muscles output this tick (read by probes)
         if rec is not None:
             rec(life, t)
     b.force_int = None
@@ -129,18 +130,39 @@ def stability(life, n_dialogues=300, window=10):
         if m.sum() < 50:
             continue
         mean = C[m].mean(0)
-        wins.append(dict(dialogue=int(w0), L2_L1=float(mean[ix['L2']] / max(mean[ix['L1']], 1)),
+        wmax = max(float(C[m][:, ix[n]].max() / sizes[n]) for n in sizes if n in ix)
+        wins.append(dict(dialogue=int(w0 - d0), L2_L1=float(mean[ix['L2']] / max(mean[ix['L1']], 1)),
                          L3_L2=float(mean[ix['L3']] / max(mean[ix['L2']], 1)),
                          L4_L3=float(mean[ix['L4']] / max(mean[ix['L3']], 1)),
                          Hs=float(mean[ix['Hs']]) if 'Hs' in ix else None,
-                         L4_frac=float(mean[ix['L4']] / sizes['L4'])))
+                         L4=float(mean[ix['L4']]), A4=float(mean[ix['A4']]),
+                         L4_frac=float(mean[ix['L4']] / sizes['L4']), max_frac=wmax))
     fmax = {n: float(C[:, ix[n]].max() / sizes[n]) for n in sizes if n in ix}
     kh = b.c['kh']
-    ok = all(0.5 <= w[k] <= 2.0 for w in wins for k in ('L2_L1', 'L3_L2', 'L4_L3'))
-    if b.hip is not None:
-        ok = ok and all(0.5 * kh <= w['Hs'] <= 2.0 * kh for w in wins)
-    ok = ok and all(v <= 0.5 for v in fmax.values())
-    return dict(pass_=bool(ok), windows=wins, frac_max=fmax, budget=budget)
+
+    def win_ok(w):
+        ok = all(0.5 <= w[k] <= 2.0 for k in ('L2_L1', 'L3_L2', 'L4_L3')) and w['max_frac'] <= 0.5
+        return ok and (b.hip is None or 0.5 * kh <= w['Hs'] <= 2.0 * kh)
+    for w in wins:
+        w['ok'] = bool(win_ok(w))
+    ok = all(w['ok'] for w in wins)                       # the 300-dialogue a1L: every window
+    out = dict(pass_=bool(ok), windows=wins, frac_max=fmax, budget=budget,
+               share_windows_ok=float(np.mean([w['ok'] for w in wins])) if wins else 0.0)
+    if n_dialogues >= 1000:                               # extended a1L (pre-registered 11-02): >= 95 % of windows
+        def mean_in(key, lo, hi):                         # ok, and no sustained rise over the last 500 dialogues
+            v = [w[key] for w in wins if lo <= w['dialogue'] < hi]
+            return float(np.mean(v)) if v else float('nan')
+        trend = {}
+        for key in ('L4', 'Hs', 'A4'):
+            at500, last = mean_in(key, 490, 510), mean_in(key, n_dialogues - 100, n_dialogues)
+            xs = [w['dialogue'] for w in wins if w['dialogue'] >= n_dialogues - 500]
+            ys = [w[key] for w in wins if w['dialogue'] >= n_dialogues - 500]
+            slope = float(np.polyfit(xs, ys, 1)[0] * 100) if len(xs) > 2 else float('nan')   # per 100 dialogues
+            trend[key] = dict(at500=at500, last100=last, ratio=last / max(at500, 1e-9), slope_per100=slope)
+        out['trend'] = trend
+        out['pass_ext'] = bool(out['share_windows_ok'] >= 0.95 and trend['L4']['ratio'] <= 1.2
+                               and trend['Hs']['ratio'] <= 1.2)
+    return out
 
 
 # ---------------------------------------------------------------------------------------------- (a2, a3) codes
@@ -244,8 +266,10 @@ def newborn_codes(life, n_ctx=4, n_noise=2, lags=12):
         res['Hs_J_margin'] = res['Hs_J_same_q_other_ctx'] - res['Hs_J_other_q_same_frame']
     res['motion_J_t_t1'] = float(jac(L4[:, 1:], L4[:, :-1]).mean().item())
     res['L4_count_lag'] = L4.float().sum(-1).mean(0).tolist()
+    # a2 (revised 11-02, coordinator: ARCH 4.19 + designer "模型分不开相同的经历很正常，先不管"): the hippocampal part is
+    # the reproducibility margin, not 32-way decoding (which is still reported as a number)
     res['a2_pass'] = bool(res['L4_decode'][0] >= 0.5 and res['J_margin'] >= 0.1
-                          and (HS is None or res['Hs_decode'][0] >= 0.5))
+                          and (HS is None or res['Hs_J_margin'] >= 0.1))
     res['a3_pass'] = bool(res['L4_decode'].get(12, 0) >= 0.3 and res['L4_filler_given_frame_lag12'] >= 0.3
                           and res['motion_J_t_t1'] < 0.9)
     return res
@@ -510,3 +534,144 @@ def lateral_sign(life, ticks=1000, sample=500):
     lo, hi = e[l <= q[0]], e[l >= q[1]]
     return dict(n=int(e.numel()), eff_low_coactivity=float(lo.mean()), eff_high_coactivity=float(hi.mean()),
                 pass_=bool(lo.mean() < 0 < hi.mean()))
+
+
+# ---------------------------------------------------------------------------------------------- (b) speech links
+def classify(syls, events, x):
+    """one utterance after a probe: 'clear' / 'mumble' (x said only as a mumble) / 'garble' / 'other' / 'silent'"""
+    if not syls:
+        return 'silent'
+    if '~' in syls:
+        return 'garble'
+    if syls == [SYL[x]]:
+        return 'clear' if any(e[2] == 's' for e in events) else 'mumble'
+    return 'other'
+
+
+def speech_links(life, reps=1):
+    """b1 by inner hearing (x's sound copies lit internally in PFC L1) and by L4 holding an adult-voice x (an adult
+    says x, then 12 silent ticks): shares said clearly / mumble / garble / other / silent, per probe kind."""
+    b = life.brain
+    out = {}
+    with Frozen(life) as snap:
+        for kind in ('inner', 'adult_hold'):
+            cnt = Counter()
+            for x in range(len(SYL)):
+                for r in range(reps):
+                    b.restore(snap)
+                    life.probe_env.reset_track()
+                    if kind == 'inner':
+                        play(life, [None] * 6 + [None] * 3 + [None] * 12,
+                             force={6 + k: code_mask(life, [x]) for k in range(3)})
+                    else:
+                        play(life, [None] * 6 + [(x, C1 if r % 2 == 0 else C2, 1.0)] * 3 + [None] * 12)
+                    cnt[classify(list(life.probe_env.syl), list(life.probe_env.events), x)] += 1
+            n = sum(cnt.values())
+            out[kind] = {k: cnt[k] / n for k in ('clear', 'mumble', 'garble', 'other', 'silent')}
+    return out
+
+
+def force_link_stats(life, sel):
+    """learned + wired L4 -> force-copy link of each syllable's L4 unit set (sel: bool [34, n4]): true/other weight
+    ratio, top-4 exact, and margin = weakest own-muscle drive / strongest other-muscle drive (X7: ~1.5 needed)"""
+    b, ph = life.brain, life.ph
+    mot, pfc = b.motor, b.pfc
+    seg = [sg for sg in b.chains.segs if sg[0] == 'force'][0]
+    tabs = [pfc.L41] + ([pfc.G1P] if pfc.G1P is not None else [])
+    exact, margin, ratio = [], [], []
+    L = pfc.L41
+    isf_all = (L.idx >= seg[2]) & (L.idx < seg[3])
+    mus_all = (L.idx.long() - seg[2]).clamp(0, mot.nf - 1)
+    learners = []
+    for x in range(len(SYL)):
+        ownx = torch.as_tensor(ph.need_mat[x], device=DEV)[mot.muscle_of[mus_all]] & isf_all
+        learners.append(int(((L.w > 0.01) & ownx).any(1).sum()))
+    for x in range(len(SYL)):
+        if not bool(sel[x].any()):
+            continue
+        d = sum(t.drive(sel[x]) for t in tabs)[seg[2]:seg[3]]
+        per = torch.zeros(24, device=DEV).index_add_(0, mot.muscle_of, d)
+        own = torch.as_tensor(ph.need_mat[x], device=DEV)
+        exact.append(set(torch.topk(per, 4).indices.tolist()) == set(torch.nonzero(own).squeeze(1).tolist()))
+        margin.append(float(per[own].min() / per[~own].max().clamp_min(1e-9)))
+        rows = torch.nonzero(sel[x]).squeeze(1)                    # raw L41 weights from x's units to force copies
+        ix = pfc.L41.idx[rows].long()
+        w = pfc.L41.w[rows]
+        isf = (ix >= seg[2]) & (ix < seg[3])
+        mus = (ix - seg[2]).clamp(0, mot.nf - 1)
+        ownw = isf & own[mot.muscle_of[mus]]
+        oth = isf & ~own[mot.muscle_of[mus]]
+        ratio.append(float(w[ownw].mean() / w[oth].mean().clamp_min(1e-9)) if ownw.any() and oth.any() else float('nan'))
+    return dict(l4_units_with_learned_weight_median=float(np.median(learners)),
+                top4_exact=float(np.mean(exact)) if exact else 0.0, margin_median=float(np.median(margin)) if margin else 0.0,
+                true_other_weight_ratio=float(np.nanmedian(ratio)) if ratio else float('nan'), n_syllables=len(exact))
+
+
+# ---------------------------------------------------------------------------------------------- context test (11-02)
+def context_test(life, arms=('K0', 'K1', 'K1c', 'K2'), lags=(0, 6, 12, 24, 48), reps=4):
+    """Does related context make the question last longer in the PFC (and the hippocampus)? See PLAN addendum."""
+    b = life.brain
+    props, _, _ = tasks(life)
+    L = max(lags)
+    out = {}
+    for arm in arms:
+        rng = np.random.default_rng(life.seed + 9900)                  # same draws in every arm
+        S4, SH, key = [], [], []
+        with Frozen(life):
+            snap = b.snapshot()
+            for f in range(4):
+                for x in range(8):
+                    for r in range(reps):
+                        b.restore(snap)
+                        v = C1 if r % 2 == 0 else C2
+                        nar = W.narration(x, props, rng)
+                        x2 = int((x + 1 + rng.integers(7)) % 8)            # a different item, same narration form
+                        nar2 = ([W.FILL[x2], props[x2]['col'], '的'] if len(nar) == 3
+                                else [W.FILL[x2], props[x2]['size']])
+                        if arm == 'K0':
+                            ctx = contexts(rng, props)[r % 4]
+                        elif arm == 'K1':
+                            ctx = line_script(nar, v) + [None] * 4
+                        elif arm == 'K1c':
+                            ctx = line_script(nar2, v) + [None] * 4
+                        else:
+                            ctx = [None] * 20
+                        q = W.question(f, x)
+                        if arm == 'K2':                                # item = filler + its colour, same frame
+                            i = q.index(W.FILL[x])
+                            q = q[:i + 1] + [props[x]['col']] + q[i + 1:]
+                        qs = line_script(q, v)
+                        t_end = len(ctx) + len(qs) - 1
+                        s4, sh = {}, {}
+
+                        def rec(lf, t):
+                            if t - t_end in lags:
+                                s4[t - t_end] = lf.brain.pfc.L4.on.clone()
+                                if lf.brain.hip is not None:
+                                    sh[t - t_end] = lf.brain.hip.Hs.on.clone()
+                            if t - t_end in [lg + 1 for lg in lags]:
+                                s4[('next', t - t_end - 1)] = lf.brain.pfc.L4.on.clone()
+                        play(life, ctx + qs + [None] * (L + 2), mute=True, rec=rec)
+                        S4.append(torch.stack([s4[lg] for lg in lags] + [s4[('next', lg)] for lg in lags]))
+                        if sh:
+                            SH.append(torch.stack([sh[lg] for lg in lags]))
+                        key.append((f, x, r, 0))
+        S4 = torch.stack(S4)
+        SH = torch.stack(SH) if SH else None
+        q_of = lambda k: (k[0], k[1])
+        n = len(lags)
+        res = dict(lags=list(lags), chance=1 / 32)
+        res['L4_q32'] = [decode(S4, key, i, q_of) for i in range(n)]
+        res['L4_filler'] = [float(np.mean([decode(S4, key, i, lambda k, f=f: k[1] if k[0] == f else None)
+                                           for f in range(4)])) for i in range(n)]
+        res['L4_motion_J'] = [float(jac(S4[:, i], S4[:, n + i]).mean().item()) for i in range(n)]
+        if SH is not None:
+            res['Hs_q32'] = [decode(SH, key, i, q_of) for i in range(n)]
+            res['Hs_filler'] = [float(np.mean([decode(SH, key, i, lambda k, f=f: k[1] if k[0] == f else None)
+                                               for f in range(4)])) for i in range(n)]
+        for pop in ('L4', 'Hs'):
+            if pop + '_q32' in res:
+                below = [lg for lg, d in zip(lags, res[pop + '_q32']) if d <= 1 / 32 + 0.1]
+                res[pop + '_remembered_until'] = below[0] if below else f'> {L}'
+        out[arm] = res
+    return out

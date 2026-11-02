@@ -1,7 +1,7 @@
 """The X10 brain: sound area -> 1:1 chain pairs -> PFC and hippocampus; returns 1:1 back; motor area.
 Brain.step(a0, r) is the only entry point: it receives the A0 bit vector and r (r must be 0.0: no reward [R5]).
 
-Build order (birth): record a birth stream with the child silent (no G1 yet) -> calibrate the sound thresholds ->
+Build order (birth): record a birth stream with the child silent (no speech wiring yet) -> calibrate the sound thresholds ->
 chain band -> build PFC, hippocampus -> calibrate their fixed thresholds on the time-parallel birth chain stream."""
 import numpy as np
 import torch
@@ -125,6 +125,7 @@ class Brain:
         self.ret_stop = torch.zeros(self.motor.ns, dtype=torch.bool, device=DEV)
         self.learning = False
         self.prof = None                                     # a common.Prof when profiling
+        self.scaffold = None                                 # teacher program of the learned-speech arm (stage b)
         self.t = 0
         self.force_int = None
         self.n0 = coch.n
@@ -139,13 +140,15 @@ class Brain:
         self.learning = False
         sig = [max(abs(t), 1e-3) for t in self.pfc.theta]
         sig_h = max(abs(self.hip.theta_hs), 1e-3) if self.hip is not None else 0.0
-        acc = torch.zeros(5, device=DEV)
+        acc = torch.zeros(7, device=DEV)
         traj = []
+        k_ctx = self.c['ctx_k']
         for t in range(len(A0_stream)):
             self.step(torch.as_tensor(A0_stream[t], device=DEV), 0.0)
             p = self.pfc
             v = torch.stack([p.L1.on.sum(), p.L2.on.sum(), p.L3.on.sum(), p.L4.on.sum(),
-                             self.hip.Hs.on.sum() if self.hip is not None else torch.zeros((), device=DEV)])
+                             self.hip.Hs.on.sum() if self.hip is not None else torch.zeros((), device=DEV),
+                             p.L1ext.on.sum(), p.x_int.sum()])
             acc += v.float()
             if (t + 1) % every == 0:
                 m = (acc / every).tolist()
@@ -153,6 +156,13 @@ class Brain:
                     self.pfc.theta[l] += rate * sig[l] * (m[l] - m[l - 1]) / max(m[l - 1], 1.0)
                 if self.hip is not None:
                     self.hip.theta_hs += rate * sig_h * (m[4] - self.c['kh']) / self.c['kh']
+                if k_ctx > 0:                                   # excitability test: L1int ~ k x L1ext
+                    tgt = k_ctx * max(m[5], 1.0)
+                    self.pfc.theta[0] -= rate * 0.5 * (tgt - m[6]) / tgt
+                    if self.pfc.theta[0] < 0.05:                # theta_1 at its floor: raise the loop gain
+                        self.pfc.theta[0] = 0.05
+                        if m[6] < tgt:
+                            self.pfc.loop.w = self.pfc.loop.w * 1.25
                 traj.append([round(x, 1) for x in m])
                 acc.zero_()
         self.learning = was
@@ -206,7 +216,7 @@ class Brain:
         return out
 
     def plastic(self):
-        out = self.pfc.plastic() + self.motor.tables()
+        out = self.pfc.plastic() + self.motor.tables()     # motor: MC pattern pools only
         if self.hip is not None:
             out += self.hip.plastic()
         return out
@@ -228,7 +238,7 @@ class Brain:
         x_ext = ch.gather(self.sound.state, self.motor.force.on, self.motor.stop.on)       # sources at t-1
         s_new = self.sound.step(a0, self.ret_sound)                                        # returns from t-1
         P and P.lap('sound+chains')
-        muscles = self.motor.step(a0, s_new[0], self.ret_force, self.ret_stop)
+        muscles = self.motor.step(a0, self.ret_force, self.ret_stop, self.scaffold)
         P and P.lap('motor')
         x_int = self.pfc.step(x_ext, self.force_int)
         P and P.lap('pfc')
@@ -265,6 +275,18 @@ class Brain:
         for p, st in zip(self.pops(), sn['pops']):
             p.load(st)
         self.motor.block = sn['block'].clone()
+
+    def snapshot_full(self):
+        sn = self.snapshot()
+        sn['tables'] = [(t.w.clone(), t.out.clone(), t.inn.clone()) for t in self.plastic()]
+        sn['t'] = self.t
+        return sn
+
+    def restore_full(self, sn):
+        self.restore(sn)
+        for t, (w, o, i) in zip(self.plastic(), sn['tables']):
+            t.w, t.out, t.inn = w.clone(), o.clone(), i.clone()
+        self.t = sn['t']
 
     def counts(self):
         """per-tick activity counts (GPU tensor; fetched in bulk by the harness)"""

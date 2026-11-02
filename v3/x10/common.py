@@ -35,7 +35,7 @@ def config(s=1, **over):
         # PFC [P1-P12]
         ff_fan=24, r_ff=0.10, r_learn=0.15, patch=33, inhib='P1', g_pm=1.0, pm_extra=0.0,
         loop='recip', loop_fan=30, g_loop=1.0, lat_fan=20, w44=0.5, theta1=1.0, g31=1.0, g44=1.0,
-        post='chain', rho=1,
+        post='chain', rho=1, ctx_k=0.0,
         # learning [R1-R4]
         eta=0.02, eta_m=0.01, w_ref=1.0, floor=0.01, fall_win=2, decay_every=200, prune=1e-3,
         gamma_pfc=0.99995, gamma_motor=0.9999, gamma_h_base=0.01,
@@ -44,13 +44,17 @@ def config(s=1, **over):
         theta_h1=1.0, g_h1=1.0, g_hh=1.0, g_ih=1.0,
         # motor [M1-M6]
         theta_m=0.3, b_block=0.8, c_stop=2.0, ladder_step=0.25, n_brake_per_s=8.0, theta_stop=1.0,
-        g_G1=1.0, g1_rel=1.5,
+        g_ret_force=1.3, force_per_muscle=0, mc=False, mc_nI=16, mc_k=4, mc_e=3.0, mc_i=4.0,           # 0: m = s (arm M sets m explicitly)
+        # gen-0 speech wiring G1P (designer 11-02: inside the PFC, L4 syllable units -> L1 force copies)
+        g1p_rel=1.5, g1p_own_excl=False, g1p_own_cut=0.2, g1p_p=0.5, g1p_margin=0.3, g1p_src='heard', g1p_evoked=False, g1p_off=0.2,
         # concept area (arm C+ only)
         concept=False,
         # birth period (dialogues, learning off)
         birth_dialogues=200, calib_ticks=3000, calib_online_ticks=4000,
         # implementation only: tables up to this many entries are scanned whole each tick (no host sync)
         dense_limit=0,
+        # P1 (11-02, ARCH 2.3): upper chain-band cut on A1 and A2 (near-input often-on units carry no features)
+        band_cut_a12=None,
     )
     if 'pfc_size' in over:
         c.update(PFC_SIZE[over['pfc_size']])
@@ -58,6 +62,10 @@ def config(s=1, **over):
         if k not in c:
             raise KeyError(f'unknown config key {k}')
         c[k] = v
+    if c['band_cut_a12'] is not None:
+        h = c['band_cut_a12']
+        c['band_depth_sound'] = 2
+        c['band_sound'] = [(c['band'][0], h), (c['band_rel'] * c['sound_rates'][1], h)]
     return c
 
 

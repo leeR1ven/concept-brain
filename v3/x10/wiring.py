@@ -10,19 +10,19 @@ import numpy as np
 import torch
 
 from common import DEV
-from world_adapter import ADULTS, NSYL
+from world_adapter import ADULTS, NSYL, OWN
 
 
-def measure_codes(brain, coch, reps=2, pre=4, post=8):
+def measure_codes(brain, coch, reps=2, pre=4, post=8, voices=ADULTS):
     """Sound area alone, from silence, no returns. P[s, v, j]: firing probability of chain source j (sound part)
-    while syllable s is heard in adult voice v (each layer read at its own latency)."""
+    while syllable s is heard in voice v (each layer read at its own latency)."""
     snd, ch = brain.sound, brain.chains
     n_sound = sum(len(ix) for ix in ch.sound_idx)
-    P = torch.zeros((NSYL, len(ADULTS), n_sound), device=DEV)
+    P = torch.zeros((NSYL, len(voices), n_sound), device=DEV)
     zero_ret = [torch.zeros(n, device=DEV) for n in snd.n]
     saved = [x.clone() for x in snd.state]
     for s in range(NSYL):
-        for vi, v in enumerate(ADULTS):
+        for vi, v in enumerate(voices):
             for _ in range(reps):
                 snd.state = [torch.zeros_like(x) for x in saved]
                 seq = [[]] * pre + [[('s', s, v, 1.0)]] * 3 + [[]] * post
@@ -88,12 +88,23 @@ def wire_g1(brain, coch, ph):
     src = ch.sound_idx[0]
     need = torch.as_tensor(ph.need_mat, dtype=torch.float32, device=DEV)            # [34, 24]
     M = P.mean(1)[:, :n0]
+    # [G1, approved 11-02] keep only A1 units that the child's OWN voice does not light: lit in < own_cut of the
+    # ticks of every own syllable (the own voice then drives no G1 input at all)
+    Pown = measure_codes(brain, coch, voices=(OWN,))[:, 0, :n0]                      # [34, n0]
+    own_lit = Pown.max(0).values >= c['g1_own_cut']
+    old = (M >= 0.5)
+    kept = old & ~own_lit[None, :]
+    keep_stats = dict(own_cut=c['g1_own_cut'], units_lit_by_own_voice=int(own_lit.sum()), a1_sources=n0,
+                      kept_per_syllable=kept.sum(1).tolist(), old_per_syllable=old.sum(1).tolist(),
+                      below_third=[int(s) for s in range(M.shape[0]) if kept[s].sum() < old[s].sum() / 3])
+    M = M * (~own_lit)[None, :].float()
     variants = {'bin0.5': (M >= 0.5).float(), 'bin0.8': (M >= 0.8).float(), 'prob': M}
+    codes_g1 = [cd[(cd >= n0) | ~own_lit[cd.clamp_max(n0 - 1)]] for cd in codes]      # quality on kept A1 units
     qual = {}
     best = None
     for k, A in variants.items():
         Wk = nnls(A, need)
-        q = g1_quality(Wk, codes, n0, need, c['w_ref'])
+        q = g1_quality(Wk, codes_g1, n0, need, c['w_ref'])
         qual[k] = q
         if best is None or q > best[0]:
             best = (q, k, Wk)
@@ -120,7 +131,7 @@ def wire_g1(brain, coch, ph):
     mot.ladder = p_sharp * (1.0 + c['ladder_step'] * 4.0 * (j + 1) / (4 * mot.s))  # recruits 1x..2x a sharp drive
     sizes = [int(x.numel()) for x in codes]
     l1 = [int((x < n0).sum()) for x in codes]
-    return dict(set='G1', variant=best[1], quality=qual, links=int((Wf > 1e-6).sum()), gain=gain,
+    return dict(set='G1', own_voice=keep_stats, variant=best[1], quality=qual, links=int((Wf > 1e-6).sum()), gain=gain,
                 release_level=rel, p_sharp=p_sharp,
                 code_size_min=min(sizes), code_size_median=float(np.median(sizes)), a1_code_min=min(l1),
                 a1_code_median=float(np.median(l1)), syllables_without_a1_code=int(sum(1 for x in l1 if x == 0))), codes

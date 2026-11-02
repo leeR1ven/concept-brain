@@ -1,0 +1,361 @@
+{
+ "mode": "collapse",
+ "arm": "noMC m32",
+ "config": {
+  "inhib": "P1",
+  "loop": "recip",
+  "g_loop": 1.0,
+  "w44": 0.0,
+  "g44": 0.1,
+  "g_hh": 0.1,
+  "g_h1": 0.1,
+  "mc": false,
+  "force_per_muscle": 32,
+  "b_block": 1.2,
+  "g_ret_force": 1.6
+ },
+ "seed": 0,
+ "n1": 4754,
+ "calib": {
+  "pfc_counts": [
+   712.9710083007812,
+   712.9673461914062,
+   712.8436889648438,
+   712.8133544921875
+  ],
+  "pfc_theta": [
+   1.0,
+   0.06460713654009399,
+   0.11693767809176628,
+   0.11944212272068472
+  ],
+  "pfc_g": [
+   1.0,
+   1.0,
+   0.75,
+   0.75
+  ],
+  "hip": {
+   "theta": 0.20074709504887145,
+   "mean": 50.0,
+   "p10": 22.0,
+   "p90": 92.0
+  },
+  "online": {
+   "theta": [
+    1.0,
+    0.06460713654009399,
+    0.11693767809176628,
+    0.11944212272068472
+   ],
+   "theta_hs": 0.20256179077190872,
+   "last_counts": [
+    780.0,
+    801.6,
+    801.5,
+    808.4,
+    45.1,
+    759.8,
+    49.5
+   ],
+   "first_counts": [
+    651.8,
+    664.5,
+    639.1,
+    635.7,
+    38.5,
+    636.1,
+    38.3
+   ]
+  }
+ },
+ "chain_report": [
+  {
+   "area": "sound",
+   "layer": "A1",
+   "units": 2160,
+   "cut": [
+    0.002,
+    0.9
+   ],
+   "in_band": 0.7712962627410889,
+   "never_on": 0.22870369255542755,
+   "always_on": 0.0,
+   "chained": 1666,
+   "chained_in_band": 1666,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 1666,
+   "copies_hip": 1666,
+   "lit_silence": 213.1623077392578,
+   "lit_speech": 338.31304931640625
+  },
+  {
+   "area": "sound",
+   "layer": "A2",
+   "units": 2160,
+   "cut": [
+    0.108,
+    0.9
+   ],
+   "in_band": 0.2532407343387604,
+   "never_on": 0.7467592358589172,
+   "always_on": 0.0,
+   "chained": 547,
+   "chained_in_band": 547,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 547,
+   "copies_hip": 547,
+   "lit_silence": 132.10791015625,
+   "lit_speech": 191.6072235107422
+  },
+  {
+   "area": "sound",
+   "layer": "A3",
+   "units": 2160,
+   "cut": [
+    0.07200000000000001,
+    0.9
+   ],
+   "in_band": 0.3810185194015503,
+   "never_on": 0.6189814805984497,
+   "always_on": 0.0,
+   "chained": 823,
+   "chained_in_band": 823,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 823,
+   "copies_hip": 823,
+   "lit_silence": 60.0849494934082,
+   "lit_speech": 172.8529052734375
+  },
+  {
+   "area": "sound",
+   "layer": "A4",
+   "units": 2160,
+   "cut": [
+    0.045000000000000005,
+    0.9
+   ],
+   "in_band": 0.3212963044643402,
+   "never_on": 0.6787036657333374,
+   "always_on": 0.0,
+   "chained": 694,
+   "chained_in_band": 694,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 694,
+   "copies_hip": 694,
+   "lit_silence": 25.008026123046875,
+   "lit_speech": 91.8661117553711
+  },
+  {
+   "area": "motor",
+   "layer": "force",
+   "units": 768,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 768,
+   "copies_hip": 768,
+   "birth_rate_mean": 0.0
+  },
+  {
+   "area": "motor",
+   "layer": "stop",
+   "units": 256,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 256,
+   "copies_hip": 256,
+   "birth_rate_mean": 0.4528485834598541
+  },
+  {
+   "area": "motor",
+   "layer": "block",
+   "units": 256,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 0.5,
+   "copies_pfc": 0,
+   "copies_hip": 0,
+   "birth_rate_mean": 0.5
+  }
+ ],
+ "registry": {},
+ "collapse": {
+  "clean": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "onset_garble": 0.0,
+   "garble_ticks": 0.0,
+   "ticks_on_after_input": 0.0
+  },
+  "2of4": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "noise10": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "onset_garble": 0.0,
+   "garble_ticks": 0.0,
+   "ticks_on_after_input": 0.0
+  },
+  "60/40 share0": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "onset_garble": 0.0,
+   "garble_ticks": 0.0,
+   "ticks_on_after_input": 0.0
+  },
+  "50/50 share0": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "90/70 share0": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "80/80 share0": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "60/40 share1": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "onset_garble": 0.0,
+   "garble_ticks": 0.0,
+   "ticks_on_after_input": 0.0
+  },
+  "50/50 share1": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "90/70 share1": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "80/80 share1": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "60/40 share2": {
+   "n": 34,
+   "stronger": 1.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 0.0,
+   "silent": 0.0,
+   "onset_garble": 0.0,
+   "garble_ticks": 0.0,
+   "ticks_on_after_input": 0.0
+  },
+  "50/50 share2": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "90/70 share2": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  },
+  "80/80 share2": {
+   "n": 34,
+   "stronger": 0.0,
+   "weaker": 0.0,
+   "other": 0.0,
+   "garble": 1.0,
+   "silent": 0.0,
+   "onset_garble": 1.0,
+   "garble_ticks": 3.0,
+   "ticks_on_after_input": 0.0
+  }
+ }
+}
