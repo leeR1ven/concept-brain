@@ -1,0 +1,331 @@
+{
+ "s": 4,
+ "pfc_size": "small",
+ "g_loop": 1.0,
+ "w44": 0.5,
+ "dense_limit": 0,
+ "device": "cuda",
+ "ms_per_tick": 18.768696943918865,
+ "ticks": 1500,
+ "build_s": 4.378328800201416,
+ "gpu_peak_GB": 0.97514752,
+ "gpu_peak_build_GB": 0.97514752,
+ "gpu_reserved_GB": 1.432354816,
+ "n1": 7048,
+ "chains": [
+  1011,
+  1907,
+  2160,
+  1842
+ ],
+ "sound": [
+  8640,
+  8640,
+  8640,
+  8640
+ ],
+ "pfc_layer": 7048,
+ "hs": 20000,
+ "tables": {
+  "sound A1": [
+   8640,
+   6
+  ],
+  "sound A2": [
+   8640,
+   6
+  ],
+  "sound A3": [
+   8640,
+   6
+  ],
+  "sound A4": [
+   8640,
+   6
+  ],
+  "PFC ff L1->L2": [
+   7048,
+   24
+  ],
+  "PFC ff L2->L3": [
+   7048,
+   24
+  ],
+  "PFC ff L3->L4": [
+   7048,
+   24
+  ],
+  "PFC birth loop L4->L1": [
+   7048,
+   30
+  ],
+  "PFC birth lateral L4<->L4": [
+   7048,
+   20
+  ],
+  "PFC L4->L1 acquired": [
+   7048,
+   921
+  ],
+  "PFC L4<->L4 acquired": [
+   7048,
+   555
+  ],
+  "motor G1 sound A1 -> force (gen-0, acquired)": [
+   1011,
+   96
+  ],
+  "hip recode H1->Hs": [
+   20000,
+   24
+  ],
+  "hip Hs<->Hs acquired": [
+   20000,
+   2000
+  ],
+  "hip Hs->H1 acquired": [
+   20000,
+   800
+  ]
+ },
+ "counts_after": {
+  "mean": [
+   1623.1180419921875,
+   2147.77001953125,
+   1977.64013671875,
+   1908.2081298828125,
+   2859.188232421875,
+   542.197998046875,
+   2863.5341796875,
+   2291.97802734375,
+   2359.0,
+   3957.314208984375,
+   2859.188232421875,
+   0.0,
+   1651.4061279296875,
+   56.99800109863281,
+   18.81800079345703
+  ],
+  "max": [
+   1951.0,
+   3069.0,
+   3171.0,
+   3432.0,
+   3572.0,
+   570.0,
+   3572.0,
+   2421.0,
+   2564.0,
+   3982.0,
+   3572.0,
+   0.0,
+   1687.0,
+   57.0,
+   32.0
+  ]
+ },
+ "count_names": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "L1ext",
+  "L1int",
+  "L1",
+  "L2",
+  "L3",
+  "L4",
+  "H1",
+  "H1int",
+  "Hs",
+  "force",
+  "stop"
+ ],
+ "profile_ms_per_tick": {
+  "sound+chains": 0.5576618512471517,
+  "motor": 1.0233139991760254,
+  "pfc": 6.717270215352376,
+  "hip": 1.121673583984375,
+  "returns": 0.2556633949279785,
+  "learn pfc": 7.037398815155029,
+  "learn motor+hip": 2.4771904945373535,
+  "decay": 0.05899508794148763
+ },
+ "chain_report": [
+  {
+   "area": "sound",
+   "layer": "A1",
+   "units": 8640,
+   "cut": [
+    0.19,
+    0.9
+   ],
+   "in_band": 0.11701388657093048,
+   "never_on": 0.8829860687255859,
+   "always_on": 0.0,
+   "chained": 1011,
+   "chained_in_band": 1011,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 1011,
+   "copies_hip": 1011,
+   "lit_silence": 999.9290161132812,
+   "lit_speech": 734.008056640625
+  },
+  {
+   "area": "sound",
+   "layer": "A2",
+   "units": 8640,
+   "cut": [
+    0.11399999999999999,
+    0.9
+   ],
+   "in_band": 0.22071759402751923,
+   "never_on": 0.7792823910713196,
+   "always_on": 0.0,
+   "chained": 1907,
+   "chained_in_band": 1907,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 1907,
+   "copies_hip": 1907,
+   "lit_silence": 482.5621337890625,
+   "lit_speech": 660.6867065429688
+  },
+  {
+   "area": "sound",
+   "layer": "A3",
+   "units": 8640,
+   "cut": [
+    0.076,
+    0.9
+   ],
+   "in_band": 0.25,
+   "never_on": 0.75,
+   "always_on": 0.0,
+   "chained": 2160,
+   "chained_in_band": 2160,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 2160,
+   "copies_hip": 2160,
+   "lit_silence": 232.51478576660156,
+   "lit_speech": 461.0323486328125
+  },
+  {
+   "area": "sound",
+   "layer": "A4",
+   "units": 8640,
+   "cut": [
+    0.0475,
+    0.9
+   ],
+   "in_band": 0.21319444477558136,
+   "never_on": 0.7868055701255798,
+   "always_on": 0.0,
+   "chained": 1842,
+   "chained_in_band": 1842,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 1842,
+   "copies_hip": 1842,
+   "lit_silence": 63.208282470703125,
+   "lit_speech": 233.91790771484375
+  },
+  {
+   "area": "motor",
+   "layer": "force",
+   "units": 96,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 96,
+   "copies_hip": 96,
+   "birth_rate_mean": 0.0
+  },
+  {
+   "area": "motor",
+   "layer": "stop",
+   "units": 32,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 32,
+   "copies_hip": 32,
+   "birth_rate_mean": 0.5058479309082031
+  },
+  {
+   "area": "motor",
+   "layer": "block",
+   "units": 32,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 0.5,
+   "copies_pfc": 0,
+   "copies_hip": 0,
+   "birth_rate_mean": 0.5
+  }
+ ],
+ "life_10k_dialogues_min": 127.00151598718432,
+ "registry": {
+  "G1": {
+   "set": "G1",
+   "variant": "bin0.5",
+   "quality": {
+    "bin0.5": [
+     0.029411764705882353,
+     0.6901156306266785
+    ],
+    "bin0.8": [
+     0.029411764705882353,
+     0.5871797204017639
+    ],
+    "prob": [
+     0.029411764705882353,
+     0.6895566880702972
+    ]
+   },
+   "links": 3120,
+   "gain": 3.892972946166992,
+   "release_level": 0.7,
+   "p_sharp": 77.0083166067634,
+   "code_size_min": 1840,
+   "code_size_median": 2175.5,
+   "a1_code_min": 788,
+   "a1_code_median": 899.0,
+   "syllables_without_a1_code": 0
+  }
+ },
+ "calib": {
+  "pfc_counts": [
+   1950.6134033203125,
+   1950.6104736328125,
+   1950.6104736328125,
+   1950.51220703125
+  ],
+  "pfc_theta": [
+   1.0,
+   0.04424404911731175,
+   0.12147470936251129,
+   0.12169122323414185
+  ],
+  "pfc_g": [
+   1.0,
+   1.0,
+   0.75,
+   0.75
+  ],
+  "hip": {
+   "theta": 0.28701989352725255,
+   "mean": 49.791812896728516,
+   "p10": 45.0,
+   "p90": 62.0
+  }
+ }
+}

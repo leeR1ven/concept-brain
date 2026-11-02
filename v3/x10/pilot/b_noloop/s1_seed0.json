@@ -1,0 +1,79 @@
+{
+ "config": {
+  "g_loop": 0.0,
+  "w44": 0.0
+ },
+ "registry": {
+  "G1": {
+   "set": "G1",
+   "variant": "bin0.5",
+   "quality": {
+    "bin0.5": [
+     1.0,
+     3.7193866968154907
+    ],
+    "bin0.8": [
+     1.0,
+     3.5010578632354736
+    ],
+    "prob": [
+     1.0,
+     3.6834959983825684
+    ]
+   },
+   "links": 3565,
+   "gain": 2.237335681915283,
+   "release_level": 0.7,
+   "p_sharp": 6.33530308407785,
+   "code_size_min": 598,
+   "code_size_median": 763.0,
+   "a1_code_min": 335,
+   "a1_code_median": 370.0,
+   "syllables_without_a1_code": 0
+  }
+ },
+ "calib": {
+  "pfc_counts": [
+   616.2367553710938,
+   616.2188110351562,
+   616.2188110351562,
+   616.2177734375
+  ],
+  "pfc_theta": [
+   1.0,
+   0.06462967023308461,
+   0.11760273203282187,
+   0.1216984651986209
+  ],
+  "pfc_g": [
+   1.0,
+   1.0,
+   0.75,
+   0.75
+  ],
+  "hip": {
+   "theta": 0.20506606251004605,
+   "mean": 50.0,
+   "p10": 28.0,
+   "p90": 86.5
+  }
+ },
+ "b1_forced_syllable_said": 0.2647058823529412,
+ "b3_own_voice_loop": 0.0,
+ "b2_forced_answer_said": 0.15625,
+ "b1b2_garble": 0.84375,
+ "b4_echo_per_line": 0.0,
+ "b5_mixture_garble": 0.9411764705882353,
+ "b6_brake_stops": 1.0,
+ "b7_utterances_per_dialogue": 0.0,
+ "b7_b1_after_overhearing": 0.2647058823529412,
+ "pass": {
+  "b1": false,
+  "b2": false,
+  "b3": true,
+  "b4": true,
+  "b5": false,
+  "b6": true,
+  "b7": false
+ }
+}

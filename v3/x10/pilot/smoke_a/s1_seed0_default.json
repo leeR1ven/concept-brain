@@ -1,0 +1,319 @@
+{
+ "config": {},
+ "calib": {
+  "pfc_counts": [
+   847.4471435546875,
+   847.4471435546875,
+   847.3668212890625,
+   847.36572265625
+  ],
+  "pfc_theta": [
+   1.0,
+   0.07602516934343795,
+   0.0758764110509797,
+   0.1115515194835793
+  ],
+  "pfc_g": [
+   1.0,
+   1.0,
+   1.0,
+   0.75
+  ],
+  "hip": {
+   "theta": 0.1778013780714758,
+   "mean": 50.0,
+   "p10": 13.0,
+   "p90": 108.0
+  }
+ },
+ "chain_report": [
+  {
+   "area": "sound",
+   "layer": "A1",
+   "units": 2160,
+   "band": [
+    0.002,
+    0.9
+   ],
+   "band_applied": true,
+   "in_band": 0.7916666269302368,
+   "never_on": 0.2083333283662796,
+   "always_on": 0.0,
+   "chained": 1710,
+   "chained_in_band": 1710,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 1710,
+   "copies_hip": 1710,
+   "lit_silence": 258.20703125,
+   "lit_speech": 372.88336181640625
+  },
+  {
+   "area": "sound",
+   "layer": "A2",
+   "units": 2160,
+   "band": [
+    0.002,
+    0.9
+   ],
+   "band_applied": false,
+   "in_band": 0.9861111044883728,
+   "never_on": 0.013888888992369175,
+   "always_on": 0.0,
+   "chained": 2160,
+   "chained_in_band": 2130,
+   "chained_never_on": 30,
+   "chained_always_on": 0,
+   "copies_pfc": 2160,
+   "copies_hip": 2160,
+   "lit_silence": 132.59420776367188,
+   "lit_speech": 412.9308776855469
+  },
+  {
+   "area": "sound",
+   "layer": "A3",
+   "units": 2160,
+   "band": [
+    0.002,
+    0.9
+   ],
+   "band_applied": false,
+   "in_band": 1.0,
+   "never_on": 0.0,
+   "always_on": 0.0,
+   "chained": 2160,
+   "chained_in_band": 2160,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 2160,
+   "copies_hip": 2160,
+   "lit_silence": 47.37267303466797,
+   "lit_speech": 299.0777587890625
+  },
+  {
+   "area": "sound",
+   "layer": "A4",
+   "units": 2160,
+   "band": [
+    0.002,
+    0.9
+   ],
+   "band_applied": false,
+   "in_band": 1.0,
+   "never_on": 0.0,
+   "always_on": 0.0,
+   "chained": 2160,
+   "chained_in_band": 2160,
+   "chained_never_on": 0,
+   "chained_always_on": 0,
+   "copies_pfc": 2160,
+   "copies_hip": 2160,
+   "lit_silence": 12.043478012084961,
+   "lit_speech": 172.66738891601562
+  },
+  {
+   "area": "motor",
+   "layer": "force",
+   "units": 24,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 24,
+   "copies_hip": 24,
+   "birth_rate_mean": 0.0
+  },
+  {
+   "area": "motor",
+   "layer": "stop",
+   "units": 8,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 1.0,
+   "copies_pfc": 8,
+   "copies_hip": 8,
+   "birth_rate_mean": 0.48942917585372925
+  },
+  {
+   "area": "motor",
+   "layer": "block",
+   "units": 8,
+   "band": [
+    0.0,
+    0.9
+   ],
+   "in_band": 0.5,
+   "copies_pfc": 0,
+   "copies_hip": 0,
+   "birth_rate_mean": 0.5
+  }
+ ],
+ "n1": 8222,
+ "a1": {
+  "A1": {
+   "silence": 378.6136474609375,
+   "speech": 483.4111022949219,
+   "ratio": 0.7832125425338745,
+   "min": 304.0,
+   "max": 526.0,
+   "frac_max": 0.24351851642131805
+  },
+  "A2": {
+   "silence": 649.397705078125,
+   "speech": 780.977783203125,
+   "ratio": 0.8315187692642212,
+   "min": 0.0,
+   "max": 937.0,
+   "frac_max": 0.4337962865829468
+  },
+  "A3": {
+   "silence": 747.3295288085938,
+   "speech": 859.3555297851562,
+   "ratio": 0.86963951587677,
+   "min": 0.0,
+   "max": 1143.0,
+   "frac_max": 0.5291666388511658
+  },
+  "A4": {
+   "silence": 887.022705078125,
+   "speech": 950.1555786132812,
+   "ratio": 0.9335552453994751,
+   "min": 0.0,
+   "max": 1407.0,
+   "frac_max": 0.6513888835906982
+  },
+  "L1ext": {
+   "silence": 2777.67041015625,
+   "speech": 2941.622314453125,
+   "ratio": 0.944264829158783,
+   "min": 0.0,
+   "max": 3935.0,
+   "frac_max": 0.47859400510787964
+  },
+  "L1int": {
+   "silence": 628.102294921875,
+   "speech": 578.4444580078125,
+   "ratio": 1.08584725856781,
+   "min": 0.0,
+   "max": 672.0,
+   "frac_max": 0.08173193782567978
+  },
+  "L1": {
+   "silence": 2829.181884765625,
+   "speech": 2984.022216796875,
+   "ratio": 0.9481102228164673,
+   "min": 0.0,
+   "max": 3983.0,
+   "frac_max": 0.48443201184272766
+  },
+  "L2": {
+   "silence": 1817.397705078125,
+   "speech": 1761.5555419921875,
+   "ratio": 1.0317004919052124,
+   "min": 0.0,
+   "max": 1999.0,
+   "frac_max": 0.2431281954050064
+  },
+  "L3": {
+   "silence": 1525.102294921875,
+   "speech": 1447.5333251953125,
+   "ratio": 1.0535869598388672,
+   "min": 0.0,
+   "max": 1622.0,
+   "frac_max": 0.19727560877799988
+  },
+  "L4": {
+   "silence": 3710.397705078125,
+   "speech": 3453.68896484375,
+   "ratio": 1.074328899383545,
+   "min": 0.0,
+   "max": 3859.0,
+   "frac_max": 0.46935051679611206
+  },
+  "H1": {
+   "silence": 2777.67041015625,
+   "speech": 2941.622314453125,
+   "ratio": 0.944264829158783,
+   "min": 0.0,
+   "max": 3935.0,
+   "frac_max": 0.47859400510787964
+  },
+  "H1int": {
+   "silence": 0.0,
+   "speech": 0.0,
+   "ratio": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "frac_max": 0.0
+  },
+  "Hs": {
+   "silence": 210.0454559326172,
+   "speech": 204.73333740234375,
+   "ratio": 1.0259464979171753,
+   "min": 0.0,
+   "max": 268.0,
+   "frac_max": 0.053599998354911804
+  },
+  "force": {
+   "silence": 0.0,
+   "speech": 0.0,
+   "ratio": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "frac_max": 0.0
+  },
+  "stop": {
+   "silence": 2.0,
+   "speech": 8.0,
+   "ratio": 0.25,
+   "min": 2.0,
+   "max": 8.0,
+   "frac_max": 1.0
+  },
+  "L2/L1 silence": 0.6423757076263428,
+  "L2/L1 speech": 0.5903292298316956,
+  "L3/L2 silence": 0.8391681909561157,
+  "L3/L2 speech": 0.8217358589172363,
+  "L4/L3 silence": 2.432884454727173,
+  "L4/L3 speech": 2.385913372039795
+ },
+ "a1_pass": false,
+ "chance": 0.03125,
+ "L4_decode": {
+  "0": 1.0,
+  "3": 0.375,
+  "6": 0.296875,
+  "9": 0.140625,
+  "12": 0.03125
+ },
+ "L4_filler_given_frame_lag12": 0.125,
+ "Hs_decode": {
+  "0": 0.40625,
+  "6": 0.09375,
+  "12": 0.015625
+ },
+ "J_same_q_other_ctx": 0.5146596813574433,
+ "J_other_q_same_frame": 0.4632142839421119,
+ "J_margin": 0.05144539741533144,
+ "motion_J_t_t1": 0.48606252670288086,
+ "L4_count_lag": [
+  3781.078125,
+  3786.484375,
+  3789.765625,
+  3797.015625,
+  3799.0,
+  3772.8125,
+  3779.4375,
+  3765.046875,
+  3733.375,
+  3712.703125,
+  3706.734375,
+  3706.25,
+  3699.734375
+ ],
+ "a2_pass": false,
+ "a3_pass": false
+}

@@ -1,0 +1,283 @@
+"""The X10 brain: sound area -> 1:1 chain pairs -> PFC and hippocampus; returns 1:1 back; motor area.
+Brain.step(a0, r) is the only entry point: it receives the A0 bit vector and r (r must be 0.0: no reward [R5]).
+
+Build order (birth): record a birth stream with the child silent (no G1 yet) -> calibrate the sound thresholds ->
+chain band -> build PFC, hippocampus -> calibrate their fixed thresholds on the time-parallel birth chain stream."""
+import numpy as np
+import torch
+
+from common import DEV, gammas, log
+from hippocampus import Hippocampus
+from motor import Motor
+from pfc import PFC
+from sound import SoundArea
+
+
+class Chains:
+    """[S5, C1-C3] chain sources: chain-bearing units of A1..A4 (birth rate in the band), every force neuron, every
+    stop neuron. Copy j of the PFC and copy j of the hippocampus both belong to source j (forward), and both return
+    to source j only (1:1). The input layer A0 and the blocking neurons have no chain pair."""
+
+    def __init__(self, sound, motor, rates, bands, seed):
+        """bands: per sound layer (low, high), already resolved (shallow band or depth-relative cut; None = every
+        unit). Force and stop neurons are all chained; blocking neurons never (2.7)."""
+        self.sound_idx = [torch.arange(r.numel(), device=DEV) if b is None else
+                          torch.nonzero((r >= b[0]) & (r <= b[1])).squeeze(1) for r, b in zip(rates, bands)]
+        segs, pos = [], []
+        a = 0
+        for l, ix in enumerate(self.sound_idx):
+            segs.append(('sound', l, a, a + len(ix)))
+            pos.append(sound.pos[l][ix])
+            a += len(ix)
+        g = torch.Generator(device=DEV)
+        g.manual_seed(seed + 300)
+        segs.append(('force', 0, a, a + motor.nf))
+        pos.append(torch.rand((motor.nf, 2), generator=g, device=DEV))
+        a += motor.nf
+        segs.append(('stop', 0, a, a + motor.ns))
+        pos.append(torch.rand((motor.ns, 2), generator=g, device=DEV))
+        a += motor.ns
+        self.segs, self.n = segs, a
+        jit = 0.005 * torch.randn((a, 2), generator=g, device=DEV)
+        self.pos = (torch.cat(pos) + jit).clamp(0.0, 1.0)
+        # explicit source table (area code, layer, unit) for the 1:1 checks
+        area = torch.zeros(a, dtype=torch.int64, device=DEV)
+        layer = torch.zeros(a, dtype=torch.int64, device=DEV)
+        unit = torch.zeros(a, dtype=torch.int64, device=DEV)
+        for kind, l, s0, s1 in segs:
+            area[s0:s1] = {'sound': 0, 'force': 1, 'stop': 2}[kind]
+            layer[s0:s1] = l
+            unit[s0:s1] = self.sound_idx[l] if kind == 'sound' else torch.arange(s1 - s0, device=DEV)
+        self.fwd_src = torch.stack([area, layer, unit], 1)      # forward chain j comes from this source
+        self.ret_dst = self.fwd_src.clone()                     # return chain j goes back to this unit
+
+    def gather(self, sound_state, force, stop):
+        parts = [sound_state[l][ix] for l, ix in enumerate(self.sound_idx)]
+        return torch.cat(parts + [force, stop])
+
+    def scatter(self, R, sound_n, nf, ns):
+        """returns R (bool [n]) to its own sources: per sound layer float [n_l], force float [nf], stop bool [ns]"""
+        out = []
+        for kind, l, s0, s1 in self.segs:
+            if kind == 'sound':
+                v = torch.zeros(sound_n[l], device=DEV)
+                v[self.sound_idx[l]] = R[s0:s1].float()
+                out.append(v)
+            elif kind == 'force':
+                rf = R[s0:s1].float()
+            else:
+                rs = R[s0:s1]
+        return out, rf, rs
+
+
+class Brain:
+    def __init__(self, c, seed, coch, birth_A0, birth_speech=None):
+        """birth_A0: bool numpy [T, n0], the birth period heard by the silent newborn. birth_speech (optional, report
+        only, never given to the brain's dynamics): which birth ticks had adult speech."""
+        self.c, self.seed = c, seed
+        self.gam = gammas(c)
+        self.sound = SoundArea(coch, c)
+        A0 = torch.as_tensor(birth_A0, device=DEV)
+        states = self.sound.calibrate(A0)
+        rates = [st.float().mean(0) for st in states]
+        self.birth_rates = rates
+        self.motor = Motor(c, coch, self.gam)
+        bs = c['band_sound'] if c['band_sound'] is not None else c['band']
+        shallow = list(bs) if isinstance(bs[0], (list, tuple)) else [tuple(bs)] * len(rates)
+        bands = []
+        for l in range(len(rates)):
+            if l < c['band_depth_sound']:
+                bands.append(tuple(shallow[l]))
+            elif c['band_rel'] > 0:
+                bands.append((c['band_rel'] * c['sound_rates'][l], c['band'][1]))
+            else:
+                bands.append(None)
+        self.motor_rates_birth = self.motor_birth_rates(A0)
+        lo_m, hi_m = c['band_motor']
+        for k in ('force', 'stop'):                         # the motor band, applied to force and stop neurons
+            r = self.motor_rates_birth[k]
+            assert bool(((r >= lo_m) & (r <= hi_m)).all()), f'motor band cuts {k} neurons: not supported yet'
+        self.chains = Chains(self.sound, self.motor, rates, bands, seed)
+        self.chain_report = self.make_chain_report(states, rates, bands, birth_speech)
+        self.n1 = self.chains.n
+        log(f'chains: {[len(ix) for ix in self.chains.sound_idx]} sound + {self.motor.nf} force + {self.motor.ns} stop '
+            f'= {self.n1}')
+        self.pfc = PFC(c, self.chains.pos, self.gam, seed)
+        self.hip = Hippocampus(c, self.chains.pos, self.gam, seed) if c['hip'] else None
+        # time-parallel birth chain stream: sound states at t-1 (all layers taken from the same tick), stop neurons
+        # from the brake reflex, force neurons silent (no G1 yet)
+        T = A0.shape[0]
+        brake = A0[:, self.motor.brake_lines].float().sum(1, keepdim=True) / self.motor.n_brake
+        stop = brake >= self.motor.thr_s[None]
+        force = torch.zeros((T, self.motor.nf), dtype=torch.bool, device=DEV)
+        X = torch.cat([st[:, ix] for st, ix in zip(states, self.chains.sound_idx)] + [force, stop], 1)
+        X = torch.cat([torch.zeros_like(X[:1]), X[:-1]])                    # chain relay: one tick
+        X = X[-c['calib_ticks']:]                                            # the latest birth ticks only
+        del states
+        self.calib = dict(pfc_counts=self.pfc.calibrate(X), pfc_theta=self.pfc.theta, pfc_g=self.pfc.g_l)
+        if self.hip is not None:
+            self.calib['hip'] = self.hip.calibrate(X)
+        self.birth_X_counts = X.float().sum(1).cpu().numpy()
+        del X
+        n = self.sound.n
+        self.ret_sound = [torch.zeros(k, device=DEV) for k in n]
+        self.ret_force = torch.zeros(self.motor.nf, device=DEV)
+        self.ret_stop = torch.zeros(self.motor.ns, dtype=torch.bool, device=DEV)
+        self.learning = False
+        self.prof = None                                     # a common.Prof when profiling
+        self.t = 0
+        self.force_int = None
+        self.n0 = coch.n
+
+    # ------------------------------------------------------------------ online birth calibration
+    def calibrate_online(self, A0_stream, every=50, rate=0.2):
+        """Replay the birth stream (newborn silent, learning off) with this configuration's birth loop and birth
+        lateral links on, and move each PFC layer's fixed threshold (and Hs's) until the mean counts follow the
+        layer below (Hs: kh). The thresholds are then frozen: a birth calibration by the experimenter, not a
+        mechanism of the running brain. Returns the trajectory of mean counts."""
+        was = self.learning
+        self.learning = False
+        sig = [max(abs(t), 1e-3) for t in self.pfc.theta]
+        sig_h = max(abs(self.hip.theta_hs), 1e-3) if self.hip is not None else 0.0
+        acc = torch.zeros(5, device=DEV)
+        traj = []
+        for t in range(len(A0_stream)):
+            self.step(torch.as_tensor(A0_stream[t], device=DEV), 0.0)
+            p = self.pfc
+            v = torch.stack([p.L1.on.sum(), p.L2.on.sum(), p.L3.on.sum(), p.L4.on.sum(),
+                             self.hip.Hs.on.sum() if self.hip is not None else torch.zeros((), device=DEV)])
+            acc += v.float()
+            if (t + 1) % every == 0:
+                m = (acc / every).tolist()
+                for l in (1, 2, 3):
+                    self.pfc.theta[l] += rate * sig[l] * (m[l] - m[l - 1]) / max(m[l - 1], 1.0)
+                if self.hip is not None:
+                    self.hip.theta_hs += rate * sig_h * (m[4] - self.c['kh']) / self.c['kh']
+                traj.append([round(x, 1) for x in m])
+                acc.zero_()
+        self.learning = was
+        self.calib['online'] = dict(theta=list(self.pfc.theta), theta_hs=self.hip.theta_hs if self.hip else None,
+                                    last_counts=traj[-1] if traj else None, first_counts=traj[0] if traj else None)
+        return traj
+
+    # ------------------------------------------------------------------ chain bands and their report
+    def motor_birth_rates(self, A0):
+        mot = self.motor
+        brake = A0[:, mot.brake_lines].float().sum(1, keepdim=True) / mot.n_brake
+        stop = (brake >= mot.thr_s[None]).float().mean(0)
+        block = torch.zeros(mot.nb, device=DEV)
+        block[:mot.n_tonic] = 1.0                                           # tonic; ladder units need muscle drive
+        return dict(force=torch.zeros(mot.nf, device=DEV), stop=stop, block=block)
+
+    def make_chain_report(self, states, rates, bands, speech):
+        """per area and layer: share of units in the band, copies sent to PFC L1 and to the hippocampus (1:1, the
+        same number), lit chain units in silence and in adult speech over the birth stream"""
+        rep = []
+        lab = None if speech is None else torch.as_tensor(np.asarray(speech), device=DEV)
+        for l, (st, r, ix) in enumerate(zip(states, rates, self.chains.sound_idx)):
+            lo, hi = bands[l] if bands[l] is not None else self.c['band']
+            rc = r[ix]
+            row = dict(area='sound', layer=f'A{l + 1}', units=int(r.numel()),
+                       cut=list(bands[l]) if bands[l] is not None else 'none (every unit chained)',
+                       in_band=float(((r >= lo) & (r <= hi)).float().mean()),
+                       never_on=float((r < lo).float().mean()), always_on=float((r > hi).float().mean()),
+                       chained=int(len(ix)), chained_in_band=int(((rc >= lo) & (rc <= hi)).sum()),
+                       chained_never_on=int((rc < lo).sum()), chained_always_on=int((rc > hi).sum()),
+                       copies_pfc=int(len(ix)), copies_hip=int(len(ix)) if self.c['hip'] else 0)
+            if lab is not None and len(lab) == st.shape[0]:
+                cnt = st[:, ix].float().sum(1)
+                row.update(lit_silence=float(cnt[~lab].mean()), lit_speech=float(cnt[lab].mean()))
+            rep.append(row)
+        mr = self.motor_rates_birth
+        lo, hi = self.c['band_motor']
+        for k, n in (('force', self.motor.nf), ('stop', self.motor.ns), ('block', self.motor.nb)):
+            r = mr[k]
+            inb = (r >= lo) & (r <= hi)
+            sent = n if k != 'block' else 0
+            rep.append(dict(area='motor', layer=k, units=n, band=[lo, hi], in_band=float(inb.float().mean()),
+                            copies_pfc=sent, copies_hip=sent if self.c['hip'] else 0, birth_rate_mean=float(r.mean())))
+        return rep
+
+    # ------------------------------------------------------------------ registry helpers
+    def tables(self):
+        out = list(self.sound.layers) + self.pfc.tables() + self.motor.tables()
+        if self.hip is not None:
+            out += self.hip.tables()
+        return out
+
+    def plastic(self):
+        out = self.pfc.plastic() + self.motor.tables()
+        if self.hip is not None:
+            out += self.hip.plastic()
+        return out
+
+    def pops(self):
+        out = self.pfc.pops() + self.motor.pops()
+        if self.hip is not None:
+            out += self.hip.pops()
+        return out
+
+    # ------------------------------------------------------------------ one tick
+    def step(self, a0, r=0.0):
+        assert isinstance(a0, torch.Tensor) and a0.dtype == torch.bool and tuple(a0.shape) == (self.n0,), \
+            'the brain receives only the A0 bit vector'
+        assert isinstance(r, float) and r == 0.0, 'no reward in this build [R5]'
+        ch = self.chains
+        P = self.prof
+        P and P.mark()
+        x_ext = ch.gather(self.sound.state, self.motor.force.on, self.motor.stop.on)       # sources at t-1
+        s_new = self.sound.step(a0, self.ret_sound)                                        # returns from t-1
+        P and P.lap('sound+chains')
+        muscles = self.motor.step(a0, s_new[0], self.ret_force, self.ret_stop)
+        P and P.lap('motor')
+        x_int = self.pfc.step(x_ext, self.force_int)
+        P and P.lap('pfc')
+        R = x_int
+        if self.hip is not None:
+            R = R | self.hip.step(x_ext)
+        P and P.lap('hip')
+        self.ret_sound, self.ret_force, self.ret_stop = ch.scatter(R, self.sound.n, self.motor.nf, self.motor.ns)
+        P and P.lap('returns')
+        if self.learning:
+            self.pfc.learn()
+            P and P.lap('learn pfc')
+            self.motor.learn()
+            if self.hip is not None:
+                self.hip.learn()
+            P and P.lap('learn motor+hip')
+            if (self.t + 1) % self.c['decay_every'] == 0:
+                for tb in self.plastic():
+                    tb.decay()
+                P and P.lap('decay')
+        self.t += 1
+        return muscles
+
+    # ------------------------------------------------------------------ probes: neuron states only
+    def snapshot(self):
+        return dict(sound=[x.clone() for x in self.sound.state], ret=[x.clone() for x in self.ret_sound],
+                    rf=self.ret_force.clone(), rs=self.ret_stop.clone(), pops=[p.state() for p in self.pops()],
+                    block=self.motor.block.clone())
+
+    def restore(self, sn):
+        self.sound.state = [x.clone() for x in sn['sound']]
+        self.ret_sound = [x.clone() for x in sn['ret']]
+        self.ret_force, self.ret_stop = sn['rf'].clone(), sn['rs'].clone()
+        for p, st in zip(self.pops(), sn['pops']):
+            p.load(st)
+        self.motor.block = sn['block'].clone()
+
+    def counts(self):
+        """per-tick activity counts (GPU tensor; fetched in bulk by the harness)"""
+        v = [x.sum() for x in self.sound.state]
+        v += [self.pfc.L1ext.on.sum(), self.pfc.x_int.sum(), self.pfc.L1.on.sum(), self.pfc.L2.on.sum(),
+              self.pfc.L3.on.sum(), self.pfc.L4.on.sum()]
+        if self.hip is not None:
+            v += [self.hip.H1.on.sum(), self.hip.h_int.sum(), self.hip.Hs.on.sum()]
+        v += [self.motor.force.on.sum(), self.motor.stop.on.sum()]
+        return torch.stack(v)
+
+    def count_names(self):
+        n = [f'A{l + 1}' for l in range(len(self.sound.n))] + ['L1ext', 'L1int', 'L1', 'L2', 'L3', 'L4']
+        if self.hip is not None:
+            n += ['H1', 'H1int', 'Hs']
+        return n + ['force', 'stop']

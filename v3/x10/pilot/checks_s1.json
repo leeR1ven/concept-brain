@@ -1,0 +1,544 @@
+{
+ "1 A0 exactly half on every tick": {
+  "ok": true,
+  "ticks": 5000,
+  "n0": 1080,
+  "min_on": 540,
+  "max_on": 540
+ },
+ "2 chain band reproduces the 2.4 counts (+-10 % units, +-35 % lit)": {
+  "ok": true,
+  "chains_per_layer": [
+   1683,
+   2127,
+   2160,
+   2160
+  ],
+  "ref": {
+   "per_layer": [
+    1670,
+    2126,
+    2160,
+    2160
+   ],
+   "total": 8116,
+   "silence": 363,
+   "speech": 1346
+  },
+  "band_frac": [
+   0.7791666666666667,
+   0.9847222222222223,
+   1.0,
+   1.0
+  ],
+  "lit_silence": 373.6329040527344,
+  "lit_speech": 1326.3680419921875,
+  "layer_frac": [
+   0.12588852643966675,
+   0.1175619438290596,
+   0.08048425614833832,
+   0.042346205562353134
+  ]
+ },
+ "2b A2-A4 mostly feature units (>= 80 % in band)": {
+  "ok": true,
+  "band_frac": [
+   0.7791666666666667,
+   0.9847222222222223,
+   1.0,
+   1.0
+  ]
+ },
+ "2c default chains (band on A1 only; deeper units all chained): report": {
+  "ok": true,
+  "n1": 4063,
+  "report": [
+   {
+    "area": "sound",
+    "layer": "A1",
+    "units": 2160,
+    "cut": [
+     0.002,
+     0.9
+    ],
+    "in_band": 0.7791666388511658,
+    "never_on": 0.22083333134651184,
+    "always_on": 0.0,
+    "chained": 1683,
+    "chained_in_band": 1683,
+    "chained_never_on": 0,
+    "chained_always_on": 0,
+    "copies_pfc": 1683,
+    "copies_hip": 1683,
+    "lit_silence": 229.95603942871094,
+    "lit_speech": 345.52783203125
+   },
+   {
+    "area": "sound",
+    "layer": "A2",
+    "units": 2160,
+    "cut": [
+     0.108,
+     0.9
+    ],
+    "in_band": 0.27731481194496155,
+    "never_on": 0.7226851582527161,
+    "always_on": 0.0,
+    "chained": 599,
+    "chained_in_band": 599,
+    "chained_never_on": 0,
+    "chained_always_on": 0,
+    "copies_pfc": 599,
+    "copies_hip": 599,
+    "lit_silence": 122.90015411376953,
+    "lit_speech": 187.81764221191406
+   },
+   {
+    "area": "sound",
+    "layer": "A3",
+    "units": 2160,
+    "cut": [
+     0.07200000000000001,
+     0.9
+    ],
+    "in_band": 0.3939814865589142,
+    "never_on": 0.6060184836387634,
+    "always_on": 0.0,
+    "chained": 851,
+    "chained_in_band": 851,
+    "chained_never_on": 0,
+    "chained_always_on": 0,
+    "copies_pfc": 851,
+    "copies_hip": 851,
+    "lit_silence": 64.39591979980469,
+    "lit_speech": 173.4115753173828
+   },
+   {
+    "area": "sound",
+    "layer": "A4",
+    "units": 2160,
+    "cut": [
+     0.045000000000000005,
+     0.9
+    ],
+    "in_band": 0.4157407283782959,
+    "never_on": 0.5842592716217041,
+    "always_on": 0.0,
+    "chained": 898,
+    "chained_in_band": 898,
+    "chained_never_on": 0,
+    "chained_always_on": 0,
+    "copies_pfc": 898,
+    "copies_hip": 898,
+    "lit_silence": 12.718053817749023,
+    "lit_speech": 107.36309051513672
+   },
+   {
+    "area": "motor",
+    "layer": "force",
+    "units": 24,
+    "band": [
+     0.0,
+     0.9
+    ],
+    "in_band": 1.0,
+    "copies_pfc": 24,
+    "copies_hip": 24,
+    "birth_rate_mean": 0.0
+   },
+   {
+    "area": "motor",
+    "layer": "stop",
+    "units": 8,
+    "band": [
+     0.0,
+     0.9
+    ],
+    "in_band": 1.0,
+    "copies_pfc": 8,
+    "copies_hip": 8,
+    "birth_rate_mean": 0.3671500086784363
+   },
+   {
+    "area": "motor",
+    "layer": "block",
+    "units": 8,
+    "band": [
+     0.0,
+     0.9
+    ],
+    "in_band": 0.5,
+    "copies_pfc": 0,
+    "copies_hip": 0,
+    "birth_rate_mean": 0.5
+   }
+  ]
+ },
+ "3 every forward chain has exactly one return to the same S (assert)": {
+  "ok": true,
+  "n": 4063,
+  "sampled": 300,
+  "mismatches": 0,
+  "a0_has_chain": false,
+  "blocking_have_chain": false
+ },
+ "4 no dense N x N anywhere": {
+  "ok": true,
+  "violations": [],
+  "tables": [
+   [
+    "sound A1",
+    [
+     2160,
+     6
+    ],
+    2160
+   ],
+   [
+    "sound A2",
+    [
+     2160,
+     6
+    ],
+    2160
+   ],
+   [
+    "sound A3",
+    [
+     2160,
+     6
+    ],
+    2160
+   ],
+   [
+    "sound A4",
+    [
+     2160,
+     6
+    ],
+    2160
+   ],
+   [
+    "PFC ff L1->L2",
+    [
+     4063,
+     24
+    ],
+    4063
+   ],
+   [
+    "PFC ff L2->L3",
+    [
+     4063,
+     24
+    ],
+    4063
+   ],
+   [
+    "PFC ff L3->L4",
+    [
+     4063,
+     24
+    ],
+    4063
+   ],
+   [
+    "PFC birth loop L4->L1",
+    [
+     4063,
+     30
+    ],
+    4063
+   ],
+   [
+    "PFC birth lateral L4<->L4",
+    [
+     4063,
+     20
+    ],
+    4063
+   ],
+   [
+    "PFC L4->L1 acquired",
+    [
+     4063,
+     354
+    ],
+    4063
+   ],
+   [
+    "PFC L4<->L4 acquired",
+    [
+     4063,
+     332
+    ],
+    4063
+   ],
+   [
+    "hip recode H1->Hs",
+    [
+     5000,
+     24
+    ],
+    5000
+   ],
+   [
+    "hip Hs<->Hs acquired",
+    [
+     5000,
+     500
+    ],
+    5000
+   ],
+   [
+    "hip Hs->H1 acquired",
+    [
+     5000,
+     200
+    ],
+    4063
+   ]
+  ]
+ },
+ "5 step receives only A0 and r (asserts fire on anything else)": {
+  "ok": true,
+  "rejected": 4,
+  "signature": [
+   "self",
+   "a0",
+   "r"
+  ]
+ },
+ "6 decay order hippocampus < motor/G1 < PFC (per 200 ticks)": {
+  "ok": true,
+  "gammas": {
+   "hip": 0.99,
+   "motor": 0.9999,
+   "pfc": 0.99995
+  },
+  "tables": {
+   "PFC L4->L1 acquired": 0.99995,
+   "PFC L4<->L4 acquired": 0.99995,
+   "hip Hs<->Hs acquired": 0.99,
+   "hip Hs->H1 acquired": 0.99
+  }
+ },
+ "7 G1 is in the decaying part (concave-slowed decay applied)": {
+  "ok": true,
+  "gamma": 0.9999,
+  "links": 3514,
+  "registry": {
+   "set": "G1",
+   "variant": "prob",
+   "quality": {
+    "bin0.5": [
+     1.0,
+     3.684147000312805
+    ],
+    "bin0.8": [
+     1.0,
+     3.4449793100357056
+    ],
+    "prob": [
+     1.0,
+     3.774569869041443
+    ]
+   },
+   "links": 3512,
+   "gain": 2.2436232566833496,
+   "release_level": 0.7,
+   "p_sharp": 6.3475081358566285,
+   "code_size_min": 702,
+   "code_size_median": 859.5,
+   "a1_code_min": 364,
+   "a1_code_median": 392.0,
+   "syllables_without_a1_code": 0
+  }
+ },
+ "8 count preservation at birth (calibration within 5 %; online L2/L1, L3/L2, L4/L3 in [0.67, 1.5], silence and speech; loop off)": {
+  "ok": true,
+  "calib_counts": [
+   713.2261352539062,
+   713.2222290039062,
+   713.0939331054688,
+   712.994140625
+  ],
+  "calib_theta": [
+   1.0,
+   0.05804273299944212,
+   0.11614554747986575,
+   0.1182158552114401
+  ],
+  "calib_g": [
+   1.0,
+   1.0,
+   0.75,
+   0.75
+  ],
+  "online": {
+   "L2/L1 silence": 1.0328433513641357,
+   "L2/L1 speech": 0.9902022480964661,
+   "L3/L2 silence": 1.0139312744140625,
+   "L3/L2 speech": 0.9593581557273865,
+   "L4/L3 silence": 1.0211971998214722,
+   "L4/L3 speech": 0.9580373764038086
+  },
+  "counts": {
+   "A1": [
+    278,
+    387
+   ],
+   "A2": [
+    184,
+    389
+   ],
+   "A3": [
+    116,
+    241
+   ],
+   "A4": [
+    76,
+    128
+   ],
+   "L1ext": [
+    613,
+    781
+   ],
+   "L1int": [
+    0,
+    0
+   ],
+   "L1": [
+    613,
+    781
+   ],
+   "L2": [
+    633,
+    774
+   ],
+   "L3": [
+    642,
+    742
+   ],
+   "L4": [
+    655,
+    711
+   ],
+   "H1": [
+    613,
+    781
+   ],
+   "H1int": [
+    0,
+    0
+   ],
+   "Hs": [
+    40,
+    53
+   ],
+   "force": [
+    0,
+    0
+   ],
+   "stop": [
+    0,
+    8
+   ]
+  }
+ },
+ "8b with the default loop (g_loop 1.0, w44 0.5): report only": {
+  "ok": true,
+  "online": {
+   "L2/L1 silence": 0.8650861978530884,
+   "L2/L1 speech": 0.7877964377403259,
+   "L3/L2 silence": 1.107039451599121,
+   "L3/L2 speech": 1.0904347896575928,
+   "L4/L3 silence": 1.8849338293075562,
+   "L4/L3 speech": 1.8684443235397339
+  },
+  "counts": {
+   "A1": [
+    397,
+    499
+   ],
+   "A2": [
+    571,
+    738
+   ],
+   "A3": [
+    577,
+    727
+   ],
+   "A4": [
+    590,
+    717
+   ],
+   "L1ext": [
+    1232,
+    1390
+   ],
+   "L1int": [
+    313,
+    313
+   ],
+   "L1": [
+    1256,
+    1414
+   ],
+   "L2": [
+    1086,
+    1114
+   ],
+   "L3": [
+    1202,
+    1215
+   ],
+   "L4": [
+    2267,
+    2269
+   ],
+   "H1": [
+    1232,
+    1390
+   ],
+   "H1int": [
+    0,
+    0
+   ],
+   "Hs": [
+    107,
+    111
+   ],
+   "force": [
+    0,
+    0
+   ],
+   "stop": [
+    2,
+    8
+   ]
+  }
+ },
+ "extra: rule signs (strengthen / co-rise / weaken / fall nothing)": {
+  "ok": true,
+  "w_after_1": [
+   [
+    0.10000000149011612,
+    0.0,
+    0.0
+   ]
+  ],
+  "w_after_2": [
+   [
+    0.054545458406209946,
+    0.10000000149011612,
+    0.0
+   ]
+  ]
+ },
+ "extra: a return alone lights its own sound unit (g_ret 1.05)": {
+  "ok": true,
+  "lit": 20,
+  "of": 20
+ }
+}
