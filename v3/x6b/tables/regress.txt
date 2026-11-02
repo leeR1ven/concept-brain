@@ -1,0 +1,25 @@
+# python3 -I regress.py   (run where out/ and ../x6/out exist): the X3 arm here vs X6's own runs, same seeds.
+# X6 ran its sep life (dsep) for seeds 0-2 only.
+uni_X3 0 rows 363 363 identical True live 2915419 2915419 
+uni_X3 1 rows 363 363 identical True live 2983899 2983899 
+uni_X3 2 rows 363 363 identical True live 2928192 2928192 
+uni_X3 3 rows 363 363 identical True live 2963363 2963363 
+uni_X3 4 rows 363 363 identical True live 2937779 2937779 
+qa_X3 0 rows 81 81 identical True live 3267163 3267163  qa P same: True
+qa_X3 1 rows 81 81 identical True live 3334423 3334423  qa P same: True
+qa_X3 2 rows 81 81 identical True live 3280181 3280181  qa P same: True
+qa_X3 3 rows 81 81 identical True live 3310616 3310616  qa P same: True
+qa_X3 4 rows 81 81 identical True live 3291442 3291442  qa P same: True
+sep_X3 0 rows 247 247 identical True live 3075417 3075417 
+sep_X3 1 rows 247 247 identical True live 3150525 3150525 
+sep_X3 2 rows 247 247 identical True live 3115371 3115371 
+fresh_X3 0 rows 10 10 identical True live 1351956 1351956  fact same: True
+fresh_X3 1 rows 10 10 identical True live 1349910 1349910  fact same: True
+fresh_X3 2 rows 10 10 identical True live 1359885 1359885  fact same: True
+fresh_X3 3 rows 10 10 identical True live 1368762 1368762  fact same: True
+fresh_X3 4 rows 10 10 identical True live 1365714 1365714  fact same: True
+adult_X3 0 rows 115 115 identical True live 3031423 3031423  fact same: True
+adult_X3 1 rows 115 115 identical True live 3027862 3027862  fact same: True
+adult_X3 2 rows 115 115 identical True live 2965379 2965379  fact same: True
+adult_X3 3 rows 115 115 identical True live 3091731 3091731  fact same: True
+adult_X3 4 rows 115 115 identical True live 3080645 3080645  fact same: True

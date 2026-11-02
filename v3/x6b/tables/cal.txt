@@ -1,0 +1,149 @@
+# python3 -I x6b_analyze.py cal cal/   -- calibration, seed 9 only, 50 k-tick uni life (jobs x6b_cal1-3).
+# The 24 ZL eta x10 lives run with the wrong decay (PLAN, change 2) are not in cal/ and not used.  Output: cal_choice.json.
+--- L001
+  cal_L001_l12.0_a0.3_s9             r50 0.40 i100 0.17 ov 0.53 ov6 0.78 ovx 0.04 rd 0.82 live 566802 on 39/84
+  cal_L001_l12.0_a1.0_s9             r50 0.40 i100 0.48 ov 0.99 ov6 1.00 ovx 0.07 rd 0.92 live 701671 on 64/64
+  cal_L001_l24.0_a0.3_s9             r50 0.20 i100 0.07 ov 0.29 ov6 0.47 ovx 0.02 rd 0.60 live 448861 on 25/84
+  cal_L001_l24.0_a1.0_s9             r50 0.46 i100 0.56 ov 0.98 ov6 0.99 ovx 0.08 rd 0.90 live 692363 on 64/64
+  cal_L001_l48.0_a0.3_s9             r50 0.07 i100 0.01 ov 0.15 ov6 0.26 ovx 0.01 rd 0.40 live 346975 on 18/74
+  cal_L001_l48.0_a1.0_s9             r50 0.45 i100 0.50 ov 0.95 ov6 0.98 ovx 0.08 rd 0.88 live 652838 on 64/64
+  cal_L001_l6.0_a0.3_s9              r50 0.14 i100 0.16 ov 0.64 ov6 0.80 ovx 0.06 rd 0.83 live 841830 on 71/52
+  cal_L001_l6.0_a1.0_s9              r50 0.14 i100 0.31 ov 0.99 ov6 1.00 ovx 0.07 rd 0.92 live 710743 on 64/64
+  CHOSEN cal_L001_l24.0_a1.0_s9
+--- L03
+  cal_L03_l12.0_a0.3_s9              r50 0.31 i100 0.14 ov 0.50 ov6 0.74 ovx 0.04 rd 0.83 live 564298 on 40/82
+  cal_L03_l12.0_a1.0_s9              r50 0.31 i100 0.49 ov 0.98 ov6 0.99 ovx 0.08 rd 0.91 live 677364 on 64/64
+  cal_L03_l24.0_a0.3_s9              r50 0.17 i100 0.05 ov 0.26 ov6 0.46 ovx 0.02 rd 0.55 live 414715 on 25/83
+  cal_L03_l24.0_a1.0_s9              r50 0.40 i100 0.46 ov 0.95 ov6 0.98 ovx 0.08 rd 0.87 live 623116 on 64/64
+  cal_L03_l3.0_a0.3_s9               r50 0.00 i100 0.01 ov 0.76 ov6 0.86 ovx 0.07 rd 0.84 live 1108949 on 94/31
+  cal_L03_l3.0_a1.0_s9               r50 0.02 i100 0.08 ov 0.99 ov6 1.00 ovx 0.07 rd 0.93 live 768685 on 64/64
+  cal_L03_l6.0_a0.3_s9               r50 0.09 i100 0.17 ov 0.64 ov6 0.81 ovx 0.06 rd 0.84 live 816708 on 70/53
+  cal_L03_l6.0_a1.0_s9               r50 0.14 i100 0.30 ov 0.99 ov6 1.00 ovx 0.07 rd 0.92 live 697303 on 64/64
+  CHOSEN cal_L03_l24.0_a1.0_s9
+--- L1
+  cal_L1_l12.0_a0.3_s9               r50 0.23 i100 0.09 ov 0.42 ov6 0.70 ovx 0.04 rd 0.70 live 492886 on 41/80
+  cal_L1_l12.0_a1.0_s9               r50 0.18 i100 0.36 ov 0.92 ov6 0.96 ovx 0.09 rd 0.80 live 542456 on 64/64
+  cal_L1_l24.0_a0.3_s9               r50 0.03 i100 0.00 ov 0.17 ov6 0.28 ovx 0.02 rd 0.38 live 269013 on 31/75
+  cal_L1_l24.0_a1.0_s9               r50 0.02 i100 0.02 ov 0.60 ov6 0.66 ovx 0.25 rd 0.05 live 82523 on 64/64
+  cal_L1_l3.0_a0.3_s9                r50 0.01 i100 0.04 ov 0.77 ov6 0.89 ovx 0.07 rd 0.83 live 1069099 on 93/31
+  cal_L1_l3.0_a1.0_s9                r50 0.01 i100 0.11 ov 0.97 ov6 0.99 ovx 0.07 rd 0.92 live 758456 on 64/64
+  cal_L1_l6.0_a0.3_s9                r50 0.07 i100 0.08 ov 0.61 ov6 0.81 ovx 0.06 rd 0.70 live 750535 on 69/53
+  cal_L1_l6.0_a1.0_s9                r50 0.11 i100 0.26 ov 0.96 ov6 0.98 ovx 0.08 rd 0.91 live 656451 on 64/64
+  CHOSEN cal_L1_l12.0_a0.3_s9
+--- L1r
+  cal_L1r_l12.0_a0.3_s9              r50 0.25 i100 0.10 ov 0.42 ov6 0.69 ovx 0.04 rd 0.71 live 474561 on 42/80
+  cal_L1r_l12.0_a1.0_s9              r50 0.27 i100 0.31 ov 0.92 ov6 0.96 ovx 0.09 rd 0.79 live 537657 on 64/64
+  cal_L1r_l24.0_a0.3_s9              r50 0.01 i100 0.00 ov 0.21 ov6 0.39 ovx 0.03 rd 0.38 live 255982 on 30/74
+  cal_L1r_l24.0_a1.0_s9              r50 0.03 i100 0.02 ov 0.60 ov6 0.67 ovx 0.27 rd 0.04 live 74830 on 64/64
+  cal_L1r_l3.0_a0.3_s9               r50 0.01 i100 0.11 ov 0.84 ov6 0.90 ovx 0.08 rd 0.83 live 1158218 on 105/17
+  cal_L1r_l3.0_a1.0_s9               r50 0.04 i100 0.16 ov 0.98 ov6 0.99 ovx 0.08 rd 0.92 live 621932 on 64/64
+  cal_L1r_l6.0_a0.3_s9               r50 0.10 i100 0.16 ov 0.63 ov6 0.81 ovx 0.06 rd 0.70 live 799940 on 76/46
+  cal_L1r_l6.0_a1.0_s9               r50 0.22 i100 0.34 ov 0.97 ov6 0.98 ovx 0.08 rd 0.90 live 608050 on 64/64
+  CHOSEN cal_L1r_l12.0_a1.0_s9
+--- L3
+  cal_L3_l12.0_a0.3_s9               r50 0.06 i100 0.02 ov 0.13 ov6 0.25 ovx 0.03 rd 0.27 live 157221 on 50/67
+  cal_L3_l12.0_a1.0_s9               r50 0.00 i100 0.00 ov 0.99 ov6 1.00 ovx 0.99 rd 0.02 live 854 on 64/64
+  cal_L3_l24.0_a0.3_s9               r50 0.00 i100 0.01 ov 0.24 ov6 0.26 ovx 0.16 rd 0.04 live 68162 on 46/66
+  cal_L3_l24.0_a1.0_s9               r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L3_l3.0_a0.3_s9                r50 0.00 i100 0.04 ov 0.75 ov6 0.89 ovx 0.07 rd 0.83 live 1019924 on 93/29
+  cal_L3_l3.0_a1.0_s9                r50 0.02 i100 0.10 ov 0.92 ov6 0.97 ovx 0.07 rd 0.90 live 721551 on 64/64
+  cal_L3_l6.0_a0.3_s9                r50 0.02 i100 0.03 ov 0.49 ov6 0.69 ovx 0.06 rd 0.50 live 543052 on 66/56
+  cal_L3_l6.0_a1.0_s9                r50 0.04 i100 0.10 ov 0.79 ov6 0.86 ovx 0.09 rd 0.57 live 420040 on 64/64
+  CHOSEN cal_L3_l6.0_a1.0_s9
+--- L3r
+  cal_L3r_l12.0_a0.3_s9              r50 0.04 i100 0.01 ov 0.18 ov6 0.30 ovx 0.05 rd 0.30 live 158981 on 50/66
+  cal_L3r_l12.0_a1.0_s9              r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L3r_l24.0_a0.3_s9              r50 0.00 i100 0.00 ov 0.41 ov6 0.46 ovx 0.27 rd 0.03 live 33083 on 49/62
+  cal_L3r_l24.0_a1.0_s9              r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L3r_l3.0_a0.3_s9               r50 0.02 i100 0.16 ov 0.84 ov6 0.92 ovx 0.09 rd 0.73 live 1030136 on 103/17
+  cal_L3r_l3.0_a1.0_s9               r50 0.03 i100 0.12 ov 0.94 ov6 0.97 ovx 0.08 rd 0.89 live 554096 on 64/64
+  cal_L3r_l6.0_a0.3_s9               r50 0.03 i100 0.06 ov 0.52 ov6 0.75 ovx 0.07 rd 0.47 live 549402 on 71/51
+  cal_L3r_l6.0_a1.0_s9               r50 0.04 i100 0.07 ov 0.79 ov6 0.85 ovx 0.10 rd 0.55 live 363725 on 64/64
+  CHOSEN cal_L3r_l3.0_a0.3_s9
+--- L5
+  cal_L5_l12.0_a0.3_s9               r50 0.00 i100 0.01 ov 0.51 ov6 0.56 ovx 0.40 rd 0.03 live 15073 on 57/63
+  cal_L5_l12.0_a1.0_s9               r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L5_l24.0_a0.3_s9               r50 0.01 i100 0.01 ov 0.35 ov6 0.39 ovx 0.26 rd 0.00 live 38475 on 56/58
+  cal_L5_l24.0_a1.0_s9               r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L5_l3.0_a0.3_s9                r50 0.03 i100 0.08 ov 0.70 ov6 0.84 ovx 0.07 rd 0.73 live 1046541 on 95/26
+  cal_L5_l3.0_a1.0_s9                r50 0.04 i100 0.07 ov 0.81 ov6 0.93 ovx 0.08 rd 0.82 live 660998 on 64/64
+  cal_L5_l6.0_a0.3_s9                r50 0.06 i100 0.02 ov 0.30 ov6 0.37 ovx 0.08 rd 0.24 live 243517 on 63/59
+  cal_L5_l6.0_a1.0_s9                r50 0.04 i100 0.03 ov 0.86 ov6 0.87 ovx 0.83 rd 0.02 live 1248 on 64/64
+  CHOSEN cal_L5_l3.0_a1.0_s9
+--- L5r
+  cal_L5r_l12.0_a0.3_s9              r50 0.00 i100 0.00 ov 0.26 ov6 0.34 ovx 0.16 rd 0.04 live 49344 on 55/62
+  cal_L5r_l12.0_a1.0_s9              r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L5r_l24.0_a0.3_s9              r50 0.00 i100 0.00 ov 0.15 ov6 0.18 ovx 0.07 rd 0.05 live 37817 on 53/61
+  cal_L5r_l24.0_a1.0_s9              r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_L5r_l3.0_a0.3_s9               r50 0.01 i100 0.14 ov 0.78 ov6 0.88 ovx 0.09 rd 0.64 live 869948 on 99/19
+  cal_L5r_l3.0_a1.0_s9               r50 0.01 i100 0.07 ov 0.87 ov6 0.93 ovx 0.09 rd 0.69 live 452101 on 64/64
+  cal_L5r_l6.0_a0.3_s9               r50 0.02 i100 0.00 ov 0.30 ov6 0.34 ovx 0.11 rd 0.08 live 140861 on 63/60
+  cal_L5r_l6.0_a1.0_s9               r50 0.02 i100 0.03 ov 0.88 ov6 0.88 ovx 0.85 rd 0.02 live 1242 on 64/64
+  CHOSEN cal_L5r_l3.0_a0.3_s9
+--- ZL
+  cal_ZL_f0.01_l12.0_a0.3_e10_s9     r50 0.45 i100 0.24 ov 0.50 ov6 0.74 ovx 0.04 rd 0.89 live 597405 on 40/84
+  cal_ZL_f0.01_l12.0_a0.3_e1_s9      r50 0.38 i100 0.15 ov 0.50 ov6 0.74 ovx 0.04 rd 0.86 live 586492 on 41/81
+  cal_ZL_f0.01_l12.0_a1.0_e10_s9     r50 0.77 i100 0.84 ov 0.99 ov6 0.99 ovx 0.07 rd 1.00 live 723007 on 64/64
+  cal_ZL_f0.01_l12.0_a1.0_e1_s9      r50 0.43 i100 0.53 ov 0.99 ov6 1.00 ovx 0.07 rd 0.92 live 694428 on 64/64
+  cal_ZL_f0.01_l24.0_a0.3_e10_s9     r50 0.37 i100 0.16 ov 0.26 ov6 0.46 ovx 0.02 rd 0.70 live 487850 on 26/83
+  cal_ZL_f0.01_l24.0_a0.3_e1_s9      r50 0.13 i100 0.03 ov 0.22 ov6 0.42 ovx 0.02 rd 0.59 live 460748 on 25/83
+  cal_ZL_f0.01_l24.0_a1.0_e10_s9     r50 0.79 i100 0.81 ov 0.97 ov6 0.99 ovx 0.07 rd 1.00 live 730066 on 64/64
+  cal_ZL_f0.01_l24.0_a1.0_e1_s9      r50 0.50 i100 0.58 ov 0.98 ov6 0.99 ovx 0.08 rd 0.91 live 692479 on 64/64
+  cal_ZL_f0.01_l48.0_a0.3_e10_s9     r50 0.14 i100 0.03 ov 0.12 ov6 0.19 ovx 0.01 rd 0.38 live 364537 on 19/73
+  cal_ZL_f0.01_l48.0_a0.3_e1_s9      r50 0.08 i100 0.04 ov 0.08 ov6 0.19 ovx 0.01 rd 0.32 live 340176 on 18/73
+  cal_ZL_f0.01_l48.0_a1.0_e10_s9     r50 0.71 i100 0.79 ov 0.95 ov6 0.97 ovx 0.08 rd 1.00 live 687812 on 64/64
+  cal_ZL_f0.01_l48.0_a1.0_e1_s9      r50 0.47 i100 0.56 ov 0.95 ov6 0.98 ovx 0.08 rd 0.86 live 648475 on 64/64
+  cal_ZL_f0.01_l6.0_a0.3_e10_s9      r50 0.28 i100 0.50 ov 0.69 ov6 0.81 ovx 0.06 rd 0.99 live 989588 on 84/41
+  cal_ZL_f0.01_l6.0_a0.3_e1_s9       r50 0.12 i100 0.17 ov 0.68 ov6 0.80 ovx 0.06 rd 0.80 live 964536 on 83/42
+  cal_ZL_f0.01_l6.0_a1.0_e10_s9      r50 0.62 i100 0.80 ov 0.99 ov6 1.00 ovx 0.07 rd 1.00 live 679026 on 64/64
+  cal_ZL_f0.01_l6.0_a1.0_e1_s9       r50 0.24 i100 0.44 ov 0.99 ov6 1.00 ovx 0.07 rd 0.93 live 656912 on 64/64
+  cal_ZL_f0.03_l12.0_a0.3_e10g_s9    r50 0.42 i100 0.25 ov 0.51 ov6 0.76 ovx 0.04 rd 0.88 live 589613 on 41/83
+  cal_ZL_f0.03_l12.0_a0.3_e1_s9      r50 0.34 i100 0.16 ov 0.50 ov6 0.75 ovx 0.04 rd 0.82 live 554989 on 41/81
+  cal_ZL_f0.03_l12.0_a1.0_e10g_s9    r50 0.72 i100 0.80 ov 0.98 ov6 0.99 ovx 0.08 rd 1.00 live 692748 on 64/64
+  cal_ZL_f0.03_l12.0_a1.0_e1_s9      r50 0.37 i100 0.56 ov 0.98 ov6 0.99 ovx 0.08 rd 0.90 live 665445 on 64/64
+  cal_ZL_f0.03_l24.0_a0.3_e10g_s9    r50 0.18 i100 0.02 ov 0.24 ov6 0.45 ovx 0.02 rd 0.61 live 442455 on 26/82
+  cal_ZL_f0.03_l24.0_a0.3_e1_s9      r50 0.13 i100 0.04 ov 0.28 ov6 0.47 ovx 0.02 rd 0.57 live 417284 on 25/81
+  cal_ZL_f0.03_l24.0_a1.0_e10g_s9    r50 0.70 i100 0.75 ov 0.95 ov6 0.97 ovx 0.08 rd 1.00 live 661847 on 64/64
+  cal_ZL_f0.03_l24.0_a1.0_e1_s9      r50 0.43 i100 0.51 ov 0.95 ov6 0.98 ovx 0.08 rd 0.85 live 625152 on 64/64
+  cal_ZL_f0.03_l3.0_a0.3_e10g_s9     r50 0.08 i100 0.33 ov 0.85 ov6 0.87 ovx 0.08 rd 1.00 live 1242606 on 108/14
+  cal_ZL_f0.03_l3.0_a0.3_e1_s9       r50 0.03 i100 0.19 ov 0.85 ov6 0.86 ovx 0.08 rd 0.85 live 1234030 on 109/14
+  cal_ZL_f0.03_l3.0_a1.0_e10g_s9     r50 0.16 i100 0.54 ov 0.99 ov6 1.00 ovx 0.07 rd 1.00 live 635143 on 64/64
+  cal_ZL_f0.03_l3.0_a1.0_e1_s9       r50 0.06 i100 0.21 ov 0.99 ov6 1.00 ovx 0.07 rd 0.93 live 615616 on 64/64
+  cal_ZL_f0.03_l6.0_a0.3_e10g_s9     r50 0.25 i100 0.46 ov 0.68 ov6 0.82 ovx 0.06 rd 0.99 live 958720 on 83/42
+  cal_ZL_f0.03_l6.0_a0.3_e1_s9       r50 0.10 i100 0.20 ov 0.66 ov6 0.81 ovx 0.06 rd 0.76 live 936963 on 83/42
+  cal_ZL_f0.03_l6.0_a1.0_e10g_s9     r50 0.65 i100 0.81 ov 0.99 ov6 1.00 ovx 0.07 rd 1.00 live 667583 on 64/64
+  cal_ZL_f0.03_l6.0_a1.0_e1_s9       r50 0.26 i100 0.43 ov 0.99 ov6 1.00 ovx 0.07 rd 0.93 live 645401 on 64/64
+  cal_ZL_f0.1_l12.0_a0.3_e10g_s9     r50 0.22 i100 0.12 ov 0.39 ov6 0.70 ovx 0.04 rd 0.83 live 491329 on 42/80
+  cal_ZL_f0.1_l12.0_a0.3_e1_s9       r50 0.20 i100 0.12 ov 0.45 ov6 0.73 ovx 0.04 rd 0.67 live 466458 on 42/79
+  cal_ZL_f0.1_l12.0_a1.0_e10g_s9     r50 0.51 i100 0.67 ov 0.91 ov6 0.95 ovx 0.08 rd 0.99 live 554848 on 64/64
+  cal_ZL_f0.1_l12.0_a1.0_e1_s9       r50 0.24 i100 0.35 ov 0.92 ov6 0.96 ovx 0.09 rd 0.76 live 529223 on 64/64
+  cal_ZL_f0.1_l24.0_a0.3_e10g_s9     r50 0.01 i100 0.00 ov 0.14 ov6 0.31 ovx 0.01 rd 0.25 live 258613 on 32/71
+  cal_ZL_f0.1_l24.0_a0.3_e1_s9       r50 0.01 i100 0.02 ov 0.16 ov6 0.30 ovx 0.02 rd 0.34 live 260549 on 30/75
+  cal_ZL_f0.1_l24.0_a1.0_e10g_s9     r50 0.00 i100 0.01 ov 0.61 ov6 0.64 ovx 0.38 rd 0.02 live 27520 on 64/64
+  cal_ZL_f0.1_l24.0_a1.0_e1_s9       r50 0.01 i100 0.01 ov 0.58 ov6 0.64 ovx 0.23 rd 0.07 live 88169 on 64/64
+  cal_ZL_f0.1_l3.0_a0.3_e10g_s9      r50 0.06 i100 0.34 ov 0.86 ov6 0.90 ovx 0.08 rd 1.00 live 1195776 on 108/14
+  cal_ZL_f0.1_l3.0_a0.3_e1_s9        r50 0.01 i100 0.17 ov 0.86 ov6 0.90 ovx 0.08 rd 0.83 live 1185699 on 108/14
+  cal_ZL_f0.1_l3.0_a1.0_e10g_s9      r50 0.26 i100 0.52 ov 0.98 ov6 0.99 ovx 0.07 rd 1.00 live 615051 on 64/64
+  cal_ZL_f0.1_l3.0_a1.0_e1_s9        r50 0.03 i100 0.21 ov 0.98 ov6 0.99 ovx 0.07 rd 0.92 live 596730 on 64/64
+  cal_ZL_f0.1_l6.0_a0.3_e10g_s9      r50 0.20 i100 0.39 ov 0.66 ov6 0.82 ovx 0.06 rd 0.97 live 868763 on 81/43
+  cal_ZL_f0.1_l6.0_a0.3_e1_s9        r50 0.10 i100 0.14 ov 0.64 ov6 0.82 ovx 0.06 rd 0.70 live 830644 on 79/43
+  cal_ZL_f0.1_l6.0_a1.0_e10g_s9      r50 0.50 i100 0.75 ov 0.97 ov6 0.98 ovx 0.08 rd 1.00 live 625578 on 64/64
+  cal_ZL_f0.1_l6.0_a1.0_e1_s9        r50 0.22 i100 0.40 ov 0.97 ov6 0.98 ovx 0.08 rd 0.90 live 602419 on 64/64
+  cal_ZL_f0.3_l12.0_a0.3_e10g_s9     r50 0.04 i100 0.01 ov 0.17 ov6 0.27 ovx 0.03 rd 0.21 live 164580 on 49/66
+  cal_ZL_f0.3_l12.0_a0.3_e1_s9       r50 0.03 i100 0.03 ov 0.17 ov6 0.29 ovx 0.04 rd 0.23 live 165814 on 50/65
+  cal_ZL_f0.3_l12.0_a1.0_e10g_s9     r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_ZL_f0.3_l12.0_a1.0_e1_s9       r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_ZL_f0.3_l24.0_a0.3_e10g_s9     r50 0.00 i100 0.00 ov 0.49 ov6 0.53 ovx 0.40 rd 0.06 live 31527 on 50/68
+  cal_ZL_f0.3_l24.0_a0.3_e1_s9       r50 0.02 i100 0.01 ov 0.07 ov6 0.13 ovx 0.03 rd 0.11 live 98982 on 41/62
+  cal_ZL_f0.3_l24.0_a1.0_e10g_s9     r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_ZL_f0.3_l24.0_a1.0_e1_s9       r50 0.00 i100 0.00 ov 1.00 ov6 1.00 ovx 1.00 rd 0.00 live 812 on 64/64
+  cal_ZL_f0.3_l3.0_a0.3_e10g_s9      r50 0.06 i100 0.30 ov 0.85 ov6 0.92 ovx 0.09 rd 0.99 live 1043579 on 105/14
+  cal_ZL_f0.3_l3.0_a0.3_e1_s9        r50 0.04 i100 0.18 ov 0.85 ov6 0.92 ovx 0.09 rd 0.74 live 1033774 on 105/14
+  cal_ZL_f0.3_l3.0_a1.0_e10g_s9      r50 0.14 i100 0.41 ov 0.94 ov6 0.97 ovx 0.08 rd 1.00 live 541456 on 64/64
+  cal_ZL_f0.3_l3.0_a1.0_e1_s9        r50 0.02 i100 0.16 ov 0.95 ov6 0.97 ovx 0.09 rd 0.88 live 522259 on 64/64
+  cal_ZL_f0.3_l6.0_a0.3_e10g_s9      r50 0.12 i100 0.13 ov 0.55 ov6 0.74 ovx 0.07 rd 0.80 live 547252 on 72/50
+  cal_ZL_f0.3_l6.0_a0.3_e1_s9        r50 0.11 i100 0.07 ov 0.53 ov6 0.74 ovx 0.08 rd 0.50 live 521477 on 71/51
+  cal_ZL_f0.3_l6.0_a1.0_e10g_s9      r50 0.13 i100 0.26 ov 0.77 ov6 0.83 ovx 0.10 rd 0.75 live 345118 on 64/64
+  cal_ZL_f0.3_l6.0_a1.0_e1_s9        r50 0.02 i100 0.10 ov 0.79 ov6 0.85 ovx 0.11 rd 0.48 live 338883 on 64/64
+  CHOSEN cal_ZL_f0.01_l12.0_a1.0_e10_s9
+{"L001": {"lam": 24.0, "alpha": 1.0}, "L03": {"lam": 24.0, "alpha": 1.0}, "L1": {"lam": 12.0, "alpha": 0.3}, "L1r": {"lam": 12.0, "alpha": 1.0}, "L3": {"lam": 6.0, "alpha": 1.0}, "L3r": {"lam": 3.0, "alpha": 0.3}, "L5": {"lam": 3.0, "alpha": 1.0}, "L5r": {"lam": 3.0, "alpha": 0.3}, "ZL": {"lam": 12.0, "alpha": 1.0, "f": 0.01, "eta": 10}}

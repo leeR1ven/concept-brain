@@ -1,0 +1,12 @@
+M400_ref 0 N=400 sparse=0 a=0.5 rel=0 L33=1
+M400_k30_on 0 N=400 L33=1 a=1 rel=1
+M400_k30_off 0 N=400 L33=0 a=1 rel=1
+PC400_m5 0 N=400 pc=1 m=5 overlap=0 sparse=0 a=0.5 rel=0 L33=0
+M400_ref 1 N=400 sparse=0 a=0.5 rel=0 L33=1
+M400_k30_on 1 N=400 L33=1 a=1 rel=1
+M400_k30_off 1 N=400 L33=0 a=1 rel=1
+PC400_m5 1 N=400 pc=1 m=5 overlap=0 sparse=0 a=0.5 rel=0 L33=0
+M400_ref 2 N=400 sparse=0 a=0.5 rel=0 L33=1
+M400_k30_on 2 N=400 L33=1 a=1 rel=1
+M400_k30_off 2 N=400 L33=0 a=1 rel=1
+PC400_m5 2 N=400 pc=1 m=5 overlap=0 sparse=0 a=0.5 rel=0 L33=0

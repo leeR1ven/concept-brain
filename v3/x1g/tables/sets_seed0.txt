@@ -1,0 +1,146 @@
+# python3 -I agg8_sets.py out8_pilot out8   -- SEED 0 ONLY (same lives as agg8_seed0.txt, split by pair set)
+
+### DPC1600  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.50 | 0.50 | 0.455 | 0.11 | 0.80 | 0.00 / 0.00 | 0.00 |
+| t1 | base | 1.00 | 0.00 | 0.718 | 0.21 | 0.80 | 0.00 / 0.00 | 0.00 |
+| t1 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.64 | 0.27 | 0.504 | 0.08 | 0.80 | 0.66 / 0.37 | 0.91 |
+| O300 | base | 0.82 | 0.18 | 0.591 | 0.17 | 0.83 | 0.71 / 0.36 | 1.00 |
+| O300 | new | 0.46 | 0.36 | 0.336 | 0.11 | 0.78 | 0.61 / 0.37 | 0.82 |
+| O300 | held | 0.00 | 1.00 | -0.010 | 0.03 | 0.00 | - / - | - |
+| O1000 | seen | 0.50 | 0.36 | 0.523 | 0.11 | 0.79 | 0.61 / 0.35 | 0.91 |
+| O1000 | base | 0.91 | 0.09 | 0.645 | 0.18 | 0.80 | 0.65 / 0.34 | 1.00 |
+| O1000 | new | 0.09 | 0.64 | 0.373 | 0.11 | 0.78 | 0.57 / 0.36 | 0.82 |
+| O1000 | held | 0.00 | 1.00 | 0.000 | 0.03 | 0.00 | - / - | - |
+weights at O1000: L33 pairs > 0 0.000 | top -> L1 links > 0 0.173
+live: seen acc 0.50 resp 0.75 | base acc 0.82 resp 1.00 | new acc 0.11 resp 0.44 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+live_real: seen acc 0.40 resp 0.60 | base acc 0.70 resp 1.00 | new acc 0.10 resp 0.20 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.050
+
+### DPC1600_fw  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.50 | 0.50 | 0.455 | 0.11 | 0.80 | 0.00 / 0.00 | 0.00 |
+| t1 | base | 1.00 | 0.00 | 0.718 | 0.21 | 0.80 | 0.00 / 0.00 | 0.00 |
+| t1 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.50 | 0.50 | 0.514 | 0.08 | 0.88 | 0.81 / 0.29 | 1.00 |
+| O300 | base | 0.82 | 0.18 | 0.509 | 0.15 | 0.88 | 0.85 / 0.30 | 1.00 |
+| O300 | new | 0.18 | 0.82 | 0.345 | 0.10 | 0.87 | 0.77 / 0.28 | 1.00 |
+| O300 | held | 0.00 | 0.90 | -0.020 | 0.06 | 0.00 | - / - | - |
+weights at O300: L33 pairs > 0 0.000 | top -> L1 links > 0 0.117
+
+### PL1600_on_g16_th005  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.00 | 0.86 | -0.000 | 0.03 | 0.00 | 0.50 / 1.40 | 0.00 |
+| t1 | held | 0.00 | 0.50 | -0.040 | 0.05 | 0.00 | - / - | - |
+| O300 | seen | 0.00 | 1.00 | 0.000 | 0.03 | 0.03 | 0.34 / 0.58 | 0.09 |
+| O300 | held | 0.00 | 0.80 | 0.060 | 0.05 | 0.00 | - / - | - |
+| O1000 | seen | 0.04 | 0.77 | 0.009 | 0.03 | 0.03 | 0.38 / 0.63 | 0.14 |
+| O1000 | held | 0.00 | 1.00 | 0.010 | 0.04 | 0.00 | - / - | - |
+weights at O1000: L33 pairs > 0 0.958 | top -> L1 links > 0 0.185
+live: seen acc 0.02 resp 0.12 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.017
+live_real: seen acc 0.05 resp 0.30 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.017
+
+### P_kp1600  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.00 | 1.00 | 0.032 | 0.02 | 0.00 | 2.73 / 3.73 | 0.00 |
+| O300 | held | 0.00 | 0.90 | 0.030 | 0.04 | 0.00 | - / - | - |
+| O1000 | seen | 0.00 | 1.00 | -0.018 | 0.02 | 0.00 | 2.59 / 3.37 | 0.00 |
+| O1000 | held | 0.00 | 0.90 | 0.020 | 0.04 | 0.00 | - / - | - |
+weights at O1000: L33 pairs > 0 0.999 | top -> L1 links > 0 0.185
+live: seen acc 0.00 resp 0.02 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.017
+live_real: seen acc 0.00 resp 0.02 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+
+### P_pc1600  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.50 | 0.50 | 0.455 | 0.11 | 0.80 | 0.00 / 0.00 | 0.00 |
+| t1 | base | 1.00 | 0.00 | 0.718 | 0.21 | 0.80 | 0.00 / 0.00 | 0.00 |
+| t1 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.50 | 0.36 | 0.495 | 0.09 | 0.74 | 0.67 / 0.39 | 0.86 |
+| O300 | base | 0.91 | 0.09 | 0.627 | 0.19 | 0.82 | 0.72 / 0.36 | 1.00 |
+| O300 | new | 0.09 | 0.64 | 0.264 | 0.11 | 0.67 | 0.62 / 0.42 | 0.73 |
+| O300 | held | 0.00 | 1.00 | 0.020 | 0.04 | 0.00 | - / - | - |
+| O1000 | seen | 0.55 | 0.36 | 0.536 | 0.10 | 0.81 | 0.63 / 0.37 | 0.86 |
+| O1000 | base | 1.00 | 0.00 | 0.645 | 0.19 | 0.84 | 0.68 / 0.34 | 1.00 |
+| O1000 | new | 0.09 | 0.73 | 0.382 | 0.11 | 0.77 | 0.58 / 0.39 | 0.73 |
+| O1000 | held | 0.00 | 0.90 | 0.000 | 0.05 | 0.00 | - / - | - |
+| O3000 | seen | 0.55 | 0.36 | 0.491 | 0.10 | 0.70 | 0.58 / 0.34 | 0.86 |
+| O3000 | base | 1.00 | 0.00 | 0.645 | 0.19 | 0.78 | 0.61 / 0.31 | 1.00 |
+| O3000 | new | 0.09 | 0.73 | 0.291 | 0.10 | 0.63 | 0.54 / 0.38 | 0.73 |
+| O3000 | held | 0.00 | 1.00 | 0.020 | 0.04 | 0.00 | - / - | - |
+weights at O3000: L33 pairs > 0 0.000 | top -> L1 links > 0 0.184
+live: seen acc 0.53 resp 0.72 | base acc 0.81 resp 0.95 | new acc 0.09 resp 0.35 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.117
+live_real: seen acc 0.50 resp 0.67 | base acc 0.83 resp 1.00 | new acc 0.19 resp 0.35 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.033
+
+### P_pc400x1f  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.50 | 0.50 | 0.450 | 0.11 | 0.92 | 0.00 / 0.00 | 0.00 |
+| t1 | base | 1.00 | 0.00 | 0.691 | 0.21 | 0.92 | 0.00 / 0.00 | 0.00 |
+| t1 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.50 | 0.50 | 0.441 | 0.11 | 0.90 | 0.15 / 0.14 | 0.59 |
+| O300 | base | 1.00 | 0.00 | 0.691 | 0.21 | 0.92 | 0.17 / 0.15 | 0.64 |
+| O300 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.13 / 0.12 | 0.55 |
+| O300 | held | 0.00 | 1.00 | 0.000 | 0.03 | 0.60 | - / - | - |
+| O1000 | seen | 0.50 | 0.50 | 0.450 | 0.11 | 0.92 | 0.14 / 0.12 | 0.68 |
+| O1000 | base | 1.00 | 0.00 | 0.691 | 0.21 | 0.92 | 0.16 / 0.14 | 0.64 |
+| O1000 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.12 / 0.11 | 0.73 |
+| O1000 | held | 0.00 | 1.00 | -0.010 | 0.02 | 0.00 | - / - | - |
+| O3000 | seen | 0.50 | 0.50 | 0.450 | 0.11 | 0.92 | 0.13 / 0.12 | 0.73 |
+| O3000 | base | 1.00 | 0.00 | 0.691 | 0.21 | 0.92 | 0.14 / 0.13 | 0.64 |
+| O3000 | new | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.12 / 0.10 | 0.82 |
+| O3000 | held | 0.00 | 1.00 | -0.010 | 0.01 | 0.00 | - / - | - |
+weights at O3000: L33 pairs > 0 0.000 | top -> L1 links > 0 0.180
+live: seen acc 0.45 resp 0.47 | base acc 0.96 resp 1.00 | new acc 0.00 resp 0.00 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+live_real: seen acc 0.58 resp 0.60 | base acc 0.97 resp 1.00 | new acc 0.00 resp 0.00 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+
+### P_s1600  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.04 | 0.95 | 0.018 | 0.03 | 0.01 | 0.46 / 0.60 | 0.14 |
+| O300 | held | 0.10 | 0.90 | 0.030 | 0.04 | 0.03 | - / - | - |
+| O1000 | seen | 0.04 | 0.86 | -0.004 | 0.02 | 0.01 | 0.50 / 0.70 | 0.14 |
+| O1000 | held | 0.10 | 0.90 | 0.050 | 0.05 | 0.03 | - / - | - |
+| O3000 | seen | 0.04 | 0.91 | 0.023 | 0.02 | 0.05 | 0.52 / 0.73 | 0.14 |
+| O3000 | held | 0.00 | 0.90 | 0.020 | 0.04 | 0.00 | - / - | - |
+weights at O3000: L33 pairs > 0 0.971 | top -> L1 links > 0 0.182
+live: seen acc 0.02 resp 0.10 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+live_real: seen acc 0.00 resp 0.05 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+
+### P_s400  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.00 | 1.00 | 0.004 | 0.02 | 0.02 | 0.60 / 0.85 | 0.00 |
+| O300 | held | 0.00 | 1.00 | -0.020 | 0.01 | 0.00 | - / - | - |
+| O1000 | seen | 0.00 | 1.00 | 0.004 | 0.02 | 0.02 | 0.63 / 0.88 | 0.04 |
+| O1000 | held | 0.00 | 1.00 | -0.010 | 0.02 | 0.03 | - / - | - |
+weights at O1000: L33 pairs > 0 1.000 | top -> L1 links > 0 0.178
+live: seen acc 0.02 resp 0.02 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+live_real: seen acc 0.00 resp 0.00 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+
+### P_s6400  (n=1 seeds)
+| checkpoint | set | first syl | silent | fair spec | null 95 % | top is answer | drive ans / best wrong | answer is top-driven |
+|---|---|---|---|---|---|---|---|---|
+| t1 | seen | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 |
+| t1 | held | 0.00 | 1.00 | 0.000 | 0.00 | 0.00 | - / - | - |
+| O300 | seen | 0.00 | 0.91 | -0.018 | 0.03 | 0.00 | 0.79 / 0.86 | 0.32 |
+| O300 | held | 0.00 | 1.00 | -0.010 | 0.04 | 0.00 | - / - | - |
+| O1000 | seen | 0.04 | 0.82 | 0.023 | 0.03 | 0.05 | 0.53 / 0.54 | 0.36 |
+| O1000 | held | 0.30 | 0.50 | 0.030 | 0.06 | 0.12 | - / - | - |
+weights at O1000: L33 pairs > 0 0.273 | top -> L1 links > 0 0.171
+live: seen acc 0.13 resp 0.25 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000
+live_real: seen acc 0.20 resp 0.37 | talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000

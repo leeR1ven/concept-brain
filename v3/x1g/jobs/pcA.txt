@@ -1,0 +1,6 @@
+PC1600_m20 0 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1
+PC1600_m20 1 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1
+PC1600_m20 2 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1
+PC6400_m30 0 N=6400 pc=1 m=30 overlap=0 k3=43 L33=0 a=1 rel=1
+PC6400_m30 1 N=6400 pc=1 m=30 overlap=0 k3=43 L33=0 a=1 rel=1
+PC6400_m30 2 N=6400 pc=1 m=30 overlap=0 k3=43 L33=0 a=1 rel=1

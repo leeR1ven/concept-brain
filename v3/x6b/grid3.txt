@@ -1,0 +1,2 @@
+{"rho": 0.0, "eta_seq": 8.0, "eta_co": 0.8, "eta_rev": 8.0, "eta_out": 8.0, "gamma": 0.9874}
+{"rho": 0.0, "eta_seq": 20.0, "eta_co": 2.0, "eta_rev": 20.0, "eta_out": 20.0, "gamma": 0.985685}

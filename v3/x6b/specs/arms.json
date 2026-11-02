@@ -1,0 +1,94 @@
+{
+ "X3": {},
+ "NS": {
+  "unified": true,
+  "lam": 2.5
+ },
+ "L001": {
+  "unified": true,
+  "ls": 0.01,
+  "lam": 24.0,
+  "alpha": 1.0,
+  "rho": 1.0
+ },
+ "L03": {
+  "unified": true,
+  "ls": 0.03,
+  "lam": 24.0,
+  "alpha": 1.0,
+  "rho": 1.0
+ },
+ "L1": {
+  "unified": true,
+  "ls": 0.1,
+  "lam": 12.0,
+  "alpha": 0.3,
+  "rho": 1.0
+ },
+ "L3": {
+  "unified": true,
+  "ls": 0.3,
+  "lam": 6.0,
+  "alpha": 1.0,
+  "rho": 1.0
+ },
+ "L5": {
+  "unified": true,
+  "ls": 0.5,
+  "lam": 3.0,
+  "alpha": 1.0,
+  "rho": 1.0
+ },
+ "L1r": {
+  "unified": true,
+  "ls": 0.1,
+  "lam": 12.0,
+  "alpha": 1.0,
+  "rho": 0.5
+ },
+ "L3r": {
+  "unified": true,
+  "ls": 0.3,
+  "lam": 3.0,
+  "alpha": 0.3,
+  "rho": 0.5
+ },
+ "L5r": {
+  "unified": true,
+  "ls": 0.5,
+  "lam": 3.0,
+  "alpha": 0.3,
+  "rho": 0.5
+ },
+ "Z1": {
+  "rho": 0.0
+ },
+ "Z4": {
+  "rho": 0.0,
+  "eta_seq": 8.0,
+  "eta_co": 0.8,
+  "eta_rev": 8.0,
+  "eta_out": 8.0,
+  "gamma": 0.9874
+ },
+ "Z10": {
+  "rho": 0.0,
+  "eta_seq": 20.0,
+  "eta_co": 2.0,
+  "eta_rev": 20.0,
+  "eta_out": 20.0,
+  "gamma": 0.985685
+ },
+ "ZL": {
+  "unified": true,
+  "ls": 0.01,
+  "lam": 12.0,
+  "alpha": 1.0,
+  "rho": 0.0,
+  "eta_seq": 20.0,
+  "eta_co": 2.0,
+  "eta_rev": 20.0,
+  "eta_out": 20.0,
+  "gamma": 0.985685
+ }
+}

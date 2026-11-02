@@ -1,0 +1,9 @@
+M1600_k30_on 0 N=1600 L33=1 a=1 rel=1
+M1600_k30_off 0 N=1600 L33=0 a=1 rel=1
+PC1600_m20 0 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1
+M1600_k30_on 1 N=1600 L33=1 a=1 rel=1
+M1600_k30_off 1 N=1600 L33=0 a=1 rel=1
+PC1600_m20 1 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1
+M1600_k30_on 2 N=1600 L33=1 a=1 rel=1
+M1600_k30_off 2 N=1600 L33=0 a=1 rel=1
+PC1600_m20 2 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1

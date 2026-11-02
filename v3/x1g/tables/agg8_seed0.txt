@@ -1,0 +1,199 @@
+# python3 -I agg8.py out8_pilot out8   -- SEED 0 ONLY (pilots and diagnostics; SIMULATED)
+# P_pc1600, P_pc400x1f, P_s1600, P_s6400: A800 job x1g_pilot1 (jobs/pilot1.txt).  P_s400, P_kp1600, PL1600_on_g16_th005,
+# DPC1600, DPC1600_fw: local (jobs/local_seed0.txt).  DPC1600_fw stopped after the 300-dialogue checkpoint.
+
+### DPC1600  (n=1 seeds; target set = new)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.455 | 0.11 | 0.55 | 0.97/0.94/0.94 | 0.95 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.46 | 0.27 | 0.36 | 0.27 | 0.00 | 0.504 | 0.08 | 0.18 | 0.97/0.94/0.94 | 0.97 | 0.61 / 0.37 | 0.82 | 26 | 0.00 | 1.00 | 0.10 |
+| O1000 | 0.09 | 0.09 | 0.64 | 0.00 | 0.00 | 0.523 | 0.11 | 0.18 | 0.94/0.94/0.94 | 0.97 | 0.57 / 0.36 | 0.82 | 24 | 0.00 | 0.86 | 0.06 |
+
+readout swap at O1000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.00 | 0.00 | 1.00 | 0.00 | 0.459 |
+| a0.5_rel | 0.36 | 0.27 | 0.55 | 0.00 | 0.605 |
+| a0.75_rel | 0.18 | 0.18 | 0.73 | 0.00 | 0.586 |
+| a1_abs | 0.27 | 0.18 | 0.36 | 0.18 | 0.600 |
+| a1_rel | 0.09 | 0.09 | 0.64 | 0.00 | 0.527 |
+| a1_rel_th.008 | 0.09 | 0.09 | 0.64 | 0.09 | 0.500 |
+| a1_rel_th.03 | 0.09 | 0.09 | 0.91 | 0.00 | 0.418 |
+| a1_rel_rho.8 | 0.18 | 0.18 | 0.82 | 0.00 | 0.286 |
+| a0.5_rel_rho.8 | 0.09 | 0.09 | 0.91 | 0.00 | 0.495 |
+| a0.5_rel_rho.9 | 0.09 | 0.09 | 0.91 | 0.00 | 0.304 |
+live (frozen, format caregiver): resp 0.75 acc 0.50 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000 | t1 forced answer said 1.00
+time s: 100 ticks 106948
+
+### DPC1600_fw  (n=1 seeds; target set = new)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.455 | 0.11 | 0.55 | 0.97/0.94/0.94 | 0.95 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.18 | 0.00 | 0.82 | 0.00 | 0.00 | 0.514 | 0.08 | 0.25 | 0.97/0.94/0.94 | 0.97 | 0.77 / 0.28 | 1.00 | 25 | 0.00 | 0.87 | 0.03 |
+
+readout swap at O300 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.09 | 0.09 | 0.91 | 0.00 | 0.500 |
+| a0.5_rel | 0.36 | 0.18 | 0.64 | 0.00 | 0.636 |
+| a0.75_rel | 0.27 | 0.09 | 0.64 | 0.00 | 0.664 |
+| a1_abs | 0.36 | 0.27 | 0.64 | 0.00 | 0.764 |
+| a1_rel | 0.18 | 0.00 | 0.82 | 0.00 | 0.514 |
+| a1_rel_th.008 | 0.18 | 0.09 | 0.82 | 0.00 | 0.523 |
+| a1_rel_th.03 | 0.18 | 0.09 | 0.82 | 0.00 | 0.486 |
+| a1_rel_rho.8 | 0.09 | 0.09 | 0.91 | 0.00 | 0.250 |
+| a0.5_rel_rho.8 | 0.18 | 0.09 | 0.82 | 0.00 | 0.486 |
+| a0.5_rel_rho.9 | 0.09 | 0.09 | 0.91 | 0.00 | 0.295 |
+time s: - ticks -
+
+### PL1600_on_g16_th005  (n=1 seeds; target set = seen)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 0.86 | 0.14 | 0.00 | -0.000 | 0.03 | 0.37 | 0.19/0.00/0.00 | 0.11 | 0.50 / 1.40 | 0.00 | - | - | - | - |
+| O300 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.000 | 0.03 | 0.37 | 0.25/0.00/0.00 | 0.20 | 0.34 / 0.58 | 0.09 | 34 | 0.49 | 1.06 | 0.06 |
+| O1000 | 0.04 | 0.04 | 0.77 | 0.00 | 0.00 | 0.009 | 0.03 | 0.37 | 0.34/0.00/0.00 | 0.23 | 0.38 / 0.63 | 0.14 | 24 | 0.52 | 0.95 | 0.01 |
+
+readout swap at O1000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.04 | 0.04 | 0.91 | 0.00 | -0.004 |
+| a0.5_rel | 0.00 | 0.00 | 0.68 | 0.27 | -0.009 |
+| a0.75_rel | 0.00 | 0.00 | 0.86 | 0.00 | -0.032 |
+| a1_abs | 0.00 | 0.00 | 0.04 | 0.36 | -0.050 |
+| a1_rel | 0.04 | 0.04 | 0.77 | 0.00 | 0.009 |
+| a1_rel_th.008 | 0.04 | 0.04 | 0.77 | 0.00 | 0.009 |
+| a1_rel_th.03 | 0.00 | 0.00 | 0.95 | 0.00 | 0.000 |
+| a1_rel_rho.8 | 0.00 | 0.00 | 1.00 | 0.00 | -0.018 |
+| a0.5_rel_rho.8 | 0.00 | 0.00 | 1.00 | 0.00 | 0.014 |
+| a0.5_rel_rho.9 | 0.00 | 0.00 | 1.00 | 0.00 | 0.018 |
+context-varied path (t1 (newborn)): dec_q lag0/6/12 0.203/0.000/0.000 | same/cross@12 0.00/0.00 | within J1 (lags 0-11) 0.04 | P(empty)@12 0.98 | dec frame@12 0.00
+context-varied path (end): dec_q lag0/6/12 0.203/0.000/0.000 | same/cross@12 0.00/0.00 | within J1 (lags 0-11) 0.05 | P(empty)@12 0.98 | dec frame@12 0.00
+live (frozen, format caregiver): resp 0.12 acc 0.02 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.017 | t1 forced answer said 0.41
+time s: 116 ticks 120320
+
+### P_kp1600  (n=1 seeds; target set = seen)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.000 | 0.00 | 0.00 | 0.19/0.00/0.00 | 0.21 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.032 | 0.02 | 0.35 | 0.09/0.00/0.00 | 0.23 | 2.73 / 3.73 | 0.00 | 132 | 0.46 | 0.12 | 0.01 |
+| O1000 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | -0.018 | 0.02 | 0.54 | 0.19/0.00/0.00 | 0.24 | 2.59 / 3.37 | 0.00 | 128 | 0.47 | 0.09 | 0.03 |
+
+readout swap at O1000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.04 | 0.00 | 0.04 | 0.73 | 0.036 |
+| a0.5_rel | 0.00 | 0.00 | 0.86 | 0.00 | 0.000 |
+| a0.75_rel | 0.00 | 0.00 | 0.95 | 0.00 | 0.014 |
+| a1_abs | 0.04 | 0.00 | 0.00 | 0.59 | 0.014 |
+| a1_rel | 0.00 | 0.00 | 1.00 | 0.00 | 0.032 |
+| a1_rel_th.008 | 0.00 | 0.00 | 0.95 | 0.00 | 0.014 |
+| a1_rel_th.03 | 0.00 | 0.00 | 1.00 | 0.00 | 0.004 |
+live (frozen, format caregiver): resp 0.02 acc 0.00 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.017 | t1 forced answer said 1.00
+time s: 242 ticks 91861
+
+### P_pc1600  (n=1 seeds; target set = new)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.455 | 0.11 | 0.55 | 0.97/0.94/0.94 | 0.95 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.09 | 0.09 | 0.64 | 0.09 | 0.00 | 0.495 | 0.09 | 0.19 | 0.97/0.94/0.94 | 0.96 | 0.62 / 0.42 | 0.73 | 26 | 0.00 | 0.82 | 0.03 |
+| O1000 | 0.09 | 0.09 | 0.73 | 0.09 | 0.00 | 0.536 | 0.10 | 0.17 | 0.97/0.94/0.94 | 0.97 | 0.58 / 0.39 | 0.73 | 24 | 0.00 | 0.81 | 0.02 |
+| O3000 | 0.09 | 0.09 | 0.73 | 0.00 | 0.00 | 0.491 | 0.10 | 0.15 | 1.00/0.94/0.94 | 0.97 | 0.54 / 0.38 | 0.73 | 24 | 0.00 | 0.81 | 0.02 |
+
+readout swap at O3000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.00 | 0.00 | 1.00 | 0.00 | 0.459 |
+| a0.5_rel | 0.36 | 0.27 | 0.46 | 0.00 | 0.582 |
+| a0.75_rel | 0.27 | 0.27 | 0.55 | 0.00 | 0.559 |
+| a1_abs | 0.18 | 0.09 | 0.36 | 0.27 | 0.564 |
+| a1_rel | 0.09 | 0.09 | 0.73 | 0.00 | 0.491 |
+| a1_rel_th.008 | 0.18 | 0.18 | 0.64 | 0.00 | 0.509 |
+| a1_rel_th.03 | 0.09 | 0.09 | 0.91 | 0.00 | 0.441 |
+live (frozen, format caregiver): resp 0.72 acc 0.53 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.117 | t1 forced answer said 1.00
+time s: 124 ticks 196290
+
+### P_pc400x1f  (n=1 seeds; target set = new)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.450 | 0.11 | 0.55 | 0.94/0.94/0.94 | 0.92 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.441 | 0.11 | 0.54 | 0.94/0.94/0.94 | 0.92 | 0.13 / 0.12 | 0.55 | 9 | 0.00 | 0.67 | 0.00 |
+| O1000 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.450 | 0.11 | 0.55 | 0.94/0.94/0.94 | 0.92 | 0.12 / 0.11 | 0.73 | 8 | 0.00 | 0.51 | 0.00 |
+| O3000 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.450 | 0.11 | 0.55 | 0.94/0.94/0.94 | 0.92 | 0.12 / 0.10 | 0.82 | 9 | 0.00 | 0.51 | 0.00 |
+
+readout swap at O3000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.00 | 0.00 | 1.00 | 0.00 | 0.450 |
+| a0.5_rel | 0.09 | 0.09 | 0.82 | 0.09 | 0.550 |
+| a0.75_rel | 0.00 | 0.00 | 0.82 | 0.00 | 0.541 |
+| a1_abs | 0.00 | 0.00 | 1.00 | 0.00 | 0.464 |
+| a1_rel | 0.00 | 0.00 | 1.00 | 0.00 | 0.559 |
+| a1_rel_th.008 | 0.00 | 0.00 | 1.00 | 0.00 | 0.554 |
+| a1_rel_th.03 | 0.00 | 0.00 | 1.00 | 0.00 | 0.527 |
+live (frozen, format caregiver): resp 0.47 acc 0.45 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000 | t1 forced answer said 0.95
+time s: 62 ticks 196403
+
+### P_s1600  (n=1 seeds; target set = seen)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.000 | 0.00 | 0.00 | 0.22/0.00/0.00 | 0.26 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.04 | 0.04 | 0.95 | 0.00 | 0.10 | 0.018 | 0.03 | 0.38 | 0.12/0.00/0.00 | 0.26 | 0.46 / 0.60 | 0.14 | 39 | 0.48 | 0.72 | 0.01 |
+| O1000 | 0.04 | 0.04 | 0.86 | 0.00 | 0.10 | -0.004 | 0.02 | 0.38 | 0.19/0.00/0.00 | 0.25 | 0.50 / 0.70 | 0.14 | 25 | 0.53 | 0.75 | 0.00 |
+| O3000 | 0.04 | 0.04 | 0.91 | 0.00 | 0.00 | 0.023 | 0.02 | 0.40 | 0.22/0.00/0.00 | 0.26 | 0.52 / 0.73 | 0.14 | 27 | 0.53 | 0.76 | 0.00 |
+
+readout swap at O3000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.04 | 0.04 | 0.95 | 0.00 | 0.023 |
+| a0.5_rel | 0.04 | 0.04 | 0.95 | 0.00 | 0.018 |
+| a0.75_rel | 0.09 | 0.09 | 0.86 | 0.00 | 0.014 |
+| a1_abs | 0.00 | 0.00 | 0.00 | 0.00 | 0.004 |
+| a1_rel | 0.04 | 0.04 | 0.91 | 0.00 | 0.023 |
+| a1_rel_th.008 | 0.04 | 0.04 | 0.91 | 0.00 | 0.018 |
+| a1_rel_th.03 | 0.00 | 0.00 | 1.00 | 0.00 | 0.009 |
+context-varied path (t1 (newborn)): dec_q lag0/6/12 0.125/0.000/0.000 | same/cross@12 0.00/0.00 | within J1 (lags 0-11) 0.06 | P(empty)@12 0.98 | dec frame@12 0.00
+context-varied path (end): dec_q lag0/6/12 0.172/0.000/0.000 | same/cross@12 0.00/0.00 | within J1 (lags 0-11) 0.06 | P(empty)@12 0.99 | dec frame@12 0.00
+live (frozen, format caregiver): resp 0.10 acc 0.02 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000 | t1 forced answer said 1.00
+time s: 145 ticks 205003
+
+### P_s400  (n=1 seeds; target set = seen)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.000 | 0.00 | 0.00 | 0.16/0.00/0.00 | 0.32 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.004 | 0.02 | 0.40 | 0.16/0.00/0.00 | 0.34 | 0.60 / 0.85 | 0.00 | 25 | 0.54 | 0.02 | 0.00 |
+| O1000 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.004 | 0.02 | 0.43 | 0.16/0.00/0.00 | 0.34 | 0.63 / 0.88 | 0.04 | 24 | 0.54 | 0.01 | 0.00 |
+
+readout swap at O1000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.00 | 0.00 | 0.68 | 0.32 | 0.023 |
+| a0.5_rel | 0.00 | 0.00 | 1.00 | 0.00 | -0.000 |
+| a0.75_rel | 0.00 | 0.00 | 1.00 | 0.00 | 0.004 |
+| a1_abs | 0.04 | 0.04 | 0.04 | 0.68 | -0.014 |
+| a1_rel | 0.00 | 0.00 | 1.00 | 0.00 | 0.004 |
+| a1_rel_th.008 | 0.00 | 0.00 | 1.00 | 0.00 | 0.027 |
+| a1_rel_th.03 | 0.00 | 0.00 | 1.00 | 0.00 | 0.014 |
+live (frozen, format caregiver): resp 0.02 acc 0.02 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000 | t1 forced answer said 1.00
+time s: 54 ticks 91831
+
+### P_s6400  (n=1 seeds; target set = seen)
+| checkpoint | first syl (target) | acc (target) | silent | garble | held acc | fair spec (seen) | null95 | hub share | dec lag0/6/12 (all 32) | within J | drive ans / best wrong | ans top | L3 mean | P(L3 empty) | child utts/dlg | garbled/dlg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| t1 | 0.00 | 0.00 | 1.00 | 0.00 | 0.00 | 0.000 | 0.00 | 0.00 | 0.22/0.00/0.00 | 0.22 | 0.00 / 0.00 | 0.00 | - | - | - | - |
+| O300 | 0.00 | 0.00 | 0.91 | 0.00 | 0.00 | -0.018 | 0.03 | 0.46 | 0.25/0.00/0.00 | 0.20 | 0.79 / 0.86 | 0.32 | 62 | 0.54 | 0.21 | 0.01 |
+| O1000 | 0.04 | 0.04 | 0.82 | 0.00 | 0.30 | 0.023 | 0.03 | 0.47 | 0.19/0.00/0.00 | 0.20 | 0.53 / 0.54 | 0.36 | 22 | 0.57 | 0.51 | 0.01 |
+
+readout swap at O1000 (same learned weights; first syllable / acc on target set; fair spec on seen):
+| readout | first | acc | silent | garble | fair (seen) |
+|---|---|---|---|---|---|
+| a0.5_abs | 0.00 | 0.00 | 1.00 | 0.00 | 0.014 |
+| a0.5_rel | 0.04 | 0.04 | 0.91 | 0.00 | 0.018 |
+| a0.75_rel | 0.14 | 0.14 | 0.68 | 0.00 | 0.023 |
+| a1_abs | 0.14 | 0.04 | 0.09 | 0.73 | -0.045 |
+| a1_rel | 0.04 | 0.04 | 0.77 | 0.00 | -0.018 |
+| a1_rel_th.008 | 0.04 | 0.04 | 0.82 | 0.00 | -0.009 |
+| a1_rel_th.03 | 0.18 | 0.18 | 0.73 | 0.00 | 0.018 |
+context-varied path (t1 (newborn)): dec_q lag0/6/12 0.172/0.000/0.000 | same/cross@12 0.00/0.00 | within J1 (lags 0-11) 0.05 | P(empty)@12 0.98 | dec frame@12 0.00
+context-varied path (end): dec_q lag0/6/12 0.188/0.031/0.000 | same/cross@12 0.00/0.00 | within J1 (lags 0-11) 0.04 | P(empty)@12 1.00 | dec frame@12 0.00
+live (frozen, format caregiver): resp 0.25 acc 0.13 talk-over/ex 0.000 yield-fail/ex 0.000 garble/ex 0.000 | t1 forced answer said 0.77
+time s: 304 ticks 110478

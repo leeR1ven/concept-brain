@@ -1,0 +1,4 @@
+P_pc1600 0 N=1600 pc=1 m=20 overlap=0 k3=170 L33=0 a=1 rel=1 marks=300,1000,3000 phase1=0
+P_pc400x1f 0 N=400 pc=1 m=5 overlap=0 sparse=0 a=0.5 rel=0 L33=0 marks=300,1000,3000 phase1=0
+P_s1600 0 N=1600 L33=1 a=1 rel=1 marks=300,1000,3000
+P_s6400 0 N=6400 L33=1 a=1 rel=1 marks=300,1000
