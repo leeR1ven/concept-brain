@@ -505,3 +505,272 @@ def speech_summary(world, a, b_):
                top_clear_syllables=Counter(s for u in clear for s in u['syl']).most_common(8),
                examples=[' '.join(u['syl']) for u in utts[-12:]])
     return out
+
+
+def l4_tracking(life, n_lines=24, seed=0):
+    """[fix A check] does L4 follow the input? Frozen. Templates: L4 code of each syllable heard alone (C1, on in >= 2
+    of the 3 slices at lag 4). Running speech: n_lines random 3-syllable lines (C1 / C2) with 6-10 silent ticks between;
+    each syllable's L4 slices (lag 4) decoded by the best Jaccard to the templates (current-syllable accuracy, chance
+    1/34), and J(L4(t), L4(t-3)) over speech ticks (how much L4 moves per syllable); L4 count in speech and silence."""
+    b = life.brain
+    rng = np.random.default_rng(seed + 6100)
+    tmpl = []
+    with Frozen(life):
+        snap = b.snapshot()
+        for x in range(NSYL):
+            b.restore(snap)
+            rec = []
+            play(life, [None] * 4 + [(x, C1, 1.0)] * 3 + [None] * 6, mute=True, rec=lambda lf, t: rec.append(lf.brain.pfc.L4.on.clone()))
+            tmpl.append(torch.stack(rec[8:11]).float().mean(0) >= 0.5)
+        T = torch.stack(tmpl)
+        b.restore(snap)
+        script, lab = [None] * 6, [None] * 6
+        for _ in range(n_lines):
+            v = C1 if rng.random() < 0.5 else C2
+            for x in rng.integers(0, NSYL, 3):
+                script += [(int(x), v, 1.0)] * 3
+                lab += [int(x)] * 3
+            gap = int(rng.integers(6, 11))
+            script += [None] * gap
+            lab += [None] * gap
+        rec, hrec = [], []
+        play(life, script, mute=True, rec=lambda lf, t: (rec.append(lf.brain.pfc.L4.on.clone()),
+                                                       hrec.append(lf.brain.hip.Hs.on.clone() if lf.brain.hip is not None else None)))
+    hits, jm, jh, c_sp, c_si = [], [], [], [], []
+    for t in range(4, len(script)):
+        l4 = rec[t]
+        x = lab[t - 4]
+        (c_sp if lab[t - 4] is not None else c_si).append(float(l4.sum()))
+        if x is not None:
+            inter = (T & l4[None]).sum(1).float()
+            union = (T | l4[None]).sum(1).float().clamp_min(1)
+            hits.append(int((inter / union).argmax().item() == x))
+            if t >= 3:
+                jm.append(jac(l4, rec[t - 3]).item())
+                if hrec[t] is not None:
+                    jh.append(jac(hrec[t], hrec[t - 3]).item())
+    return dict(current_syllable_decoding=float(np.mean(hits)), J_L4_t_vs_t3_speech=float(np.mean(jm)),
+                J_Hs_t_vs_t3_speech=float(np.mean(jh)) if jh else None,
+                L4_count_speech=float(np.mean(c_sp)), L4_count_silence=float(np.mean(c_si)), n=len(hits))
+
+
+def hip_recall(life, Ds=(300,), after=8, n_long=4):
+    """[fix B check] a held-out Q -> A pair heard once (C1 asks, C2 answers 3 ticks later; learning on), D ticks of the
+    ordinary overheard world, then Q again (learning on). For `after` ticks after Q: the hippocampus's internally lit
+    copies (h_int): A's code share and its rank among all 34 codes and among the answer syllables; the answer's
+    sound-area units re-lit (share of A's chained sound units on, vs the same probe without the exposure); h_int per
+    tick. Full state restored between trials."""
+    from probes import tasks
+    b = life.brain
+    props, seen, held = tasks(life)
+    ans_set = sorted({SID[W.answer(f, x, props)[0]] for f in range(4) for x in range(8)})
+    src = b.chains.fwd_src
+    full = b.snapshot_full()
+    was = b.learning
+    out = {}
+    for D in Ds:
+        for cond in ('heard_once', 'control'):
+            share, rank_all, rank_ans, relit, hcount, l1x, drv = [], [], [], [], [], [], {}
+            for f, x in (held if D <= 1000 else held[:n_long]):     # long gaps: fewer pairs (time)
+                b.restore_full(full)
+                b.learning = True
+                Q, A = W.question(f, x), W.answer(f, x, props)
+                a = SID[A[0]]
+                if cond == 'heard_once':
+                    play(life, line_script(Q, C1) + [None] * 3 + line_script(A, C2) + [None] * 12, mute=True)
+                t0 = b.t
+                while b.t - t0 < D:
+                    life.tick()
+                qs = line_script(Q, C1)
+                t_end = len(qs) - 1
+                H, S, X, DR = [], [], [], []
+
+                cd = life.codes[a]
+                cd = cd[src[cd, 0] == 0]                                  # A's sound-chain copies -> their sound units
+                groups = [(l, src[cd[src[cd, 1] == l], 2]) for l in range(len(b.sound.n))]
+
+                def rec(lf, t):
+                    if t_end < t <= t_end + after:
+                        H.append(lf.brain.hip.h_int.float())
+                        DR.append(lf.brain.hip.dh1)
+                        on = torch.cat([lf.brain.sound.state[l][u].float() for l, u in groups if u.numel()]) \
+                            if cd.numel() else torch.zeros(1, device=DEV)
+                        S.append(on.mean())
+                        X.append(lf.brain.pfc.L1ext.on[life.codes[a]].float().mean() if life.codes[a].numel()
+                                 else torch.zeros((), device=DEV))
+                play(life, qs + [None] * (after + 1), mute=True, rec=rec)
+                Hm = torch.stack(H).mean(0)
+                per = torch.stack([Hm[cd].mean() if cd.numel() else torch.zeros((), device=DEV) for cd in life.codes])
+                share.append(float(per[a]))
+                rank_all.append(int((per > per[a]).sum().item()) + 1)
+                pa = per[ans_set]
+                rank_ans.append(int((pa > per[a]).sum().item()) + 1)
+                relit.append(float(torch.stack(S).mean()))
+                l1x.append(float(torch.stack(X).mean()))
+                th = life.c['theta_h1']
+                for key, k_ in (('raw', 0), ('sub', 1)):
+                    per_t = torch.stack([torch.stack([dr[k_][cd2].mean() if cd2.numel() else torch.zeros((), device=DEV)
+                                                      for cd2 in life.codes]) for dr in DR])        # [ticks, 34]
+                    mx = per_t.max(0).values
+                    drv.setdefault(key, []).append((float(mx[a] / th), float(torch.cat([mx[:a], mx[a + 1:]]).max() / th),
+                                                    float(torch.stack([dr[k_].max() for dr in DR]).max() / th)))
+                hcount.append(float(torch.stack(H).sum(1).mean()))
+            out[f'{cond} D={D}'] = dict(A_code_hint_share=float(np.mean(share)), A_rank_all34=float(np.mean(rank_all)),
+                                        A_first_all34=float(np.mean([r == 1 for r in rank_all])),
+                                        A_rank_among_answers=float(np.mean(rank_ans)), n_answers=len(ans_set),
+                                        A_sound_units_relit=float(np.mean(relit)), A_L1ext_copies_lit=float(np.mean(l1x)),
+                                        h_int_per_tick=float(np.mean(hcount)),
+                                        H1_drive_over_theta={k: dict(A_code_mean=float(np.mean([v[0] for v in vs])),
+                                                                     best_other_code=float(np.mean([v[1] for v in vs])),
+                                                                     max_any_copy=float(np.mean([v[2] for v in vs])))
+                                                             for k, vs in drv.items()},
+                                        n=len(share))
+    b.restore_full(full)
+    b.learning = was
+    return out
+
+
+def hip_trace(life, Ds=(300, 3000), after=8, n_long=4):
+    """[fix B, B4] where does recall fail? Held-out pairs, each heard once (C1 asks Q; 3 silent ticks; C2 answers A;
+    12 silent ticks; learning on), D ticks of the overheard world, then Q again (learning on). Full state restored per
+    trial; the never-exposed control replays the same without the exposure.
+    Hs level: (1) re-hearing Q: tick-by-tick J of Hs with this trial's first-hearing Q sequence vs other trials' Q
+    sequences; (2) the ticks after Q: J with this trial's Hs at A's onset vs other trials' A onsets; (3) in the first
+    hearing's pause (3 ticks between Q and A): the share of Q's sound units lit (by returns: no input), and the share of
+    Hs that belongs to the Hs units active during Q.
+    H1 level (after the re-heard Q): H1t drive into A's H1 copies vs the best other code, raw and after the patch-mean
+    subtraction, in units of theta_h1; out-strength of the active Hs rows; in-strength of A's copies vs other copies;
+    the mean learned weight from the active Hs rows onto A's copies vs onto other codes' copies; h_int per tick; A's
+    sound units and L1ext copies lit."""
+    from probes import tasks
+    b = life.brain
+    hip = b.hip
+    props, seen, held = tasks(life)
+    src = b.chains.fwd_src
+    th = life.c['theta_h1']
+    code_of = torch.full((b.n1,), -1, dtype=torch.long, device=DEV)
+    for s_, cd in enumerate(life.codes):
+        if cd.numel():
+            code_of[cd] = s_
+
+    def sound_units(syls):
+        cd = torch.cat([life.codes[s_] for s_ in syls]) if syls else torch.zeros(0, dtype=torch.long, device=DEV)
+        cd = cd[src[cd, 0] == 0]
+        return [(l, src[cd[src[cd, 1] == l], 2]) for l in range(len(b.sound.n))]
+
+    def lit_share(groups):
+        parts = [b.sound.state[l][u].float() for l, u in groups if u.numel()]
+        return float(torch.cat(parts).mean()) if parts else 0.0
+
+    full = b.snapshot_full()
+    was = b.learning
+    out = {}
+    for D in Ds:
+        pairs = held if D <= 1000 else held[:n_long]
+        trials = {}
+        for cond in ('heard_once', 'control'):
+            rows = []
+            for f, x in pairs:
+                b.restore_full(full)
+                b.learning = True
+                Q, A = W.question(f, x), W.answer(f, x, props)
+                a = SID[A[0]]
+                qsyl = [SID[s_] for s_ in Q]
+                qs, as_ = line_script(Q, C1), line_script(A, C2)
+                nq = len(qs)
+                first = dict(Hs=[], gap_sound=[], gap_hs_q=[])
+                if cond == 'heard_once':
+                    qgroups = sound_units(qsyl)
+                    seqH = []
+
+                    def rec1(lf, t):
+                        seqH.append(hip.Hs.on.clone())
+                        if nq <= t < nq + 3:
+                            first['gap_sound'].append(lit_share(qgroups))
+                    play(life, qs + [None] * 3 + as_ + [None] * 12, mute=True, rec=rec1)
+                    first['Hs'] = seqH
+                    qunion = torch.stack(seqH[2:nq + 2]).any(0)
+                    for t in range(nq, nq + 3):
+                        hs = seqH[t]
+                        first['gap_hs_q'].append(float((hs & qunion).sum()) / max(1.0, float(hs.sum())))
+                t0 = b.t
+                while b.t - t0 < D:
+                    life.tick()
+                seqR, H, S, X, DR, act = [], [], [], [], [], []
+                agroups = sound_units([a])
+
+                def rec2(lf, t):
+                    seqR.append(hip.Hs.on.clone())
+                    if nq - 1 < t <= nq - 1 + after:
+                        H.append(hip.h_int.float())
+                        DR.append(hip.dh1)
+                        S.append(lit_share(agroups))
+                        X.append(b.pfc.L1ext.on[life.codes[a]].float().mean() if life.codes[a].numel() else torch.zeros((), device=DEV))
+                        act.append(hip.Hs.on.clone())
+                play(life, qs + [None] * (after + 1), mute=True, rec=rec2)
+                r = dict(a=a, nq=nq, first=first, seqR=seqR)
+                per = {}
+                for key, k_ in (('raw', 0), ('sub', 1)):
+                    pt = torch.stack([torch.stack([dr[k_][cd2].mean() if cd2.numel() else torch.zeros((), device=DEV)
+                                                   for cd2 in life.codes]) for dr in DR]).max(0).values
+                    per[key] = (float(pt[a] / th), float(torch.cat([pt[:a], pt[a + 1:]]).max() / th))
+                r['drive'] = per
+                rows_act = torch.nonzero(torch.stack(act).any(0)).squeeze(1)
+                T_ = hip.H1t
+                r['out_strength_active_rows'] = float(T_.out[rows_act].mean()) if rows_act.numel() else 0.0
+                ca = life.codes[a]
+                r['in_strength_A'] = float(T_.inn[ca].mean()) if ca.numel() else 0.0
+                r['in_strength_all'] = float(T_.inn[:b.n1].mean())
+                if rows_act.numel():
+                    ix = T_.idx[rows_act].long()
+                    w = T_.w[rows_act]
+                    tgt = torch.where(ix < b.n1, code_of[ix.clamp_max(b.n1 - 1)], torch.full_like(ix, -1))
+                    r['w_to_A'] = float(w[tgt == a].mean()) if bool((tgt == a).any()) else 0.0
+                    r['w_to_other_codes'] = float(w[(tgt >= 0) & (tgt != a)].mean()) if bool(((tgt >= 0) & (tgt != a)).any()) else 0.0
+                r['h_int_per_tick'] = float(torch.stack(H).sum(1).mean())
+                Hm = torch.stack(H).mean(0)
+                pc = torch.stack([Hm[cd2].mean() if cd2.numel() else torch.zeros((), device=DEV) for cd2 in life.codes])
+                r['A_hint_share'] = float(pc[a])
+                r['other_hint_share_max'] = float(torch.cat([pc[:a], pc[a + 1:]]).max())
+                r['A_sound_relit'] = float(np.mean(S))
+                r['A_L1ext_lit'] = float(torch.stack(X).mean())
+                rows.append(r)
+            trials[cond] = rows
+        # Hs-level comparisons across trials (heard_once)
+        ho = trials['heard_once']
+        jq_own, jq_oth, ja_own, ja_oth = [], [], [], []
+        for i, r in enumerate(ho):
+            nq = r['nq']
+            for j, r2 in enumerate(ho):
+                L = min(nq, r2['nq'])
+                jq = np.mean([jac(r['seqR'][t], r2['first']['Hs'][t]).item() for t in range(2, L)])
+                k0, k1 = r2['nq'] + 3 + 2, nq + 3 + 2                     # Hs at A's onset (+2 ticks relay), same timing
+                ja = np.mean([jac(r['seqR'][k1 + k], r2['first']['Hs'][k0 + k]).item() for k in range(3)
+                              if k1 + k < len(r['seqR']) and k0 + k < len(r2['first']['Hs'])])
+                (jq_own if i == j else jq_oth).append(jq)
+                (ja_own if i == j else ja_oth).append(ja)
+        summ = {}
+        for cond, rows in trials.items():
+            summ[cond] = dict(
+                n=len(rows),
+                H1_drive_over_theta={k: dict(A=float(np.mean([r['drive'][k][0] for r in rows])),
+                                             best_other=float(np.mean([r['drive'][k][1] for r in rows]))) for k in ('raw', 'sub')},
+                out_strength_active_Hs_rows=float(np.mean([r['out_strength_active_rows'] for r in rows])),
+                in_strength_A_copies=float(np.mean([r['in_strength_A'] for r in rows])),
+                in_strength_all_copies=float(np.mean([r['in_strength_all'] for r in rows])),
+                w_active_Hs_to_A=float(np.mean([r.get('w_to_A', 0.0) for r in rows])),
+                w_active_Hs_to_other_codes=float(np.mean([r.get('w_to_other_codes', 0.0) for r in rows])),
+                h_int_per_tick=float(np.mean([r['h_int_per_tick'] for r in rows])),
+                A_hint_share=float(np.mean([r['A_hint_share'] for r in rows])),
+                other_hint_share_max=float(np.mean([r['other_hint_share_max'] for r in rows])),
+                A_sound_relit=float(np.mean([r['A_sound_relit'] for r in rows])),
+                A_L1ext_lit=float(np.mean([r['A_L1ext_lit'] for r in rows])))
+        summ['heard_once'].update(
+            Hs_rehear_J_own_Q=float(np.mean(jq_own)), Hs_rehear_J_other_Q=float(np.mean(jq_oth)),
+            Hs_after_Q_J_own_A_onset=float(np.mean(ja_own)), Hs_after_Q_J_other_A_onsets=float(np.mean(ja_oth)),
+            first_pause_Q_sound_units_lit=float(np.mean([np.mean(r['first']['gap_sound']) for r in ho])),
+            first_pause_Hs_share_from_Q=float(np.mean([np.mean(r['first']['gap_hs_q']) for r in ho])))
+        out[f'D={D}'] = summ
+    b.restore_full(full)
+    b.learning = was
+    return out

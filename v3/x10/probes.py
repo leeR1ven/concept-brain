@@ -71,6 +71,8 @@ def activity(life, n_dialogues):
                  stop=b.motor.ns)
     if b.hip is not None:
         sizes.update(H1=b.n1, H1int=b.n1, Hs=b.hip.nh)
+    if getattr(b, 'touch', None) is not None:
+        sizes.update({f'T{l + 1}': n for l, n in enumerate(b.touch.n)})
     out = {}
     for i, n in enumerate(names):
         sil, sp = C[~lab, i].mean(), C[lab, i].mean()

@@ -6,7 +6,7 @@ import torch
 
 import geom
 from common import DEV
-from learning import ByPost, ByPre, Pop
+from learning import ByPost, ByPre, Pop, topk_pos
 
 
 class Hippocampus:
@@ -65,10 +65,14 @@ class Hippocampus:
 
     def step(self, x_ext):
         ah = self.Hs.on                                                             # Hs(t-1), as a mask
-        h_int = self.inhib1(self.H1t.drive(ah)) > self.c['theta_h1']
+        raw = self.H1t.drive(ah)
+        sub = self.inhib1(raw)
+        h_int = sub > self.c['theta_h1']
+        self.dh1 = (raw, sub)                                                       # kept for diagnostics only
         x = x_ext | h_int
         d = self.rec.drive(self.H1.on.float()) + self.HH.drive(ah)
-        hs = d - self.c['g_ih'] * d.mean() > self.theta_hs
+        e = d - self.c['g_ih'] * d.mean()
+        hs = topk_pos(e, self.c['kh']) if self.c['hs_count'] == 'k' else e > self.theta_hs   # [fix B] k fixed (X6)
         self.H1ext.set(x_ext)
         self.H1.set(x)
         self.Hs.set(hs)

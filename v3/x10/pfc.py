@@ -6,7 +6,7 @@ import torch
 
 import geom
 from common import DEV
-from learning import ByPost, ByPre, Pop
+from learning import topk_pos, ByPost, ByPre, Pop
 
 
 class PFC:
@@ -126,7 +126,10 @@ class PFC:
         n2 = self.inhib(self.ff[0].drive(self.L1.on.float()), 1) > self.theta[1]
         n3 = self.inhib(self.ff[1].drive(self.L2.on.float()), 2) > self.theta[2]
         d4 = self.ff[2].drive(self.L3.on.float()) + self.lat.drive(a4) + self.L44.drive(a4)
-        n4 = self.inhib(d4, 3) > self.theta[3]
+        if self.c['pfc_count'] == 'k':      # [fix A] L4 (the only layer fed by learned links) lights |L3(t-1)| units
+            n4 = topk_pos(self.inhib(d4, 3), self.L3.on.sum())
+        else:                               # birth-calibrated fixed threshold
+            n4 = self.inhib(d4, 3) > self.theta[3]
         self.L1ext.set(x_ext)
         self.L1.set(x)
         self.L2.set(n2)

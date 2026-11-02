@@ -1072,3 +1072,51 @@ Hypothesis: the scaffold teaches from the heard / held state, but speech is trig
 - The spoken output still turns into garble within 200 dialogues. The rivals' share at the motor area rises (best rival 0.52 → 0.70; total lit 0.27 → 0.41). The unspecific push comes from the acquired links (learned L4 → L1 onto force copies, hippocampal recall), which are built while the child babbles garble while overhearing.
 - This is part of what the long overhearing life will show. It is observed, not fixed.
 - **Code frozen 11-02 for the long life** (copy in `frozen_c2/`). Settings: gen0_strength 20, g_ret_force 0.95, band_cut_a12 0.6, g1p_src inner, MC pools from returns.
+
+## Addendum 11-02 (h): the long overhearing life stopped at ~1.8k dialogues (designer: fix the model first); fixes A and B proposed
+
+- c2 job 1 observations at 1k dialogues are the "before" point (`results/c2/`, `agg_c2.py`). Checkpoints are kept in ~/ckpt/c2_*_s0.pt.
+- **Fix A** (ARCH §二.4 "各层输入多少信号，输出层就输出多少信号"; designer 11-02 "前额叶最后一层应该和输入层亮的一样多"; corrected 11-02: L4 only):
+  - `pfc_count='k'`: L4(t) lights exactly |L3(t − 1)| units, the most driven after patch inhibition, among units with positive drive.
+  - L2 and L3 keep their birth thresholds (fixed layers, nothing learned feeds them).
+  - Test g44 0.1 and 1.
+- **Fix B** (ARCH §二.6; X6 "k fixed"; ARCH §五 "总激活越多越难再往上推"):
+  - `hs_count='k'`: Hs lights exactly kh units per tick, the most driven.
+  - g_hh = 1; g_h1 = 1 (and 3).
+  - H1 unchanged (patch-mean subtraction, θ_h1).
+- Revision of the original plan rule "no strict top-k": these two arms use a fixed count on the designer's instruction (count preservation). They are config arms; the old build stays the default.
+- Pilots after audit: `run_fix.py` modes A / B, `probes2.l4_tracking`, `probes2.hip_recall`.
+
+**Audit 11-02 (coordinator): fixes A and B approved.**
+- Plan revision: the original rule "no strict top-k" is revised for two places only:
+  - PFC L4 count = |L3(t − 1)| (ARCH §二.4; designer 11-02 "最后一层应该和输入层亮的一样多");
+  - Hs = kh per tick (ARCH §五 hippocampal gain control; X6's "k fixed").
+  - There is no birth Hs recurrence and no listening signal (ARCH §四.19, X6b).
+- Pilots run with touch on in every arm, control included.
+- A: old build / k + g44 0.1 / k + g44 1, 1,000 dialogues.
+- B on top of A (pfc_count k, g44 0.1), 500 dialogues:
+  - B1: hs_count k, g_hh 1, g_h1 1;
+  - B2: g_h1 3;
+  - B3: g_h1 1 with η_h, η_h_m × 4.
+- Lock-in checks: J(L4(t), L4(t − 3)) and J(Hs(t), Hs(t − 3)) in speech; the a2 Hs Jaccard margin; lag-0 decoding; each at birth and at the end.
+- hip_recall gaps: 300 ticks (10 held pairs) and 3,000 ticks (4 pairs), with the never-exposed control. Reported:
+  - h_int on A's code (rank among all 34 and among the answers);
+  - A's sound units re-lit by the returns;
+  - A's PFC L1ext copies then lit.
+
+**Fix A pilot result (x10_fixA2, touch on, 1k overheard dialogues, seed 0) and decision (coordinator 11-02).**
+- pfc_count k with g44 0.1 is kept for fix B and for the restart:
+  - current-syllable decoding 0.91 → 0.91;
+  - J(L4(t), L4(t − 3)) in speech 0.08 → 0.08;
+  - lag-0 decoding 1.00 → 1.00;
+  - L4/L3 = 1.00.
+- Measured reason for keeping the small learned gain g44 (R2): at g44 = 1, L4 locks in by 1k dialogues even with exact counts. J(L4(t), L4(t − 3)) is 0.65, current-syllable decoding 0.06, lag-0 decoding 0.11; L4 count 487 → 707, following L3 / L1 input.
+- With touch on, the old build did not inflate in 1k dialogues either (L4/L3 0.99–1.01).
+
+**Fix B pilot (x10_fixB2, on top of A, touch on, 500 dialogues): lock-in, no recall.**
+- B1–B3 (hs_count k, g_hh 1; g_h1 1 / 3 / 1 with η × 4): J(Hs(t), Hs(t − 3)) in speech 0.06 → 0.75–0.84, Hs J margin 0.17 → ≈ 0, H1int 0, no recall at gaps of 300 or 3,000 ticks.
+- The same cause as the g44 = 1 lock-in of L4: a fixed count plus strong learned recurrence lets the learned links choose the winners. In X3 / X6 the learned links did not drive the hippocampus while listening (λ = 0; X6b suppressed recurrence while someone speaks).
+- B4 (approved): hs_count k with g_hh 0.1 (g_h1 1 and 3) and g_hh 0.3 (g_h1 1).
+  - Recall is located at the Hs level: Hs back to the first-hearing Q sequence; Hs after Q toward A's onset code; in the first pause, Q's sound units lit by returns and Hs's Q share.
+  - And at the H1 level: H1t drive into A's copies vs the best other code, raw and after the patch-mean subtraction, against θ_h1; out- and in-strengths; learned weights onto A vs other codes.
+  - Implemented in `probes2.hip_trace`.

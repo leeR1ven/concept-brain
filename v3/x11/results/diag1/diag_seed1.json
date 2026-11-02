@@ -1,0 +1,294 @@
+{
+ "checkpoint": {
+  "at_dialogues": 3309,
+  "n_occ": 5008,
+  "a_echo_x_int": {
+   "target (next)": {
+    "top1": 0.0003993610152974725,
+    "top5": 0.005591054446995258,
+    "mrr": 0.007401503622531891,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.030950479233226837,
+     "top5": 0.14357028753993611
+    }
+   },
+   "previous": {
+    "top1": 0.00159744406118989,
+    "top5": 0.01038338616490364,
+    "mrr": 0.011362023651599884,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.03454472843450479,
+     "top5": 0.14396964856230032
+    }
+   },
+   "before previous": {
+    "top1": 0.0014559067785739899,
+    "top5": 0.015599001199007034,
+    "mrr": 0.013001961633563042,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.035357737104825294,
+     "top5": 0.14579866888519136
+    }
+   },
+   "three back": {
+    "top1": 0.0008680555620230734,
+    "top5": 0.0067274305038154125,
+    "mrr": 0.008339968509972095,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.03602430555555555,
+     "top5": 0.1484375
+    }
+   }
+  },
+  "b_sources": {
+   "learned_lit (thresholded)": {
+    "target": {
+     "top1": 0.0,
+     "top5": 0.0,
+     "mrr": 0.0007917655166238546,
+     "empty": 1.0
+    },
+    "previous": {
+     "top1": 0.0,
+     "top5": 0.0,
+     "mrr": 0.0007917655166238546,
+     "empty": 1.0
+    },
+    "lit_per_window": 0.0
+   },
+   "learned_drive (graded)": {
+    "target_mean": {
+     "top1": 0.003394568571820855,
+     "top5": 0.010583067312836647,
+     "mrr": 0.010446669533848763
+    },
+    "target_sum": {
+     "top1": 0.00019968050764873624,
+     "top5": 0.00259584654122591,
+     "mrr": 0.004502934869378805
+    },
+    "target_cos": {
+     "top1": 0.0009984024800360203,
+     "top5": 0.004392971284687519,
+     "mrr": 0.005987771321088076,
+     "empty": 0.0
+    },
+    "previous_mean": {
+     "top1": 0.002396166091784835,
+     "top5": 0.01218051090836525,
+     "mrr": 0.012232741340994835
+    },
+    "drive_per_copy_tick": 0.2291257083415985
+   },
+   "loop_drive (graded)": {
+    "target_mean": {
+     "top1": 0.00259584654122591,
+     "top5": 0.009384984150528908,
+     "mrr": 0.010218651965260506
+    },
+    "previous_mean": {
+     "top1": 0.0029952076729387045,
+     "top5": 0.015974439680576324,
+     "mrr": 0.015181889757514
+    },
+    "drive_per_copy_tick": 0.22919516265392303
+   }
+  },
+  "b_magnitude": {
+   "learned": {
+    "max_over_theta_median": 0.4514005482196808,
+    "max_over_theta_p90": 0.6386276841163635,
+    "units_above_theta_mean": 0.0,
+    "ticks": 5208
+   },
+   "loop": {
+    "max_over_theta_median": 2.308835506439209,
+    "max_over_theta_p90": 2.730524682998657,
+    "units_above_theta_mean": 73.6605222734255,
+    "ticks": 5208
+   },
+   "h1": {
+    "max_over_theta_median": 0.007064053555950522,
+    "max_over_theta_p90": 0.01322286725044251,
+    "units_above_theta_mean": 0.0,
+    "ticks": 5208
+   }
+  },
+  "c_hip": {
+   "H1t_synapses_w_pos": 955052,
+   "H1t_synapses": 1000000,
+   "H1t_w_max": 156.98306274414062,
+   "HH_synapses_w_pos": 1973255,
+   "HH_synapses": 2500000,
+   "g_h1": 0.1,
+   "theta_h1": 1.0,
+   "h1_drive": {
+    "max_over_theta_median": 0.007064053555950522,
+    "max_over_theta_p90": 0.01322286725044251,
+    "units_above_theta_mean": 0.0,
+    "ticks": 5208
+   }
+  },
+  "learned_tables": {
+   "L41_w_pos": 832820,
+   "L41_synapses": 847461,
+   "L41_w_max": 54.11384201049805,
+   "L44_w_pos": 904968
+  },
+  "d_L4": {
+   "frac_on": 0.2083468735218048,
+   "J_same_syllable": 0.19643446803092957,
+   "J_different": 0.1891564130783081
+  }
+ },
+ "newborn": {
+  "at_dialogues": 0,
+  "n_occ": 5008,
+  "a_echo_x_int": {
+   "target (next)": {
+    "top1": 0.000798722030594945,
+    "top5": 0.005591054446995258,
+    "mrr": 0.007135150954127312,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.030950479233226837,
+     "top5": 0.14357028753993611
+    }
+   },
+   "previous": {
+    "top1": 0.00159744406118989,
+    "top5": 0.008785942569375038,
+    "mrr": 0.010754619725048542,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.03454472843450479,
+     "top5": 0.14396964856230032
+    }
+   },
+   "before previous": {
+    "top1": 0.003119800239801407,
+    "top5": 0.0122712142765522,
+    "mrr": 0.01333452109247446,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.035357737104825294,
+     "top5": 0.14579866888519136
+    }
+   },
+   "three back": {
+    "top1": 0.0013020833721384406,
+    "top5": 0.0069444444961845875,
+    "mrr": 0.008985121734440327,
+    "empty": 0.0,
+    "unigram_ref": {
+     "top1": 0.03602430555555555,
+     "top5": 0.1484375
+    }
+   }
+  },
+  "b_sources": {
+   "learned_lit (thresholded)": {
+    "target": {
+     "top1": 0.0,
+     "top5": 0.0,
+     "mrr": 0.0007917655166238546,
+     "empty": 1.0
+    },
+    "previous": {
+     "top1": 0.0,
+     "top5": 0.0,
+     "mrr": 0.0007917655166238546,
+     "empty": 1.0
+    },
+    "lit_per_window": 0.0
+   },
+   "learned_drive (graded)": {
+    "target_mean": {
+     "top1": 0.0005990415229462087,
+     "top5": 0.00259584654122591,
+     "mrr": 0.005846161860972643
+    },
+    "target_sum": {
+     "top1": 0.000798722030594945,
+     "top5": 0.004592651501297951,
+     "mrr": 0.006418253295123577
+    },
+    "target_cos": {
+     "top1": 0.0,
+     "top5": 0.0,
+     "mrr": 0.0007917655166238546,
+     "empty": 1.0
+    },
+    "previous_mean": {
+     "top1": 0.0005990415229462087,
+     "top5": 0.004392971284687519,
+     "mrr": 0.006139993667602539
+    },
+    "drive_per_copy_tick": 0.0
+   },
+   "loop_drive (graded)": {
+    "target_mean": {
+     "top1": 0.0011980830458924174,
+     "top5": 0.007987219840288162,
+     "mrr": 0.009417958557605743
+    },
+    "previous_mean": {
+     "top1": 0.002396166091784835,
+     "top5": 0.0167731624096632,
+     "mrr": 0.015709269791841507
+    },
+    "drive_per_copy_tick": 0.19476960599422455
+   }
+  },
+  "b_magnitude": {
+   "learned": {
+    "max_over_theta_median": 0.0,
+    "max_over_theta_p90": 0.0,
+    "units_above_theta_mean": 0.0,
+    "ticks": 5208
+   },
+   "loop": {
+    "max_over_theta_median": 2.0886257886886597,
+    "max_over_theta_p90": 2.4599798917770386,
+    "units_above_theta_mean": 54.21524577572965,
+    "ticks": 5208
+   },
+   "h1": {
+    "max_over_theta_median": 0.0,
+    "max_over_theta_p90": 0.0,
+    "units_above_theta_mean": 0.0,
+    "ticks": 5208
+   }
+  },
+  "c_hip": {
+   "H1t_synapses_w_pos": 0,
+   "H1t_synapses": 1000000,
+   "H1t_w_max": 0.0,
+   "HH_synapses_w_pos": 0,
+   "HH_synapses": 2500000,
+   "g_h1": 0.1,
+   "theta_h1": 1.0,
+   "h1_drive": {
+    "max_over_theta_median": 0.0,
+    "max_over_theta_p90": 0.0,
+    "units_above_theta_mean": 0.0,
+    "ticks": 5208
+   }
+  },
+  "learned_tables": {
+   "L41_w_pos": 0,
+   "L41_synapses": 847461,
+   "L41_w_max": 0.0,
+   "L44_w_pos": 0
+  },
+  "d_L4": {
+   "frac_on": 0.17568601667881012,
+   "J_same_syllable": 0.18337561190128326,
+   "J_different": 0.17427852749824524
+  }
+ }
+}

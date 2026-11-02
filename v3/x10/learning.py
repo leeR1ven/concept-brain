@@ -162,6 +162,17 @@ class ByPre:
         self.recount()
 
 
+def topk_pos(d, k):
+    """[fix A/B 11-02] the k most-driven units among those with positive drive (count preservation, X6 "k fixed")"""
+    k = int(k)
+    out = torch.zeros(d.shape[0], dtype=torch.bool, device=DEV)
+    if k <= 0:
+        return out
+    v, i = torch.topk(d, min(k, d.shape[0]))
+    out[i[v > 0]] = True
+    return out
+
+
 class Pop:
     """state of one population for the rule: on(t), on(t-1), ticks since last on (0 = on now)."""
 

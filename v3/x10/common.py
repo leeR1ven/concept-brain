@@ -57,6 +57,9 @@ def config(s=1, **over):
         band_cut_a12=None,
         # gen-0 hand-wired links (G1P, MC) stored at the strength of a well-used link, in units of w_ref (0: as computed)
         gen0_strength=0.0,
+        # fixes 11-02 (arms; defaults reproduce the old build): [A] PFC L4 count = |L3(t-1)| (k most-driven after patch
+        # inhibition, positive drive; L2, L3 keep their birth thresholds); [B] Hs = kh most-driven units per tick
+        pfc_count='theta', hs_count='theta',
         # reward tool [R6] (ARCH 2.8; form and parameters from X8): changes of the last r_win ticks, fading;
         # pleased adds them again x r_pleased; upset adds them again x -(1 + r_upset) (net reversal) and links the
         # speech state (L4 now) to the stop copies by r_stop x the rule's step

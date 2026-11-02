@@ -73,3 +73,31 @@ Over the first 1k dialogues:
 - the distribution of H1's internal drive against θ_h1.
 
 Curve 1 stays unchanged. Any lever goes into a new curve only after it has been checked against ARCHITECTURE.md.
+
+## 5. Job 2 (3k dialogues) and the frozen diagnostic (11-02)
+
+**3k held-out, seed 0 / seed 1 (MEASURED):**
+- PFC top-1 0.003 / 0.001; top-5 0.009 / 0.007. Still at chance (0.0008 / 0.004).
+- Lag-1 trigram 0.165 / 0.312; lag-2 bigram 0.047 / 0.142.
+- H1int is still 0 on every tick.
+- L4 drifts to 1.13–1.15 × L3.
+
+Curve 1 is stopped. The designer (11-02) asked for the model to be fixed first: PFC counts equal at every layer, and a working hippocampus.
+
+**Diagnostic** (`results/diag1/`, learning off, on copies of the newborn, 1k and 3.4k states):
+
+| | 1k | 3.4k |
+|---|---|---|
+| L4→L1 synapses above 0 | 98 % (861,648 / 882,008) | 98 % |
+| Hs→H1 synapses above 0 | 96 % | 96 % |
+| Hs↔Hs synapses above 0 | 81 % | |
+| learned L41 drive alone, per-tick max (median / p90) | 0.42 / 0.63 θ1 | 0.45 / 0.63 θ1 |
+| H1 internal drive, per-tick max (median / p90) | 0.006 / 0.010 θ_h1 | 0.007 / 0.013 θ_h1 |
+| learned L41, graded top-5, next syllable / previous syllable | 0.014 / 0.023 | 0.013 / 0.023 |
+
+- **Every internally lit PFC copy is birth-loop echo.** The learned links alone light nothing.
+- **Cause: too many units on at once.** About 250 of 3,900 copies rise per tick, while about 35 % of L4 and 3 % of Hs are eligible. So the one learning rule strengthens almost every possible pair. The two-layer normalisation then turns the near-uniform weights into a tiny, flat drive.
+- **Arithmetic (coordinator, ASSUMED until the sweep).** The density is about 0.4 base hits per Hs→H1 synapse per 200 ticks. At that density no gain or decay setting lets a one-shot pair stand out. That needs about 15 copy rises per tick, not 250. This is the designer's own picture (11-02: about 10 inputs per frame).
+- **Next.** Fast parameter sweeps in X10:
+  - gains only, as the check of the arithmetic;
+  - then a sparser input per frame (sound rates, or only the deep layers sent through the chains) × hippocampal decay and gain.
