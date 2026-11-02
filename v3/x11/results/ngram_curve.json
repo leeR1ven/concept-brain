@@ -1,0 +1,264 @@
+{
+ "n_occ": 5008,
+ "n_response": 375,
+ "1000": {
+  "unigram": {
+   "top1": 0.0313,
+   "top5": 0.1436
+  },
+  "reply_unigram": {
+   "top1": 0.031,
+   "top5": 0.0909
+  },
+  "bigram": {
+   "top1": 0.1368,
+   "top5": 0.2772
+  },
+  "trigram": {
+   "top1": 0.1404,
+   "top5": 0.2806
+  },
+  "bigram_lag2": {
+   "top1": 0.0405,
+   "top5": 0.1256
+  },
+  "trigram_lag2": {
+   "top1": 0.0365,
+   "top5": 0.1184
+  },
+  "response": {
+   "unigram": {
+    "top1": 0.0,
+    "top5": 0.1947
+   },
+   "reply_unigram": {
+    "top1": 0.0933,
+    "top5": 0.2747
+   },
+   "bigram": {
+    "top1": 0.0133,
+    "top5": 0.1147
+   },
+   "trigram": {
+    "top1": 0.0213,
+    "top5": 0.0987
+   },
+   "bigram_lag2": {
+    "top1": 0.0133,
+    "top5": 0.0933
+   },
+   "trigram_lag2": {
+    "top1": 0.008,
+    "top5": 0.0747
+   }
+  }
+ },
+ "3000": {
+  "unigram": {
+   "top1": 0.0313,
+   "top5": 0.1436
+  },
+  "reply_unigram": {
+   "top1": 0.031,
+   "top5": 0.111
+  },
+  "bigram": {
+   "top1": 0.1498,
+   "top5": 0.3055
+  },
+  "trigram": {
+   "top1": 0.1645,
+   "top5": 0.3125
+  },
+  "bigram_lag2": {
+   "top1": 0.0467,
+   "top5": 0.1422
+  },
+  "trigram_lag2": {
+   "top1": 0.0449,
+   "top5": 0.1266
+  },
+  "response": {
+   "unigram": {
+    "top1": 0.0,
+    "top5": 0.1947
+   },
+   "reply_unigram": {
+    "top1": 0.0933,
+    "top5": 0.248
+   },
+   "bigram": {
+    "top1": 0.0267,
+    "top5": 0.1253
+   },
+   "trigram": {
+    "top1": 0.0267,
+    "top5": 0.0933
+   },
+   "bigram_lag2": {
+    "top1": 0.032,
+    "top5": 0.112
+   },
+   "trigram_lag2": {
+    "top1": 0.0133,
+    "top5": 0.0907
+   }
+  }
+ },
+ "10000": {
+  "unigram": {
+   "top1": 0.031,
+   "top5": 0.1436
+  },
+  "reply_unigram": {
+   "top1": 0.031,
+   "top5": 0.111
+  },
+  "bigram": {
+   "top1": 0.1563,
+   "top5": 0.3217
+  },
+  "trigram": {
+   "top1": 0.1853,
+   "top5": 0.3478
+  },
+  "bigram_lag2": {
+   "top1": 0.0543,
+   "top5": 0.1619
+  },
+  "trigram_lag2": {
+   "top1": 0.0583,
+   "top5": 0.148
+  },
+  "response": {
+   "unigram": {
+    "top1": 0.0933,
+    "top5": 0.1947
+   },
+   "reply_unigram": {
+    "top1": 0.0933,
+    "top5": 0.248
+   },
+   "bigram": {
+    "top1": 0.0213,
+    "top5": 0.12
+   },
+   "trigram": {
+    "top1": 0.0213,
+    "top5": 0.1013
+   },
+   "bigram_lag2": {
+    "top1": 0.032,
+    "top5": 0.1387
+   },
+   "trigram_lag2": {
+    "top1": 0.0133,
+    "top5": 0.0933
+   }
+  }
+ },
+ "30000": {
+  "unigram": {
+   "top1": 0.031,
+   "top5": 0.1436
+  },
+  "reply_unigram": {
+   "top1": 0.031,
+   "top5": 0.111
+  },
+  "bigram": {
+   "top1": 0.1593,
+   "top5": 0.3245
+  },
+  "trigram": {
+   "top1": 0.2033,
+   "top5": 0.3726
+  },
+  "bigram_lag2": {
+   "top1": 0.0571,
+   "top5": 0.1623
+  },
+  "trigram_lag2": {
+   "top1": 0.0677,
+   "top5": 0.1619
+  },
+  "response": {
+   "unigram": {
+    "top1": 0.0933,
+    "top5": 0.1947
+   },
+   "reply_unigram": {
+    "top1": 0.0933,
+    "top5": 0.248
+   },
+   "bigram": {
+    "top1": 0.0213,
+    "top5": 0.1093
+   },
+   "trigram": {
+    "top1": 0.0293,
+    "top5": 0.12
+   },
+   "bigram_lag2": {
+    "top1": 0.04,
+    "top5": 0.136
+   },
+   "trigram_lag2": {
+    "top1": 0.0213,
+    "top5": 0.0907
+   }
+  }
+ },
+ "100000": {
+  "unigram": {
+   "top1": 0.031,
+   "top5": 0.1436
+  },
+  "reply_unigram": {
+   "top1": 0.031,
+   "top5": 0.111
+  },
+  "bigram": {
+   "top1": 0.1599,
+   "top5": 0.3297
+  },
+  "trigram": {
+   "top1": 0.2222,
+   "top5": 0.396
+  },
+  "bigram_lag2": {
+   "top1": 0.0567,
+   "top5": 0.1677
+  },
+  "trigram_lag2": {
+   "top1": 0.0763,
+   "top5": 0.1789
+  },
+  "response": {
+   "unigram": {
+    "top1": 0.0933,
+    "top5": 0.1947
+   },
+   "reply_unigram": {
+    "top1": 0.0933,
+    "top5": 0.248
+   },
+   "bigram": {
+    "top1": 0.024,
+    "top5": 0.1093
+   },
+   "trigram": {
+    "top1": 0.032,
+    "top5": 0.12
+   },
+   "bigram_lag2": {
+    "top1": 0.0267,
+    "top5": 0.1413
+   },
+   "trigram_lag2": {
+    "top1": 0.0293,
+    "top5": 0.104
+   }
+  }
+ }
+}

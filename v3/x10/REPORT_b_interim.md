@@ -94,3 +94,28 @@ The tick-by-tick diagnosis (`diag_say.py`) is running. It separates three candid
 - several rivals at about half strength;
 - the child's own voice feeding back;
 - heard-path echo.
+
+## 7. Update (11-02, later): garble tail, touch, reward, link drift
+
+**Garble tail.** P1 + G1P inner + MC, with the pools fed by the returns (`mc_src = returns`) and g_ret_force 0.95, so a return alone stays below release. **MEASURED** (`results/bP1b/`):
+
+| b1 said | garble | b4 echo | b3 | b6 brake | b7 babble |
+|---|---|---|---|---|---|
+| 0.24 | 0.47 | 0.28 | 0.06 | 1.00 | 1.83 per dialogue |
+
+**Touch area (designer, ARCH §二.2)** and the **reward tool (ARCH §二.8)** are implemented and audited:
+- Skin is a thermometer code of each muscle's actual force. It is a 2-layer sound-like area with 1:1 chains and no table to the motor area.
+- Reward logs the last 24 ticks of applied changes. Pleased doubles them; upset reverses them and links L4 to the stop copies.
+
+**Gen-0 links drift under plain learning (`results/drift/`, MEASURED, overhearing, r = 0).**
+
+| gen0_strength | G1P change (200 / 700 dialogues) | MC input change | x first in the tendency (0 → 200 → 700) | say test at 700 | own utterances per dialogue |
+|---|---|---|---|---|---|
+| 0 | 118 % / 371 % | 86 % / 237 % | 1.00 → 0.19 → 0.04 | garble | 1.9–2.1 |
+| **20 (adopted)** | 0.7 % / 1.8 % | 0.8 % / 3 % | 0.98 → 0.56 → 0.69 | said 0, garble 1.00 | 1.0–1.3, 92–94 % garbled |
+
+- Storing generation 0 at "well-used" strength keeps the hand-wired links. They still change slowly.
+- Speech still turns to garble within 200 overheard dialogues. The links learned while the child babbles, which is mostly garble, raise rivals: the best rival goes 0.52 → 0.70 and the total lit goes 0.27 → 0.41.
+- Per the designer (11-02: "先不管说的对不对"), this is observed and not fixed. Self-correction is left to training (ARCH, e440ed5).
+
+**Running.** A long overhearing life (frozen code in `frozen_c2/`, seed 0) runs with and without touch. It is observed at 1k, 3k, 10k and 30k dialogues.

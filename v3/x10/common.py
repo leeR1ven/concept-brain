@@ -44,7 +44,7 @@ def config(s=1, **over):
         theta_h1=1.0, g_h1=1.0, g_hh=1.0, g_ih=1.0,
         # motor [M1-M6]
         theta_m=0.3, b_block=0.8, c_stop=2.0, ladder_step=0.25, n_brake_per_s=8.0, theta_stop=1.0,
-        g_ret_force=1.3, force_per_muscle=0, mc=False, mc_nI=16, mc_k=4, mc_e=3.0, mc_i=4.0,           # 0: m = s (arm M sets m explicitly)
+        g_ret_force=1.3, force_per_muscle=0, mc=False, mc_nI=16, mc_k=4, mc_e=3.0, mc_i=4.0, mc_src='force',           # 0: m = s (arm M sets m explicitly)
         # gen-0 speech wiring G1P (designer 11-02: inside the PFC, L4 syllable units -> L1 force copies)
         g1p_rel=1.5, g1p_own_excl=False, g1p_own_cut=0.2, g1p_p=0.5, g1p_margin=0.3, g1p_src='heard', g1p_evoked=False, g1p_off=0.2,
         # concept area (arm C+ only)
@@ -55,6 +55,17 @@ def config(s=1, **over):
         dense_limit=0,
         # P1 (11-02, ARCH 2.3): upper chain-band cut on A1 and A2 (near-input often-on units carry no features)
         band_cut_a12=None,
+        # gen-0 hand-wired links (G1P, MC) stored at the strength of a well-used link, in units of w_ref (0: as computed)
+        gen0_strength=0.0,
+        # reward tool [R6] (ARCH 2.8; form and parameters from X8): changes of the last r_win ticks, fading;
+        # pleased adds them again x r_pleased; upset adds them again x -(1 + r_upset) (net reversal) and links the
+        # speech state (L4 now) to the stop copies by r_stop x the rule's step
+        reward=False, r_win=24, r_pleased=2.0, r_upset=1.0, r_stop=2.0, r_reverse='all',
+        # touch area incl. muscle force [T1-T5] (designer 11-02, ARCH 2.2): input = each muscle's actual force as
+        # thermometer pairs on touch_levels levels (0: = force neurons per muscle, so it scales with s); local layers
+        # like the sound area (touch_upp units per position is the size proportion); chain band with the P1 upper cut
+        touch=False, touch_levels=0, touch_layers=2, touch_upp=2, touch_fan=6, touch_dy=(1, 2), touch_dz=(2, 4),
+        touch_rates=(0.20, 0.12), band_touch=(0.002, 0.6),
     )
     if 'pfc_size' in over:
         c.update(PFC_SIZE[over['pfc_size']])

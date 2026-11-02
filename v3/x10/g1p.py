@@ -125,6 +125,10 @@ def wire_g1p(life):
     idx = fcopies.repeat(pfc.n, 1)
     w = torch.zeros((pfc.n, mot.nf), device=DEV)
     w[units] = Wf
+    if c['gen0_strength'] > 0:              # store the inherited link at the strength of a well-used link (drive unchanged:
+        nz = w[w > 1e-6]                    # two-layer weights are scale-free; only the concave plasticity changes)
+        if nz.numel():
+            w = w * (c['gen0_strength'] * c['w_ref'] / nz.median())
     tab = ByPre(idx, w, pfc.n, b.n1, 'PFC G1P L4 -> L1 force copies (gen-0, acquired)', birth=False, eta=c['eta'],
                 eta_m=c['eta_m'], gain=1.0, gamma=b.gam['pfc'], c=c)
     # gain: a syllable's full unit set drives its own force copies at g1p_rel x the internal threshold theta_1

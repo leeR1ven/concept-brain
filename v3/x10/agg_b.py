@@ -12,7 +12,7 @@ print('| arm | setting | b1 said | b2 said | b1/b2 garble | b3 own loop | b4 ech
 print('|' + '---|' * 13)
 for f, r in rows:
     cfg = r['config']
-    st = ' '.join(f'{k}={v}' for k, v in cfg.items() if k.startswith('g1p_src') or k == 'mc' or k.startswith('band_cut'))
+    st = ' '.join(f'{k}={v}' for k, v in cfg.items() if k in ('g1p_src', 'mc', 'mc_src', 'g_ret_force') or k.startswith('band_cut'))
     sl = r.get('speech_links', {})
     fmt = lambda d: '/'.join(f"{d.get(k, 0):.2f}" for k in ('clear', 'mumble', 'garble', 'other', 'silent')) if d else '-'
     print(f"| {r['arm']} | {st} | {r['b1_forced_syllable_said']:.2f} | {r['b2_forced_answer_said']:.2f} | "
@@ -25,7 +25,7 @@ print('| arm | setting | link before (top-4 exact, margin, true/other w) | link 
 print('|' + '---|' * 7)
 for f, r in rows:
     cfg = r['config']
-    st = ' '.join(f'{k}={v}' for k, v in cfg.items() if k.startswith('g1p_src') or k == 'mc' or k.startswith('band_cut'))
+    st = ' '.join(f'{k}={v}' for k, v in cfg.items() if k in ('g1p_src', 'mc', 'mc_src', 'g_ret_force') or k.startswith('band_cut'))
     lk = lambda d: f"{d['top4_exact']:.2f}, {d['margin_median']:.2f}, {d['true_other_weight_ratio']:.2f}" if d else '-'
     sc = r.get('scaffold')
     scs = f"{sc['forced_syllables']}, {sc['forced_ticks_decoded_right']:.2f}, {sc['windows_ok']:.2f}" if sc else '-'

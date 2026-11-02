@@ -64,6 +64,7 @@ class Motor:
                     S[s * nI + n] = mu * m + g.integers(0, m, 4)
             return S
 
+        g0 = (c['gen0_strength'] or 1.0) * c['w_ref']                             # inherited strength (see g1p)
         def pre_table(S, name):                                                    # force -> pool (sampled inputs)
             lists = [[] for _ in range(self.nf)]
             for p, row in enumerate(S):
@@ -73,7 +74,7 @@ class Motor:
             idx = np.full((self.nf, w), S.shape[0], np.int32)
             for f, x in enumerate(lists):
                 idx[f, :len(x)] = x
-            return ByPre(idx, (idx < S.shape[0]).astype(np.float32), self.nf, S.shape[0], name, birth=False,
+            return ByPre(idx, (idx < S.shape[0]).astype(np.float32) * g0, self.nf, S.shape[0], name, birth=False,
                          eta=c['eta'], eta_m=c['eta_m'], gain=1.0, gamma=self.gam['motor'], c=c)
 
         def out_table(rows, name):                                                 # pool -> force
@@ -81,7 +82,7 @@ class Motor:
             idx = np.full((len(rows), w), self.nf, np.int32)
             for p, r in enumerate(rows):
                 idx[p, :len(r)] = r
-            return ByPre(idx, (idx < self.nf).astype(np.float32), len(rows), self.nf, name, birth=False,
+            return ByPre(idx, (idx < self.nf).astype(np.float32) * g0, len(rows), self.nf, name, birth=False,
                          eta=c['eta'], eta_m=c['eta_m'], gain=1.0, gamma=self.gam['motor'], c=c)
         syl_of = np.repeat(np.arange(ns), nI)
         own = [np.nonzero(need[s][mus_of])[0] for s in syl_of]
@@ -91,6 +92,7 @@ class Motor:
         self.mc_exc = out_table(own, 'motor MC exc pool -> own force (gen-0)')
         self.mc_inh = out_table(riv, 'motor MC inh pool -> rival force (gen-0, inhibitory)')
         self.pool_e, self.pool_i = Pop(ns * nI), Pop(ns * nI)
+        self.ret_pop = Pop(self.nf)                                                # lit returns (pool input when mc_src='returns')
         self.mc_k = c['mc_k'] / 4.0 - 0.125                                        # all 4 of 4 sampled inputs
         rel = self.thr_f + c['b_block'] * self.n_tonic / (8.0 * m)
         relmed = float(rel.median())
@@ -137,7 +139,9 @@ class Motor:
         nblock = self.n_tonic + lad
         inh = c['b_block'] * nblock / (8.0 * m) + c['c_stop'] * stop.float().sum() / (8.0 * m)
         if self.MC is not None:                                                     # [MC] same-tick pattern pools
-            pe, pi = self._pools(d - inh > self.thr_f)
+            src = (lit > 0) if c['mc_src'] == 'returns' else (d - inh > self.thr_f)   # afferent or force output
+            pe, pi = self._pools(src)
+            self.ret_pop.set(lit > 0)
             d = d + self.mc_exc.drive(pe) - self.mc_inh.drive(pi)
             self.pool_e.set(pe)
             self.pool_i.set(pi)
@@ -159,11 +163,12 @@ class Motor:
             return
         fw = self.c['fall_win']
         fr = self.force.rose()
-        for tb, pool in ((self.mc_in_e, self.pool_e), (self.mc_in_i, self.pool_i)):   # force -> pool
+        pre = self.ret_pop if self.c['mc_src'] == 'returns' else self.force          # what the pools read
+        for tb, pool in ((self.mc_in_e, self.pool_e), (self.mc_in_i, self.pool_i)):   # input -> pool
             pr = pool.rose()
-            tb.learn(self.force.elig_prev(fw), fr, pr, pr, pool.age_prev <= fw)
+            tb.learn(pre.elig_prev(fw), pre.rose(), pr, pr, pool.age_prev <= fw)
         for tb, pool in ((self.mc_exc, self.pool_e), (self.mc_inh, self.pool_i)):      # pool -> force
             tb.learn(pool.elig_prev(fw), pool.rose(), fr, fr, self.force.age_prev <= fw)
 
     def pops(self):
-        return [self.force, self.stop] + ([self.pool_e, self.pool_i] if self.MC is not None else [])
+        return [self.force, self.stop] + ([self.pool_e, self.pool_i, self.ret_pop] if self.MC is not None else [])

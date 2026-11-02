@@ -982,3 +982,93 @@ Hypothesis: the scaffold teaches from the heard / held state, but speech is trig
 **Note for (c).** Answers rely on the same mechanism: learned L4(t) → L1(t + 1) links read from a mostly shared, ~25 %-on L4 (cf. X1e: "同时亮的太多，学到的连接把所有先后顺序平均掉了").
 - Each checkpoint reports the learned Q → A link per question (`probes2.qa_link_stats`): L4 after the question drives L41 into L1. Reported: the answer's code drive vs other codes (ratio, ranked first) and the raw weight ratio, for seen and held-out pairs.
 - If (c) fails with ratios near 1, the next lever is L4 sparsity / specificity (ARCH §四.20), and F4 is retested on that PFC.
+
+**MC detail `mc_src='returns'` (accepted 11-02).** The MC pool neurons sample the returns arriving at their force neurons, not the force neurons' output.
+- Conformance note: each return chain still ends 1:1 on its own force neuron (ARCH §二.5 unchanged). The pool contacts are local collaterals of that return inside the motor area only, never onto other areas.
+- The X1 audit violation was returns not reaching their own neuron, which is not the case here. Unit check 11: a single return drives only its own force neuron; with g_ret_force ≥ 1 it lights it alone, pools on or off.
+- With g_ret_force 0.95 (the speech setting from x10_dsay3), a return alone gives 0.95 × release by design. It is released when its pattern pool backs it ("没把握时结果是不说").
+
+## Addendum 11-02 (f): touch area (T1–T5), reward tool (R6), stage (b2) self-correction. Registered before any run.
+
+**Touch area** (ARCH §二.2 updated 0c56332: "触觉区应该可以更好的让模型知道发出了什么力度，然后可以实时调整"; §二.7: no direct link to the motor area).
+
+| id | entry | implemented in |
+|---|---|---|
+| T1 | Input layer: each muscle's actual force after the body's rule (a muscle moves only when ≥ half of its force neurons fire; its force is then the share that fire, else 0), as thermometer on/off pairs on `touch_levels` levels (0 means m, so it scales with s). Exactly half on. Skin contact: none in this world. The skin is world physics with no brain state. | `world_adapter.py:Skin` |
+| T2 | The same local sensory net as the sound area: `touch_layers` = 2 layers, K = 6 local inputs (±dy muscles, ±dz level positions), weights U(0.5, 1.5), per-unit threshold from the unit's own birth drive (rates 0.20 / 0.12), birth-fixed, no learning. Size proportion `touch_upp` (units per position). | `sound.py:SoundArea(geom, c, touch_params(c))` |
+| T3 | Chains: units with a birth rate in `band_touch` = (0.002, 0.6) (near-input often-on units excluded, as P1) get 1:1 forward copies in PFC L1 and the hippocampus and 1:1 returns. A return adds g_ret × own threshold only when the copy is lit internally (C1). Touch segments come after the motor segments, so no existing index moves. | `brain.py:Chains` (`touch_idx`, gather, scatter) |
+| T4 | Timing: T1(t) = f(skin(force(t))), so the touch of a movement arrives in the same tick; sound arrives one tick later. T2(t) = f(T1(t − 1)); copies reach the PFC at t + 1. | `brain.py:Brain.step` |
+| T5 | Birth: the newborn makes no sound and its force neurons are silent. The touch units' own thresholds and band come from spontaneous twitches (30 % of birth ticks: a random syllable's 4 muscles or 1–4 random muscles at half to full force) that drive the touch area only. The PFC / hippocampus birth calibration sees touch at rest. | `world_adapter.py:Skin.birth_stream`, `brain.py:Brain.rest_touch_state` |
+
+**Reward tool R6** (ARCH §二.8, quoted in the code docstring). The innate value signal r (float) enters `Brain.step(a0, r)`; it is 0 unless `reward=True`.
+- Every acquired table logs the changes it actually applies. The brain keeps the last `r_win` = 24 ticks.
+- At r > 0 (pleased): each logged change is added again × r_pleased (2) × r × (1 − age / r_win).
+- At r < 0 (upset): it is added × −(1 + r_upset) × |r| (net reversal, X8's best arm). Also the L4 units on at that moment strengthen their existing learned L4 → L1 links onto the stop neurons' copies by η × r_stop (2) × |r| × the concave factor. This is an ordinary acquired link: stop copies lit internally return 1:1 to the stop neurons.
+- Good / bad come only from the caregiver's reaction (innate value), never from response counts.
+- Unit check 13.
+
+**Stage (b2): self-correction training** (designer 11-02: "当模型发出错误的动作时应该自己能感受到然后停止或者纠正"). Harness `run_b2.py`.
+- Base: B + P1 + G1P inner + MC pools from returns + the g_ret_force chosen by x10_bP1b. Arms: without / with touch; seed 0 first.
+- Practice trial: the caregiver (C1 / C2 alternating) says x, then waits 16 ticks while the child may speak (gen-0 tendency). One reaction, at the tick she hears it:
+  - sad at the first garbled or wrong syllable (also after a clear x);
+  - happy when a clear x is followed by silence;
+  - nothing for silence or a mumble.
+- 26 practised syllables, 8 held out (never practised; seed-fixed). After every 26 trials, 3 ordinary overheard dialogues (learning on, r = 0; the child's utterances there = babble).
+- 2,600 trials (100 per syllable), then 520 trials with the reaction withdrawn (r = 0).
+- Checkpoints at 0 / 260 / 780 / 1,560 / 2,600 / 3,120 trials. Each is frozen.
+  - Say test (b1 form, unmuted) on practised and held-out syllables: said exactly [x], any clear x, garble, tail ticks after the first clear x, stop right after x.
+  - Practice outcomes and reactions since the last checkpoint.
+  - Babble per dialogue.
+  - b1–b7 (speech_basics, on a copy of the life) at the start, the end of practice and the end of the withdrawn phase.
+- Not yet included: "or asks for it" (questions). This is the first step.
+
+**Audit 11-02 (coordinator): touch, reward and b2 conform.**
+- Birth twitches for touch: accepted.
+- Upset stop link via the existing L41 links: accepted.
+- Hs empty tick: leave the rule, report it.
+- Conformance note: in b2, r is given directly as the innate value of the caregiver's reaction. It stands in for the amygdala's output. Perceiving her face or voice through the senses → amygdala (§二.10, §四.16) is a later step.
+
+**b2 revised (designer 11-02: "我说的泛化起码要像大模型那样程度的训练才有可能泛化，你就训练26个音怎么可能泛化").**
+- All 34 syllables are practised. No held-out set and no generalisation criterion.
+- b2 is judged only by the training trend on practised syllables: said [x] rising; garble and tail falling; stop after x; echo and babble falling.
+- Every 2,600 trials, a copy runs 260 trials with the reaction withdrawn: does it still stop by itself?
+- Long runs chain jobs (each ≤ 90 min) through a life checkpoint in ~/ckpt/<run>, deleted at the end. They continue while the trend improves.
+- Trials per hour are reported. Arms: without / with touch; 3 ordinary dialogues per 26 trials.
+
+## Addendum 11-02 (g): b2 dropped; (c) as a long overhearing life (designer: "可以先不管说的对不对，想让模型听大量别人对话，模型自己说的对不对先不管的，看看会怎么样。不要这个自我纠正训练试试。")
+
+- **b2 (self-correction) is dropped for now.** No reward, no practice trials. The reward code stays in the build, off by default.
+  - x10_db2 had already started; it runs as data only.
+- **(c) as observation (`run_c2.py`), code frozen for the whole run.**
+  - Base: B + P1 + G1P inner + MC pools from returns, g_ret_force 0.95, m 8; learning on; r = 0; the child free to speak, correctness ignored.
+  - Arms: without and with touch, seed 0, as 2 processes in one GPU job (X10_GPU_FRAC 0.22 each).
+  - Chained ≤ 90-min jobs through a brain checkpoint in ~/ckpt/c2_*.
+- **Recorded all along:**
+  - activity windows every 100 dialogues (layer ratios, L4 maximum share, Hs and its minimum, A4, force, stop, T1);
+  - the child's spontaneous speech per 1,000 dialogues: utterances per dialogue, clear vs garble, single clear syllables, during adult speech, in the question gap, by dialogue state, top clear syllables, examples.
+- **At 1k / 3k / 10k / 30k dialogues** (frozen copies, observation only):
+  - answers to the 32 questions including never-heard pairs, vs the frame baseline (a number only);
+  - the learned Q → A link ratio;
+  - the PFC's next-syllable prediction (`probes2.next_syllable`: rank of the heard next syllable, and of the answer after the question);
+  - one-shot Q → A by route (on a copy);
+  - what it says when it thinks a syllable (b1 form);
+  - table statistics.
+
+**Registered revision 11-02 (approved): gen-0 links stored at well-used strength (`gen0_strength`).**
+- G1P and the MC pool tables are stored so that the median nonzero weight = gen0_strength × w_ref. Two-layer weights are scale-free, so the drive is unchanged; only the concave plasticity is lower.
+- Basis: ARCH §二.8 "用得越多越难改，但永远可改"; §二.12: gen-0 links are inherited skills, already well used. By X8's arithmetic, strength ≈ use count (w ≈ √(2ηn); 20 × w_ref ≈ 10⁴ uses at η 0.02).
+- They stay in the decaying, learning part.
+- Reason: x10_db2 showed the as-computed G1P (small NNLS weights × a large gain) is rewritten by plain learning within ~50 practice trials (51–103 % change). b7's "b1 after 100 overheard dialogues" was 0.00 in every (b) run.
+- Value chosen from x10_drift (0 vs 20 over 700 overheard dialogues).
+
+**x10_drift result (seed 0, 700 overheard dialogues, learning on, r = 0).**
+
+| | G1P change | MC input tables change | tendency x first (start → 200 → 700) | say test said / garble at 700 | utterances per dialogue, garbled share |
+|---|---|---|---|---|---|
+| gen0_strength 0 | 118 % → 371 % | 86 % → 237 % | 1.00 → 0.19 → 0.04 | 0 / 1.00 | 1.9–2.1, 86–94 % |
+| gen0_strength 20 | 0.7 % → 1.8 % | 0.8 % → 3 % | 0.98 → 0.56 → 0.69 | 0 / 1.00 | 1.0–1.3, 92–94 % |
+
+- With 20, the gen-0 links hold and still change a little, so 20 is chosen.
+- The spoken output still turns into garble within 200 dialogues. The rivals' share at the motor area rises (best rival 0.52 → 0.70; total lit 0.27 → 0.41). The unspecific push comes from the acquired links (learned L4 → L1 onto force copies, hippocampal recall), which are built while the child babbles garble while overhearing.
+- This is part of what the long overhearing life will show. It is observed, not fixed.
+- **Code frozen 11-02 for the long life** (copy in `frozen_c2/`). Settings: gen0_strength 20, g_ret_force 0.95, band_cut_a12 0.6, g1p_src inner, MC pools from returns.

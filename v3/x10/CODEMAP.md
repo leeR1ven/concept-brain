@@ -17,6 +17,7 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | 2.2 | near-input layers fixed | `sound.py` has no learning; `ByPost` tables never change (`learning.py:ByPost`) |
 | 2.2 | similar sounds → similar units | measured: `sizing/sound_stats2.py`; checked in (a2): `probes.py:newborn_codes` |
 | 2.2 | vision | — not needed (no picture in the world) |
+| 2.2 | touch area incl. muscle force (designer 11-02) | `world_adapter.py:Skin` (T1, T5 birth twitches), `sound.py:SoundArea` with `touch_params` (T2), `brain.py:Chains` touch segments (T3), `brain.py:Brain.step` (T4 same-tick touch), `Brain.rest_touch_state`; switch `common.py:config(touch)`; unit check 12 |
 | 2.2 | concept area | — staged arm C+ (§四.14); `common.py:config(concept=False)`, not yet built |
 | 2.3 | 1:1 chains from every layer to the PFC and the hippocampus | `brain.py:Chains.__init__`, `Chains.gather`; the same chain vector feeds `pfc.py:PFC.step(x_ext)` and `hippocampus.py:Hippocampus.step(x_ext)` (`brain.py:Brain.step`) |
 | 2.3 | each forward chain has one return to the same S | `brain.py:Chains.scatter` (`fwd_src == ret_dst`); return drive: `sound.py:SoundArea.step` (`ret * ret_w`), `motor.py:Motor.step` (`ret_force`, `ret_stop`) |
@@ -55,7 +56,7 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | 2.8 | concave growth, ≥ 1 % plasticity; concave weakening and decay | `learning.py:ByPre.plast`, `ByPre.learn`, `ByPre.decay` |
 | 2.8 | one decay; birth exempt; PFC slowest, hippocampus fastest | `common.py:gammas`; `learning.py:ByPre.decay` (`birth=True` tables return early); `brain.py:Brain.step` (every `decay_every` ticks) |
 | 2.8 | time = order; no timers or self-hold | no such term in any step function |
-| 2.8 | reward | — not needed; `brain.py:Brain.step` asserts `r == 0.0` |
+| 2.8 | reward: amplify / reverse the last ~1–2 s of changes; upset links the speech state to the stop neurons | `learning.py:ByPre._apply` (logs applied changes when `track`), `brain.py:Brain.step` (keeps `r_win` ticks; r != 0 calls `Brain.reward`), `brain.py:Brain.reward`; `common.py:config(reward, r_win, r_pleased, r_upset, r_stop)`; unit check 13; used only in stage b2 (`run_b2.py`) |
 | 2.9 / 2.10 | split/delete; amygdala | — not needed |
 | 2.11 | one continuous life; overhearing; systematic steps 1–3 | `life.py:Life` (birth, then the same `OverhearWorld` continues); `run_b.py`, `run_c.py` |
 | 2.12 | gen-0 wiring registered, decaying, tests on unwired content | `wiring.py` docstring and `wire_g1`; registry saved by `run_b.py` / `run_c.py`; QA probes on all pairs: `probes.py:qa_probe` |
@@ -98,7 +99,9 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | R2 rates | `common.py:config` (`eta`, `eta_m`, `w_ref`, `floor`; `eta_h`, `eta_h_m`) |
 | R3 decay, PFC slowest | `common.py:gammas`, `learning.py:ByPre.decay` |
 | R4 acquired ≥ 0 | `learning.py:ByPre._apply` (`clamp_min(0)`) |
-| R5 no reward | `brain.py:Brain.step` (assert) |
+| R5 no reward (stages a, b, c) | `brain.py:Brain.step` (assert unless `reward=True`) |
+| R6 reward tool (stage b2) | `brain.py:Brain.reward`, `learning.py:ByPre._apply` |
+| T1–T5 touch area | see the 2.2 touch row |
 | M1 force grades | `motor.py:Motor.__init__` (`thr_f`), `Motor.step` |
 | M2 blocking: tonic + ladder | `motor.py:Motor.__init__` (`ladder`), `Motor.step`; `b_block` in `common.py:config` |
 | M3 stop | `motor.py:Motor.step` |
@@ -111,7 +114,8 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | H4 no store/recall switch | `hippocampus.py:Hippocampus.step` (learned links always act) |
 | H5 nothing added for alike-starting episodes | — (nothing to implement) |
 | G1P gen-0 PFC L4 → force copies (replaces G1) | `wiring.py:measure_codes`, `select_codes`, `nnls`; `g1p.py:measure_l4`, `select_l4`, `wire_g1p`; `life.py:Life.wire` |
-| MC gen-0 motor pattern pools | `motor.py:Motor.set_mc` (lineage seed + 950), `life.py:Life.wire_mc`; unit check 10 |
+| MC gen-0 motor pattern pools | `motor.py:Motor.set_mc` (lineage seed + 950), `Motor._pools` (input `mc_src`: returns = local collaterals of the 1:1 returns), `life.py:Life.wire_mc`; unit checks 10, 11 |
+| gen-0 links at well-used strength | `g1p.py:wire_g1p`, `motor.py:Motor.set_mc` (`gen0_strength` × w_ref; drive unchanged) |
 | scaffold (learned-speech arm, teacher program outside the brain) | `scaffold.py:script`, `scaffold.run`; hook `motor.py:Motor.step(scaffold)` |
 | DPC (diagnostic) | — only if (c) fails; not built |
 | DIAGNOSTIC forced inner hearing | `brain.py:Brain.step(force_int)` → `pfc.py:PFC.step(force_int)`; used only by `probes.py:forced_say`, `speech_basics`, `probes2.py:tendency_profile` |
@@ -126,6 +130,8 @@ Every row of PLAN.md §1 (conformance table) and every register entry of §3 / �
 | (b) b1–b7 | `run_b.py` (`--arm g1p\|F1\|F2\|F3`), `probes.py:speech_basics`, `forced_say`, `speech_links`, `force_link_stats` |
 | (b) motor collapse test; tendency profile | `run_fast.py --mode collapse`, `probes2.py:collapse_test`; `run_tend.py`, `probes2.py:tendency_profile` |
 | stage-(a) choice; band check; memory probes | `run_a.py --mode choose`, `agg_choose.py`; `run_fast.py --mode band`, `probes2.py:layer_overlap`; `probes2.py:codes_ext`, `one_shot` (route split), `long_term` |
+| (c) long overhearing life (11-02) | `run_c2.py` (chained through a brain checkpoint; activity windows, spontaneous speech, observation checkpoints), `probes2.py:speech_summary`, `next_syllable`, `qa_link_stats`, `one_shot`; tables `agg_c2.py` |
+| (b2) self-correction (dropped 11-02) and diagnostics | `run_b2.py`, `b2lib.py`, `diag_b2.py`, `diag_drift.py`, `diag_say.py`, `diag_lag.py`, `diag_f3.py`, `run_tend.py` |
 | (c) checkpoints | `run_c.py` (`--speech g1p\|F1\|F3`), `probes.py:qa_probe` (primary pass, d3, d4), `newborn_codes` (d1, d2; a3 a number only), `table_stats` (d6, d10), `return_share` (d8), `lateral_sign` (d7, last checkpoint), `probes2.py:one_shot` (memory by route), d9 inline |
 | unit checks | `unit_checks.py` |
 | timing pilot | `timing.py` |

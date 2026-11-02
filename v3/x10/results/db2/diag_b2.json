@@ -1,0 +1,300 @@
+{
+ "config": {
+  "inhib": "P1",
+  "loop": "recip",
+  "g_loop": 1.0,
+  "w44": 0.0,
+  "g44": 0.1,
+  "g_hh": 0.1,
+  "g_h1": 0.1,
+  "force_per_muscle": 8,
+  "b_block": 1.2,
+  "band_cut_a12": 0.6,
+  "g1p_margin": 0.1,
+  "g1p_src": "inner",
+  "mc": true,
+  "mc_src": "returns",
+  "g_ret_force": 0.95
+ },
+ "start": {
+  "say": {
+   "said": 0.17647058823529413,
+   "any_x": 0.7352941176470589,
+   "garble": 0.6764705882352942,
+   "stop": 0.11764705882352941,
+   "silent": 0.058823529411764705,
+   "tail_ticks_after_x": 1.12,
+   "n": 34
+  },
+  "frozen_practice": {
+   "garble": 0.2692307692307692,
+   "silent": 0.6538461538461539,
+   "x": 0.07692307692307693
+  },
+  "tables": {
+   "PFC L4->L1 acquired": {
+    "sum": 0.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "PFC L4<->L4 acquired": {
+    "sum": 0.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "PFC G1P L4 -> L1 force copies (gen-0, acquired)": {
+    "sum": 1085.265380859375,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "motor MC force -> exc pool (gen-0)": {
+    "sum": 2176.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "motor MC force -> inh pool (gen-0)": {
+    "sum": 2176.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "motor MC exc pool -> own force (gen-0)": {
+    "sum": 17408.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "motor MC inh pool -> rival force (gen-0, inhibitory)": {
+    "sum": 87040.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "hip Hs<->Hs acquired": {
+    "sum": 0.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   },
+   "hip Hs->H1 acquired": {
+    "sum": 0.0,
+    "abs_change": 0.0,
+    "rel_change": 0.0
+   }
+  }
+ },
+ "A reaction + dialogues": {
+  "say": {
+   "said": 0.0,
+   "any_x": 0.0,
+   "garble": 1.0,
+   "stop": 0.0,
+   "silent": 0.0,
+   "tail_ticks_after_x": null,
+   "n": 34
+  },
+  "frozen_practice": {
+   "garble": 0.8846153846153846,
+   "wrong": 0.11538461538461539
+  },
+  "tables": {
+   "PFC L4->L1 acquired": {
+    "sum": 78621.703125,
+    "abs_change": 78621.703125,
+    "rel_change": 78621708386304.0
+   },
+   "PFC L4<->L4 acquired": {
+    "sum": 192720.6875,
+    "abs_change": 192720.6875,
+    "rel_change": 192720685498368.0
+   },
+   "PFC G1P L4 -> L1 force copies (gen-0, acquired)": {
+    "sum": 1759.698974609375,
+    "abs_change": 1113.4033203125,
+    "rel_change": 1.025927186012268
+   },
+   "motor MC force -> exc pool (gen-0)": {
+    "sum": 2663.346923828125,
+    "abs_change": 488.40185546875,
+    "rel_change": 0.22444938123226166
+   },
+   "motor MC force -> inh pool (gen-0)": {
+    "sum": 2657.4375,
+    "abs_change": 482.50311279296875,
+    "rel_change": 0.2217385619878769
+   },
+   "motor MC exc pool -> own force (gen-0)": {
+    "sum": 17855.578125,
+    "abs_change": 464.60540771484375,
+    "rel_change": 0.026689188554883003
+   },
+   "motor MC inh pool -> rival force (gen-0, inhibitory)": {
+    "sum": 87372.765625,
+    "abs_change": 420.8153076171875,
+    "rel_change": 0.004834734834730625
+   },
+   "hip Hs<->Hs acquired": {
+    "sum": 108484.265625,
+    "abs_change": 108484.265625,
+    "rel_change": 108484272062464.0
+   },
+   "hip Hs->H1 acquired": {
+    "sum": 143737.03125,
+    "abs_change": 143737.03125,
+    "rel_change": 143737036472320.0
+   }
+  },
+  "practice_outcomes": {
+   "garble": 0.6730769230769231,
+   "silent": 0.019230769230769232,
+   "wrong": 0.3076923076923077
+  },
+  "reactions": {
+   "happy": 0.0,
+   "sad": 0.9807692307692307,
+   "None": 0.019230769230769232
+  }
+ },
+ "B no reaction + dialogues": {
+  "say": {
+   "said": 0.0,
+   "any_x": 0.029411764705882353,
+   "garble": 0.9411764705882353,
+   "stop": 0.0,
+   "silent": 0.0,
+   "tail_ticks_after_x": 3.0,
+   "n": 34
+  },
+  "frozen_practice": {
+   "garble": 0.5769230769230769,
+   "silent": 0.2692307692307692,
+   "wrong": 0.11538461538461539,
+   "x then garble": 0.038461538461538464
+  },
+  "tables": {
+   "PFC L4->L1 acquired": {
+    "sum": 182050.84375,
+    "abs_change": 182050.84375,
+    "rel_change": 182050845884416.0
+   },
+   "PFC L4<->L4 acquired": {
+    "sum": 627871.1875,
+    "abs_change": 627871.1875,
+    "rel_change": 627871202672640.0
+   },
+   "PFC G1P L4 -> L1 force copies (gen-0, acquired)": {
+    "sum": 1312.6201171875,
+    "abs_change": 555.07763671875,
+    "rel_change": 0.5114672183990479
+   },
+   "motor MC force -> exc pool (gen-0)": {
+    "sum": 2984.310302734375,
+    "abs_change": 809.3040771484375,
+    "rel_change": 0.3719228208065033
+   },
+   "motor MC force -> inh pool (gen-0)": {
+    "sum": 2984.9677734375,
+    "abs_change": 809.914794921875,
+    "rel_change": 0.3722034990787506
+   },
+   "motor MC exc pool -> own force (gen-0)": {
+    "sum": 18463.90625,
+    "abs_change": 1072.4864501953125,
+    "rel_change": 0.061608824878931046
+   },
+   "motor MC inh pool -> rival force (gen-0, inhibitory)": {
+    "sum": 87971.171875,
+    "abs_change": 1022.6845703125,
+    "rel_change": 0.01174959260970354
+   },
+   "hip Hs<->Hs acquired": {
+    "sum": 362684.15625,
+    "abs_change": 362684.15625,
+    "rel_change": 362684151234560.0
+   },
+   "hip Hs->H1 acquired": {
+    "sum": 338135.75,
+    "abs_change": 338135.75,
+    "rel_change": 338135762337792.0
+   }
+  },
+  "practice_outcomes": {
+   "garble": 0.6923076923076923,
+   "wrong": 0.3076923076923077
+  },
+  "reactions": {
+   "happy": 0.0,
+   "sad": 1.0,
+   "None": 0.0
+  }
+ },
+ "C reaction, no dialogues": {
+  "say": {
+   "said": 0.0,
+   "any_x": 0.0,
+   "garble": 1.0,
+   "stop": 0.0,
+   "silent": 0.0,
+   "tail_ticks_after_x": null,
+   "n": 34
+  },
+  "frozen_practice": {
+   "garble": 0.8076923076923077,
+   "silent": 0.07692307692307693,
+   "wrong": 0.11538461538461539
+  },
+  "tables": {
+   "PFC L4->L1 acquired": {
+    "sum": 50094.859375,
+    "abs_change": 50094.859375,
+    "rel_change": 50094862761984.0
+   },
+   "PFC L4<->L4 acquired": {
+    "sum": 146617.078125,
+    "abs_change": 146617.078125,
+    "rel_change": 146617080479744.0
+   },
+   "PFC G1P L4 -> L1 force copies (gen-0, acquired)": {
+    "sum": 1666.721435546875,
+    "abs_change": 1008.020263671875,
+    "rel_change": 0.9288237690925598
+   },
+   "motor MC force -> exc pool (gen-0)": {
+    "sum": 2623.01123046875,
+    "abs_change": 447.9970703125,
+    "rel_change": 0.2058809995651245
+   },
+   "motor MC force -> inh pool (gen-0)": {
+    "sum": 2642.1015625,
+    "abs_change": 467.0904541015625,
+    "rel_change": 0.2146555334329605
+   },
+   "motor MC exc pool -> own force (gen-0)": {
+    "sum": 17864.1328125,
+    "abs_change": 474.6678771972656,
+    "rel_change": 0.027267226949334145
+   },
+   "motor MC inh pool -> rival force (gen-0, inhibitory)": {
+    "sum": 87359.828125,
+    "abs_change": 419.28363037109375,
+    "rel_change": 0.004817137494683266
+   },
+   "hip Hs<->Hs acquired": {
+    "sum": 73569.125,
+    "abs_change": 73569.125,
+    "rel_change": 73569123958784.0
+   },
+   "hip Hs->H1 acquired": {
+    "sum": 87337.953125,
+    "abs_change": 87337.953125,
+    "rel_change": 87337958637568.0
+   }
+  },
+  "practice_outcomes": {
+   "garble": 0.6538461538461539,
+   "silent": 0.07692307692307693,
+   "wrong": 0.2692307692307692
+  },
+  "reactions": {
+   "happy": 0.0,
+   "sad": 0.9230769230769231,
+   "None": 0.07692307692307693
+  }
+ }
+}

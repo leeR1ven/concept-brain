@@ -453,3 +453,55 @@ def qa_link_stats(life, after=4):
             out[lab] = dict(n=len(pairs), drive_ratio_answer_vs_others=float(np.nanmean(ratios)),
                             answer_ranked_first=float(np.mean(firsts)), weight_ratio_answer_vs_others=float(np.nanmean(wr)))
     return out
+
+
+def next_syllable(life):
+    """Does the PFC predict the next syllable of a heard line? Frozen; each of the 32 questions in voice C1. At the
+    onset tick of syllable k (k >= 2), before its own chains arrive, the internal drive into PFC L1 averaged over each
+    syllable's code copies (it comes from L4 one tick earlier): the heard next syllable ranked first, its mean rank
+    (chance 17.5), and the same for the answer's first syllable at the tick after the question ends."""
+    b = life.brain
+    props, seen, held = tasks(life)
+    firsts, ranks, a_first, a_rank = [], [], [], []
+    with Frozen(life):
+        snap = b.snapshot()
+        for f in range(4):
+            for x in range(8):
+                Q = W.question(f, x)
+                A = SID[W.answer(f, x, props)[0]]
+                q = line_script(Q, C1)
+                b.restore(snap)
+                drv = []
+                play(life, q + [None] * 2, mute=True, rec=lambda lf, t: drv.append(lf.brain.pfc.d1.clone()))
+                per = lambda t: torch.stack([drv[t][cd].mean() if cd.numel() else torch.zeros((), device=DEV)
+                                             for cd in life.codes])
+                for k in range(1, len(Q)):
+                    p = per(3 * k)
+                    tgt = SID[Q[k]]
+                    rank = int((p > p[tgt]).sum().item()) + 1
+                    firsts.append(int(rank == 1))
+                    ranks.append(rank)
+                p = per(len(q))
+                rank = int((p > p[A]).sum().item()) + 1
+                a_first.append(int(rank == 1))
+                a_rank.append(rank)
+    return dict(next_in_question_first=float(np.mean(firsts)), next_in_question_mean_rank=float(np.mean(ranks)),
+                answer_after_question_first=float(np.mean(a_first)), answer_mean_rank=float(np.mean(a_rank)),
+                n=len(firsts), chance_first=1 / 34)
+
+
+def speech_summary(world, a, b_):
+    """the child's spontaneous utterances in overheard dialogues a < n <= b_: what, how clear, when"""
+    from collections import Counter
+    from world6 import overhear_mech
+    out = overhear_mech(world, a, b_)
+    utts = [u for u in world.utts if a < u['ex'] <= b_]
+    n = max(1, out['n_dialogues'])
+    clear = [u for u in utts if u['garble'] == 0 and u['mumble'] == 0]
+    out.update(clear_utts_per_dlg=round(len(clear) / n, 4),
+               clear_single_syllable_per_dlg=round(sum(len(u['syl']) == 1 for u in clear) / n, 4),
+               mean_ticks=round(float(np.mean([u['ticks'] for u in utts])), 2) if utts else None,
+               when=dict(Counter(u['state'] for u in utts)),
+               top_clear_syllables=Counter(s for u in clear for s in u['syl']).most_common(8),
+               examples=[' '.join(u['syl']) for u in utts[-12:]])
+    return out

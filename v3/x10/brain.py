@@ -1,8 +1,11 @@
 """The X10 brain: sound area -> 1:1 chain pairs -> PFC and hippocampus; returns 1:1 back; motor area.
-Brain.step(a0, r) is the only entry point: it receives the A0 bit vector and r (r must be 0.0: no reward [R5]).
+Brain.step(a0, r) is the only entry point: it receives the A0 bit vector and r, the innate value signal (0.0
+unless the reward tool is on, stage b2 [R6]).
 
 Build order (birth): record a birth stream with the child silent (no speech wiring yet) -> calibrate the sound thresholds ->
 chain band -> build PFC, hippocampus -> calibrate their fixed thresholds on the time-parallel birth chain stream."""
+import collections
+
 import numpy as np
 import torch
 
@@ -10,7 +13,8 @@ from common import DEV, gammas, log
 from hippocampus import Hippocampus
 from motor import Motor
 from pfc import PFC
-from sound import SoundArea
+from sound import SoundArea, touch_params
+from world_adapter import Skin
 
 
 class Chains:
@@ -18,7 +22,7 @@ class Chains:
     stop neuron. Copy j of the PFC and copy j of the hippocampus both belong to source j (forward), and both return
     to source j only (1:1). The input layer A0 and the blocking neurons have no chain pair."""
 
-    def __init__(self, sound, motor, rates, bands, seed):
+    def __init__(self, sound, motor, rates, bands, seed, touch=None, trates=None, tbands=None):
         """bands: per sound layer (low, high), already resolved (shallow band or depth-relative cut; None = every
         unit). Force and stop neurons are all chained; blocking neurons never (2.7)."""
         self.sound_idx = [torch.arange(r.numel(), device=DEV) if b is None else
@@ -37,6 +41,14 @@ class Chains:
         segs.append(('stop', 0, a, a + motor.ns))
         pos.append(torch.rand((motor.ns, 2), generator=g, device=DEV))
         a += motor.ns
+        self.touch_idx = []                                     # [T3] touch layers' chain units (after the motor)
+        if touch is not None:
+            self.touch_idx = [torch.arange(r.numel(), device=DEV) if b is None else
+                              torch.nonzero((r >= b[0]) & (r <= b[1])).squeeze(1) for r, b in zip(trates, tbands)]
+            for l, ix in enumerate(self.touch_idx):
+                segs.append(('touch', l, a, a + len(ix)))
+                pos.append(touch.pos[l][ix])
+                a += len(ix)
         self.segs, self.n = segs, a
         jit = 0.005 * torch.randn((a, 2), generator=g, device=DEV)
         self.pos = (torch.cat(pos) + jit).clamp(0.0, 1.0)
@@ -45,19 +57,22 @@ class Chains:
         layer = torch.zeros(a, dtype=torch.int64, device=DEV)
         unit = torch.zeros(a, dtype=torch.int64, device=DEV)
         for kind, l, s0, s1 in segs:
-            area[s0:s1] = {'sound': 0, 'force': 1, 'stop': 2}[kind]
+            area[s0:s1] = {'sound': 0, 'force': 1, 'stop': 2, 'touch': 3}[kind]
             layer[s0:s1] = l
-            unit[s0:s1] = self.sound_idx[l] if kind == 'sound' else torch.arange(s1 - s0, device=DEV)
+            unit[s0:s1] = (self.sound_idx[l] if kind == 'sound' else self.touch_idx[l] if kind == 'touch'
+                           else torch.arange(s1 - s0, device=DEV))
         self.fwd_src = torch.stack([area, layer, unit], 1)      # forward chain j comes from this source
         self.ret_dst = self.fwd_src.clone()                     # return chain j goes back to this unit
 
-    def gather(self, sound_state, force, stop):
+    def gather(self, sound_state, force, stop, touch_state=None):
         parts = [sound_state[l][ix] for l, ix in enumerate(self.sound_idx)]
-        return torch.cat(parts + [force, stop])
+        tparts = [touch_state[l][ix] for l, ix in enumerate(self.touch_idx)] if self.touch_idx else []
+        return torch.cat(parts + [force, stop] + tparts)
 
-    def scatter(self, R, sound_n, nf, ns):
-        """returns R (bool [n]) to its own sources: per sound layer float [n_l], force float [nf], stop bool [ns]"""
-        out = []
+    def scatter(self, R, sound_n, nf, ns, touch_n=None):
+        """returns R (bool [n]) to its own sources: per sound layer float [n_l], force float [nf], stop bool [ns],
+        per touch layer float [n_l]"""
+        out, tout = [], []
         for kind, l, s0, s1 in self.segs:
             if kind == 'sound':
                 v = torch.zeros(sound_n[l], device=DEV)
@@ -65,9 +80,13 @@ class Chains:
                 out.append(v)
             elif kind == 'force':
                 rf = R[s0:s1].float()
-            else:
+            elif kind == 'stop':
                 rs = R[s0:s1]
-        return out, rf, rs
+            else:
+                v = torch.zeros(touch_n[l], device=DEV)
+                v[self.touch_idx[l]] = R[s0:s1].float()
+                tout.append(v)
+        return out, rf, rs, tout
 
 
 class Brain:
@@ -92,16 +111,26 @@ class Brain:
                 bands.append((c['band_rel'] * c['sound_rates'][l], c['band'][1]))
             else:
                 bands.append(None)
+        self.touch, self.skin, t_states, t_rates, t_bands = None, None, None, None, None
+        if c['touch']:                                      # [T1-T5] touch area incl. muscle force (designer 11-02)
+            self.skin = Skin(c, self.motor.m)
+            self.touch = SoundArea(self.skin, c, touch_params(c))
+            TB = self.skin.birth_stream(A0.shape[0], coch.ph.need_mat, seed)
+            t_states = self.touch.calibrate(TB)
+            t_rates = [st.float().mean(0) for st in t_states]
+            t_bands = [tuple(c['band_touch'])] * len(t_rates)
+            self.touch_rates_birth = t_rates
         self.motor_rates_birth = self.motor_birth_rates(A0)
         lo_m, hi_m = c['band_motor']
         for k in ('force', 'stop'):                         # the motor band, applied to force and stop neurons
             r = self.motor_rates_birth[k]
             assert bool(((r >= lo_m) & (r <= hi_m)).all()), f'motor band cuts {k} neurons: not supported yet'
-        self.chains = Chains(self.sound, self.motor, rates, bands, seed)
-        self.chain_report = self.make_chain_report(states, rates, bands, birth_speech)
+        self.chains = Chains(self.sound, self.motor, rates, bands, seed, self.touch, t_rates, t_bands)
+        self.chain_report = self.make_chain_report(states, rates, bands, birth_speech, t_states, t_rates, t_bands)
+        del t_states
         self.n1 = self.chains.n
         log(f'chains: {[len(ix) for ix in self.chains.sound_idx]} sound + {self.motor.nf} force + {self.motor.ns} stop '
-            f'= {self.n1}')
+            f'+ {[len(ix) for ix in self.chains.touch_idx]} touch = {self.n1}')
         self.pfc = PFC(c, self.chains.pos, self.gam, seed)
         self.hip = Hippocampus(c, self.chains.pos, self.gam, seed) if c['hip'] else None
         # time-parallel birth chain stream: sound states at t-1 (all layers taken from the same tick), stop neurons
@@ -110,7 +139,11 @@ class Brain:
         brake = A0[:, self.motor.brake_lines].float().sum(1, keepdim=True) / self.motor.n_brake
         stop = brake >= self.motor.thr_s[None]
         force = torch.zeros((T, self.motor.nf), dtype=torch.bool, device=DEV)
-        X = torch.cat([st[:, ix] for st, ix in zip(states, self.chains.sound_idx)] + [force, stop], 1)
+        tparts = []
+        if self.touch is not None:                          # the newborn does not move: touch at rest
+            rest = self.rest_touch_state()
+            tparts = [rest[l][ix][None].expand(T, -1) for l, ix in enumerate(self.chains.touch_idx)]
+        X = torch.cat([st[:, ix] for st, ix in zip(states, self.chains.sound_idx)] + [force, stop] + tparts, 1)
         X = torch.cat([torch.zeros_like(X[:1]), X[:-1]])                    # chain relay: one tick
         X = X[-c['calib_ticks']:]                                            # the latest birth ticks only
         del states
@@ -123,12 +156,20 @@ class Brain:
         self.ret_sound = [torch.zeros(k, device=DEV) for k in n]
         self.ret_force = torch.zeros(self.motor.nf, device=DEV)
         self.ret_stop = torch.zeros(self.motor.ns, dtype=torch.bool, device=DEV)
+        self.ret_touch = [torch.zeros(k, device=DEV) for k in self.touch.n] if self.touch is not None else []
+        if self.touch is not None:
+            self.touch.state = self.rest_touch_state()
         self.learning = False
         self.prof = None                                     # a common.Prof when profiling
         self.scaffold = None                                 # teacher program of the learned-speech arm (stage b)
         self.t = 0
         self.force_int = None
         self.n0 = coch.n
+        self.rlog = collections.deque()                      # [R6] recent applied changes (reward tool)
+        self.rstats = {}                                     # diagnostics: summed logged changes per table
+        if c['reward']:
+            for tb in self.plastic():
+                tb.track = True
 
     # ------------------------------------------------------------------ online birth calibration
     def calibrate_online(self, A0_stream, every=50, rate=0.2):
@@ -170,6 +211,16 @@ class Brain:
                                     last_counts=traj[-1] if traj else None, first_counts=traj[0] if traj else None)
         return traj
 
+    def rest_touch_state(self, ticks=6):
+        """the touch layers' states when no muscle moves (no returns): the newborn's touch input"""
+        rest = self.skin.code(torch.zeros(24, device=DEV))
+        st = [torch.zeros(k, dtype=torch.bool, device=DEV) for k in self.touch.n]
+        self.touch.state = st
+        zero = [torch.zeros(k, device=DEV) for k in self.touch.n]
+        for _ in range(ticks):
+            st = self.touch.step(rest, zero)
+        return [x.clone() for x in st]
+
     # ------------------------------------------------------------------ chain bands and their report
     def motor_birth_rates(self, A0):
         mot = self.motor
@@ -179,7 +230,7 @@ class Brain:
         block[:mot.n_tonic] = 1.0                                           # tonic; ladder units need muscle drive
         return dict(force=torch.zeros(mot.nf, device=DEV), stop=stop, block=block)
 
-    def make_chain_report(self, states, rates, bands, speech):
+    def make_chain_report(self, states, rates, bands, speech, t_states=None, t_rates=None, t_bands=None):
         """per area and layer: share of units in the band, copies sent to PFC L1 and to the hippocampus (1:1, the
         same number), lit chain units in silence and in adult speech over the birth stream"""
         rep = []
@@ -198,6 +249,14 @@ class Brain:
                 cnt = st[:, ix].float().sum(1)
                 row.update(lit_silence=float(cnt[~lab].mean()), lit_speech=float(cnt[lab].mean()))
             rep.append(row)
+        if t_rates is not None:
+            for l, (r, ix) in enumerate(zip(t_rates, self.chains.touch_idx)):
+                lo, hi = t_bands[l]
+                rep.append(dict(area='touch', layer=f'T{l + 1}', units=int(r.numel()), cut=list(t_bands[l]),
+                                in_band=float(((r >= lo) & (r <= hi)).float().mean()),
+                                never_on=float((r < lo).float().mean()), always_on=float((r > hi).float().mean()),
+                                chained=int(len(ix)), copies_pfc=int(len(ix)), copies_hip=int(len(ix)) if self.c['hip'] else 0,
+                                birth='spontaneous twitches (touch only)'))
         mr = self.motor_rates_birth
         lo, hi = self.c['band_motor']
         for k, n in (('force', self.motor.nf), ('stop', self.motor.ns), ('block', self.motor.nb)):
@@ -210,7 +269,8 @@ class Brain:
 
     # ------------------------------------------------------------------ registry helpers
     def tables(self):
-        out = list(self.sound.layers) + self.pfc.tables() + self.motor.tables()
+        out = list(self.sound.layers) + (list(self.touch.layers) if self.touch is not None else []) + \
+            self.pfc.tables() + self.motor.tables()
         if self.hip is not None:
             out += self.hip.tables()
         return out
@@ -231,14 +291,19 @@ class Brain:
     def step(self, a0, r=0.0):
         assert isinstance(a0, torch.Tensor) and a0.dtype == torch.bool and tuple(a0.shape) == (self.n0,), \
             'the brain receives only the A0 bit vector'
-        assert isinstance(r, float) and r == 0.0, 'no reward in this build [R5]'
+        assert isinstance(r, float), 'r is the innate value signal (float)'
+        assert r == 0.0 or self.c['reward'], 'reward is off in this configuration [R5]'
         ch = self.chains
         P = self.prof
         P and P.mark()
-        x_ext = ch.gather(self.sound.state, self.motor.force.on, self.motor.stop.on)       # sources at t-1
+        x_ext = ch.gather(self.sound.state, self.motor.force.on, self.motor.stop.on,
+                          self.touch.state if self.touch is not None else None)          # sources at t-1
         s_new = self.sound.step(a0, self.ret_sound)                                        # returns from t-1
         P and P.lap('sound+chains')
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop, self.scaffold)
+        if self.touch is not None:                          # [T4] the body's actual force, felt in the same tick
+            cnt = torch.zeros(24, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
+            self.touch.step(self.skin.code(self.skin.force(cnt)), self.ret_touch)
         P and P.lap('motor')
         x_int = self.pfc.step(x_ext, self.force_int)
         P and P.lap('pfc')
@@ -246,7 +311,8 @@ class Brain:
         if self.hip is not None:
             R = R | self.hip.step(x_ext)
         P and P.lap('hip')
-        self.ret_sound, self.ret_force, self.ret_stop = ch.scatter(R, self.sound.n, self.motor.nf, self.motor.ns)
+        self.ret_sound, self.ret_force, self.ret_stop, self.ret_touch = ch.scatter(
+            R, self.sound.n, self.motor.nf, self.motor.ns, self.touch.n if self.touch is not None else None)
         P and P.lap('returns')
         if self.learning:
             self.pfc.learn()
@@ -255,18 +321,62 @@ class Brain:
             if self.hip is not None:
                 self.hip.learn()
             P and P.lap('learn motor+hip')
+            if self.c['reward']:                            # [R6] keep this tick's applied changes
+                entries = []
+                for tb in self.plastic():
+                    entries += [(tb, rows, d) for rows, d in tb.tick_log]
+                    tb.tick_log = []
+                self.rlog.append((self.t, entries))
+                while self.rlog and self.t - self.rlog[0][0] >= self.c['r_win']:
+                    self.rlog.popleft()
             if (self.t + 1) % self.c['decay_every'] == 0:
                 for tb in self.plastic():
                     tb.decay()
                 P and P.lap('decay')
+        if r != 0.0:
+            self.reward(r)
         self.t += 1
         return muscles
+
+    # ------------------------------------------------------------------ the reward tool [R6, ARCH 2.8]
+    def reward(self, r):
+        """ARCH 2.8 "奖励只是工具：在'这一刻算数'时，放大刚才一起亮的连接的变化。高兴时放大这些变化；难过时把这些变化
+        反过来，并让当时的说话状态连到运动区的停止神经元上。" r > 0 (pleased): every applied change of the last r_win
+        ticks is added again x r_pleased x r, fading linearly with age; r < 0 (upset): added again x -(1 + r_upset) x |r|
+        (net reversal), and the speech state of this moment (the L4 units on now) strengthens its existing learned
+        L4 -> L1 links onto the stop neurons' copies by the rule's own step x r_stop x |r| (an ordinary acquired link:
+        stop copies lit internally return 1:1 to the stop neurons). Form and parameters from X8 (win 24, pleased x2,
+        upset net x-1)."""
+        c = self.c
+        gain = c['r_pleased'] * r if r > 0 else -(1.0 + c['r_upset']) * (-r)
+        st = self.rstats.setdefault('pleased' if r > 0 else 'upset', {})
+        for t0, entries in self.rlog:
+            f = gain * (1.0 - (self.t - t0) / c['r_win'])
+            for tb, rows, d in entries:
+                if r < 0 and c['r_reverse'] == 'pos':        # arm: reverse only the strengthenings
+                    d = d.clamp_min(0.0)
+                s_ = st.setdefault(tb.name, [0.0, 0.0])
+                s_[0] += float(d.clamp_min(0).sum())        # logged strengthenings / weakenings that were re-applied
+                s_[1] += float(d.clamp_max(0).sum())
+                tb._apply(rows, f * d, log=False)
+        self.rlog.clear()
+        if r < 0:
+            L = self.pfc.L41
+            seg = [sg for sg in self.chains.segs if sg[0] == 'stop'][0]
+            rows = torch.nonzero(self.pfc.L4.on).squeeze(1)
+            if rows.numel():
+                ix = L.idx[rows].long()
+                to_stop = ((ix >= seg[2]) & (ix < seg[3])).float()
+                dw = c['eta'] * c['r_stop'] * (-r) * L.plast(L.w[rows]) * to_stop
+                L._apply(rows, dw, log=False)
 
     # ------------------------------------------------------------------ probes: neuron states only
     def snapshot(self):
         return dict(sound=[x.clone() for x in self.sound.state], ret=[x.clone() for x in self.ret_sound],
                     rf=self.ret_force.clone(), rs=self.ret_stop.clone(), pops=[p.state() for p in self.pops()],
-                    block=self.motor.block.clone())
+                    block=self.motor.block.clone(),
+                    touch=[x.clone() for x in self.touch.state] if self.touch is not None else None,
+                    rt=[x.clone() for x in self.ret_touch])
 
     def restore(self, sn):
         self.sound.state = [x.clone() for x in sn['sound']]
@@ -275,6 +385,9 @@ class Brain:
         for p, st in zip(self.pops(), sn['pops']):
             p.load(st)
         self.motor.block = sn['block'].clone()
+        if self.touch is not None:
+            self.touch.state = [x.clone() for x in sn['touch']]
+            self.ret_touch = [x.clone() for x in sn['rt']]
 
     def snapshot_full(self):
         sn = self.snapshot()
@@ -287,6 +400,7 @@ class Brain:
         for t, (w, o, i) in zip(self.plastic(), sn['tables']):
             t.w, t.out, t.inn = w.clone(), o.clone(), i.clone()
         self.t = sn['t']
+        self.rlog.clear()                                   # changes made after the snapshot are gone
 
     def counts(self):
         """per-tick activity counts (GPU tensor; fetched in bulk by the harness)"""
@@ -296,10 +410,15 @@ class Brain:
         if self.hip is not None:
             v += [self.hip.H1.on.sum(), self.hip.h_int.sum(), self.hip.Hs.on.sum()]
         v += [self.motor.force.on.sum(), self.motor.stop.on.sum()]
+        if self.touch is not None:
+            v += [x.sum() for x in self.touch.state]
         return torch.stack(v)
 
     def count_names(self):
         n = [f'A{l + 1}' for l in range(len(self.sound.n))] + ['L1ext', 'L1int', 'L1', 'L2', 'L3', 'L4']
         if self.hip is not None:
             n += ['H1', 'H1int', 'Hs']
-        return n + ['force', 'stop']
+        n += ['force', 'stop']
+        if self.touch is not None:
+            n += [f'T{l + 1}' for l in range(len(self.touch.n))]
+        return n

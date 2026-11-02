@@ -1,0 +1,14 @@
+syllables 202196001 toned types 1357
+top 20 toned [('de5', 3.27), ('wo3', 3.05), ('shi4', 2.76), ('ni3', 2.51), ('le5', 2.41), ('ha1', 1.64), ('bu4', 1.5), ('hao3', 1.41), ('you3', 1.23), ('me5', 0.99), ('a5', 0.94), ('jiu4', 0.9), ('zai4', 0.87), ('zhe4', 0.87), ('bu2', 0.87), ('yi1', 0.87), ('mei2', 0.85), ('shi2', 0.84), ('lai2', 0.79), ('dao4', 0.78)]
+top 10 cover 0.208
+top 50 cover 0.453
+top 100 cover 0.597
+top 300 cover 0.845
+top 500 cover 0.935
+top 1000 cover 0.998
+Zipf slope ranks 10-300 -0.87
+toneless types 411 top 10 [('shi', 3.8), ('de', 3.51), ('wo', 3.07), ('ni', 2.59), ('le', 2.57), ('yi', 2.46), ('bu', 2.41), ('you', 1.73), ('ha', 1.64), ('hao', 1.61)] top100 cover 0.744
+tones share [0.186, 0.178, 0.221, 0.308, 0.107]
+unused bases ['biang', 'bong', 'cei', 'din', 'hng', 'kei', 'len', 'lo', 'ng', 'nia', 'nun', 'tei', 'wong', 'zhei', 'ê']
+turn len mean 10.47 median 8 p90 20 p99 47
+turns per dialogue {2: 0.499, 3: 0.28, 4: 0.129, 5: 0.044, 6: 0.024, 7: 0.01, 8: 0.006} mean 2.92

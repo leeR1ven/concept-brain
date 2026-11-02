@@ -78,7 +78,7 @@ bad = 0
 for j in rng.choice(br.n1, 300, replace=False):
     Rv = torch.zeros(br.n1, dtype=torch.bool, device=DEV)
     Rv[int(j)] = True
-    rs, rf, rst = ch.scatter(Rv, br.sound.n, br.motor.nf, br.motor.ns)
+    rs, rf, rst, _ = ch.scatter(Rv, br.sound.n, br.motor.nf, br.motor.ns)
     lit_n = sum(int(x.sum()) for x in rs) + int(rf.sum()) + int(rst.sum())
     area, layer, unit = fw[int(j)].tolist()
     hit = (rs[layer][unit] > 0) if area == 0 else (rf[unit] > 0 if area == 1 else rst[unit])
@@ -262,6 +262,115 @@ for x in range(0, need.shape[0], 3):
 check('10. MC pools: Dale split, sampling, acquired at gamma_motor; clean input said and stops', ok_e and ok_i and ok_s
       and w_ok and all(said), exc_targets_own=ok_e, inh_targets_rivals=ok_i, samples_one_per_muscle=ok_s,
       acquired_decaying=w_ok, clean_said_and_stops=f'{sum(said)}/{len(said)}', registry=reg)
+
+
+# 11. returns stay 1:1 with mc_src='returns' (coordinator 11-02): a single return reaches its own force neuron only
+#     (the pool contacts are local collaterals inside the motor area); with g_ret_force >= 1 it lights that neuron
+#     alone, pools on or off; at g_ret_force < 1 its drive is g_ret_force x release (reported, lit only with pattern
+#     support by design).
+res11 = {}
+for g_rf in (1.05, 0.95):
+    for mc_on in (False, True):
+        cm = config(a.s, mc=mc_on, mc_src='returns', force_per_muscle=8, g_ret_force=g_rf, b_block=1.2)
+        mot = Motor(cm, life.coch, gammas(cm))
+        if mc_on:
+            mot.set_mc(life.ph.need_mat)
+        ok_only, lit_alone = 0, 0
+        for j in torch.randint(0, mot.nf, (20,)).tolist():
+            mot.force.set(torch.zeros(mot.nf, dtype=torch.bool, device=DEV))
+            rf = torch.zeros(mot.nf, device=DEV)
+            rf[j] = 1.0
+            d0 = rf * mot.ret_drive
+            ok_only += int(bool((d0 > 0).sum() == 1) and bool(d0[j] > 0))
+            mot.step(a0_sil, rf, torch.zeros(mot.ns, dtype=torch.bool, device=DEV))
+            lit_alone += int(bool(mot.force.on[j]) and int(mot.force.on.sum()) == 1)
+        res11[f'g_ret_force {g_rf}, pools {"on" if mc_on else "off"}'] = dict(reaches_own_only=f'{ok_only}/20',
+                                                                            lights_own_alone=f'{lit_alone}/20')
+ok11 = all(v['reaches_own_only'] == '20/20' for v in res11.values()) and \
+    all(v['lights_own_alone'] == '20/20' for k, v in res11.items() if k.startswith('g_ret_force 1.05'))
+check('11. returns 1:1 onto their own force neuron (pool contacts are local collaterals); alone they light it at '
+      'g_ret_force >= 1', ok11, **res11)
+
+
+# 12. touch area incl. muscle force [T1-T5] (designer 11-02, ARCH 2.2): input exactly half on; same local sensory net
+#     (fixed birth tables, own-drive thresholds); 1:1 forward and return chains to PFC L1 and the hippocampus; a
+#     return lights its touch unit only when its copy is lit internally; the touch of a movement arrives in the
+#     same tick; no table from touch units to force neurons.
+from world_adapter import Skin
+ct = config(a.s, touch=True, birth_dialogues=30, force_per_muscle=8, band_cut_a12=0.6)
+lt = Life(ct, 0, wire=False)
+bt = lt.brain
+sk = bt.skin
+half_ok = all(int(sk.code(torch.rand(24, device=DEV) * (torch.rand(24, device=DEV) < 0.5)).sum()) * 2 == sk.n
+              for _ in range(50)) and int(sk.code(torch.zeros(24, device=DEV)).sum()) * 2 == sk.n
+ch = bt.chains
+tseg = [sg for sg in ch.segs if sg[0] == 'touch']
+one2one = bool((ch.fwd_src == ch.ret_dst).all()) and len(tseg) == len(bt.touch.n)
+fixed = all(type(ly).__name__ == 'ByPost' for ly in bt.touch.layers) and all(t is not None for t in bt.touch.thr)
+no_touch_to_force = not any(tb.n_post == bt.motor.nf and tb.n_pre in bt.touch.n for tb in bt.tables())
+with probes.Frozen(lt):
+    snap = bt.snapshot()
+    ret_ok = 0
+    for trial in range(20):                                   # internal copy -> its own touch unit next tick
+        bt.restore(snap)
+        sg = tseg[trial % len(tseg)]
+        j = int(torch.randint(sg[2], sg[3], (1,)))
+        area, layer, unit = ch.fwd_src[j].tolist()
+        bt.force_int = torch.zeros(bt.n1, dtype=torch.bool, device=DEV)
+        bt.force_int[j] = True
+        bt.step(torch.as_tensor(A0[int(np.nonzero(sil)[0][0])], device=DEV), 0.0)
+        bt.force_int = None
+        rt = bt.ret_touch[layer]
+        ret_ok += int(bool(rt[unit] > 0) and int((rt > 0).sum()) <= int(bt.pfc.x_int[tseg[0][2]:].sum()) + 1)
+    bt.restore(snap)
+    quiet = sum(int((r > 0).sum()) for r in bt.ret_touch)      # no internal activation -> no touch return
+    rest1 = bt.touch.state[0].clone()
+    bt.scaffold = torch.as_tensor(lt.ph.need_mat[0], device=DEV)[bt.motor.muscle_of]
+    bt.step(torch.as_tensor(A0[int(np.nonzero(sil)[0][0])], device=DEV), 0.0)
+    bt.scaffold = None
+    same_tick = bool((bt.touch.state[0] != rest1).any())
+check('12. touch area: input half on; fixed local layers with own thresholds; 1:1 chains; returns only from internal '
+      'copies; touch of a movement in the same tick; no touch -> force table', half_ok and one2one and fixed and
+      no_touch_to_force and ret_ok == 20 and same_tick, input_half_on=half_ok, chains_1to1=one2one,
+      touch_layers=bt.touch.n, touch_chained=[len(ix) for ix in ch.touch_idx], n1=bt.n1, fixed_birth_tables=fixed,
+      no_touch_to_force=no_touch_to_force, internal_copy_lights_own_touch_unit=f'{ret_ok}/20',
+      touch_returns_in_quiet_state=quiet, same_tick=same_tick, chain_report=[r for r in bt.chain_report if r['area'] == 'touch'])
+
+
+# 13. reward tool [R6] (ARCH 2.8, X8 form): pleased re-adds the last r_win ticks of applied changes x r_pleased
+#     (fading), upset adds them x -(1 + r_upset) (net reversal) and strengthens the L4-now -> stop-copy links.
+cr = config(a.s, reward=True, birth_dialogues=30)
+lr = Life(cr, 0, wire=False)
+br = lr.brain
+out13 = {}
+for sign in (+1.0, -1.0):
+    snap = br.snapshot_full()
+    br.learning = True
+    L = br.pfc.L41
+    W0 = L.w.clone()
+    for _ in range(3):
+        lr.tick()
+    W1 = L.w.clone()
+    D = W1 - W0
+    ages = [br.t - t0 for t0, _ in br.rlog]
+    seg = [sg for sg in br.chains.segs if sg[0] == 'stop'][0]
+    stopcol = (L.idx >= seg[2]) & (L.idx < seg[3])
+    br.reward(sign)
+    W2 = L.w.clone()
+    ch_ = (D.abs() > 1e-7) & ~stopcol
+    if sign > 0:
+        ok = bool((W2[ch_] - W1[ch_] > 0).float().mean() > 0.95 if bool((D[ch_] > 0).all()) else
+                  ((W2[ch_] - W1[ch_]) * D[ch_] > 0).float().mean() > 0.95)
+    else:
+        ok = bool(((W2[ch_] - W1[ch_]) * D[ch_] < 0).float().mean() > 0.95)
+    stop_grew = float((W2 - W1)[stopcol & br.pfc.L4.on[:, None].expand_as(stopcol)].clamp_min(0).sum()) if sign < 0 else None
+    out13['pleased' if sign > 0 else 'upset'] = dict(changed_entries=int(ch_.sum()), direction_ok=ok, ages=ages,
+                                                      stop_link_growth=stop_grew, log_cleared=len(br.rlog) == 0)
+    br.learning = False
+    br.restore_full(snap)
+ok13 = all(v['direction_ok'] and v['log_cleared'] for v in out13.values()) and out13['upset']['stop_link_growth'] > 0
+check('13. reward tool: pleased amplifies, upset reverses the last r_win ticks of changes and links L4-now to the '
+      'stop copies', ok13, **out13)
 
 save_json(a.out, R)
 sys.exit(0 if all(v['ok'] for v in R.values()) else 1)

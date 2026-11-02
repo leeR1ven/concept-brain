@@ -61,6 +61,50 @@ class Cochlea:
         return self.code(self.energy(srcs))
 
 
+class Skin:
+    """[T1] touch input from the body (designer 11-02, ARCH 2.2): each muscle's ACTUAL force, after the body's rule
+    (a muscle moves only when >= half of its force neurons fire; its force is then the share of its force neurons
+    that fire; otherwise 0), as thermometer on/off pairs on L levels per muscle: exactly half on. Skin contact:
+    none in this world (no objects). The same physics as the mouth; it holds no brain state."""
+
+    def __init__(self, c, m):
+        import torch
+        from common import DEV
+        self.m = m
+        self.L = c['touch_levels'] or m
+        self.NC, self.Z = 24, 2 * self.L
+        self.n = self.NC * self.Z
+        self.th = torch.as_tensor((np.arange(self.L) + 0.5) / self.L, dtype=torch.float32, device=DEV)
+        self.half = int(np.ceil(m / 2))
+
+    def force(self, counts):
+        """counts: float [24] force neurons firing per muscle -> actual force share per muscle (0 if not moved)"""
+        return (counts >= self.half).float() * counts / self.m
+
+    def code(self, f):
+        """f: float [24] actual force -> bool [n] thermometer pairs, exactly half on"""
+        import torch
+        up = f[:, None] >= self.th[None, :]
+        return torch.stack([up, ~up], 2).reshape(-1)
+
+    def birth_stream(self, T, need_mat, seed, p_move=0.3):
+        """touch input of the birth period: spontaneous twitches (fetal movements; the newborn makes no sound): on a
+        share p_move of ticks a random syllable's 4 muscles or 1-4 random muscles move with a random force (from half
+        to all of their force neurons). Used only to set the touch units' own thresholds and chain band."""
+        import torch
+        from common import DEV
+        rng = np.random.default_rng(seed + 8800)
+        F = np.zeros((T, 24), np.float32)
+        for t in range(T):
+            if rng.random() < p_move:
+                mus = (np.nonzero(need_mat[rng.integers(len(need_mat))])[0] if rng.random() < 0.5
+                       else rng.choice(24, rng.integers(1, 5), replace=False))
+                F[t, mus] = rng.integers(self.half, self.m + 1, len(mus)) / self.m
+        Ft = torch.as_tensor(F, device=DEV)
+        up = Ft[:, :, None] >= self.th[None, None, :]
+        return torch.stack([up, ~up], 3).reshape(T, -1)
+
+
 class Env:
     """A running world (World or OverhearWorld) whose sound goes through the cochlea. step(muscles) -> A0 bits."""
 

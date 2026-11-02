@@ -1,0 +1,104 @@
+{
+ "config": {
+  "inhib": "P1",
+  "loop": "recip",
+  "g_loop": 1.0,
+  "w44": 0.0,
+  "g44": 0.1,
+  "g_hh": 0.1,
+  "g_h1": 0.1,
+  "force_per_muscle": 8,
+  "b_block": 1.2,
+  "band_cut_a12": 0.6,
+  "g1p_margin": 0.1,
+  "g1p_src": "inner",
+  "mc": true,
+  "mc_src": "returns",
+  "g_ret_force": 0.95,
+  "gen0_strength": 20
+ },
+ "steps": [
+  {
+   "dialogues": 0,
+   "say": {
+    "said": 0.029411764705882353,
+    "any_x": 0.6470588235294118,
+    "garble": 0.7941176470588235,
+    "stop": 0.08823529411764706,
+    "silent": 0.08823529411764706,
+    "tail_ticks_after_x": 1.8181818181818181,
+    "n": 34
+   },
+   "tendency": {
+    "x": 0.7602500000000001,
+    "best": 0.543,
+    "first": 0.978,
+    "total": 0.26575000000000004
+   },
+   "nothing_thought": 0.01975,
+   "rel_change": {
+    "PFC G1P L4 -> L1 force copies": 0.0,
+    "motor MC force -> exc pool": 0.0,
+    "motor MC force -> inh pool": 0.0,
+    "motor MC exc pool -> own force": 0.0,
+    "motor MC inh pool -> rival force": 0.0
+   }
+  },
+  {
+   "dialogues": 200,
+   "say": {
+    "said": 0.0,
+    "any_x": 0.0,
+    "garble": 1.0,
+    "stop": 0.0,
+    "silent": 0.0,
+    "tail_ticks_after_x": null,
+    "n": 34
+   },
+   "tendency": {
+    "x": 0.71775,
+    "best": 0.7295,
+    "first": 0.55875,
+    "total": 0.41800000000000004
+   },
+   "nothing_thought": 0.048,
+   "rel_change": {
+    "PFC G1P L4 -> L1 force copies": 0.006639293394982815,
+    "motor MC force -> exc pool": 0.008184535428881645,
+    "motor MC force -> inh pool": 0.0078856460750103,
+    "motor MC exc pool -> own force": 0.00027418797253631055,
+    "motor MC inh pool -> rival force": 0.0002038094971794635
+   },
+   "utts_per_dialogue": 1.285,
+   "garbled_share": 0.9377431906614786
+  },
+  {
+   "dialogues": 700,
+   "say": {
+    "said": 0.0,
+    "any_x": 0.08823529411764706,
+    "garble": 1.0,
+    "stop": 0.0,
+    "silent": 0.0,
+    "tail_ticks_after_x": 2.3333333333333335,
+    "n": 34
+   },
+   "tendency": {
+    "x": 0.74375,
+    "best": 0.7004999999999999,
+    "first": 0.69125,
+    "total": 0.40575
+   },
+   "nothing_thought": 0.00375,
+   "rel_change": {
+    "PFC G1P L4 -> L1 force copies": 0.018499232828617096,
+    "motor MC force -> exc pool": 0.03003447689116001,
+    "motor MC force -> inh pool": 0.02908024564385414,
+    "motor MC exc pool -> own force": 0.000849963107611984,
+    "motor MC inh pool -> rival force": 0.000695242895744741
+   },
+   "utts_per_dialogue": 1.026,
+   "garbled_share": 0.9181286549707602
+  }
+ ]
+}

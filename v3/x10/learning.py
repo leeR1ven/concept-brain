@@ -44,6 +44,8 @@ class ByPre:
         self.w = self.w * (self.idx < n_post)
         self.eta, self.eta_m, self.gain, self.gamma = eta, eta_m, gain, gamma
         self.c = c
+        self.track = False                     # reward tool [R6]: log this tick's applied changes when True
+        self.tick_log = []
         limit = c['dense_limit'] if c is not None else DENSE_LIMIT
         self.dense = self.idx.numel() <= limit
         self.idx_l = self.idx.reshape(-1).long() if self.dense else None
@@ -98,7 +100,7 @@ class ByPre:
     def plast(self, w):
         return (1.0 / (1.0 + w / self.c['w_ref'])).clamp_min(self.c['floor'])
 
-    def _apply(self, rows, dw):
+    def _apply(self, rows, dw, log=True):
         """add dw to rows (unique), keep acquired weights >= 0, and update the two-layer totals exactly"""
         old = self.w[rows]
         new = (old + dw).clamp_min(0.0)
@@ -106,6 +108,8 @@ class ByPre:
         self.w[rows] = new
         self.out[rows] += d.sum(1)
         self.inn.index_add_(0, self.idx[rows].reshape(-1).long(), d.reshape(-1))
+        if self.track and log:                 # [R6] the change as applied, for the reward tool
+            self.tick_log.append((rows.clone(), d.clone()))
 
     def learn(self, pre_elig, pre_rose, post_event, post_rose, post_recent):
         """Held-form temporal Hebbian rule (ARCH 2.8), one tick:
@@ -121,6 +125,7 @@ class ByPre:
         ro = torch.cat([post_rose, f])
         rc = torch.cat([post_recent, f])
         if self.dense:                                        # whole table, no host sync
+            assert not self.track, 'reward tracking uses the sparse path (dense_limit = 0)'
             sh = self.idx.shape
             evx, rox, rcx = ev[self.idx_l].view(sh), ro[self.idx_l].view(sh), rc[self.idx_l].view(sh)
             pw = self.plast(self.w)

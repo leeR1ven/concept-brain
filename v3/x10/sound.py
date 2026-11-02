@@ -14,19 +14,35 @@ from common import DEV
 from learning import ByPost
 
 
+def sound_params(c):
+    return dict(name='sound A', seed_off=100, upp=c['units_per_pos'], fan=c['sound_fan'], dy=c['sound_dy'],
+                dz=c['sound_dz'], n_layers=c['n_layers'], rates=c['sound_rates'], band=c['band'])
+
+
+def touch_params(c):
+    """[T2] the touch area: the same kind of local sensory net as the sound area (ARCH 2.2, designer 11-02)"""
+    return dict(name='touch T', seed_off=150, upp=c['touch_upp'], fan=c['touch_fan'], dy=c['touch_dy'],
+                dz=c['touch_dz'], n_layers=c['touch_layers'], rates=c['touch_rates'], band=c['band_touch'])
+
+
 class SoundArea:
-    def __init__(self, coch, c):
+    """A local sensory area over an input layer of thermometer pairs (geom: NC channels x Z level-pair positions,
+    n inputs). Used for sound (cochlea) and touch (skin: muscle force), with its own parameters p."""
+
+    def __init__(self, coch, c, p=None):
         self.c = c
-        Y, Z, D, s = coch.NC, coch.Z, c['units_per_pos'], c['s']
+        p = p or sound_params(c)
+        self.p = p
+        Y, Z, D, s = coch.NC, coch.Z, p['upp'], c['s']
         self.Y, self.Z, self.D = Y, Z, D
         self.n0 = coch.n
-        g = np.random.default_rng(c['lineage_seed'] + 100)
-        K = c['sound_fan']
-        DY = c['sound_dy']
-        DZ = [dz * (s if l > 0 else 1) for l, dz in enumerate(c['sound_dz'])]
+        g = np.random.default_rng(c['lineage_seed'] + p['seed_off'])
+        K = p['fan']
+        DY = p['dy']
+        DZ = [dz * (s if l > 0 else 1) for l, dz in enumerate(p['dz'])]
         self.layers, self.pos, self.wmin = [], [], []
         prevD, n_prev = 1, self.n0
-        for l in range(c['n_layers']):
+        for l in range(p['n_layers']):
             n = Y * Z * D
             p = np.arange(n) // D
             yy, zz = p // Z, p % Z
@@ -36,21 +52,21 @@ class SoundArea:
                 z2 = np.clip(zz + g.integers(-DZ[l], DZ[l] + 1, n), 0, Z - 1)
                 idx[:, j] = (y2 * Z + z2) * prevD + g.integers(0, prevD, n)
             w = g.uniform(0.5, 1.5, (n, K)).astype(np.float32)
-            self.layers.append(ByPost(idx, w, n_prev, n, f'sound A{l + 1}'))
+            self.layers.append(ByPost(idx, w, n_prev, n, f"{self.p['name']}{l + 1}"))
             self.wmin.append(torch.as_tensor(w.min(1), device=DEV))
             self.pos.append(torch.as_tensor(np.stack([yy / max(1, Y - 1), zz / max(1, Z - 1)], 1),
                                             dtype=torch.float32, device=DEV))
             prevD, n_prev = D, n
         self.n = [ly.n_post for ly in self.layers]
-        self.thr = [None] * c['n_layers']
-        self.ret_w = [None] * c['n_layers']
+        self.thr = [None] * self.p['n_layers']
+        self.ret_w = [None] * self.p['n_layers']
         self.state = [torch.zeros(n, dtype=torch.bool, device=DEV) for n in self.n]
 
     # ------------------------------------------------------------------ birth calibration [S4]
     def calibrate(self, A0):
         """A0: bool [T, n0] birth stream (learning off, no returns). Sets every unit's own threshold from its own
         birth drive. Returns the time-parallel layer states [T, n_l] (bool, on DEV) for the chain band [S5]."""
-        lo_b, hi_b = self.c['band']
+        lo_b, hi_b = self.p['band']
         states = []
         x = A0.to(DEV)
         for l, ly in enumerate(self.layers):
@@ -58,7 +74,7 @@ class SoundArea:
             dr = torch.empty((T, ly.n_post), device=DEV)
             for a in range(0, T, 512):
                 dr[a:a + 512] = ly.drive_batch(x[a:a + 512].float())
-            k = max(1, min(T, int(np.ceil((1.0 - self.c['sound_rates'][l]) * T))))
+            k = max(1, min(T, int(np.ceil((1.0 - self.p['rates'][l]) * T))))
             q = torch.empty(ly.n_post, device=DEV)
             for a in range(0, ly.n_post, 2048):
                 q[a:a + 2048] = torch.kthvalue(dr[:, a:a + 2048], k, dim=0).values
