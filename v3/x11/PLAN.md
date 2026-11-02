@@ -10,7 +10,7 @@ Designer's goal (11-02): "你试试下载大量对话类数据集，转换成我
 |---|---|
 | source | LCCC-base (thu-coai, MIT), `silver/lccc` on Hugging Face; the server reaches it through hf-mirror.com (huggingface.co is blocked there) |
 | raw | train 6,820,506 dialogues (370 MB gz, sha256 2162e0ed…), valid 20,000, test 10,000 |
-| local copy | `<local corpus dir>/lccc_raw/` (raw), `<local corpus dir>/lccc_syl_test/` (valid + test converted); never in a repo |
+| local copy | `<local corpus dir>/lccc_raw/` (raw), `<local corpus dir>/lccc_syl/` (train shards 0–1, valid, test, stats), `<local corpus dir>/lccc_sample/` (the uniform 130k sample); never in a repo |
 | server | `~/ckpt/x11_data/raw/` and `~/ckpt/x11_data/lccc_base/` (shards) |
 | converter | `data/convert.py` (pypinyin 0.55 wheel unpacked next to it, no install) |
 
@@ -92,3 +92,25 @@ X10 base B + P1 (coordinator 11-02): P1 patch inhibition, reciprocal loop g_loop
 | 2.11 | overhear many dialogues between others (step 2); others' lines only, no echo training | D7 |
 | 2.12 | scale the whole brain together | one s; A0 levels and every area × s as X10 |
 | — | no symbolic input | the brain gets only A0 (X10 assert); labels only in the scorer |
+
+## F. Results, curve 1 (frozen code, md5 in `results/CODE_MD5_curve1.txt`; stopped after job 2 by the coordinator, 11-02)
+
+Held-out next-syllable prediction (200 test dialogues, 5,008 occurrences, 1,262 candidates; seed 0 / seed 1). Tables: `agg_scale.py results/curve1/j2/*.json`.
+
+| dialogues | PFC top-1 | PFC top-5 | per-tick J | hippocampus | unigram t1/t5 | bigram lag 1 | bigram lag 2 | trigram lag 2 |
+|---|---|---|---|---|---|---|---|---|
+| 0 | 0.001 / 0.000 | 0.008 / 0.006 | 0.016 / 0.013 | empty | – | – | – | – |
+| 1,000 | 0.002 / 0.001 | 0.007 / 0.007 | 0.021 / 0.019 | empty | 0.031 / 0.144 | 0.137 / 0.277 | 0.041 / 0.126 | 0.037 / 0.118 |
+| 3,000 | 0.003 / 0.001 | 0.009 / 0.007 | 0.021 / 0.018 | empty | 0.031 / 0.144 | 0.150 / 0.306 | 0.047 / 0.142 | 0.045 / 0.127 |
+
+- Chance 0.0008 / 0.004; readout ceiling (heard rises) 0.34 top-1; the interpolated count model read through the codes 0.10.
+- Response (first syllable of a reply turn): PFC top-5 0.003–0.008; reply-initial unigram 0.093 / 0.25–0.27.
+- Health: every 10-dialogue window passes; L4 / L3 ≈ 1.15; Hs 66–80.
+- Speed: 20–23 ms per tick per process with two seeds in one GPU job ≈ 1,600 dialogues per seed per hour.
+- Count-model reference to 100k (local, `ngram_curve.py`): trigram lag 1 0.222 / 0.396, bigram lag 2 0.057 / 0.168, trigram lag 2 0.076 / 0.179 at 100k.
+
+**Diagnostics (frozen; `diag_scale.py`, `diag_l4.py`, `results/diag1/`).**
+- The learned L4 → L1 drive alone never reaches θ1 (max 0.42–0.45 θ1, p90 0.63); all of x_int (74–83 per tick) is the birth loop. The graded learned drive ranks the target at top-5 0.011–0.014 (chance 0.004) and the previous syllable at 0.012–0.023.
+- Saturation: 98 % of the L4 → L1 candidate synapses and 96 % of the Hs → H1 synapses have weight > 0 after 1k dialogues; Hs ↔ Hs 81 %. H1's internal drive is ≈ 0.01 θ_h1, so the hippocampus never recalls.
+- Specificity through the PFC (Jaccard same − different syllable, peak over latency, newborn / 3.4k): L1ext +0.15 / +0.14; L2 +0.08 / +0.08; L3 +0.06 / +0.05; L4 +0.047 / +0.044 (L4 ≈ 15–25 % on; same 0.24 vs different 0.21). Learning did not change it.
+- Reading: post events are frequent and the eligible pre populations dense, so the one rule potentiates nearly every pair; the decay is too slow to prune at this event rate; √(out·in) then makes the drive flat and small (ARCH §四.20, X1e). Curve 2 waits for the X10 builder's fixes (PFC count preservation for life; working hippocampal recall) and the coordinator's audit.

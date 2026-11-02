@@ -101,3 +101,12 @@ Curve 1 is stopped. The designer (11-02) asked for the model to be fixed first: 
 - **Next.** Fast parameter sweeps in X10:
   - gains only, as the check of the arithmetic;
   - then a sparser input per frame (sound rates, or only the deep layers sent through the chains) × hippocampal decay and gain.
+
+**Corrected layer specificity** (`diag_l4.py`; L1–L4 grouped by latency; same-syllable minus different-syllable J; MEASURED, same at newborn and 3.4k):
+
+| L1 copies | L2 | L3 | L4 |
+|---|---|---|---|
+| +0.15 | +0.08 | +0.06 | +0.047 |
+
+- L4 is 15–25 % on, and about 90 % of its code is shared across syllables. The fixed random middle layers wash the difference out, and learning does not change it.
+- Sound-area decoding (toneless, nearest centroid): A0 0.92, A1 0.92, A2 0.88, A3 0.73, A4 0.42, PFC L1 copies 0.75. The deep layers lose information in this voice.
