@@ -104,14 +104,16 @@ def topk_on(d, k):
 class Links:
     """Links from each pre unit to a list of possible post units (padded with the sink n_post).
     learned=False: fixed birth weights, raw drive. learned=True: grown by the one rule, decayed by the one decay, and
-    propagated with two-layer weights (ARCH 三 前额叶: drive = gain * w / sqrt(out-total * in-total))."""
+    propagated with two-layer weights (ARCH 三 前额叶: drive = gain * w / sqrt(out-total * in-total)).
+    plain=True (the hippocampus, ARCH 三 海马体): its own growth rule. While A is on, A->B grows by the full step
+    eta when B rises (in order, no concave slowing); the drive is the raw sum of weights; it decays fast."""
 
-    def __init__(self, idx, w, n_post, c, learned=True, gain=1.0, gamma=1.0, name=''):
+    def __init__(self, idx, w, n_post, c, learned=True, gain=1.0, gamma=1.0, name='', plain=False):
         self.idx = torch.as_tensor(idx, dtype=torch.int64, device=DEV)
         self.w = torch.as_tensor(w, dtype=torch.float32, device=DEV).expand(self.idx.shape).clone()
         self.w *= (self.idx < n_post)
         self.n_pre, self.n_post = self.idx.shape[0], n_post
-        self.c, self.learned, self.gain, self.gamma, self.name = c, learned, gain, gamma, name
+        self.c, self.learned, self.gain, self.gamma, self.name, self.plain = c, learned, gain, gamma, name, plain
         self.log = None                                     # reward tool: list of this tick's applied changes
         self.recount()
 
@@ -125,7 +127,9 @@ class Links:
         a = torch.nonzero(act).squeeze(1)
         if a.numel():
             ix, w = self.idx[a], self.w[a]
-            if self.learned:
+            if self.plain:
+                w = self.gain * w
+            elif self.learned:
                 r = self.c['w_ref']
                 w = self.gain * w / torch.sqrt(self.out[a].clamp_min(r)[:, None] * self.inn[ix].clamp_min(r))
             out.index_add_(0, ix.reshape(-1), w.reshape(-1))
@@ -133,6 +137,8 @@ class Links:
 
     def plast(self, w):
         """concave: the bigger a link, the harder it changes; about 1 % plasticity is always kept (ARCH 四)"""
+        if self.plain:
+            return torch.ones_like(w)
         return (1.0 / (1.0 + w / self.c['w_ref'])).clamp_min(self.c['floor'])
 
     def apply(self, rows, dw, log=True):
@@ -160,6 +166,9 @@ class Links:
         if a.numel() == 0:
             return
         ix = self.idx[a]
+        if self.plain:                                      # hippocampus: what followed grows by the full step
+            self.apply(a, eta * b_rose[ix].float())
+            return
         a_rose = pre.rose()[a][:, None]
         grow = b_rose[ix]
         weaken = a_rose & b_on[ix] & ~b_rose[ix]

@@ -137,7 +137,8 @@ class PFC:
         li = reciprocal_loop(self.ff, n, c['loop_fan'])
         lw = torch.as_tensor(rng.uniform(0.5, 1.5, tuple(li.shape)), dtype=torch.float32, device=DEV)
         self.loop = Links(li, c['g_loop'] * lw / lw.sum(1, keepdim=True), n, c, learned=False, name='loop')
-        self.L41 = Links(radius_lists(ch.pos, ch.pos, c['r_learn']), 0.0, n, c, gamma=c['gamma_pfc'], name='L4->L1')
+        self.L41 = Links(radius_lists(ch.pos, ch.pos, c['r_learn']), 0.0, n, c, gain=c['g31'], gamma=c['gamma_pfc'],
+                         name='L4->L1')
         self.L44 = Links(radius_lists(ch.pos, ch.pos, c['r_learn'], True), 0.0, n, c, gain=c['g44'],
                          gamma=c['gamma_pfc'], name='L4<->L4')
         self.G1P = None                                    # generation-0 speech link (gen0.py)
@@ -203,9 +204,9 @@ class Hippocampus:
         self.c, self.nh = c, nh
         self.rec = Fixed(rng.integers(0, n1, (nh, c['rec_fan'])), rng.uniform(0.5, 1.5, (nh, c['rec_fan'])))
         self.HH = Links(random_lists(nh, nh, c['n_hh'] * s, rng, True), 0.0, nh, c, gain=c['g_hh'],
-                        gamma=c['gamma_hip'], name='Hs<->Hs')
+                        gamma=c['gamma_hip'], name='Hs<->Hs', plain=True)
         self.H1t = Links(random_lists(nh, n1, c['n_h1'] * s, rng), 0.0, n1, c, gain=c['g_h1'],
-                         gamma=c['gamma_hip'], name='Hs->H1')
+                         gamma=c['gamma_hip'], name='Hs->H1', plain=True)
         self.H1, self.H1ext, self.Hs = Pop(n1), Pop(n1), Pop(nh)
         self.h_int = torch.zeros(n1, dtype=torch.bool, device=DEV)
 
@@ -215,7 +216,7 @@ class Hippocampus:
     def step(self, x_ext):
         ah = self.Hs.on
         d = self.H1t.drive(ah)
-        h_int = topk_on(d, self.c['k_recall']) if self.c['k_recall'] else d > self.c['theta_h1']
+        h_int = (d > self.c['theta_h1']) & topk_on(d, self.c['context'] * x_ext.sum())   # the PFC's rule
         hs = topk_on(self.rec.drive(self.H1.on) + self.HH.drive(ah), self.c['kh'])
         self.H1ext.set(x_ext)
         self.H1.set(x_ext | h_int)
