@@ -13,7 +13,8 @@ cosine)? The reader is a measuring instrument, not part of the model.
   C  one-shot memory: never-heard lines, each once (voice C1); then its first three syllables, in the same voice and
      in another (D1), soon (right after all were heard) and later (after 20 dialogues of ordinary life): the rank of
      its 4th syllable among the 4th syllables of the other test lines, by the share of its sound copies lit in the
-     hippocampal recall / the PFC's thoughts (1 = best, chance in the output; 'before' = cue before hearing)
+     hippocampal recall / the PFC's thoughts, counted as the gain over the same cue before hearing (1 = best,
+     chance in the output)
   D  health: the share of L4 lit whatever the line, learned vs birth push into L4, learned weight sizes
 usage: python -u -m core.exam <ckpt or 'newborn'> [n_lines] [key=value for a newborn]"""
 import json
@@ -105,13 +106,17 @@ def memory(life, lines, gap=20):
         life.tick()
     b.learning = was
     lit['later_same_voice'], lit['later_other_voice'] = cue('C1'), cue('D1')
+    def share(L, i, key):
+        return [float(L[i][key][cd].float().mean()) if cd.numel() else 0.0 for cd in codes]
     out = {}
     for when, L in lit.items():
+        if when == 'before':
+            continue
         r = {}
         for key in ('hip', 'think'):
             rk = []
-            for i in range(len(lines)):
-                sc = [float(L[i][key][cd].float().mean()) if cd.numel() else 0.0 for cd in codes]
+            for i in range(len(lines)):                       # what the hearing added, against the cue before it
+                sc = [a - b0 for a, b0 in zip(share(L, i, key), share(lit['before'], i, key))]
                 mine = sc[i]
                 rk.append(1 + sum(v > mine for v in sc) + 0.5 * (sum(v == mine for v in sc) - 1))
             r[key] = round(float(np.mean(rk)), 2)

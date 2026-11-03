@@ -168,7 +168,12 @@ class Batch:
         x_int = (e1 > c['theta1']) & topk_rows(e1, c['context'] * x.sum(1))
         n2 = fdrive(p.ff[0], self.L1.on) > p.thr2
         n3 = fdrive(p.ff[1], self.L2.on) > p.thr3
-        n4 = topk_rows(fdrive(p.ff[2], self.L3.on) + ldrive(p.L44, a4), self.L1.on.sum(1))
+        if getattr(p, 'usual4', None) is None:
+            p.usual4 = torch.zeros(p.ff[2].idx.shape[0], device=DEV)
+        d4 = fdrive(p.ff[2], self.L3.on) + ldrive(p.L44, a4) - p.usual4
+        if learning:
+            p.usual4 += d4.mean(0) * self.adapt
+        n4 = topk_rows(d4, self.L1.on.sum(1))
         self.L1ext.set(x)
         self.L1.set(x | x_int)
         self.L2.set(n2)
@@ -180,7 +185,12 @@ class Batch:
         if learning:
             h.usual += eh.mean(0) * self.adapt
         h_int = topk_rows(eh, c['context'] * x.sum(1))
-        hs = topk_rows(fdrive(h.rec, self.H1.on) + ldrive(h.HH, ah), torch.full((B,), c['kh'], device=DEV))
+        if getattr(h, 'usual_s', None) is None:
+            h.usual_s = torch.zeros(h.nh, device=DEV)
+        ds = fdrive(h.rec, self.H1.on) + ldrive(h.HH, ah) - h.usual_s
+        if learning:
+            h.usual_s += ds.mean(0) * self.adapt
+        hs = topk_rows(ds, torch.full((B,), c['kh'], device=DEV))
         self.H1ext.set(x)
         self.H1.set(x | h_int)
         self.Hs.set(hs)

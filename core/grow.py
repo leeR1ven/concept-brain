@@ -112,6 +112,8 @@ def add_concept(life, cal_ticks=1000):
         _extend_pop(pp, n_new)
     pfc.n = n_new
     pfc.usual = torch.cat([pfc.usual, torch.zeros(cc.n, device=DEV)])
+    if getattr(pfc, "usual4", None) is not None:
+        pfc.usual4 = torch.cat([pfc.usual4, torch.zeros(cc.n, device=DEV)])
     pfc.x_int = torch.cat([pfc.x_int, torch.zeros(cc.n, dtype=torch.bool, device=DEV)])
     inf = torch.full((cc.n,), float('inf'), device=DEV)
     pfc.thr2, pfc.thr3 = torch.cat([pfc.thr2, inf]), torch.cat([pfc.thr3, inf])   # set after a short stream

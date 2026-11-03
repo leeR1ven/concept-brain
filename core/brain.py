@@ -181,7 +181,14 @@ class PFC:
             x_int = x_int | self.force_int
         n2 = self.ff[0].drive(self.L1.on) > self.thr2
         n3 = self.ff[1].drive(self.L2.on) > self.thr3
-        n4 = topk_on(self.ff[2].drive(self.L3.on) + self.L44.drive(a4), self.L1.on.sum())   # output = input count
+        # the last layer: each unit's own usual level too (二.4); the most driven above it, as many as the input
+        d4 = self.ff[2].drive(self.L3.on) + self.L44.drive(a4)
+        if getattr(self, 'usual4', None) is None:
+            self.usual4 = torch.zeros_like(d4)
+        e4 = d4 - self.usual4
+        if self.adapt:
+            self.usual4 += e4 / self.c['tau_usual']
+        n4 = topk_on(e4, self.L1.on.sum())
         self.L1ext.set(x_ext)
         self.L1.set(x_ext | x_int)
         self.L2.set(n2)
@@ -231,7 +238,13 @@ class Hippocampus:
         if self.adapt:
             self.usual += e / self.c['tau_usual']
         h_int = topk_on(e, self.c['context'] * x_ext.sum())      # a fixed share: the most strongly recalled
-        hs = topk_on(self.rec.drive(self.H1.on) + self.HH.drive(ah), self.c['kh'])
+        ds = self.rec.drive(self.H1.on) + self.HH.drive(ah)      # its own units: above their own usual level (二.4)
+        if getattr(self, 'usual_s', None) is None:
+            self.usual_s = torch.zeros_like(ds)
+        es = ds - self.usual_s
+        if self.adapt:
+            self.usual_s += es / self.c['tau_usual']
+        hs = topk_on(es, self.c['kh'])
         self.H1ext.set(x_ext)
         self.H1.set(x_ext | h_int)
         self.Hs.set(hs)
