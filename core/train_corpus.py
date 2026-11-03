@@ -11,7 +11,7 @@ import torch
 
 from .config import config
 from .corpus_life import CorpusLife
-from .world.corpus import CurriculumWorld, common_order
+from .world.corpus import CurriculumWorld, Dialogues, common_order
 from .life import log
 from .net import DEV
 
@@ -39,6 +39,13 @@ def main():
             torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
             os.replace(ckpt + '.tmp', ckpt)
             log(f'saved with the concept area at {life.env.n_ex - start} dialogues')
+        text = over.pop('text', None)
+        if text and not getattr(life, 'text_added', False):   # read-aloud text joins the dialogues (1 per 3)
+            from .world.corpus import concat, mixed_order
+            tx = Dialogues.load(text)
+            life.order = mixed_order(life.train, tx)
+            life.train, life.text_added = concat(life.train, tx), True
+            log(f'text added: {tx.n} items; now {life.train.n} items, one text item after every 3 dialogues')
         if pool and not isinstance(life.env, CurriculumWorld):  # from now on: common dialogues first, repeated
             old = life.env
             life.env = CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool, grow,
@@ -95,7 +102,9 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
     env = life.env
     base = env.n_ex
     pool = env.pool(env.i) if isinstance(env, CurriculumWorld) else 200
-    worlds = [CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool,
+    order = getattr(life, 'order', None)
+    order = common_order(life.train) if order is None else order
+    worlds = [CurriculumWorld(life.train, life.coch, life.seed, order, pool,
                               max(1, grow // B), start=base * 7 + 1000003 * (k + 1)) for k in range(B)]
     bt = Batch(life, worlds)
     log(f'{B} children overhear side by side on one set of connections (pool {pool}, doubling every {grow} '

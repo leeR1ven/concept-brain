@@ -121,10 +121,11 @@ def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12):
     return out
 
 
-def common_order(dlgs, max_syl=40):
+def common_order(dlgs, max_syl=40, ref=None):
     """dialogue indices, the most ordinary first: by the mean log-frequency of their syllables (frequencies over the
-    whole set); dialogues longer than max_syl syllables go last"""
-    f = np.bincount(dlgs.syl.astype(np.int64), minlength=int(dlgs.syl.max()) + 1).astype(np.float64)
+    whole set, or over `ref`, e.g. everyday talk); dialogues longer than max_syl syllables go last"""
+    src = dlgs.syl if ref is None else ref.syl
+    f = np.bincount(src.astype(np.int64), minlength=max(int(src.max()), int(dlgs.syl.max())) + 1).astype(np.float64)
     lf = np.log(f + 1.0)[dlgs.syl.astype(np.int64)]
     a, b = dlgs.turn_off[dlgs.dlg_off[:-1]], dlgs.turn_off[dlgs.dlg_off[1:]]
     cs = np.concatenate([[0.0], np.cumsum(lf)])
@@ -154,3 +155,24 @@ class CurriculumWorld(DialogueWorld):
         rng = np.random.default_rng([self.seed, 7000, i])
         pre = int(rng.integers(*self.gap_dlg))
         return script_dialogue(self.D, d, rng, self.gap_turn, pre)
+
+
+def concat(a, b):
+    """dialogues of a, then items of b, as one Dialogues"""
+    return Dialogues(np.concatenate([a.syl, b.syl]),
+                     np.concatenate([a.turn_off, b.turn_off[1:] + a.turn_off[-1]]),
+                     np.concatenate([a.dlg_off, b.dlg_off[1:] + a.dlg_off[-1]]))
+
+
+def mixed_order(a, b, every=3):
+    """a's items ordered by commonness, with one of b's (also by commonness) after every `every` of a's"""
+    oa, ob = common_order(a), common_order(b, ref=a)        # text: ordinary by the measure of everyday talk
+    blen = b.turn_off[b.dlg_off[1:]] - b.turn_off[b.dlg_off[:-1]]
+    ob = ob[blen[ob] >= 8] + a.n                      # text items shorter than 8 syllables (list numbers etc.) left out
+    out, j = [], 0
+    for i, d in enumerate(oa):
+        out.append(d)
+        if (i + 1) % every == 0 and j < len(ob):
+            out.append(ob[j])
+            j += 1
+    return np.array(out + list(ob[j:]), np.int64)
