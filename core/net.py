@@ -106,7 +106,8 @@ class Links:
     learned=False: fixed birth weights, raw drive. learned=True: grown by the one rule, decayed by the one decay, and
     propagated with two-layer weights (ARCH 三 前额叶: drive = gain * w / sqrt(out-total * in-total)).
     plain=True (the hippocampus, ARCH 三 海马体): its own growth rule. While A is on, A->B grows by the full step
-    eta when B rises (in order, no concave slowing); the drive is the raw sum of weights; it decays fast."""
+    eta when B rises (in order, no concave slowing), so one experience leaves a strong link. The drive is still the
+    two-layer weight, so units that are often on do not drown the recall."""
 
     def __init__(self, idx, w, n_post, c, learned=True, gain=1.0, gamma=1.0, name='', plain=False):
         self.idx = torch.as_tensor(idx, dtype=torch.int64, device=DEV)
@@ -127,9 +128,7 @@ class Links:
         a = torch.nonzero(act).squeeze(1)
         if a.numel():
             ix, w = self.idx[a], self.w[a]
-            if self.plain:
-                w = self.gain * w
-            elif self.learned:
+            if self.learned:
                 r = self.c['w_ref']
                 w = self.gain * w / torch.sqrt(self.out[a].clamp_min(r)[:, None] * self.inn[ix].clamp_min(r))
             out.index_add_(0, ix.reshape(-1), w.reshape(-1))

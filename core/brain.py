@@ -126,8 +126,8 @@ def reciprocal_loop(ff, n1, fan):
 
 class PFC:
     """ARCH 三 前额叶. L1 = the copies. L2, L3, L4 = one unit per L1 position, made by the one generator (二.4),
-    fixed, each unit's own threshold at L1's birth density (input count = output count). L4 lights exactly as many
-    units as L3 (六). L4(t) -> L1(t+1): the birth loop (holds a thought) and learned links to near copies (what comes
+    fixed, each unit's own threshold at L1's birth density. L4 (the output) lights exactly as many units as L1 (the
+    input) (六). L4(t) -> L1(t+1): the birth loop (holds a thought) and learned links to near copies (what comes
     next); L4 <-> L4 learned links (related units excite each other), kept weak (六)."""
 
     def __init__(self, ch, c, rng):
@@ -171,7 +171,7 @@ class PFC:
             x_int = x_int | self.force_int
         n2 = self.ff[0].drive(self.L1.on) > self.thr2
         n3 = self.ff[1].drive(self.L2.on) > self.thr3
-        n4 = topk_on(self.ff[2].drive(self.L3.on) + self.L44.drive(a4), self.L3.on.sum())
+        n4 = topk_on(self.ff[2].drive(self.L3.on) + self.L44.drive(a4), self.L1.on.sum())   # output = input count
         self.L1ext.set(x_ext)
         self.L1.set(x_ext | x_int)
         self.L2.set(n2)

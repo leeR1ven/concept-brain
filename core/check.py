@@ -1,6 +1,6 @@
 """Quick check of a newborn (minutes). Prints one number per item:
-  1 counts per layer (silence / speech) and the PFC layer ratios
-  2 does every layer still tell syllables apart (cross-voice decoding of 34 syllables; same minus different cosine)
+  1 counts per layer (silence / speech) and the PFC's output / input count
+  2 do the PFC's input and output layers tell syllables apart (cross-voice decoding of 34; same minus different cosine)
   3 does the PFC hold a heard line (cross-voice decoding of the 32 questions from L4, 0 / 6 / 12 ticks after the end)
   4 thinking a syllable: is it said (clear / garble / silent)
   5 one-shot memory: a question and answer heard once (learning on), then 300 ticks of other dialogue, then the
@@ -48,8 +48,7 @@ def counts(life, n=20):
     out = {k: [round(float(R[~lab, i].mean()), 1), round(float(R[lab, i].mean()), 1)] for i, k in enumerate(names)}
     m = R.mean(0)
     ix = {k: i for i, k in enumerate(names)}
-    out['ratios L2/L1 L3/L2 L4/L3'] = [round(float(m[ix[a]] / m[ix[b_]].clamp_min(1)), 2)
-                                      for a, b_ in (('L2', 'L1'), ('L3', 'L2'), ('L4', 'L3'))]
+    out['PFC output / input (L4 / L1)'] = round(float(m[ix['L4']] / m[ix['L1']].clamp_min(1)), 2)
     return out
 
 
@@ -62,7 +61,7 @@ def layer_patterns(life, script, wins):
 
 
 def distinct(life):
-    wins = {'L1ext': (5, 11), 'L2': (6, 12), 'L3': (7, 13), 'L4': (8, 14)}
+    wins = {'L1ext': (5, 11), 'L4': (8, 14)}                     # the PFC's input and output layers
     pats = {v: [layer_patterns(life, [None] * 4 + [(x, v, 1.0)] * 3 + [None] * 12, wins) for x in range(NSYL)]
             for v in (C1, D1)}
     return {k: decode(torch.stack([q[k] for q in pats[C1]]), torch.stack([q[k] for q in pats[D1]])) for k in wins}
