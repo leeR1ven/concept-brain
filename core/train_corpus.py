@@ -25,6 +25,7 @@ def main():
     ckpt, save_min = over.pop('ckpt', None), over.pop('save_min', 120)
     load = over.pop('load', ckpt)                             # continue from this save (default: ckpt itself)
     pool, grow = over.pop('pool', 0), over.pop('grow_every', 5000)
+    B = over.pop('batch', 1)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -50,6 +51,8 @@ def main():
         life = CorpusLife(c, seed, data)
         start, nxt = life.env.n_ex, probe
         print('PROBE', 0, json.dumps(life.reply_ranks()), flush=True)
+    if B > 1:                                       # many children, one set of connections (core/batch.py)
+        return run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow)
     b, w = life.brain, life.env
     names = b.count_names() + ['L4 stuck %', 'Hs stuck %']
     acc, k, t = torch.zeros(len(names), device=DEV), 0, 0
@@ -84,6 +87,46 @@ def main():
         tb.w.zero_()
     b.hip.usual.zero_()
     print('HIPPOCAMPUS CLEARED', json.dumps(dict(before=before, after=life.reply_ranks())), flush=True)
+    log('done')
+
+
+def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
+    from .batch import Batch
+    env = life.env
+    base = env.n_ex
+    pool = env.pool(env.i) if isinstance(env, CurriculumWorld) else 200
+    worlds = [CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool,
+                              max(1, grow // B), start=base * 7 + 1000003 * (k + 1)) for k in range(B)]
+    bt = Batch(life, worlds)
+    log(f'{B} children overhear side by side on one set of connections (pool {pool}, doubling every {grow} '
+        f'dialogues in all)')
+    names = life.brain.count_names() + ['L4 stuck %', 'Hs stuck %']
+    acc, k, t, saved_at, t0 = torch.zeros(len(names), device=DEV), 0, 0, time.time(), time.time()
+    h4, hs = [], []
+    while base + bt.n_ex() - start < n:
+        bt.tick()
+        h4 = (h4 + [bt.L4.on[0].clone()])[-4:]
+        hs = (hs + [bt.Hs.on[0].clone()])[-4:]
+        st = [(h[-1] & h[0]).sum() / h[-1].sum().clamp_min(1) * 100 if len(h) == 4 else torch.zeros((), device=DEV)
+              for h in (h4, hs)]
+        acc += torch.cat([bt.counts(), torch.stack(st).float()])
+        k += 1
+        t += 1
+        done = base + bt.n_ex() - start
+        if t % every == 0:
+            print('COUNT', done, f'{(time.time() - t0) / t * 1000:.0f} ms/tick for {B}',
+                  json.dumps({nm: round(v) for nm, v in zip(names, (acc / k).tolist())}), flush=True)
+            acc.zero_()
+            k = 0
+        if done >= nxt:
+            print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
+            nxt += probe
+        if ckpt and time.time() - saved_at > save_min * 60:
+            env.n_ex = base + bt.n_ex()                 # the dialogues heard in all, kept with the life
+            torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
+            os.replace(ckpt + '.tmp', ckpt)
+            saved_at = time.time()
+            log(f'saved at {done} dialogues')
     log('done')
 
 
