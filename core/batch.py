@@ -1,7 +1,8 @@
 """Many children, one set of connections (a development speed-up, ARCH 五 "开发时可以用等价的程序加速，要登记").
 B copies of the neuron states run side by side on one brain's connections; each copy hears its own dialogue; every
 tick the learned changes of all copies are added into the one set of connections. Per heard tick each change is the
-same as in a single life; decay keeps its rate per heard tick (every decay_every / B ticks). The brain's own single
+same as in a single life; decay and each unit's usual level keep their rates per heard tick (every decay_every / B
+ticks; usual level moved B / tau_usual of the way per tick). The brain's own single
 state is left alone, so saving, probes and talking work on it as before. Speech wiring (G1P, pools) is not batched:
 the child only overhears here."""
 import math
@@ -109,6 +110,7 @@ class Batch:
         self.muscles = torch.zeros((B, 24), dtype=torch.bool, device=DEV)
         self.t = 0
         self.decay_every = max(1, round(b.c['decay_every'] / B))
+        self.adapt = min(1.0, B / b.c['tau_usual'])          # each unit's usual level also moves per heard tick
 
     def n_ex(self):
         return sum(w.n_ex for w in self.worlds)
@@ -128,11 +130,11 @@ class Batch:
             src = x[:, :cc.n_src]
             e = fdrive(cc.birth, src) + ldrive(cc.learned, src) - cc.usual
             if learning:
-                cc.usual += e.mean(0) / c['tau_usual']
+                cc.usual += e.mean(0) * self.adapt
             e = e + c['g_ret'] * cc.win * self.rc
             on = topk_rows(e, torch.full((B,), cc.k, device=DEV))
             if learning and on.any():
-                cc.win += (e[on].mean() - cc.win) / c['tau_usual']
+                cc.win += (e[on].mean() - cc.win) * self.adapt
             self.csrc.set(src)
             self.cpop.set(on)
         # sound area: layer 1 reads this tick's input, layer l the layer below one tick earlier; returns from t-1
@@ -162,7 +164,7 @@ class Batch:
         d1 = ldrive(p.loop, a4) + ldrive(p.L41, a4)
         e1 = d1 - p.usual
         if learning:
-            p.usual += (d1 - p.usual).mean(0) / c['tau_usual']
+            p.usual += (d1 - p.usual).mean(0) * self.adapt
         x_int = (e1 > c['theta1']) & topk_rows(e1, c['context'] * x.sum(1))
         n2 = fdrive(p.ff[0], self.L1.on) > p.thr2
         n3 = fdrive(p.ff[1], self.L2.on) > p.thr3
@@ -176,7 +178,7 @@ class Batch:
         ah = self.Hs.on
         eh = ldrive(h.H1t, ah) - h.usual
         if learning:
-            h.usual += eh.mean(0) / c['tau_usual']
+            h.usual += eh.mean(0) * self.adapt
         h_int = topk_rows(eh, c['context'] * x.sum(1))
         hs = topk_rows(fdrive(h.rec, self.H1.on) + ldrive(h.HH, ah), torch.full((B,), c['kh'], device=DEV))
         self.H1ext.set(x)
