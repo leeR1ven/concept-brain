@@ -200,8 +200,8 @@ class PFC:
 
 # ============================================================================================ hippocampus
 class Hippocampus:
-    """ARCH 三 海马体: copies H1 -> its own population Hs (random birth input, no birth recurrence, a fixed count kh
-    per tick) -> learned Hs <-> Hs and Hs -> H1 links that grow and decay fast. Recall lights H1 copies; their
+    """ARCH 三 海马体: copies H1 -> its own population Hs (nh x s units: random birth input, no birth recurrence, a
+    fixed count kh per tick, so it gets sparser as the brain grows; partners per unit stay fixed) -> learned Hs <-> Hs and Hs -> H1 links that grow and decay fast. Recall lights H1 copies; their
     returns light the source units, which reach the PFC through the chains."""
 
     def __init__(self, n1, c, rng):
@@ -209,9 +209,9 @@ class Hippocampus:
         nh = c['nh'] * s
         self.c, self.nh = c, nh
         self.rec = Fixed(rng.integers(0, n1, (nh, c['rec_fan'])), rng.uniform(0.5, 1.5, (nh, c['rec_fan'])))
-        self.HH = Links(random_lists(nh, nh, c['n_hh'] * s, rng, True), 0.0, nh, c, gain=c['g_hh'],
+        self.HH = Links(random_lists(nh, nh, c['n_hh'], rng, True), 0.0, nh, c, gain=c['g_hh'],
                         gamma=c['gamma_hip'], name='Hs<->Hs')     # internal links: the cortex's rule
-        self.H1t = Links(random_lists(nh, n1, c['n_h1'] * s, rng), 0.0, n1, c,
+        self.H1t = Links(random_lists(nh, n1, c['n_h1'], rng), 0.0, n1, c,
                          gamma=c['gamma_hip'], name='Hs->H1', plain=True)
         self.H1, self.H1ext, self.Hs = Pop(n1), Pop(n1), Pop(nh)
         self.h_int = torch.zeros(n1, dtype=torch.bool, device=DEV)
