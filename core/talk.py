@@ -58,12 +58,13 @@ def main():
         sc = listen(sylls, keep=True)                  # the conversation goes on: state is kept
         print(f'\nsaid:    {sent.strip()}')
         for k in ('pfc', 'hip'):
-            parts = []
-            for w in sc[k]:
-                top = torch.topk(w - base[k], 6)
-                parts.append(' '.join(name(sid[i]) for i, v in zip(top.indices.tolist(), top.values.tolist())
-                                      if v > 0) or '-')
-            print(f'{"thinks:" if k == "pfc" else "recalls:"} ' + '  |  '.join(parts), flush=True)
+            for label, sub in (('', 0.0), (' (above usual)', base[k])):
+                parts = []
+                for w in sc[k]:
+                    top = torch.topk(w - sub, 6)
+                    parts.append(' '.join(name(sid[i]) for i, v in zip(top.indices.tolist(), top.values.tolist())
+                                          if v > 0) or '-')
+                print(f'{"thinks" if k == "pfc" else "recalls"}{label}: ' + '  |  '.join(parts), flush=True)
 
 
 if __name__ == '__main__':

@@ -87,9 +87,10 @@ class Chains:
     def seg(self, kind):
         return [s for s in self.segs if s[0] == kind]
 
-    def gather(self, sound, touch, force, stop):
+    def gather(self, sound, touch, force, stop, concept=None):
         return torch.cat([sound[l][ix] for l, ix in enumerate(self.sound_idx)] +
-                         [touch[l][ix] for l, ix in enumerate(self.touch_idx)] + [force, stop])
+                         [touch[l][ix] for l, ix in enumerate(self.touch_idx)] + [force, stop] +
+                         ([] if concept is None else [concept]))
 
     def scatter(self, R, sound_n, touch_n):
         """returns R (bool [n]) to its own sources"""
@@ -102,17 +103,19 @@ class Chains:
                 rt[l][self.touch_idx[l]] = R[a:b].float()
             elif kind == 'force':
                 rf = R[a:b].float()
-            else:
+            elif kind == 'stop':
                 rp = R[a:b]
+            else:
+                self.ret_concept = R[a:b].float()
         return rs, rt, rf, rp
 
 
 # ============================================================================================ PFC
-def reciprocal_loop(ff, n1, fan):
+def reciprocal_loop(ff, n1, fan, rows=None):
     """ARCH 三 前额叶 birth loop: each last-layer unit returns to the `fan` first-layer copies with the largest path
-    weight into it (through L3 and L2)"""
+    weight into it (through L3 and L2); rows: only these last-layer units"""
     out = []
-    i3, w3 = ff[2].idx, ff[2].w
+    i3, w3 = (ff[2].idx, ff[2].w) if rows is None else (ff[2].idx[rows], ff[2].w[rows])
     for a in range(0, i3.shape[0], 256):
         i2 = ff[1].idx[i3[a:a + 256]]
         p2 = w3[a:a + 256, :, None] * ff[1].w[i3[a:a + 256]]
@@ -368,15 +371,22 @@ class Brain:
         return [x.clone() for x in st]
 
     def plastic(self):
-        return self.pfc.plastic() + self.hip.plastic() + self.motor.plastic()
+        cc = getattr(self, 'concept', None)
+        return self.pfc.plastic() + self.hip.plastic() + self.motor.plastic() + ([] if cc is None else [cc.learned])
 
     def pops(self):
-        return self.pfc.pops() + self.hip.pops() + self.motor.pops()
+        cc = getattr(self, 'concept', None)
+        return self.pfc.pops() + self.hip.pops() + self.motor.pops() + ([] if cc is None else [cc.pop, cc.src])
 
     def step(self, a0, r=0.0):
         assert a0.dtype == torch.bool and tuple(a0.shape) == (self.n0,), 'the brain receives only the input bits'
         ch = self.chains
-        x_ext = ch.gather(self.sound.state, self.touch.state, self.motor.force.on, self.motor.stop.on)   # t-1
+        cc = getattr(self, 'concept', None)
+        x_ext = ch.gather(self.sound.state, self.touch.state, self.motor.force.on, self.motor.stop.on,
+                          None if cc is None else cc.pop.on)                                           # t-1
+        if cc is not None:                                 # the shared concept area reads every sensory feature
+            cc.adapt = self.learning
+            cc.step(x_ext[:cc.n_src], getattr(ch, 'ret_concept', None))
         self.sound.step(a0, self.ret_sound)
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
         cnt = torch.zeros(24, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
@@ -391,6 +401,8 @@ class Brain:
             self.pfc.learn()
             self.hip.learn()
             self.motor.learn()
+            if cc is not None:
+                cc.learn()
             self.rlog.append((self.t, [(tb, rows, d) for tb in tabs for rows, d in tb.log]))
             while self.rlog and self.t - self.rlog[0][0] >= self.c['r_win']:
                 self.rlog.popleft()
@@ -427,7 +439,8 @@ class Brain:
     def snapshot(self):
         return dict(sound=[x.clone() for x in self.sound.state], touch=[x.clone() for x in self.touch.state],
                     rs=[x.clone() for x in self.ret_sound], rt=[x.clone() for x in self.ret_touch],
-                    rf=self.ret_force.clone(), rp=self.ret_stop.clone(), pops=[p.state() for p in self.pops()])
+                    rf=self.ret_force.clone(), rp=self.ret_stop.clone(), pops=[p.state() for p in self.pops()],
+                    rc=getattr(self.chains, 'ret_concept', None))
 
     def restore(self, sn):
         self.sound.state = [x.clone() for x in sn['sound']]
@@ -437,14 +450,19 @@ class Brain:
         self.ret_force, self.ret_stop = sn['rf'].clone(), sn['rp'].clone()
         for p, st in zip(self.pops(), sn['pops']):
             p.load(st)
+        if sn.get('rc') is not None:
+            self.chains.ret_concept = sn['rc'].clone()
 
     def counts(self):
         p, h = self.pfc, self.hip
         v = [x.sum() for x in self.sound.state] + [p.L1ext.on.sum(), p.x_int.sum(), p.L1.on.sum(), p.L2.on.sum(),
                                                    p.L3.on.sum(), p.L4.on.sum(), h.h_int.sum(), h.Hs.on.sum(),
                                                    self.motor.force.on.sum(), self.motor.stop.on.sum()]
+        if getattr(self, 'concept', None) is not None:
+            v.append(self.concept.pop.on.sum())
         return torch.stack(v)
 
     def count_names(self):
         return [f'A{l + 1}' for l in range(len(self.sound.n))] + \
-            ['L1ext', 'L1int', 'L1', 'L2', 'L3', 'L4', 'H1int', 'Hs', 'force', 'stop']
+            ['L1ext', 'L1int', 'L1', 'L2', 'L3', 'L4', 'H1int', 'Hs', 'force', 'stop'] + \
+            (['concept'] if getattr(self, 'concept', None) is not None else [])

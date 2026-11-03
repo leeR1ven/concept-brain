@@ -23,11 +23,21 @@ def main():
     over = {k: json.loads(v) for k, v in (a.split('=', 1) for a in rest if '=' in a)}
     every, probe, seed = over.pop('every', 4000), over.pop('probe', 2000), over.pop('seed', 0)
     ckpt, save_min = over.pop('ckpt', None), over.pop('save_min', 120)
+    load = over.pop('load', ckpt)                             # continue from this save (default: ckpt itself)
     pool, grow = over.pop('pool', 0), over.pop('grow_every', 5000)
-    if ckpt and os.path.exists(ckpt):
-        st = torch.load(ckpt, weights_only=False)
+    if ckpt and os.path.exists(ckpt if load is None else load):
+        load = load or ckpt
+        st = torch.load(load, weights_only=False)
         life, start, nxt = st['life'], st['start'], st['next_probe']
-        log(f'continued from {ckpt}: {life.env.n_ex - start} dialogues so far')
+        log(f'continued from {load}: {life.env.n_ex - start} dialogues so far')
+        for k_, v_ in config(**{'levels_per_s': 4, 'n_brake': 20}).items():   # parameters added since the save
+            life.c.setdefault(k_, v_)
+        if over.pop('grow_concept', 0) and getattr(life.brain, 'concept', None) is None:
+            from .grow import add_concept                    # the shared concept area grows into the living brain
+            add_concept(life)
+            torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
+            os.replace(ckpt + '.tmp', ckpt)
+            log(f'saved with the concept area at {life.env.n_ex - start} dialogues')
         if pool and not isinstance(life.env, CurriculumWorld):  # from now on: common dialogues first, repeated
             old = life.env
             life.env = CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool, grow,
