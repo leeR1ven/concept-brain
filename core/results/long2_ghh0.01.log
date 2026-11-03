@@ -1,0 +1,129 @@
+11:20:22 birth: 8197 ticks, 200 dialogues
+11:20:26 brain: sound [2160, 2160, 2160, 2160], touch [768, 768], PFC 9486 x 4, hippocampus 20000, motor 192 force; birth density 0.065
+11:20:30 generation 0: {'G1P': {'units': 952, 'per_syllable': [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 10, 30, 30, 30, 30, 30, 30, 30, 16, 4, 30, 22, 30], 'gain': 0.0017441862728446722}, 'pools': {'groups': 68, 'per_group': 16, 'gain_exc': 0.009492187760770321, 'gain_inh': 0.012656250968575478}}
+PROBE 0 {"pfc": 15.0, "hip": 34.0}
+COUNT 44 7 ms/tick {"A1": 86, "A2": 238, "A3": 222, "A4": 163, "L1ext": 737, "L1int": 65, "L1": 762, "L2": 534, "L3": 484, "L4": 727, "H1int": 73, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 41, "Hs stuck %": 8}
+COUNT 98 7 ms/tick {"A1": 103, "A2": 283, "A3": 259, "A4": 186, "L1ext": 865, "L1int": 79, "L1": 900, "L2": 607, "L3": 541, "L4": 871, "H1int": 86, "Hs": 50, "force": 0, "stop": 35, "L4 stuck %": 56, "Hs stuck %": 2}
+COUNT 146 7 ms/tick {"A1": 90, "A2": 246, "A3": 228, "A4": 170, "L1ext": 763, "L1int": 70, "L1": 795, "L2": 547, "L3": 495, "L4": 770, "H1int": 76, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 50, "Hs stuck %": 8}
+COUNT 193 7 ms/tick {"A1": 87, "A2": 238, "A3": 221, "A4": 164, "L1ext": 739, "L1int": 67, "L1": 771, "L2": 530, "L3": 475, "L4": 747, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 49, "Hs stuck %": 9}
+COUNT 240 7 ms/tick {"A1": 88, "A2": 238, "A3": 220, "A4": 165, "L1ext": 739, "L1int": 66, "L1": 770, "L2": 526, "L3": 469, "L4": 738, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 48, "Hs stuck %": 10}
+PROBE 250 {"pfc": 16.0, "hip": 9.8}
+COUNT 285 7 ms/tick {"A1": 87, "A2": 239, "A3": 222, "A4": 168, "L1ext": 745, "L1int": 67, "L1": 777, "L2": 538, "L3": 485, "L4": 747, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 47, "Hs stuck %": 9}
+COUNT 340 7 ms/tick {"A1": 101, "A2": 276, "A3": 255, "A4": 190, "L1ext": 856, "L1int": 76, "L1": 894, "L2": 614, "L3": 550, "L4": 858, "H1int": 85, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 57, "Hs stuck %": 2}
+COUNT 386 7 ms/tick {"A1": 86, "A2": 233, "A3": 213, "A4": 159, "L1ext": 718, "L1int": 65, "L1": 751, "L2": 510, "L3": 456, "L4": 720, "H1int": 71, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 47, "Hs stuck %": 9}
+COUNT 435 7 ms/tick {"A1": 86, "A2": 233, "A3": 215, "A4": 161, "L1ext": 724, "L1int": 65, "L1": 756, "L2": 520, "L3": 466, "L4": 727, "H1int": 72, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 50, "Hs stuck %": 10}
+COUNT 484 7 ms/tick {"A1": 87, "A2": 238, "A3": 218, "A4": 164, "L1ext": 735, "L1int": 66, "L1": 768, "L2": 529, "L3": 475, "L4": 739, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 49, "Hs stuck %": 9}
+PROBE 500 {"pfc": 11.3, "hip": 8.3}
+COUNT 530 7 ms/tick {"A1": 85, "A2": 233, "A3": 215, "A4": 161, "L1ext": 723, "L1int": 64, "L1": 754, "L2": 520, "L3": 469, "L4": 721, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 47, "Hs stuck %": 9}
+COUNT 580 7 ms/tick {"A1": 91, "A2": 250, "A3": 231, "A4": 173, "L1ext": 776, "L1int": 70, "L1": 811, "L2": 559, "L3": 502, "L4": 782, "H1int": 77, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 53, "Hs stuck %": 6}
+COUNT 631 7 ms/tick {"A1": 96, "A2": 264, "A3": 245, "A4": 185, "L1ext": 821, "L1int": 74, "L1": 856, "L2": 592, "L3": 535, "L4": 822, "H1int": 82, "Hs": 50, "force": 0, "stop": 32, "L4 stuck %": 54, "Hs stuck %": 5}
+COUNT 678 7 ms/tick {"A1": 86, "A2": 234, "A3": 216, "A4": 163, "L1ext": 727, "L1int": 66, "L1": 760, "L2": 530, "L3": 481, "L4": 732, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 48, "Hs stuck %": 10}
+COUNT 724 7 ms/tick {"A1": 91, "A2": 248, "A3": 229, "A4": 174, "L1ext": 771, "L1int": 71, "L1": 806, "L2": 560, "L3": 505, "L4": 782, "H1int": 77, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 51, "Hs stuck %": 9}
+PROBE 750 {"pfc": 11.8, "hip": 8.3}
+COUNT 773 7 ms/tick {"A1": 87, "A2": 237, "A3": 220, "A4": 164, "L1ext": 737, "L1int": 67, "L1": 770, "L2": 534, "L3": 478, "L4": 745, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 10}
+COUNT 820 7 ms/tick {"A1": 86, "A2": 234, "A3": 216, "A4": 162, "L1ext": 727, "L1int": 65, "L1": 760, "L2": 524, "L3": 472, "L4": 730, "H1int": 72, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 50, "Hs stuck %": 8}
+COUNT 878 7 ms/tick {"A1": 99, "A2": 272, "A3": 252, "A4": 190, "L1ext": 844, "L1int": 76, "L1": 882, "L2": 609, "L3": 547, "L4": 851, "H1int": 84, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 58, "Hs stuck %": 3}
+COUNT 930 7 ms/tick {"A1": 91, "A2": 250, "A3": 230, "A4": 173, "L1ext": 775, "L1int": 71, "L1": 809, "L2": 558, "L3": 501, "L4": 783, "H1int": 77, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 51, "Hs stuck %": 9}
+COUNT 979 7 ms/tick {"A1": 87, "A2": 238, "A3": 219, "A4": 165, "L1ext": 739, "L1int": 67, "L1": 771, "L2": 535, "L3": 479, "L4": 745, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 9}
+PROBE 1000 {"pfc": 13.5, "hip": 7.8}
+COUNT 1026 7 ms/tick {"A1": 86, "A2": 236, "A3": 218, "A4": 164, "L1ext": 732, "L1int": 65, "L1": 763, "L2": 529, "L3": 473, "L4": 730, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 9}
+COUNT 1074 7 ms/tick {"A1": 88, "A2": 241, "A3": 223, "A4": 167, "L1ext": 747, "L1int": 67, "L1": 778, "L2": 540, "L3": 487, "L4": 745, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 49, "Hs stuck %": 9}
+COUNT 1121 7 ms/tick {"A1": 87, "A2": 238, "A3": 221, "A4": 166, "L1ext": 741, "L1int": 68, "L1": 775, "L2": 534, "L3": 479, "L4": 751, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 48, "Hs stuck %": 9}
+COUNT 1176 7 ms/tick {"A1": 106, "A2": 290, "A3": 266, "A4": 202, "L1ext": 899, "L1int": 82, "L1": 937, "L2": 646, "L3": 580, "L4": 910, "H1int": 89, "Hs": 50, "force": 0, "stop": 35, "L4 stuck %": 62, "Hs stuck %": 2}
+COUNT 1223 7 ms/tick {"A1": 86, "A2": 234, "A3": 217, "A4": 165, "L1ext": 729, "L1int": 66, "L1": 762, "L2": 531, "L3": 482, "L4": 732, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 49, "Hs stuck %": 10}
+PROBE 1250 {"pfc": 15.4, "hip": 8.4}
+COUNT 1268 7 ms/tick {"A1": 90, "A2": 246, "A3": 225, "A4": 171, "L1ext": 762, "L1int": 69, "L1": 794, "L2": 546, "L3": 489, "L4": 768, "H1int": 76, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 53, "Hs stuck %": 9}
+COUNT 1316 7 ms/tick {"A1": 84, "A2": 229, "A3": 209, "A4": 153, "L1ext": 702, "L1int": 62, "L1": 732, "L2": 503, "L3": 451, "L4": 700, "H1int": 70, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 49, "Hs stuck %": 9}
+COUNT 1364 7 ms/tick {"A1": 88, "A2": 241, "A3": 221, "A4": 167, "L1ext": 746, "L1int": 67, "L1": 778, "L2": 539, "L3": 486, "L4": 744, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 48, "Hs stuck %": 10}
+COUNT 1417 7 ms/tick {"A1": 104, "A2": 284, "A3": 260, "A4": 196, "L1ext": 878, "L1int": 80, "L1": 919, "L2": 635, "L3": 573, "L4": 892, "H1int": 87, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 57, "Hs stuck %": 2}
+COUNT 1464 7 ms/tick {"A1": 85, "A2": 234, "A3": 214, "A4": 160, "L1ext": 720, "L1int": 65, "L1": 748, "L2": 511, "L3": 458, "L4": 718, "H1int": 71, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 53, "Hs stuck %": 10}
+PROBE 1500 {"pfc": 13.1, "hip": 8.3}
+COUNT 1508 7 ms/tick {"A1": 89, "A2": 244, "A3": 224, "A4": 168, "L1ext": 754, "L1int": 69, "L1": 786, "L2": 539, "L3": 481, "L4": 765, "H1int": 75, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 53, "Hs stuck %": 9}
+COUNT 1559 7 ms/tick {"A1": 84, "A2": 231, "A3": 212, "A4": 156, "L1ext": 710, "L1int": 64, "L1": 742, "L2": 504, "L3": 448, "L4": 719, "H1int": 71, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 1604 7 ms/tick {"A1": 88, "A2": 240, "A3": 221, "A4": 163, "L1ext": 741, "L1int": 68, "L1": 774, "L2": 529, "L3": 472, "L4": 750, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 1659 7 ms/tick {"A1": 103, "A2": 282, "A3": 260, "A4": 197, "L1ext": 875, "L1int": 79, "L1": 915, "L2": 636, "L3": 576, "L4": 879, "H1int": 87, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 57, "Hs stuck %": 2}
+COUNT 1706 7 ms/tick {"A1": 88, "A2": 242, "A3": 223, "A4": 171, "L1ext": 752, "L1int": 68, "L1": 783, "L2": 545, "L3": 490, "L4": 755, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 10}
+PROBE 1750 {"pfc": 14.3, "hip": 8.0}
+COUNT 1753 7 ms/tick {"A1": 90, "A2": 248, "A3": 228, "A4": 168, "L1ext": 764, "L1int": 70, "L1": 794, "L2": 548, "L3": 490, "L4": 775, "H1int": 76, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 55, "Hs stuck %": 10}
+COUNT 1797 7 ms/tick {"A1": 88, "A2": 241, "A3": 221, "A4": 164, "L1ext": 743, "L1int": 67, "L1": 773, "L2": 537, "L3": 481, "L4": 744, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 9}
+COUNT 1844 7 ms/tick {"A1": 86, "A2": 236, "A3": 219, "A4": 166, "L1ext": 735, "L1int": 67, "L1": 769, "L2": 536, "L3": 485, "L4": 739, "H1int": 73, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 47, "Hs stuck %": 10}
+COUNT 1900 7 ms/tick {"A1": 99, "A2": 273, "A3": 251, "A4": 190, "L1ext": 847, "L1int": 77, "L1": 886, "L2": 613, "L3": 555, "L4": 858, "H1int": 84, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 56, "Hs stuck %": 4}
+COUNT 1949 7 ms/tick {"A1": 90, "A2": 245, "A3": 223, "A4": 168, "L1ext": 755, "L1int": 68, "L1": 785, "L2": 538, "L3": 480, "L4": 757, "H1int": 75, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 54, "Hs stuck %": 9}
+COUNT 1997 7 ms/tick {"A1": 84, "A2": 229, "A3": 212, "A4": 162, "L1ext": 715, "L1int": 64, "L1": 745, "L2": 516, "L3": 465, "L4": 717, "H1int": 71, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 49, "Hs stuck %": 9}
+PROBE 2000 {"pfc": 14.7, "hip": 8.5}
+COUNT 2042 7 ms/tick {"A1": 88, "A2": 241, "A3": 223, "A4": 168, "L1ext": 749, "L1int": 68, "L1": 780, "L2": 541, "L3": 486, "L4": 755, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 2090 7 ms/tick {"A1": 86, "A2": 236, "A3": 217, "A4": 162, "L1ext": 729, "L1int": 66, "L1": 760, "L2": 524, "L3": 469, "L4": 731, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 50, "Hs stuck %": 9}
+COUNT 2140 7 ms/tick {"A1": 89, "A2": 244, "A3": 224, "A4": 167, "L1ext": 754, "L1int": 68, "L1": 786, "L2": 540, "L3": 483, "L4": 757, "H1int": 75, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 55, "Hs stuck %": 7}
+COUNT 2192 7 ms/tick {"A1": 98, "A2": 269, "A3": 248, "A4": 187, "L1ext": 834, "L1int": 75, "L1": 868, "L2": 600, "L3": 540, "L4": 835, "H1int": 83, "Hs": 50, "force": 0, "stop": 32, "L4 stuck %": 57, "Hs stuck %": 5}
+COUNT 2242 7 ms/tick {"A1": 85, "A2": 234, "A3": 215, "A4": 164, "L1ext": 725, "L1int": 65, "L1": 755, "L2": 522, "L3": 469, "L4": 727, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 50, "Hs stuck %": 10}
+PROBE 2250 {"pfc": 14.8, "hip": 7.3}
+COUNT 2287 7 ms/tick {"A1": 87, "A2": 238, "A3": 219, "A4": 168, "L1ext": 740, "L1int": 67, "L1": 771, "L2": 538, "L3": 486, "L4": 746, "H1int": 73, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 49, "Hs stuck %": 10}
+COUNT 2338 7 ms/tick {"A1": 87, "A2": 237, "A3": 217, "A4": 162, "L1ext": 731, "L1int": 66, "L1": 764, "L2": 526, "L3": 473, "L4": 734, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 48, "Hs stuck %": 9}
+COUNT 2385 7 ms/tick {"A1": 89, "A2": 244, "A3": 223, "A4": 170, "L1ext": 755, "L1int": 69, "L1": 789, "L2": 545, "L3": 492, "L4": 763, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 49, "Hs stuck %": 10}
+COUNT 2440 7 ms/tick {"A1": 101, "A2": 278, "A3": 257, "A4": 196, "L1ext": 865, "L1int": 78, "L1": 900, "L2": 625, "L3": 563, "L4": 869, "H1int": 86, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 62, "Hs stuck %": 3}
+COUNT 2488 7 ms/tick {"A1": 88, "A2": 242, "A3": 220, "A4": 163, "L1ext": 743, "L1int": 67, "L1": 775, "L2": 532, "L3": 475, "L4": 749, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 53, "Hs stuck %": 8}
+PROBE 2500 {"pfc": 14.8, "hip": 8.7}
+COUNT 2533 7 ms/tick {"A1": 86, "A2": 236, "A3": 218, "A4": 165, "L1ext": 735, "L1int": 66, "L1": 766, "L2": 531, "L3": 478, "L4": 740, "H1int": 73, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 52, "Hs stuck %": 8}
+COUNT 2580 7 ms/tick {"A1": 88, "A2": 240, "A3": 219, "A4": 164, "L1ext": 740, "L1int": 67, "L1": 770, "L2": 533, "L3": 478, "L4": 744, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 54, "Hs stuck %": 10}
+COUNT 2625 7 ms/tick {"A1": 88, "A2": 241, "A3": 221, "A4": 165, "L1ext": 744, "L1int": 68, "L1": 777, "L2": 533, "L3": 476, "L4": 752, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 50, "Hs stuck %": 9}
+COUNT 2680 7 ms/tick {"A1": 103, "A2": 284, "A3": 260, "A4": 195, "L1ext": 877, "L1int": 80, "L1": 919, "L2": 632, "L3": 569, "L4": 890, "H1int": 87, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 57, "Hs stuck %": 2}
+COUNT 2727 7 ms/tick {"A1": 91, "A2": 249, "A3": 229, "A4": 174, "L1ext": 771, "L1int": 71, "L1": 804, "L2": 554, "L3": 501, "L4": 780, "H1int": 77, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 53, "Hs stuck %": 9}
+PROBE 2750 {"pfc": 15.9, "hip": 7.7}
+COUNT 2776 7 ms/tick {"A1": 85, "A2": 234, "A3": 214, "A4": 161, "L1ext": 723, "L1int": 65, "L1": 755, "L2": 518, "L3": 462, "L4": 728, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 2822 7 ms/tick {"A1": 85, "A2": 234, "A3": 214, "A4": 162, "L1ext": 723, "L1int": 65, "L1": 757, "L2": 521, "L3": 466, "L4": 735, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 2867 7 ms/tick {"A1": 86, "A2": 234, "A3": 215, "A4": 164, "L1ext": 727, "L1int": 65, "L1": 759, "L2": 527, "L3": 475, "L4": 730, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 2920 7 ms/tick {"A1": 99, "A2": 271, "A3": 250, "A4": 188, "L1ext": 841, "L1int": 76, "L1": 874, "L2": 606, "L3": 543, "L4": 842, "H1int": 84, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 60, "Hs stuck %": 4}
+COUNT 2967 7 ms/tick {"A1": 90, "A2": 247, "A3": 229, "A4": 175, "L1ext": 771, "L1int": 70, "L1": 799, "L2": 552, "L3": 494, "L4": 773, "H1int": 76, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 55, "Hs stuck %": 9}
+PROBE 3000 {"pfc": 17.2, "hip": 8.0}
+COUNT 3017 7 ms/tick {"A1": 86, "A2": 237, "A3": 217, "A4": 164, "L1ext": 733, "L1int": 66, "L1": 765, "L2": 529, "L3": 475, "L4": 739, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 10}
+COUNT 3065 7 ms/tick {"A1": 89, "A2": 244, "A3": 223, "A4": 167, "L1ext": 753, "L1int": 69, "L1": 782, "L2": 536, "L3": 477, "L4": 759, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 55, "Hs stuck %": 9}
+COUNT 3114 7 ms/tick {"A1": 88, "A2": 242, "A3": 223, "A4": 169, "L1ext": 750, "L1int": 68, "L1": 782, "L2": 543, "L3": 487, "L4": 759, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 3161 7 ms/tick {"A1": 89, "A2": 244, "A3": 223, "A4": 164, "L1ext": 749, "L1int": 68, "L1": 778, "L2": 530, "L3": 471, "L4": 755, "H1int": 74, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 53, "Hs stuck %": 10}
+COUNT 3218 7 ms/tick {"A1": 102, "A2": 279, "A3": 256, "A4": 195, "L1ext": 866, "L1int": 79, "L1": 907, "L2": 628, "L3": 565, "L4": 874, "H1int": 86, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 56, "Hs stuck %": 2}
+PROBE 3250 {"pfc": 12.7, "hip": 8.8}
+COUNT 3264 7 ms/tick {"A1": 87, "A2": 241, "A3": 222, "A4": 169, "L1ext": 748, "L1int": 68, "L1": 782, "L2": 540, "L3": 487, "L4": 754, "H1int": 74, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 48, "Hs stuck %": 10}
+COUNT 3313 7 ms/tick {"A1": 85, "A2": 231, "A3": 211, "A4": 160, "L1ext": 715, "L1int": 64, "L1": 748, "L2": 520, "L3": 469, "L4": 715, "H1int": 71, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 47, "Hs stuck %": 9}
+COUNT 3358 7 ms/tick {"A1": 87, "A2": 238, "A3": 220, "A4": 169, "L1ext": 743, "L1int": 67, "L1": 776, "L2": 546, "L3": 499, "L4": 750, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 50, "Hs stuck %": 9}
+COUNT 3405 7 ms/tick {"A1": 87, "A2": 239, "A3": 218, "A4": 160, "L1ext": 731, "L1int": 66, "L1": 762, "L2": 521, "L3": 463, "L4": 736, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 9}
+COUNT 3455 7 ms/tick {"A1": 102, "A2": 279, "A3": 257, "A4": 190, "L1ext": 862, "L1int": 78, "L1": 896, "L2": 623, "L3": 561, "L4": 864, "H1int": 86, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 61, "Hs stuck %": 2}
+PROBE 3500 {"pfc": 14.2, "hip": 8.0}
+COUNT 3503 7 ms/tick {"A1": 88, "A2": 242, "A3": 222, "A4": 169, "L1ext": 750, "L1int": 68, "L1": 781, "L2": 543, "L3": 488, "L4": 752, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 10}
+COUNT 3550 7 ms/tick {"A1": 85, "A2": 234, "A3": 216, "A4": 166, "L1ext": 729, "L1int": 65, "L1": 758, "L2": 530, "L3": 478, "L4": 723, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 49, "Hs stuck %": 10}
+COUNT 3596 7 ms/tick {"A1": 88, "A2": 242, "A3": 222, "A4": 171, "L1ext": 752, "L1int": 69, "L1": 784, "L2": 542, "L3": 486, "L4": 763, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 10}
+COUNT 3642 7 ms/tick {"A1": 87, "A2": 239, "A3": 220, "A4": 167, "L1ext": 741, "L1int": 67, "L1": 773, "L2": 538, "L3": 485, "L4": 745, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 10}
+COUNT 3696 7 ms/tick {"A1": 101, "A2": 277, "A3": 255, "A4": 193, "L1ext": 860, "L1int": 78, "L1": 898, "L2": 630, "L3": 569, "L4": 870, "H1int": 85, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 61, "Hs stuck %": 2}
+COUNT 3744 7 ms/tick {"A1": 88, "A2": 242, "A3": 222, "A4": 168, "L1ext": 750, "L1int": 68, "L1": 780, "L2": 539, "L3": 484, "L4": 753, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 9}
+PROBE 3750 {"pfc": 12.2, "hip": 7.0}
+COUNT 3792 7 ms/tick {"A1": 87, "A2": 238, "A3": 218, "A4": 167, "L1ext": 739, "L1int": 67, "L1": 768, "L2": 533, "L3": 479, "L4": 742, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 53, "Hs stuck %": 9}
+COUNT 3841 7 ms/tick {"A1": 83, "A2": 229, "A3": 209, "A4": 156, "L1ext": 704, "L1int": 63, "L1": 734, "L2": 504, "L3": 452, "L4": 701, "H1int": 70, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 50, "Hs stuck %": 10}
+COUNT 3889 7 ms/tick {"A1": 88, "A2": 243, "A3": 223, "A4": 170, "L1ext": 754, "L1int": 69, "L1": 785, "L2": 548, "L3": 499, "L4": 760, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 11}
+COUNT 3940 7 ms/tick {"A1": 93, "A2": 255, "A3": 232, "A4": 175, "L1ext": 785, "L1int": 71, "L1": 818, "L2": 560, "L3": 498, "L4": 790, "H1int": 78, "Hs": 50, "force": 0, "stop": 31, "L4 stuck %": 57, "Hs stuck %": 6}
+COUNT 3992 7 ms/tick {"A1": 93, "A2": 255, "A3": 234, "A4": 178, "L1ext": 790, "L1int": 71, "L1": 825, "L2": 572, "L3": 517, "L4": 790, "H1int": 78, "Hs": 50, "force": 0, "stop": 31, "L4 stuck %": 53, "Hs stuck %": 6}
+PROBE 4000 {"pfc": 12.7, "hip": 8.8}
+COUNT 4035 7 ms/tick {"A1": 91, "A2": 249, "A3": 229, "A4": 175, "L1ext": 773, "L1int": 71, "L1": 805, "L2": 558, "L3": 503, "L4": 780, "H1int": 77, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 51, "Hs stuck %": 10}
+COUNT 4081 7 ms/tick {"A1": 83, "A2": 229, "A3": 210, "A4": 159, "L1ext": 709, "L1int": 63, "L1": 739, "L2": 507, "L3": 455, "L4": 709, "H1int": 70, "Hs": 50, "force": 0, "stop": 27, "L4 stuck %": 49, "Hs stuck %": 10}
+COUNT 4125 7 ms/tick {"A1": 86, "A2": 237, "A3": 218, "A4": 166, "L1ext": 735, "L1int": 66, "L1": 766, "L2": 526, "L3": 468, "L4": 737, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 50, "Hs stuck %": 10}
+COUNT 4180 7 ms/tick {"A1": 102, "A2": 281, "A3": 256, "A4": 189, "L1ext": 863, "L1int": 77, "L1": 900, "L2": 614, "L3": 543, "L4": 866, "H1int": 86, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 61, "Hs stuck %": 2}
+COUNT 4226 7 ms/tick {"A1": 90, "A2": 246, "A3": 226, "A4": 169, "L1ext": 761, "L1int": 70, "L1": 793, "L2": 550, "L3": 494, "L4": 770, "H1int": 76, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 53, "Hs stuck %": 9}
+PROBE 4250 {"pfc": 14.3, "hip": 8.3}
+COUNT 4274 7 ms/tick {"A1": 86, "A2": 235, "A3": 216, "A4": 165, "L1ext": 729, "L1int": 66, "L1": 760, "L2": 527, "L3": 475, "L4": 734, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 48, "Hs stuck %": 10}
+COUNT 4319 7 ms/tick {"A1": 85, "A2": 233, "A3": 214, "A4": 163, "L1ext": 724, "L1int": 66, "L1": 759, "L2": 529, "L3": 480, "L4": 734, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 46, "Hs stuck %": 11}
+COUNT 4369 7 ms/tick {"A1": 87, "A2": 238, "A3": 218, "A4": 165, "L1ext": 735, "L1int": 66, "L1": 769, "L2": 532, "L3": 482, "L4": 737, "H1int": 73, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 47, "Hs stuck %": 9}
+COUNT 4420 7 ms/tick {"A1": 103, "A2": 282, "A3": 257, "A4": 194, "L1ext": 869, "L1int": 79, "L1": 907, "L2": 622, "L3": 556, "L4": 874, "H1int": 86, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 60, "Hs stuck %": 3}
+COUNT 4466 7 ms/tick {"A1": 88, "A2": 240, "A3": 219, "A4": 168, "L1ext": 743, "L1int": 67, "L1": 773, "L2": 535, "L3": 481, "L4": 743, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 10}
+PROBE 4500 {"pfc": 11.7, "hip": 8.0}
+COUNT 4514 7 ms/tick {"A1": 89, "A2": 245, "A3": 226, "A4": 175, "L1ext": 764, "L1int": 70, "L1": 800, "L2": 557, "L3": 505, "L4": 775, "H1int": 76, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 50, "Hs stuck %": 10}
+COUNT 4562 7 ms/tick {"A1": 87, "A2": 238, "A3": 217, "A4": 164, "L1ext": 735, "L1int": 66, "L1": 762, "L2": 525, "L3": 472, "L4": 733, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 52, "Hs stuck %": 10}
+COUNT 4609 7 ms/tick {"A1": 89, "A2": 244, "A3": 222, "A4": 167, "L1ext": 751, "L1int": 68, "L1": 783, "L2": 541, "L3": 485, "L4": 759, "H1int": 75, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 54, "Hs stuck %": 8}
+COUNT 4660 7 ms/tick {"A1": 99, "A2": 272, "A3": 249, "A4": 187, "L1ext": 841, "L1int": 76, "L1": 880, "L2": 609, "L3": 547, "L4": 853, "H1int": 84, "Hs": 50, "force": 0, "stop": 33, "L4 stuck %": 61, "Hs stuck %": 2}
+COUNT 4709 7 ms/tick {"A1": 86, "A2": 237, "A3": 217, "A4": 163, "L1ext": 729, "L1int": 66, "L1": 763, "L2": 524, "L3": 468, "L4": 736, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 52, "Hs stuck %": 9}
+PROBE 4750 {"pfc": 14.3, "hip": 8.8}
+COUNT 4755 7 ms/tick {"A1": 85, "A2": 234, "A3": 213, "A4": 160, "L1ext": 720, "L1int": 65, "L1": 752, "L2": 517, "L3": 465, "L4": 723, "H1int": 72, "Hs": 50, "force": 0, "stop": 28, "L4 stuck %": 49, "Hs stuck %": 10}
+COUNT 4801 7 ms/tick {"A1": 87, "A2": 237, "A3": 216, "A4": 162, "L1ext": 731, "L1int": 66, "L1": 760, "L2": 519, "L3": 462, "L4": 736, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 10}
+COUNT 4849 7 ms/tick {"A1": 86, "A2": 237, "A3": 218, "A4": 163, "L1ext": 734, "L1int": 66, "L1": 766, "L2": 532, "L3": 480, "L4": 737, "H1int": 73, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 51, "Hs stuck %": 9}
+COUNT 4900 7 ms/tick {"A1": 102, "A2": 280, "A3": 256, "A4": 195, "L1ext": 868, "L1int": 80, "L1": 909, "L2": 629, "L3": 564, "L4": 888, "H1int": 86, "Hs": 50, "force": 0, "stop": 34, "L4 stuck %": 61, "Hs stuck %": 3}
+COUNT 4946 7 ms/tick {"A1": 91, "A2": 249, "A3": 231, "A4": 176, "L1ext": 776, "L1int": 71, "L1": 811, "L2": 566, "L3": 509, "L4": 787, "H1int": 77, "Hs": 50, "force": 0, "stop": 30, "L4 stuck %": 54, "Hs stuck %": 9}
+COUNT 4995 7 ms/tick {"A1": 87, "A2": 239, "A3": 220, "A4": 167, "L1ext": 741, "L1int": 67, "L1": 771, "L2": 530, "L3": 471, "L4": 749, "H1int": 74, "Hs": 50, "force": 0, "stop": 29, "L4 stuck %": 54, "Hs stuck %": 11}
+PROBE 5000 {"pfc": 11.4, "hip": 8.7}
+HIPPOCAMPUS CLEARED {"before": {"pfc": 11.5, "hip": 8.7}, "after": {"pfc": 12.5, "hip": 34.0}}
+11:45:01 done

@@ -17,7 +17,7 @@ def config(s=1, **over):
         tau_usual=1000,             # ticks over which a copy's own usual internal drive is averaged (ARCH 二.4)
         context=0.1,                # excitability: copies lit from inside <= context x the external input count (0.3 runs away)
         # hippocampus (ARCH 三 海马体): own population, fixed count kh; recall lights the context share most driven
-        nh=20000, kh=50, rec_fan=24, n_hh=500, n_h1=2000, g_hh=0.1,
+        nh=20000, kh=50, rec_fan=24, n_hh=500, n_h1=2000, g_hh=0.01,
         # motor (ARCH 三 运动区): m force neurons per muscle (x s), blockers, stop neurons, brake, collapse pools
         m=8, theta_m=0.3, b_block=1.2, c_stop=2.0, n_brake=8, theta_stop=1.0, g_ret_force=0.95,
         mc_n=16, mc_e=3.0, mc_i=4.0,

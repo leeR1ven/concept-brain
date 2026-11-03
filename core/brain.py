@@ -172,6 +172,7 @@ class PFC:
         if self.adapt:
             self.usual += (d1 - self.usual) / self.c['tau_usual']
         x_int = (e1 > self.c['theta1']) & topk_on(e1, self.c['context'] * x_ext.sum())
+        self.e1 = e1                                       # kept for probes (graded internal drive)
         if self.force_int is not None:
             x_int = x_int | self.force_int
         n2 = self.ff[0].drive(self.L1.on) > self.thr2
