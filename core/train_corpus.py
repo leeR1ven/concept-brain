@@ -11,6 +11,7 @@ import torch
 
 from .config import config
 from .corpus_life import CorpusLife
+from .world.corpus import CurriculumWorld, common_order
 from .life import log
 from .net import DEV
 
@@ -22,10 +23,17 @@ def main():
     over = {k: json.loads(v) for k, v in (a.split('=', 1) for a in rest if '=' in a)}
     every, probe, seed = over.pop('every', 4000), over.pop('probe', 2000), over.pop('seed', 0)
     ckpt, save_min = over.pop('ckpt', None), over.pop('save_min', 120)
+    pool, grow = over.pop('pool', 0), over.pop('grow_every', 5000)
     if ckpt and os.path.exists(ckpt):
         st = torch.load(ckpt, weights_only=False)
         life, start, nxt = st['life'], st['start'], st['next_probe']
         log(f'continued from {ckpt}: {life.env.n_ex - start} dialogues so far')
+        if pool and not isinstance(life.env, CurriculumWorld):  # from now on: common dialogues first, repeated
+            old = life.env
+            life.env = CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool, grow,
+                                       start=old.i)
+            life.env.n_ex, life.env.t = old.n_ex, old.t
+            log(f'curriculum: the {pool} most ordinary dialogues first, pool doubling every {grow} dialogues')
     else:
         # the big world's ear: 4 thermometer levels per channel x s; its brake lines need 20 x s lit for full drive
         c = config(**{'levels_per_s': 4, 'n_brake': 20, 'birth_dialogues': 80, **over})

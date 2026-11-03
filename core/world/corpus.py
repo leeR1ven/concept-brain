@@ -119,3 +119,36 @@ def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12):
         if j < len(turns) - 1:
             out += [None] * int(rng.integers(*gap_turn))
     return out
+
+
+def common_order(dlgs, max_syl=40):
+    """dialogue indices, the most ordinary first: by the mean log-frequency of their syllables (frequencies over the
+    whole set); dialogues longer than max_syl syllables go last"""
+    f = np.bincount(dlgs.syl.astype(np.int64), minlength=int(dlgs.syl.max()) + 1).astype(np.float64)
+    lf = np.log(f + 1.0)[dlgs.syl.astype(np.int64)]
+    a, b = dlgs.turn_off[dlgs.dlg_off[:-1]], dlgs.turn_off[dlgs.dlg_off[1:]]
+    cs = np.concatenate([[0.0], np.cumsum(lf)])
+    n = np.maximum(b - a, 1)
+    score = (cs[b] - cs[a]) / n - 100.0 * (n > max_syl)
+    return np.argsort(-score, kind='stable')
+
+
+class CurriculumWorld(DialogueWorld):
+    """the same world, but which dialogue comes next is drawn from a pool of the most ordinary dialogues; the pool
+    starts small (each dialogue heard many times) and doubles every `every` dialogues (more and more variety)"""
+
+    def __init__(self, dlgs, coch, seed, order, pool=200, every=5000, start=0, **kw):
+        self.order, self.pool0, self.every = order, pool, every
+        super().__init__(dlgs, coch, seed, start=start, **kw)
+
+    def pool(self, i):
+        return int(min(len(self.order), self.pool0 * 2 ** ((i - self.i0) // self.every)))
+
+    def _plan(self, i):
+        if not hasattr(self, 'i0'):
+            self.i0 = i
+        r = np.random.default_rng([self.seed, 7300, i])
+        d = int(self.order[r.integers(self.pool(i))])
+        rng = np.random.default_rng([self.seed, 7000, i])
+        pre = int(rng.integers(*self.gap_dlg))
+        return script_dialogue(self.D, d, rng, self.gap_turn, pre)
