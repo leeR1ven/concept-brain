@@ -9,7 +9,7 @@ def config(s=1, **over):
         lineage_seed=4321, birth_dialogues=200,
         # local nets, the same for every area (ARCH 二.4): K inputs per unit, units per grid position, windows by depth
         K=6, upp=2, dy=(1, 2, 4, 8), dz=(2, 3, 4, 6),
-        sound_rates=(0.20, 0.12, 0.08, 0.05), touch_rates=(0.20, 0.12),     # fewer lit deeper (ARCH 二.5)
+        sound_rates=(0.08, 0.048, 0.032, 0.02), touch_rates=(0.08, 0.048),  # fewer lit deeper (二.5); PFC under 5 % (designer 11-03)
         band=(0.002, 0.6),          # birth firing rate of a feature unit; outside it: no chain (ARCH 三 链式神经元)
         g_ret=1.05,                 # a return alone lights its unit (x the unit's own threshold)
         # PFC (ARCH 三 前额叶)

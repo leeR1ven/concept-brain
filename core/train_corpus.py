@@ -1,6 +1,9 @@
-"""A long life in the big dialogue world, watched as it goes (same output as train.py).
-Usage: python -u -m core.train_corpus <data dir> [dialogues] [key=value ...]   e.g. s=4"""
+"""A long life in the big dialogue world, watched as it goes (same output as train.py). With ckpt=<path> the whole
+life is saved every save_min minutes and a later run with the same ckpt continues it (chained jobs).
+Usage: python -u -m core.train_corpus <data dir> [dialogues] [key=value ...]   e.g. s=4 ckpt="/x/life.pt"
+"""
 import json
+import os
 import sys
 import time
 
@@ -18,13 +21,21 @@ def main():
     n = int(rest[0]) if rest and '=' not in rest[0] else 100000
     over = {k: json.loads(v) for k, v in (a.split('=', 1) for a in rest if '=' in a)}
     every, probe, seed = over.pop('every', 4000), over.pop('probe', 2000), over.pop('seed', 0)
-    # the big world's ear: 4 thermometer levels per channel x s; its brake lines need 20 x s lit for full drive
-    c = config(**{'levels_per_s': 4, 'n_brake': 20, 'birth_dialogues': 80, **over})
-    life = CorpusLife(c, seed, data)
+    ckpt, save_min = over.pop('ckpt', None), over.pop('save_min', 120)
+    if ckpt and os.path.exists(ckpt):
+        st = torch.load(ckpt, weights_only=False)
+        life, start, nxt = st['life'], st['start'], st['next_probe']
+        log(f'continued from {ckpt}: {life.env.n_ex - start} dialogues so far')
+    else:
+        # the big world's ear: 4 thermometer levels per channel x s; its brake lines need 20 x s lit for full drive
+        c = config(**{'levels_per_s': 4, 'n_brake': 20, 'birth_dialogues': 80, **over})
+        life = CorpusLife(c, seed, data)
+        start, nxt = life.env.n_ex, probe
+        print('PROBE', 0, json.dumps(life.reply_ranks()), flush=True)
     b, w = life.brain, life.env
     names = b.count_names() + ['L4 stuck %', 'Hs stuck %']
-    print('PROBE', 0, json.dumps(life.reply_ranks()), flush=True)
-    acc, k, t, start, nxt = torch.zeros(len(names), device=DEV), 0, 0, w.n_ex, probe
+    acc, k, t = torch.zeros(len(names), device=DEV), 0, 0
+    saved_at = time.time()
     h4, hs = [], []
     b.learning = True
     t0 = time.time()
@@ -45,6 +56,11 @@ def main():
         if w.n_ex - start >= nxt:
             print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
             nxt += probe
+        if ckpt and time.time() - saved_at > save_min * 60:
+            torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
+            os.replace(ckpt + '.tmp', ckpt)
+            saved_at = time.time()
+            log(f'saved at {w.n_ex - start} dialogues')
     before = life.reply_ranks()
     for tb in b.hip.plastic():
         tb.w.zero_()
