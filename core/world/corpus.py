@@ -135,7 +135,9 @@ def common_order(dlgs, max_syl=40):
 
 class CurriculumWorld(DialogueWorld):
     """the same world, but which dialogue comes next is drawn from a pool of the most ordinary dialogues; the pool
-    starts small (each dialogue heard many times) and doubles every `every` dialogues (more and more variety)"""
+    starts small (each dialogue heard many times) and doubles every `every` dialogues (more and more variety). Within
+    the pool the more ordinary ones come up more often (rank = pool x u^skew, u uniform): everyday talk is heard again
+    and again, rarer talk now and then."""
 
     def __init__(self, dlgs, coch, seed, order, pool=200, every=5000, start=0, **kw):
         self.order, self.pool0, self.every = order, pool, every
@@ -148,7 +150,7 @@ class CurriculumWorld(DialogueWorld):
         if not hasattr(self, 'i0'):
             self.i0 = i
         r = np.random.default_rng([self.seed, 7300, i])
-        d = int(self.order[r.integers(self.pool(i))])
+        d = int(self.order[min(self.pool(i) - 1, int(self.pool(i) * r.random() ** getattr(self, 'skew', 2.0)))])
         rng = np.random.default_rng([self.seed, 7000, i])
         pre = int(rng.integers(*self.gap_dlg))
         return script_dialogue(self.D, d, rng, self.gap_turn, pre)
