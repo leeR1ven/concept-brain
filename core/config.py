@@ -13,7 +13,7 @@ def config(s=1, **over):
         band=(0.002, 0.6),          # birth firing rate of a feature unit; outside it: no chain (ARCH 三 链式神经元)
         g_ret=1.05,                 # a return alone lights its unit (x the unit's own threshold)
         # PFC (ARCH 三 前额叶)
-        g_loop=1.0, loop_fan=30, theta1=1.0, r_learn=0.15, g44=0.1, g31=1.0,
+        g_loop=1.0, loop_fan=30, theta1=1.0, r_learn=0.15, g44=0.1, g31=1.0, pfc_mid_rate=0.3,
         tau_usual=1000,             # ticks over which a copy's own usual internal drive is averaged (ARCH 二.4)
         context=0.1,                # excitability: copies lit from inside <= context x the external input count (0.3 runs away)
         # hippocampus (ARCH 三 海马体): own population, fixed count kh; recall lights the context share most driven

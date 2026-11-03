@@ -26,6 +26,8 @@ def main():
     load = over.pop('load', ckpt)                             # continue from this save (default: ckpt itself)
     pool, grow = over.pop('pool', 0), over.pop('grow_every', 5000)
     B = over.pop('batch', 1)
+    save_at = list(over.pop('save_at', []))                   # extra saves <ckpt>_<n>.pt at these dialogue counts
+    grow_concept, text = over.pop('grow_concept', 0), over.pop('text', None)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -33,19 +35,6 @@ def main():
         log(f'continued from {load}: {life.env.n_ex - start} dialogues so far')
         for k_, v_ in config(**{'levels_per_s': 4, 'n_brake': 20}).items():   # parameters added since the save
             life.c.setdefault(k_, v_)
-        if over.pop('grow_concept', 0) and getattr(life.brain, 'concept', None) is None:
-            from .grow import add_concept                    # the shared concept area grows into the living brain
-            add_concept(life)
-            torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
-            os.replace(ckpt + '.tmp', ckpt)
-            log(f'saved with the concept area at {life.env.n_ex - start} dialogues')
-        text = over.pop('text', None)
-        if text and not getattr(life, 'text_added', False):   # read-aloud text joins the dialogues (1 per 3)
-            from .world.corpus import concat, mixed_order
-            tx = Dialogues.load(text)
-            life.order = mixed_order(life.train, tx)
-            life.train, life.text_added = concat(life.train, tx), True
-            log(f'text added: {tx.n} items; now {life.train.n} items, one text item after every 3 dialogues')
         if pool and not isinstance(life.env, CurriculumWorld):  # from now on: common dialogues first, repeated
             old = life.env
             life.env = CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool, grow,
@@ -58,8 +47,18 @@ def main():
         life = CorpusLife(c, seed, data)
         start, nxt = life.env.n_ex, probe
         print('PROBE', 0, json.dumps(life.reply_ranks()), flush=True)
+    if grow_concept and getattr(life.brain, 'concept', None) is None:
+        from .grow import add_concept                        # the shared concept area grows into the living brain
+        add_concept(life)
+        log(f'concept area added at {life.env.n_ex - start} dialogues')
+    if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
+        from .world.corpus import concat, mixed_order
+        tx = Dialogues.load(text)
+        life.order = mixed_order(life.train, tx)
+        life.train, life.text_added = concat(life.train, tx), True
+        log(f'text added: {tx.n} items; now {life.train.n} items, one text item after every 3 dialogues')
     if B > 1:                                       # many children, one set of connections (core/batch.py)
-        return run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow)
+        return run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow, save_at)
     b, w = life.brain, life.env
     names = b.count_names() + ['L4 stuck %', 'Hs stuck %']
     acc, k, t = torch.zeros(len(names), device=DEV), 0, 0
@@ -97,7 +96,7 @@ def main():
     log('done')
 
 
-def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
+def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow, save_at=()):
     from .batch import Batch
     env = life.env
     base = env.n_ex
@@ -130,6 +129,11 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
         if done >= nxt:
             print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
             nxt += probe
+        if ckpt and save_at and done >= save_at[0]:
+            env.n_ex = base + bt.n_ex()
+            torch.save(dict(life=life, start=start, next_probe=nxt), ckpt[:-3] + f'_{save_at[0]}.pt')
+            log(f'saved a copy at {done} dialogues')
+            save_at = save_at[1:]
         if ckpt and time.time() - saved_at > save_min * 60:
             env.n_ex = base + bt.n_ex()                 # the dialogues heard in all, kept with the life
             life.pool_now = worlds[0].pool(worlds[0].i)   # how far the pool has grown, kept with the life
@@ -137,6 +141,12 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
             os.replace(ckpt + '.tmp', ckpt)
             saved_at = time.time()
             log(f'saved at {done} dialogues')
+    if ckpt:                                            # and once more at the end
+        env.n_ex = base + bt.n_ex()
+        life.pool_now = worlds[0].pool(worlds[0].i)
+        torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
+        os.replace(ckpt + '.tmp', ckpt)
+        log(f'saved at {base + bt.n_ex() - start} dialogues')
     log('done')
 
 

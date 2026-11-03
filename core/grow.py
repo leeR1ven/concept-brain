@@ -139,7 +139,7 @@ def add_concept(life, cal_ticks=1000):
         L1s.append(pfc.L1.on.clone())
         L2s.append(pfc.L2.on.clone())
     X1, X2 = torch.stack(L1s), torch.stack(L2s)
-    rho = b.birth_density
+    rho = c.get("pfc_mid_rate") or b.birth_density          # the middle layers' own rate, as at birth
     new2 = Fixed(pfc.ff[0].idx[n_old:], pfc.ff[0].w[n_old:])
     D2 = new2.drive_batch(X1)
     pfc.thr2[n_old:] = own_thresholds(D2, rho)

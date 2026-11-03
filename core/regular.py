@@ -2,7 +2,8 @@
 different voices (frozen, state restored each time). What lights inside after it (the thinking range: the PFC's
 internally lit copies over the 12 quiet ticks after the line; and the hippocampus's recall) is compared:
   same line, two voices  vs  two different lines  (Jaccard overlap)
-Thinking that follows the line, not the voice, gives same > different.
+Thinking that follows the line, not the voice, gives same > different. Voices: C1 (woman) vs D2 (man), and in
+"..._same_sex" C1 vs D1 (two women). "input": the PFC's external copies lit while the line is heard.
 Usage: python -u -m core.regular <ckpt or 'newborn'> [n_lines] [key=value for a newborn]"""
 import json
 import sys
@@ -35,21 +36,25 @@ def main():
             lines.append([int(x) for x in t])
         if len(lines) >= n:
             break
-    res = {'pfc': {}, 'hip': {}}
+    res = {'input': {}, 'pfc': {}, 'hip': {}}
     for i, ln in enumerate(lines):
-        for v in ('C1', 'D2'):
+        for v in ('C1', 'D2', 'D1'):
             srcs = [None] * 4 + [(x, k, v, 0.0, 0.0) for x in ln for k in range(3)] + [None] * 12
-            rec = {'pfc': [], 'hip': []}
-            life.play(srcs, rec=lambda t: (rec['pfc'].append(b.pfc.x_int.clone()), rec['hip'].append(b.hip.h_int.clone())))
+            rec = {'input': [], 'pfc': [], 'hip': []}
+            life.play(srcs, rec=lambda t: (rec['input'].append(b.pfc.L1ext.on.clone()),
+                                           rec['pfc'].append(b.pfc.x_int.clone()), rec['hip'].append(b.hip.h_int.clone())))
             for k in rec:
-                res[k][(i, v)] = torch.stack(rec[k])[-12:].any(0)
+                res[k][(i, v)] = torch.stack(rec[k])[:-12].any(0) if k == 'input' else torch.stack(rec[k])[-12:].any(0)
     out = {}
+    m = len(lines)
     for k, R in res.items():
-        same = [jac(R[(i, 'C1')], R[(i, 'D2')]) for i in range(len(lines))]
-        diff = [jac(R[(i, 'C1')], R[(j, 'D2')]) for i in range(len(lines)) for j in range(len(lines)) if i != j]
-        size = np.mean([float(x.sum()) for x in R.values()])
-        out[k] = dict(same_line=round(float(np.mean(same)), 3), different_lines=round(float(np.mean(diff)), 3),
-                      units_lit=round(float(size)))
+        o = {}
+        for tag, w in (('', 'D2'), ('_same_sex', 'D1')):
+            o['same_line' + tag] = round(float(np.mean([jac(R[(i, 'C1')], R[(i, w)]) for i in range(m)])), 3)
+            o['different_lines' + tag] = round(float(np.mean([jac(R[(i, 'C1')], R[(j, w)]) for i in range(m)
+                                                               for j in range(m) if i != j])), 3)
+        o['units_lit'] = round(float(np.mean([float(x.sum()) for x in R.values()])))
+        out[k] = o
     print('REGULAR', src, json.dumps(out), flush=True)
 
 

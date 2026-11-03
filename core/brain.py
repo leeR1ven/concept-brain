@@ -157,11 +157,12 @@ class PFC:
     def calibrate(self, X):
         """X: bool [T, n] the birth chain input (loop and learning off)"""
         rho = float(X.float().mean())
+        mid = self.c.get('pfc_mid_rate') or rho              # middle layers' own rate (ARCH 二.5: free)
         D2 = self.ff[0].drive_batch(X)
-        self.thr2 = own_thresholds(D2, rho)
+        self.thr2 = own_thresholds(D2, mid)
         S2 = D2 > self.thr2
         del D2
-        self.thr3 = own_thresholds(self.ff[1].drive_batch(S2), rho)
+        self.thr3 = own_thresholds(self.ff[1].drive_batch(S2), mid)
         return rho
 
     def step(self, x_ext):
@@ -336,7 +337,11 @@ class Brain:
         A0 = torch.as_tensor(birth_A0, device=DEV)
         s_states = self.sound.calibrate(A0)
         t_states = self.touch.calibrate(skin.birth_stream(A0.shape[0], seed))
-        self.chains = Chains(self.sound, [x.float().mean(0) for x in s_states],
+        # a sound unit's rate is counted while a voice is heard (the innate brake hears one); a unit lit for much of
+        # any voice has little feature (ARCH 三 链式神经元)
+        voice = torch.stack([self.motor.brake(a).any() for a in A0])
+        s_rates = [x[l:][voice[:len(voice) - l]].float().mean(0) for l, x in enumerate(s_states)]
+        self.chains = Chains(self.sound, s_rates,
                              self.touch, [x.float().mean(0) for x in t_states], self.motor, c['band'])
         del t_states
         self.n1 = self.chains.n
