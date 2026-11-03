@@ -101,7 +101,7 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
     from .batch import Batch
     env = life.env
     base = env.n_ex
-    pool = env.pool(env.i) if isinstance(env, CurriculumWorld) else 200
+    pool = getattr(life, 'pool_now', None) or (env.pool(env.i) if isinstance(env, CurriculumWorld) else 200)
     order = getattr(life, 'order', None)
     order = common_order(life.train) if order is None else order
     worlds = [CurriculumWorld(life.train, life.coch, life.seed, order, pool,
@@ -132,6 +132,7 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow):
             nxt += probe
         if ckpt and time.time() - saved_at > save_min * 60:
             env.n_ex = base + bt.n_ex()                 # the dialogues heard in all, kept with the life
+            life.pool_now = worlds[0].pool(worlds[0].i)   # how far the pool has grown, kept with the life
             torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
             os.replace(ckpt + '.tmp', ckpt)
             saved_at = time.time()
