@@ -144,6 +144,8 @@ class PFC:
         self.G1P = None                                    # generation-0 speech link (gen0.py)
         self.L1, self.L1ext, self.L2, self.L3, self.L4 = (Pop(n) for _ in range(5))
         self.x_int = torch.zeros(n, dtype=torch.bool, device=DEV)
+        self.usual = torch.zeros(n, device=DEV)            # each copy's usual internal drive (its own threshold level)
+        self.adapt = False                                 # the usual level follows the drive while the brain lives
         self.force_int = None                              # probes only: copies lit as if thought
 
     def plastic(self):
@@ -164,9 +166,12 @@ class PFC:
         d1 = self.loop.drive(a4) + self.L41.drive(a4)
         if self.G1P is not None:
             d1 = d1 + self.G1P.drive(a4)
-        # excitability = context length (ARCH 三 前额叶, 六): at most `context` x the external input count of copies
-        # are lit from inside, the most driven of those over threshold
-        x_int = (d1 > self.c['theta1']) & topk_on(d1, self.c['context'] * x_ext.sum())
+        # a copy's own threshold follows the drive it usually receives (ARCH 二.4): only drive above its own usual level
+        # counts. Excitability = context length (三, 六): at most `context` x the external input count are lit inside.
+        e1 = d1 - self.usual
+        if self.adapt:
+            self.usual += (d1 - self.usual) / self.c['tau_usual']
+        x_int = (e1 > self.c['theta1']) & topk_on(e1, self.c['context'] * x_ext.sum())
         if self.force_int is not None:
             x_int = x_int | self.force_int
         n2 = self.ff[0].drive(self.L1.on) > self.thr2
@@ -209,14 +214,18 @@ class Hippocampus:
                          gamma=c['gamma_hip'], name='Hs->H1', plain=True)
         self.H1, self.H1ext, self.Hs = Pop(n1), Pop(n1), Pop(nh)
         self.h_int = torch.zeros(n1, dtype=torch.bool, device=DEV)
+        self.usual = torch.zeros(n1, device=DEV)
+        self.adapt = False
 
     def plastic(self):
         return [self.HH, self.H1t]
 
     def step(self, x_ext):
         ah = self.Hs.on
-        d = self.H1t.drive(ah)
-        h_int = topk_on(d, self.c['context'] * x_ext.sum())      # a fixed share: the most strongly recalled
+        e = self.H1t.drive(ah) - self.usual                       # above each copy's own usual recall drive (二.4)
+        if self.adapt:
+            self.usual += e / self.c['tau_usual']
+        h_int = topk_on(e, self.c['context'] * x_ext.sum())      # a fixed share: the most strongly recalled
         hs = topk_on(self.rec.drive(self.H1.on) + self.HH.drive(ah), self.c['kh'])
         self.H1ext.set(x_ext)
         self.H1.set(x_ext | h_int)
@@ -371,6 +380,7 @@ class Brain:
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
         cnt = torch.zeros(24, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
         self.touch.step(self.skin.code(self.skin.force(cnt)), self.ret_touch)    # the body's force, felt now
+        self.pfc.adapt = self.hip.adapt = self.learning
         R = self.pfc.step(x_ext) | self.hip.step(x_ext)
         self.ret_sound, self.ret_touch, self.ret_force, self.ret_stop = ch.scatter(R, self.sound.n, self.touch.n)
         if self.learning:

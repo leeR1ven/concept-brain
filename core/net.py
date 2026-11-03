@@ -128,7 +128,7 @@ class Links:
         """concave: the bigger a link, the harder it changes; about 1 % plasticity is always kept (ARCH 四)"""
         if self.plain:
             return torch.ones_like(w)
-        return (1.0 / (1.0 + w / self.c['w_ref'])).clamp_min(self.c['floor'])
+        return ((1.0 + w / self.c['w_ref']) ** -self.c['pow']).clamp_min(self.c['floor'])
 
     def apply(self, rows, dw, log=True):
         old = self.w[rows]
@@ -160,7 +160,7 @@ class Links:
         grow = b_rose[ix]
         weaken = a_rose & b_on[ix] & ~b_rose[ix]
         p = self.plast(self.w[a])
-        self.apply(a, eta * p * (grow.float() - 0.5 * weaken.float()))
+        self.apply(a, eta * p * (grow.float() - weaken.float()))
 
     def decay(self):
         """ARCH 四, the one decay: learned links are multiplied by gamma (slowed by the same concave factor); links
