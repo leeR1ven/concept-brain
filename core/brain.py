@@ -204,8 +204,8 @@ class Hippocampus:
         self.c, self.nh = c, nh
         self.rec = Fixed(rng.integers(0, n1, (nh, c['rec_fan'])), rng.uniform(0.5, 1.5, (nh, c['rec_fan'])))
         self.HH = Links(random_lists(nh, nh, c['n_hh'] * s, rng, True), 0.0, nh, c, gain=c['g_hh'],
-                        gamma=c['gamma_hip'], name='Hs<->Hs', plain=True)
-        self.H1t = Links(random_lists(nh, n1, c['n_h1'] * s, rng), 0.0, n1, c, gain=c['g_h1'],
+                        gamma=c['gamma_hip'], name='Hs<->Hs')     # internal links: the cortex's rule
+        self.H1t = Links(random_lists(nh, n1, c['n_h1'] * s, rng), 0.0, n1, c,
                          gamma=c['gamma_hip'], name='Hs->H1', plain=True)
         self.H1, self.H1ext, self.Hs = Pop(n1), Pop(n1), Pop(nh)
         self.h_int = torch.zeros(n1, dtype=torch.bool, device=DEV)
@@ -216,7 +216,7 @@ class Hippocampus:
     def step(self, x_ext):
         ah = self.Hs.on
         d = self.H1t.drive(ah)
-        h_int = (d > self.c['theta_h1']) & topk_on(d, self.c['context'] * x_ext.sum())   # the PFC's rule
+        h_int = topk_on(d, self.c['context'] * x_ext.sum())      # a fixed share: the most strongly recalled
         hs = topk_on(self.rec.drive(self.H1.on) + self.HH.drive(ah), self.c['kh'])
         self.H1ext.set(x_ext)
         self.H1.set(x_ext | h_int)

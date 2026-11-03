@@ -67,10 +67,14 @@ def wire_g1p(life):
     b, c, need = life.brain, life.c, life.ph.need_mat
     pfc, mot = b.pfc, b.motor
     M = inner_l4(life)
-    sel = []
+    sel = []                                  # each syllable: its g1p_k most specific units that are on while thinking it
     for x in range(NSYL):
         other = torch.cat([M[:x], M[x + 1:]]).max(0).values
-        sel.append((M[x] >= c['g1p_p']) & (M[x] - other >= c['g1p_margin']))
+        spec = torch.where(M[x] >= c['g1p_p'], M[x] - other, torch.full_like(other, -9.0))
+        top = torch.topk(spec, c['g1p_k'])
+        s_ = torch.zeros_like(M[x], dtype=torch.bool)
+        s_[top.indices[top.values > 0]] = True
+        sel.append(s_)
     sel = torch.stack(sel)                                                      # [34, n4]
     units = torch.nonzero(sel.any(0)).squeeze(1)
     W = nnls(sel[:, units].float(), torch.as_tensor(need, dtype=torch.float32, device=DEV))   # [n_u, 24]

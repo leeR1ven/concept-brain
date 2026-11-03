@@ -103,11 +103,10 @@ def topk_on(d, k):
 # ------------------------------------------------------------------------------------------- learned links
 class Links:
     """Links from each pre unit to a list of possible post units (padded with the sink n_post).
-    learned=False: fixed birth weights, raw drive. learned=True: grown by the one rule, decayed by the one decay, and
-    propagated with two-layer weights (ARCH 三 前额叶: drive = gain * w / sqrt(out-total * in-total)).
+    learned=False: fixed birth weights. learned=True: grown by the one rule and decayed by the one decay.
+    The drive into a post unit is gain x the sum of the weights from the pre units that are on.
     plain=True (the hippocampus, ARCH 三 海马体): its own growth rule. While A is on, A->B grows by the full step
-    eta when B rises (in order, no concave slowing), so one experience leaves a strong link. The drive is still the
-    two-layer weight, so units that are often on do not drown the recall."""
+    eta when B rises (in order, no concave slowing), so one experience leaves a strong link."""
 
     def __init__(self, idx, w, n_post, c, learned=True, gain=1.0, gamma=1.0, name='', plain=False):
         self.idx = torch.as_tensor(idx, dtype=torch.int64, device=DEV)
@@ -116,22 +115,13 @@ class Links:
         self.n_pre, self.n_post = self.idx.shape[0], n_post
         self.c, self.learned, self.gain, self.gamma, self.name, self.plain = c, learned, gain, gamma, name, plain
         self.log = None                                     # reward tool: list of this tick's applied changes
-        self.recount()
-
-    def recount(self):
-        self.out = self.w.sum(1)
-        self.inn = torch.zeros(self.n_post + 1, device=DEV).index_add_(0, self.idx.reshape(-1), self.w.reshape(-1))
 
     def drive(self, act):
         """act: bool [n_pre] -> drive into every post unit"""
         out = torch.zeros(self.n_post + 1, device=DEV)
         a = torch.nonzero(act).squeeze(1)
         if a.numel():
-            ix, w = self.idx[a], self.w[a]
-            if self.learned:
-                r = self.c['w_ref']
-                w = self.gain * w / torch.sqrt(self.out[a].clamp_min(r)[:, None] * self.inn[ix].clamp_min(r))
-            out.index_add_(0, ix.reshape(-1), w.reshape(-1))
+            out.index_add_(0, self.idx[a].reshape(-1), (self.gain * self.w[a]).reshape(-1))
         return out[:-1]
 
     def plast(self, w):
@@ -145,8 +135,6 @@ class Links:
         new = (old + dw).clamp_min(0.0)
         d = new - old
         self.w[rows] = new
-        self.out[rows] += d.sum(1)
-        self.inn.index_add_(0, self.idx[rows].reshape(-1), d.reshape(-1))
         if log and self.log is not None:
             self.log.append((rows, d))
 
@@ -181,7 +169,6 @@ class Links:
             return
         self.w -= (1.0 - self.gamma) * self.w * self.plast(self.w)
         self.w[self.w < self.c['prune']] = 0.0
-        self.recount()
 
 
 def radius_lists(pos_pre, pos_post, r, exclude_self=False):
