@@ -163,7 +163,14 @@ class PFC:
         self.thr2 = own_thresholds(D2, mid)
         S2 = D2 > self.thr2
         del D2
-        self.thr3 = own_thresholds(self.ff[1].drive_batch(S2), mid)
+        D3 = self.ff[1].drive_batch(S2)
+        self.thr3 = own_thresholds(D3, mid)
+        D4 = self.ff[2].drive_batch(D3 > self.thr3)
+        del D3
+        # how much the input push into the last layer differs between its units (each unit's own mean taken out):
+        # the most the last layer's own links may add to one unit, so that what is heard keeps setting its state
+        # (designer 11-04: links capped at a value; the value is the input's own spread, not tuned)
+        self.L44.cap = float((D4 - D4.mean(0)).std(1).mean())
         return rho
 
     def step(self, x_ext):

@@ -164,11 +164,16 @@ class Links:
 
     def decay(self):
         """ARCH 四, the one decay: learned links are multiplied by gamma (slowed by the same concave factor); links
-        that fall below `prune` are removed."""
+        that fall below `prune` are removed. A table with a cap (the PFC last layer's own links): all links into one
+        unit together push it at most `cap`; above that they are scaled down together."""
         if not self.learned:
             return
         self.w -= (1.0 - self.gamma) * self.w * self.plast(self.w)
         self.w[self.w < self.c['prune']] = 0.0
+        cap = getattr(self, 'cap', None)
+        if cap:                                        # all links into a unit together push it at most `cap`
+            tot = torch.zeros(self.n_post + 1, device=DEV).index_add_(0, self.idx.reshape(-1), self.w.reshape(-1))
+            self.w *= (cap / (self.gain * tot).clamp_min(1e-12)).clamp(max=1.0)[self.idx]
 
 
 def radius_lists(pos_pre, pos_post, r, exclude_self=False):

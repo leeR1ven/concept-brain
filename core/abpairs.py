@@ -1,8 +1,8 @@
 """Hearing A, does it think of B? (the designer's test: after A, B's features light up.) The 20 commonest steps A -> B
 inside the training dialogues (A != B). For each, A alone after quiet, nothing learned during the probe; over the 9
-ticks after A starts: the share of the thoughts that are B's copies, and, for comparison, the share that are the
-copies of C, the B of another pair (one that rarely follows A). A syllable's copies = what it lights from outside when
-heard alone after quiet.
+ticks after A starts: the share of B's own copies (lit by B, not by C or A) that are thought of, and, for comparison,
+the same share for C, the B of another pair (one that rarely follows A). A syllable's copies = what it lights from
+outside when heard alone after quiet.
 usage: python -u -m core.abpairs <ckpt or 'newborn'> [key=value]"""
 import json
 import sys
@@ -65,11 +65,11 @@ def main():
     for i, (a_, b_) in enumerate(pairs):
         c_ = next(pairs[(i + j) % len(pairs)][1] for j in range(1, len(pairs))
                   if follows.get(a_ * 4096 + pairs[(i + j) % len(pairs)][1], 0) * 20 < follows[a_ * 4096 + b_])
-        T = thoughts(a_)
-        n = float(T.sum())
-        rows.append(dict(A=name(a_), B=name(b_), C=name(c_), thoughts=int(n),
-                         B_share=round(float((T & cp[b_]).sum()) / max(1.0, n), 3),
-                         C_share=round(float((T & cp[c_]).sum()) / max(1.0, n), 3)))
+        T = thoughts(a_).any(0)                             # copies thought of in the 9 ticks
+        bx, cx = cp[b_] & ~cp[c_] & ~cp[a_], cp[c_] & ~cp[b_] & ~cp[a_]   # what only B / only C lights
+        rows.append(dict(A=name(a_), B=name(b_), C=name(c_), thoughts=int(T.sum()),
+                         B_share=round(float((T & bx).sum()) / max(1.0, float(bx.sum())), 3),
+                         C_share=round(float((T & cx).sum()) / max(1.0, float(cx.sum())), 3)))
     bs, cs = np.array([r['B_share'] for r in rows]), np.array([r['C_share'] for r in rows])
     print('ABPAIRS', src, json.dumps(dict(B_share=round(float(bs.mean()), 3), C_share=round(float(cs.mean()), 3),
                                           B_wins=int((bs > cs).sum()), pairs=len(rows), rows=rows,
