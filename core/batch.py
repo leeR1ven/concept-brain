@@ -165,7 +165,13 @@ class Batch:
         e1 = d1 - p.usual
         if learning:
             p.usual += (d1 - p.usual).mean(0) * self.adapt
-        x_int = (e1 > c['theta1']) & topk_rows(e1, c['context'] * x.sum(1))
+        n_ext = x.sum(1).float()
+        if getattr(p, 'ext_usual', None) is None:
+            p.ext_usual = 0.026 * x.shape[1]
+        if learning:
+            p.ext_usual += float(n_ext.mean() - p.ext_usual) * self.adapt
+        budget = torch.full_like(n_ext, c['context'] * p.ext_usual)       # the usual external count, as in brain.py
+        x_int = (e1 > c['theta1']) & topk_rows(e1, budget)
         n2 = fdrive(p.ff[0], self.L1.on) > p.thr2
         n3 = fdrive(p.ff[1], self.L2.on) > p.thr3
         if getattr(p, 'usual4', None) is None:
@@ -184,7 +190,7 @@ class Batch:
         eh = ldrive(h.H1t, ah) - h.usual
         if learning:
             h.usual += eh.mean(0) * self.adapt
-        h_int = topk_rows(eh, c['context'] * x.sum(1))
+        h_int = topk_rows(eh, budget)
         if getattr(h, 'usual_s', None) is None:
             h.usual_s = torch.zeros(h.nh, device=DEV)
         ds = fdrive(h.rec, self.H1.on) + ldrive(h.HH, ah) - h.usual_s

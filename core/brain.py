@@ -157,6 +157,7 @@ class PFC:
     def calibrate(self, X):
         """X: bool [T, n] the birth chain input (loop and learning off)"""
         rho = float(X.float().mean())
+        self.ext_usual = float(X.float().sum(1).mean())     # the usual external count (the thought budget's base)
         mid = self.c.get('pfc_mid_rate') or rho              # middle layers' own rate (ARCH 二.5: free)
         D2 = self.ff[0].drive_batch(X)
         self.thr2 = own_thresholds(D2, mid)
@@ -175,7 +176,15 @@ class PFC:
         e1 = d1 - self.usual
         if self.adapt:
             self.usual += (d1 - self.usual) / self.c['tau_usual']
-        x_int = (e1 > self.c['theta1']) & topk_on(e1, self.c['context'] * x_ext.sum())
+        n_ext = float(x_ext.sum())
+        if getattr(self, 'ext_usual', None) is None:
+            self.ext_usual = 0.026 * x_ext.shape[0]
+        if self.adapt:
+            self.ext_usual += (n_ext - self.ext_usual) / self.c['tau_usual']
+        # how many copies may be lit from inside: context x the usual external count (not this tick's), so what is
+        # recalled in a quiet moment can still light up (designer 11-04: A heard, then quiet, B is thought of)
+        self.budget = self.c['context'] * self.ext_usual
+        x_int = (e1 > self.c['theta1']) & topk_on(e1, self.budget)
         self.e1 = e1                                       # kept for probes (graded internal drive)
         if self.force_int is not None:
             x_int = x_int | self.force_int
@@ -232,12 +241,12 @@ class Hippocampus:
     def plastic(self):
         return [self.HH, self.H1t]
 
-    def step(self, x_ext):
+    def step(self, x_ext, budget=None):
         ah = self.Hs.on
         e = self.H1t.drive(ah) - self.usual                       # above each copy's own usual recall drive (二.4)
         if self.adapt:
             self.usual += e / self.c['tau_usual']
-        h_int = topk_on(e, self.c['context'] * x_ext.sum())      # a fixed share: the most strongly recalled
+        h_int = topk_on(e, self.c['context'] * x_ext.sum() if budget is None else budget)   # the most strongly recalled
         ds = self.rec.drive(self.H1.on) + self.HH.drive(ah)      # its own units: above their own usual level (二.4)
         if getattr(self, 'usual_s', None) is None:
             self.usual_s = torch.zeros_like(ds)
@@ -410,7 +419,7 @@ class Brain:
         cnt = torch.zeros(24, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
         self.touch.step(self.skin.code(self.skin.force(cnt)), self.ret_touch)    # the body's force, felt now
         self.pfc.adapt = self.hip.adapt = self.learning
-        R = self.pfc.step(x_ext) | self.hip.step(x_ext)
+        R = self.pfc.step(x_ext) | self.hip.step(x_ext, self.pfc.budget)
         self.ret_sound, self.ret_touch, self.ret_force, self.ret_stop = ch.scatter(R, self.sound.n, self.touch.n)
         if self.learning:
             tabs = self.plastic()

@@ -27,7 +27,7 @@ class ConceptArea:
         K = c['rec_fan']
         self.birth = Fixed(rng.integers(0, n_src, (self.n, K)), rng.uniform(0.5, 1.5, (self.n, K)))
         self.learned = Links(random_lists(n_src, self.n, c['n_cl'], rng), 0.0, self.n, c, gain=c['g_c'],
-                             gamma=c['gamma_pfc'], name='feature -> concept')
+                             gamma=c.get('gamma_concept') or c['gamma_pfc'], name='feature -> concept')
         self.pop, self.src = Pop(self.n), Pop(n_src)
         self.usual = torch.zeros(self.n, device=DEV)
         self.win = torch.ones((), device=DEV)           # the usual drive of a lit unit (scale of a return)

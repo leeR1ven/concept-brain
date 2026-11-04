@@ -139,11 +139,18 @@ def health(life, Rh, n):
 def main():
     src, n = sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 60
     t0 = time.time()
+    over = {k: json.loads(v) for k, v in (a.split('=', 1) for a in sys.argv[3:] if '=' in a)}
+    memory_only = over.pop('memory_only', 0)
     if src == 'newborn':
-        over = {k: json.loads(v) for k, v in (a.split('=', 1) for a in sys.argv[3:] if '=' in a)}
         life = CorpusLife(config(**{'levels_per_s': 4, 'n_brake': 20, 'birth_dialogues': 80, **over}), 0, 'data')
     else:
         life = torch.load(src, weights_only=False)['life']
+        life.c.update({k: v for k, v in over.items() if k in life.c})   # e.g. a hippocampal parameter to try
+    if memory_only:                             # quick: only part C
+        novel = first_lines(life.heldout, range(life.heldout.n), n, lo=4)
+        print('EXAM', src, json.dumps({'C_memory': memory(life, novel[:40]), 'secs': round(time.time() - t0)}),
+              flush=True)
+        return
     order = getattr(life, 'order', None)                    # what the child has heard most (the curriculum's order)
     heard = first_lines(life.train, common_order(life.train) if order is None else order, n)
     novel = first_lines(life.heldout, range(life.heldout.n), n, lo=4)

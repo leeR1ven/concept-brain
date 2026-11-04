@@ -15,7 +15,7 @@ def config(s=1, **over):
         # PFC (ARCH 三 前额叶)
         g_loop=1.0, loop_fan=30, theta1=1.0, r_learn=0.15, g44=0.1, g31=1.0, pfc_mid_rate=0.3,
         tau_usual=1000,             # ticks over which a copy's own usual internal drive is averaged (ARCH 二.4)
-        context=0.1,                # excitability: copies lit from inside <= context x the external input count (0.3 runs away)
+        context=0.1,                # excitability: copies lit from inside <= context x the usual external input count
         # hippocampus (ARCH 三 海马体): own population, fixed count kh; recall lights the context share most driven
         nh=20000, kh=50, rec_fan=24, n_hh=500, n_h1=2000, g_hh=0.01,
         # the shared concept area (ARCH 三 抽象概念区): nc x s units, kc x s on per tick, n_cl candidate links per feature
@@ -25,7 +25,7 @@ def config(s=1, **over):
         mc_n=16, mc_e=3.0, mc_i=4.0,
         # the one rule and the one decay (ARCH 四); decay per decay_every ticks: hippocampus fastest, PFC slowest
         eta=0.02, eta_h=0.3, w_ref=1.0, pow=1.0, floor=0.01, fall_win=2, decay_every=200, prune=1e-3,
-        gamma_hip=0.99, gamma_motor=0.9999, gamma_pfc=0.99995,
+        gamma_hip=0.99, gamma_motor=0.9999, gamma_pfc=0.99995, gamma_concept=None,
         # generation 0 (ARCH 五): hand-wired speech link and collapse pools, stored at a well-used strength
         gen0_strength=20.0, g1p_rel=1.5, g1p_p=0.3, g1p_k=30,
         # reward tool (ARCH 四)
