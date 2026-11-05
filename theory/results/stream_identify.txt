@@ -1,0 +1,70 @@
+ticks 105890 of 124160 speech 0.7162999338936632 last layer lit per tick 232.14041930305032 copies on 239.40569458872415 coming on 180.83817168760035
+starts after silence 2842 copies that answer at once 8701
+copies coming on, by ticks after the syllable begins [196.5 275.5 236.6 218.3 272.6 224.3]
+heard syllables 25283 distinct 959 pairs 22441 distinct pairs 12347 mean hearings of a pair 1.8175265246618613
+test syllables 2730 copies coming on at each 256.24871794871797
+share of test syllables among the 100 most heard 0.5747252747252747
+chance and ceiling:
+  frequency              heard lines  own  25.6%  shuffled  25.9%  gap  -0.4 +- 0.6
+  frequency              new lines    own  24.4%  shuffled  24.8%  gap  -0.4 +- 0.6
+  ideal reader           heard lines  own  29.3%  shuffled  26.7%  gap  +2.6 +- 0.7
+  ideal reader           new lines    own  26.5%  shuffled  25.9%  gap  +0.8 +- 0.6
+now scoring the syllable just heard; share among the 100 most heard 0.5721611721611721
+  choice: most frequent  heard lines  own   3.8%  shuffled   4.7%  gap  -1.3 +- 0.7
+  choice: most frequent  new lines    own   4.2%  shuffled   5.2%  gap  -0.9 +- 0.8
+syllable named active units 959 training ticks 25283
+ delay 1 lambda 10
+  choice: syllable named heard lines  own  98.7%  shuffled  97.8%  gap  +0.6 +- 0.4
+  choice: syllable named new lines    own  99.2%  shuffled  96.9%  gap  +2.6 +- 1.1
+ delay 1 lambda 100
+  choice: syllable named heard lines  own  82.0%  shuffled  81.0%  gap  -0.3 +- 1.6
+  choice: syllable named new lines    own  81.7%  shuffled  79.7%  gap  +3.7 +- 1.7
+ delay 1 lambda 1000
+  choice: syllable named heard lines  own   1.0%  shuffled   1.0%  gap  -0.0 +- 0.1
+  choice: syllable named new lines    own   1.3%  shuffled   1.8%  gap  -0.7 +- 0.6
+last layer active units 6976 training ticks 25283
+ delay 0 lambda 10
+  choice: last layer     heard lines  own  41.9%  shuffled  29.2%  gap +10.3 +- 3.2
+  choice: last layer     new lines    own  43.2%  shuffled  31.4%  gap +14.7 +- 3.3
+ delay 0 lambda 100
+  choice: last layer     heard lines  own  40.6%  shuffled  28.7%  gap  +8.3 +- 3.4
+  choice: last layer     new lines    own  43.0%  shuffled  31.9%  gap +13.7 +- 3.4
+ delay 0 lambda 1000
+  choice: last layer     heard lines  own  39.6%  shuffled  28.7%  gap  +8.1 +- 3.0
+  choice: last layer     new lines    own  42.7%  shuffled  31.2%  gap +13.4 +- 3.3
+ delay -1 lambda 10
+  choice: last layer     heard lines  own  46.6%  shuffled  38.7%  gap  +8.7 +- 3.9
+  choice: last layer     new lines    own  53.3%  shuffled  47.5%  gap  +6.8 +- 3.4
+ delay -1 lambda 100
+  choice: last layer     heard lines  own  48.6%  shuffled  37.4%  gap +11.7 +- 3.8
+  choice: last layer     new lines    own  54.9%  shuffled  48.6%  gap  +8.5 +- 3.5
+ delay -1 lambda 1000
+  choice: last layer     heard lines  own  48.1%  shuffled  38.7%  gap +11.7 +- 3.8
+  choice: last layer     new lines    own  53.3%  shuffled  50.4%  gap  +3.6 +- 3.5
+ delay -2 lambda 10
+  choice: last layer     heard lines  own  45.1%  shuffled  41.1%  gap  +4.0 +- 3.5
+  choice: last layer     new lines    own  50.9%  shuffled  50.1%  gap  -0.4 +- 3.2
+ delay -2 lambda 100
+  choice: last layer     heard lines  own  49.6%  shuffled  45.1%  gap  +5.0 +- 3.7
+  choice: last layer     new lines    own  52.5%  shuffled  54.0%  gap  -4.1 +- 3.5
+ delay -2 lambda 1000
+  choice: last layer     heard lines  own  47.9%  shuffled  44.9%  gap  +0.4 +- 3.7
+  choice: last layer     new lines    own  52.3%  shuffled  54.0%  gap  -2.2 +- 3.7
+ delay -3 lambda 10
+  choice: last layer     heard lines  own  27.3%  shuffled  24.7%  gap  +2.3 +- 3.6
+  choice: last layer     new lines    own  31.6%  shuffled  27.8%  gap  +1.8 +- 3.4
+ delay -3 lambda 100
+  choice: last layer     heard lines  own  27.8%  shuffled  27.7%  gap  -0.3 +- 3.6
+  choice: last layer     new lines    own  34.0%  shuffled  29.1%  gap  +2.6 +- 3.4
+ delay -3 lambda 1000
+  choice: last layer     heard lines  own  28.1%  shuffled  24.9%  gap  +3.5 +- 3.1
+  choice: last layer     new lines    own  34.7%  shuffled  28.3%  gap  +4.6 +- 3.2
+ delay -4 lambda 10
+  choice: last layer     heard lines  own   8.3%  shuffled   7.2%  gap  +0.9 +- 1.6
+  choice: last layer     new lines    own   8.5%  shuffled   6.0%  gap  +1.5 +- 1.9
+ delay -4 lambda 100
+  choice: last layer     heard lines  own   9.3%  shuffled   7.0%  gap  +2.4 +- 1.9
+  choice: last layer     new lines    own   9.0%  shuffled   6.5%  gap  +0.0 +- 2.0
+ delay -4 lambda 1000
+  choice: last layer     heard lines  own   9.5%  shuffled   8.2%  gap  +2.6 +- 2.1
+  choice: last layer     new lines    own   8.2%  shuffled   7.0%  gap  -0.1 +- 1.7
