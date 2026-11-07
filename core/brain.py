@@ -171,6 +171,11 @@ class PFC:
         # the most the last layer's own links may add to one unit, so that what is heard keeps setting its state
         # (designer 11-04: links capped at a value; the value is the input's own spread, not tuned)
         self.L44.cap = float((D4 - D4.mean(0)).std(1).mean())
+        # the checked links share each copy's change among the lit last-layer units linked to it, so one link is small;
+        # their gain is set so a link has the size of the others (above the prune level): 1 / the usual number of lit
+        # last-layer units linked to a copy (in-degree x the last layer's share lit, which equals the input's)
+        indeg = torch.bincount(self.L41.idx.reshape(-1), minlength=self.n + 1)[:self.n].float()
+        self.L41.gain = self.c['g31'] / max(1.0, float(indeg.mean()) * rho)
         return rho
 
     def step(self, x_ext):
@@ -191,7 +196,8 @@ class PFC:
         # how many copies may be lit from inside: context x the usual external count (not this tick's), so what is
         # recalled in a quiet moment can still light up (designer 11-04: A heard, then quiet, B is thought of)
         self.budget = self.c['context'] * self.ext_usual
-        x_int = (e1 > self.c['theta1']) & topk_on(e1, self.budget)
+        # a copy already lit from outside gains nothing from being thought: the thought budget goes to the others
+        x_int = (e1 > self.c['theta1']) & topk_on(e1.masked_fill(x_ext.bool(), -1e9), self.budget)
         self.e1 = e1                                       # kept for probes (graded internal drive)
         if self.force_int is not None:
             x_int = x_int | self.force_int
@@ -215,10 +221,12 @@ class PFC:
 
     def learn(self):
         fw, eta = self.c['fall_win'], self.c['eta']
-        onset = self.L1ext.rose() & ~self.L1.prev           # a copy driven on from outside (not already thought)
-        recent = self.L1ext.held(fw)
-        for tb in [self.L41] + ([self.G1P] if self.G1P is not None else []):
-            tb.learn(self.L4, onset, recent, eta)
+        # last layer -> first layer: each copy checks what the last layer did to it (ARCH 四, designer 11-07)
+        self.L41.learn_check(self.L4.prev, self.L1ext.on, self.e1, self.c['theta1'], self.c['check_margin'],
+                             self.c['check_step'])
+        if self.G1P is not None:                           # the hand-wired generation-0 speech link keeps the timing
+            onset = self.L1ext.rose() & ~self.L1.prev      # rule, so thinking a sound without saying it does not
+            self.G1P.learn(self.L4, onset, self.L1ext.held(fw), eta)   # unlearn it (ARCH 六: kept at practised strength)
         self.L44.learn(self.L4, self.L4.rose(), self.L4.held(fw), eta)
 
     def pops(self):

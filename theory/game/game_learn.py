@@ -5,6 +5,8 @@ rule (11-04), then used to play.
         on through B's whole visit nets to nothing). Growth slows as a link gets bigger (concave, ARCH 四); one global decay.
   match the input neuron's own check (perceptron): the links from what was lit grow when B came on from outside but the
         last layer did not light it, and weaken when the last layer lit B but it did not come on; nothing when it was right.
+  miss, miss_onset  the growing half of match only (B on from outside, or just come on, and not lit by the last layer);
+        nothing weakens except the one decay. Press and stop copies compete, so 'should not press' is a stop copy coming on.
   delta prediction error: A -> B moves toward what B actually did (the theory's version; its limit is the ridge readout).
 The key copies are the targets: press and stop for right and left, 24 copies each.
 usage: python game_learn.py <net.pt> <rec dir> <cells dir> <rule> <out.npz> <train trials (comma)> <test trials (comma)>"""
@@ -64,12 +66,20 @@ def learn(W, A, K, rule, eta_d):
                 ix = np.ix_(still, fell)
                 w = W[ix]
                 W[ix] = np.maximum(w - ETA * plast(w), 0.0)
+        elif rule in ('miss', 'miss_onset'):       # only the growing half: B came from outside and the last layer had not
+            rows = A[t - 1]                         # lit it (ARCH: learn only what was not already thought); never weakens
+            if len(rows):
+                d = W[rows].sum(0)
+                came = K[t] if rule == 'miss' else K[t] & ~K[t - 1]
+                miss = came & (d < 1.0 + MARGIN)
+                if miss.any():
+                    W[rows] += (eta_d / len(rows)) * miss.astype(np.float32)
         elif rule == 'match':                     # the input neuron's own check: lit from outside but not by the last
             rows = A[t - 1]                         # layer -> grow; lit by the last layer but not from outside -> weaken
             if len(rows):
                 d = W[rows].sum(0)
                 miss = K[t] & (d < 1.0 + MARGIN)
-                false = ~K[t] & (d > 1.0 - MARGIN)
+                false = ~K[t] & (d > 1.0)                  # weaken only what was really lit and did not come
                 fix = miss.astype(np.float32) - false.astype(np.float32)
                 if fix.any():
                     W[rows] += (eta_d / len(rows)) * fix

@@ -162,6 +162,31 @@ class Links:
         p = self.plast(self.w[a])
         self.apply(a, eta * p * (grow.float() - weaken.float()))
 
+    def learn_check(self, pre, ext, e, theta, margin, step):
+        """ARCH 四, the last layer -> first layer links, checked by each first-layer copy itself (designer 11-07).
+        pre: bool [n_pre] the last layer on the tick before; ext: bool [n_post] copies lit from outside now; e: float
+        [n_post] the push the last layer gave each copy now (above its own usual level). A copy that came from outside
+        but was not pushed past theta + margin (so what should light, lights firmly): links from the lit pre units
+        grow; a copy pushed past theta (lit) that did not come: they weaken; otherwise nothing. Each copy's change of push per tick is `step`, shared by
+        the lit pre units linked to it; slowed by the same concave factor."""
+        if not self.learned:
+            return
+        a = torch.nonzero(pre).squeeze(1)
+        if a.numel() == 0:
+            return
+        f = torch.zeros(1, dtype=torch.bool, device=DEV)
+        ext = torch.cat([ext, f])
+        e = torch.cat([e, torch.zeros(1, device=DEV)])
+        sign = (ext & (e < theta + margin)).float() - (~ext & (e > theta)).float()
+        sign[-1] = 0.0
+        ix = self.idx[a]
+        s = sign[ix]
+        if not bool((s != 0).any()):
+            return
+        n = torch.zeros(self.n_post + 1, device=DEV).index_add_(0, ix.reshape(-1), torch.ones(ix.numel(), device=DEV))
+        dw = step * s * self.plast(self.w[a]) / (self.gain * n[ix].clamp_min(1.0))
+        self.apply(a, dw)
+
     def decay(self):
         """ARCH 四, the one decay: learned links are multiplied by gamma (slowed by the same concave factor); links
         that fall below `prune` are removed. A table with a cap (the PFC last layer's own links): all links into one
