@@ -127,12 +127,13 @@ class Learner:
 def build(out, seed):
     rng = np.random.default_rng(seed)
     G = W.glyphs()
-    C, K = W.birth_stream(3000, rng, G)
+    C, K = W.birth_stream(3000, rng, G, int(os.environ.get('LOGIC_MUSCLES', 2)))   # 15: one muscle per word
     c = config(s=1, dz=(2, 4, 8, 16), levels_per_s=4, r_learn=float(os.environ.get('LOGIC_R_LEARN', 0.05)),
                pfc_depth=int(os.environ.get('LOGIC_DEPTH', 4)), pfc_mid_rate=float(os.environ.get('LOGIC_MID_RATE', 0.3)))
     b = GameBrain(c, seed, C, K, game='logic')
     game_brain.keys_hear_all(b)
-    print('newborn: pfc depth', c['pfc_depth'], 'vision units', b.area.n, 'copies', b.ch.n, flush=True)
+    print('newborn: pfc depth', c['pfc_depth'], 'vision units', b.area.n, 'copies', b.ch.n, 'muscles', K.shape[1],
+          flush=True)
     torch.save(b, out)
 
 

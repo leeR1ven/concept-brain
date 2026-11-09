@@ -191,6 +191,10 @@ class GameBrain:
         self.pfc.adapt = True
         self.reset()
 
+    def still(self):
+        """the muscle copies' input when no muscle moves (as many keys as this brain was born with)"""
+        return np.zeros((self.ch.n - self.ch.n_vision) // (2 * UNITS_PER_KEY), bool)
+
     def reset(self):
         if getattr(self, 'gaze', None) is not None:
             self.gaze.reset()

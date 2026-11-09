@@ -47,6 +47,7 @@ def main():
         life = CorpusLife(c, seed, data)
         start, nxt = life.env.n_ex, probe
         print('PROBE', 0, json.dumps(life.reply_ranks()), flush=True)
+        print('NEXT', 0, json.dumps(life.next_ranks()), flush=True)
     if grow_concept and getattr(life.brain, 'concept', None) is None:
         from .grow import add_concept                        # the shared concept area grows into the living brain
         add_concept(life)
@@ -82,6 +83,7 @@ def main():
             k = 0
         if w.n_ex - start >= nxt:
             print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
+            print('NEXT', nxt, json.dumps(life.next_ranks()), flush=True)
             nxt += probe
         if ckpt and time.time() - saved_at > save_min * 60:
             torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
@@ -128,6 +130,7 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow, save_a
             k = 0
         if done >= nxt:
             print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
+            print('NEXT', nxt, json.dumps(life.next_ranks()), flush=True)
             nxt += probe
         if ckpt and save_at and done >= save_at[0]:
             env.n_ex = base + bt.n_ex()

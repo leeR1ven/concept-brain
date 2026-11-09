@@ -26,7 +26,7 @@ def own_copies(b, G):
         on = torch.zeros(b.ch.n, device=DEV)
         for _ in range(10):
             for cells in [blank] * 4 + [G[w]] * 3:
-                b.step(cells, np.zeros(2, bool))
+                b.step(cells, b.still())
             on += b.pfc.L1ext.on.float()
         rate[w] = (on[:nv] / 10) > 0.5
     lit_by = torch.stack(list(rate.values())).sum(0)
@@ -51,13 +51,13 @@ def main():
         b = copy.deepcopy(b0)
         rng = np.random.default_rng(r)
         for _ in range(int(rng.integers(5, 15))):  # some quiet before
-            b.step(blank, np.zeros(2, bool))
+            b.step(blank, b.still())
         for t in toks:
             for cells in [G[t]] * 3 + [blank]:
-                b.step(cells, np.zeros(2, bool))
+                b.step(cells, b.still())
         seq = []
         for k in range(ticks):
-            b.step(blank, np.zeros(2, bool))
+            b.step(blank, b.still())
             th = b.pfc.x_int
             n = max(int(th.sum()), 1)
             share = {w: int(th[ix].sum()) / n for w, ix in words.items()}   # its share of this tick's thoughts

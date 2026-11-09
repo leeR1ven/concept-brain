@@ -58,9 +58,10 @@ class DialogueWorld:
     """resumable anywhere: every dialogue's plan (pause before it, voices, offsets, pauses between turns) comes from
     its own generator seeded by (life seed, dialogue index); the cochlea's noise generator is saved with the state"""
 
-    def __init__(self, dlgs, coch, seed, start=0, gap_dlg=(12, 25), gap_turn=(4, 10)):
+    def __init__(self, dlgs, coch, seed, start=0, gap_dlg=None, gap_turn=None):
         self.D, self.coch, self.seed = dlgs, coch, seed
-        self.gap_dlg, self.gap_turn = gap_dlg, gap_turn
+        self.gap_dlg = tuple(gap_dlg or coch.c.get('gap_dlg', (12, 25)))     # pauses between dialogues / turns
+        self.gap_turn = tuple(gap_turn or coch.c.get('gap_turn', (4, 10)))
         self.i, self.pos = start, 0    # dialogue being spoken, tick within its plan
         self.n_ex = 0                  # dialogues finished
         self.t = 0
@@ -72,7 +73,7 @@ class DialogueWorld:
         d = i % self.D.n
         rng = np.random.default_rng([self.seed, 7000, i])
         pre = int(rng.integers(*self.gap_dlg))
-        return script_dialogue(self.D, d, rng, self.gap_turn, pre)
+        return script_dialogue(self.D, d, rng, self.gap_turn, pre, self.coch.c.get('syl_ticks', 3))
 
     def step(self, muscles=None):
         if muscles is not None and muscles.any():
@@ -101,7 +102,7 @@ class DialogueWorld:
         self.plan = self._plan(self.i)
 
 
-def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12):
+def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12, syl_ticks=3):
     """the rendering plan of dialogue d: list per tick of None (pause) or (sid, tick, voice, f0_off, level, d, turn,
     pos). Two different adult voices alternate turns; per turn an F0 offset (+-1 semitone) and a level change (+-2 dB);
     F0 declines 0.08 semitone per syllable (at most 2) plus 0.3 semitone jitter per syllable."""
@@ -115,7 +116,8 @@ def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12):
         f0, lev = rng.uniform(-1.0, 1.0), rng.uniform(-2.0, 2.0)
         for p, sid in enumerate(tr):
             off = f0 - min(2.0, 0.08 * p) + rng.normal(0.0, 0.3)
-            out += [(int(sid), k, v, off, lev, d, j, p) for k in range(3)]
+            out += ([(int(sid), k, v, off, lev, d, j, p) for k in range(3)] if syl_ticks == 3
+                    else [(int(sid), -1, v, off, lev, d, j, p)])          # syl_ticks 1: the whole syllable at once
         if j < len(turns) - 1:
             out += [None] * int(rng.integers(*gap_turn))
     return out
@@ -154,7 +156,7 @@ class CurriculumWorld(DialogueWorld):
         d = int(self.order[min(self.pool(i) - 1, int(self.pool(i) * r.random() ** getattr(self, 'skew', 2.0)))])
         rng = np.random.default_rng([self.seed, 7000, i])
         pre = int(rng.integers(*self.gap_dlg))
-        return script_dialogue(self.D, d, rng, self.gap_turn, pre)
+        return script_dialogue(self.D, d, rng, self.gap_turn, pre, self.coch.c.get('syl_ticks', 3))
 
 
 def concat(a, b):

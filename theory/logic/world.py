@@ -109,13 +109,13 @@ def own_voice(G):
     return {w: g & (rng.random(g.shape) < 0.5) for w, g in G.items()}
 
 
-def birth_stream(n_frames, rng, G):
+def birth_stream(n_frames, rng, G, n_muscles=2):
     """frames for the brain's birth (its vision calibrated on what this world shows): sentences of every stage, and
-    random presses (the muscles move at random from the start)"""
+    random presses (the muscles move at random from the start); n_muscles: 2 (YES, NO) or one per word"""
     C = []
     while len(C) < n_frames:
         toks, _, _ = sentence(STAGES, rng)
         C += [c for c, _ in frames(toks, G)]
     C = np.array(C[:n_frames])
-    K = rng.random((n_frames, 2)) < 0.5
+    K = rng.random((n_frames, n_muscles)) < 0.5
     return C, K

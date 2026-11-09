@@ -7,6 +7,8 @@ def config(s=1, **over):
         # world physics (the world, not the brain): cochlea levels and thresholds, own voice at 0.6 through the bone
         levels_per_s=3, th_lo=0.12, th_hi=1.0, own_level=0.6, voice_level=0.9, noise_sd=0.04, e_max=1.5,
         lineage_seed=4321, birth_dialogues=200,
+        syl_ticks=3, gap_turn=(4, 10), gap_dlg=(12, 25),   # ticks per syllable (1: the whole syllable at once, three
+        # bands in the cochlea); pauses between turns and dialogues (shorter with 1 tick per syllable)
         # local nets, the same for every area (ARCH 二.4): K inputs per unit, units per grid position, windows by depth
         K=6, upp=2, dy=(1, 2, 4, 8), dz=(2, 3, 4, 6),
         sound_rates=(0.06, 0.036, 0.024, 0.015), touch_rates=(0.06, 0.036),  # fewer lit deeper (二.5); PFC under 5 % (designer 11-03)

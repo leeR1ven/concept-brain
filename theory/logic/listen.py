@@ -39,7 +39,7 @@ def word_copies(b, G):
         blank = np.zeros((W.ROWS, W.COLS), bool)
         for _ in range(20):
             for cells in [blank] * 4 + [G[w]] * 3:
-                bb.step(cells, np.zeros(2, bool))
+                bb.step(cells, bb.still())
             on += bb.pfc.L1ext.on.float()
         rate[w] = on[:nv] / 20
     yes = torch.nonzero((rate['YES'] > 0.5) & (rate['NO'] < 0.1)).squeeze(1)
@@ -55,7 +55,7 @@ def usual_input(b, G, n=200):
     for _ in range(n):
         toks, truth, _ = W.sentence(5, r)
         for cells, _ in W.dialogue(toks, truth, G):
-            X.append(bb.step(cells, np.zeros(2, bool)))
+            X.append(bb.step(cells, bb.still()))
     return torch.stack(X)
 
 
@@ -87,7 +87,7 @@ def test(b, G, stage, rng, yes, no):
         toks, truth, s = W.sentence(stage, rng)
         fr = W.dialogue(toks, truth, G)
         for j, (cells, phase) in enumerate(fr):
-            bb.step(cells, np.zeros(2, bool))
+            bb.step(cells, bb.still())
             if fr[j + 1][1] == 'answer':
                 e = expect(bb)
                 p = bb.pfc                         # what it would think of next: copies not lit from outside, over
@@ -141,7 +141,7 @@ def main():
             break
         toks, truth, s = W.sentence(stage, rng)
         for cells, phase in W.dialogue(toks, truth, G):
-            b.step(cells, np.zeros(2, bool), b.pfc.learn)
+            b.step(cells, b.still(), b.pfc.learn)
             t += 1
             if t % b.c['decay_every'] == 0:
                 for tb in b.pfc.plastic():

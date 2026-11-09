@@ -175,7 +175,11 @@ class Cochlea:
     def __init__(self, voice, c, seed, db_range=30.0):
         self.v, self.c = voice, c
         self.NP, self.NS = voice.NP, voice.NS
-        self.NC = self.NP + self.NS
+        # syl_ticks 1: a whole syllable in one tick, its onset / nucleus / offset side by side (three bands of
+        # channels), so the order inside it (and the tone's rise or fall) is kept in place instead of in time
+        self.bands = 3 if c.get('syl_ticks', 3) == 1 else 1
+        self.NC1 = self.NP + self.NS
+        self.NC = self.bands * self.NC1
         self.L = c['levels_per_s'] * c['s']
         self.Z = 2 * self.L
         self.n = self.NC * self.Z
@@ -186,13 +190,22 @@ class Cochlea:
         self.vi = {v: i for i, v in enumerate(voice.voices)}
         # [M4'] brake lines: up lines of the spectral channels above 1.5 kHz (birth wiring: the child's own voice
         # reaches its ear by bone conduction, low-passed, so it lights few of them)
-        hi = np.nonzero(voice.fc >= 1500.0)[0] + self.NP
+        hi = np.concatenate([np.nonzero(voice.fc >= 1500.0)[0] + self.NP + b * self.NC1 for b in range(self.bands)])
         self.brake_lines = np.array([ch * self.Z + lv * 2 for ch in hi for lv in range(self.L)], np.int64)
         self.own_lp = 1.0 / (1.0 + (voice.fc / 1000.0) ** 2)
 
     def energy(self, srcs):
         """srcs: list of (sid, tick, voice, f0_offset_st, level_db). sid = toned syllable id (base * 5 + tone - 1).
-        Returns float energies [NC] in 0..1.5."""
+        Returns float energies [NC] in 0..1.5. With three bands (syl_ticks 1): tick -1 = the whole syllable (each part
+        in its band), tick 0..2 = that part only."""
+        if self.bands == 1:
+            return self._energy(srcs)
+        out = []
+        for b in range(3):
+            out.append(self._energy([(s[0], b) + tuple(s[2:]) for s in srcs if s[1] in (-1, b)]))
+        return np.concatenate(out)
+
+    def _energy(self, srcs):
         v, c, rng = self.v, self.c, self.rng
         P = np.zeros(self.NS)
         pitch = np.zeros(self.NP)
@@ -209,7 +222,7 @@ class Cochlea:
             st = 12 * np.log2(VOICES[voice][0] / v.f0_lo) + TONE_ST[tone][k] + f0_off
             vo = v.voicing[b, k] * (0.75 if tone == 5 else 1.0)
             pitch = np.maximum(pitch, amp * 1.1 * vo * np.exp(-0.5 * ((v.pitch_st - st) / 1.0) ** 2))
-        e = np.zeros(self.NC, np.float32)
+        e = np.zeros(self.NC1, np.float32)
         e[:self.NP] = pitch
         if srcs:
             db = 10 * np.log10(P + 1e-12)
@@ -217,7 +230,7 @@ class Cochlea:
             if any(s[2] == 'own' for s in srcs) and len(srcs) == 1:
                 spec = spec * c['own_level']
             e[self.NP:] = spec * rng.uniform(0.85, 1.0, self.NS)
-        e += np.abs(rng.normal(0.0, c['noise_sd'], self.NC)).astype(np.float32)
+        e += np.abs(rng.normal(0.0, c['noise_sd'], self.NC1)).astype(np.float32)
         return np.minimum(e, c['e_max'])
 
     def code(self, e):
