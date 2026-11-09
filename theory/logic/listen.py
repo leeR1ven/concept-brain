@@ -23,7 +23,8 @@ from game_brain import DEV                         # noqa: E402
 import world as W                                  # noqa: E402
 
 LOOP_X = float(os.environ.get('LOGIC_LOOP_X', 1.0))
-BLOCK, TESTS = 500, 200
+BLOCK = int(os.environ.get('LOGIC_TEST_EVERY', 500))   # dialogues between tests
+TESTS = int(os.environ.get('LOGIC_TESTS', 200))        # dialogues per test
 
 
 def word_copies(b, G):
@@ -63,7 +64,13 @@ def test(b, G, stage, rng, yes, no):
             bb.step(cells, np.zeros(2, bool))
             if fr[j + 1][1] == 'answer':
                 e = expect(bb)
-                out.append((s, truth, float(e[yes].mean() - e[no].mean())))
+                p = bb.pfc                         # what it would think of next: copies not lit from outside, over
+                cand = e.masked_fill(p.L1ext.on.bool(), -1e9)   # theta1, the most driven within the thought budget
+                k = int(max(p.budget, 1))
+                v, ix = torch.topk(cand, k)
+                th = ix[v > p.c['theta1']]
+                ny, nn = int(torch.isin(th, yes).sum()), int(torch.isin(th, no).sum())
+                out.append((s, truth, float(e[yes].mean() - e[no].mean()), ny - nn))
                 break
     return out
 
@@ -80,20 +87,28 @@ def main():
     if LOOP_X != 1.0 and not getattr(b, 'loop_scaled', False):
         b.pfc.loop.w *= LOOP_X
         b.loop_scaled = True
+    if os.environ.get('LOGIC_CHECK_STEP'):         # the copies' own check: how much one hearing moves the links (ARCH 六)
+        b.c['check_step'] = float(os.environ['LOGIC_CHECK_STEP'])
+    if os.environ.get('LOGIC_SIGNED') == '1':      # the learned last -> first layer links may turn inhibitory (ARCH 二.1:
+        b.pfc.L41.near.signed = True               # an inhibitory neuron is one whose output weights are negative)
     stage = int(os.environ.get('LOGIC_STAGE', 5))
     G = W.glyphs()
     yes, no = word_copies(b, G)
-    print(f'listening: stage <= {stage}, loop x{LOOP_X}, l4 usual {b.pfc.c.get("l4_usual", False)}; copies the YES word '
+    print(f'listening: signed {getattr(b.pfc.L41.near, "signed", False)}, check step {b.c["check_step"]}, stage <= {stage}, loop x{LOOP_X}, l4 usual {b.pfc.c.get("l4_usual", False)}; copies the YES word '
           f'lights {len(yes)}, the NO word {len(no)}', flush=True)
     t, t0 = 0, time.time()
     for i in range(n + 1):
         if i % BLOCK == 0:
             res = test(b, G, stage, np.random.default_rng(1000 + i), yes, no)
             by = collections.defaultdict(list)
-            for s, truth, v in res:
+            byt = collections.defaultdict(list)
+            for s, truth, v, d in res:
                 by[s].append((v > 0) == truth)
+                byt[s].append(d != 0 and ((d > 0) == truth))   # thinks of the right word (more of its copies)
             print(f'LISTEN {i} dialogues heard | expects the right word: all {np.mean([r for v in by.values() for r in v]):.2f} | '
-                  + ' '.join(f'stage {k}: {np.mean(v):.2f}' for k, v in sorted(by.items())) + f' | {time.time() - t0:.0f} s', flush=True)
+                  + ' '.join(f'stage {k}: {np.mean(v):.2f}' for k, v in sorted(by.items())) +
+                  ' | THINKS the right word: ' + ' '.join(f'stage {k}: {np.mean(v):.2f}' for k, v in sorted(byt.items())) +
+                  f' | {time.time() - t0:.0f} s', flush=True)
         if i == n:
             break
         toks, truth, s = W.sentence(stage, rng)

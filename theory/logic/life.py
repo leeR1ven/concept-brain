@@ -44,12 +44,6 @@ LOOP_X = float(os.environ.get('LOGIC_LOOP_X', 1.0))  # the birth loop's strength
 W_REF = float(os.environ.get('LOGIC_W_REF', 0))      # >0: the reward links' own working size in the concave factor
                                                         # (push ~2 needs a press-stop difference ~2 per unit at gain
                                                         # 0.0025 x ~400 lit: w_ref 1 makes them stiff where they work)
-CANCEL = os.environ.get('LOGIC_CANCEL') == '1'      # take back what a unit's press and stop links share (the push,
-                                                        # their difference, stays): growth both ways stiffens them
-COMPETE = os.environ.get('LOGIC_COMPETE', '0') == '1'   # 1: when both would move only the more driven one does. Off
-                                                        # (designer 11-09): each muscle has its own press and stop
-                                                        # (inhibiting) neurons; none, one or both is four outputs, and
-                                                        # only exactly the right muscle is right
 R_OK = float(os.environ.get('LOGIC_R_OK', 1.0))      # right: exactly the right muscle
 R_BAD = float(os.environ.get('LOGIC_R_BAD', -1.0))   # wrong: the wrong muscle, both, or none (designer 11-09: reward
                                                     # more, punish less; most answers of a young brain are wrong)
@@ -128,11 +122,6 @@ class Learner:
         g = c['r_pleased'] * r if r > 0 else -(1.0 + c['r_upset']) * (-r)
         E = self.EF if r < 0 else self.E
         K.w = (K.w + STEP * g * K.plast(K.w) * E / (K.gain * self.lit)).clamp_min(0.0)
-        if CANCEL:
-            h = K.w.shape[1] // 2                      # press copies, then stop copies, pair by pair
-            m = torch.minimum(K.w[:, :h], K.w[:, h:])
-            K.w[:, :h] -= m
-            K.w[:, h:] -= m
 
 
 def build(out, seed):
@@ -140,7 +129,7 @@ def build(out, seed):
     G = W.glyphs()
     C, K = W.birth_stream(3000, rng, G)
     c = config(s=1, dz=(2, 4, 8, 16), levels_per_s=4, r_learn=float(os.environ.get('LOGIC_R_LEARN', 0.05)),
-               pfc_depth=int(os.environ.get('LOGIC_DEPTH', 4)))
+               pfc_depth=int(os.environ.get('LOGIC_DEPTH', 4)), pfc_mid_rate=float(os.environ.get('LOGIC_MID_RATE', 0.3)))
     b = GameBrain(c, seed, C, K, game='logic')
     game_brain.keys_hear_all(b)
     print('newborn: pfc depth', c['pfc_depth'], 'vision units', b.area.n, 'copies', b.ch.n, flush=True)
@@ -176,7 +165,7 @@ def live(path, out, n, seed):
     stats = collections.defaultdict(lambda: collections.deque(maxlen=200))
     stage = int(os.environ.get('LOGIC_STAGE', 1))
     print(f'right {R_OK} wrong {R_BAD} sure-wrong {R_SURE} (sure at {SURE} x noise) | step {STEP} r_win {R_WIN} credit {CREDIT} noise {NOISE} over {NOISE_T} keys hear {KEY_SRC} depth '
-          f'{getattr(b.pfc, "depth", 4)} pfc learns {PFC_LEARN} muscle copies check {b.pfc.L41.check_keys} gen0 {GEN0} dialogue {DIALOGUE} loop x{LOOP_X} w_ref {W_REF or b.c["w_ref"]} cancel {CANCEL} compete {COMPETE} l4 usual {b.pfc.c.get("l4_usual", False)} stage {stage}', flush=True)
+          f'{getattr(b.pfc, "depth", 4)} pfc learns {PFC_LEARN} muscle copies check {b.pfc.L41.check_keys} gen0 {GEN0} dialogue {DIALOGUE} loop x{LOOP_X} w_ref {W_REF or b.c["w_ref"]} l4 usual {b.pfc.c.get("l4_usual", False)} stage {stage}', flush=True)
     kinds = collections.deque(maxlen=200)           # how the latest answers ended: right, wrong, both, none
     keys, z = np.zeros(NK, bool), NOISE * rng.standard_normal(NK)
     recent = collections.deque(maxlen=40)          # (stage of the sentence, right?) of the latest answers
@@ -196,9 +185,7 @@ def live(path, out, n, seed):
         z += -z / NOISE_T + NOISE * np.sqrt(2.0 / NOISE_T) * rng.standard_normal(NK)
         push = next_push(b)
         drive = push + z
-        keys = drive > 0
-        if COMPETE and keys.all():
-            keys = drive >= drive.max()
+        keys = drive > 0                           # each muscle has its own press and stop groups (designer 11-09)
         L.did(keys, push)
         return keys, push
 

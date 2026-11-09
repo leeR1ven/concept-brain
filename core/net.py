@@ -129,11 +129,13 @@ class Links:
         if self.plain:
             return torch.ones_like(w)
         ref = getattr(self, 'w_ref', None) or self.c['w_ref']   # a link group may have its own working size
+        if getattr(self, 'signed', False):                       # an inhibitory link slows by its size too
+            w = w.abs()
         return ((1.0 + w / ref) ** -self.c['pow']).clamp_min(self.c['floor'])
 
     def apply(self, rows, dw, log=True):
         old = self.w[rows]
-        new = (old + dw).clamp_min(0.0)
+        new = old + dw if getattr(self, 'signed', False) else (old + dw).clamp_min(0.0)   # signed: may turn inhibitory
         d = new - old
         self.w[rows] = new
         if log and self.log is not None:
@@ -195,7 +197,7 @@ class Links:
         if not self.learned:
             return
         self.w -= (1.0 - self.gamma) * self.w * self.plast(self.w)
-        self.w[self.w < self.c['prune']] = 0.0
+        self.w[self.w.abs() < self.c['prune']] = 0.0
         cap = getattr(self, 'cap', None)
         if cap:                                        # all links into a unit together push it at most `cap`
             tot = torch.zeros(self.n_post + 1, device=DEV).index_add_(0, self.idx.reshape(-1), self.w.reshape(-1))

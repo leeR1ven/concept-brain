@@ -221,7 +221,7 @@ class PFC:
         if self.adapt:
             self.usual4 += e4 / self.c['tau_usual']
         k4 = self.L1.on.sum()                              # as many as the input layer lights
-        if self.c.get('l4_usual'):                         # ... or as its usual external count, if more: in a quiet
+        if self.c.get('l4_usual'):                       # ... or as its usual external count, if more: in a quiet
             k4 = max(float(k4), self.ext_usual)            # moment the last layer still thinks with its usual size
         n4 = topk_on(e4, k4)                               # (like the thought budget, ARCH 六; designer rule 11-04)
         self.L1ext.set(x_ext)

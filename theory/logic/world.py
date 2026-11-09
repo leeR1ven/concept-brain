@@ -7,7 +7,13 @@ each, a blank frame between), it ends with "?", and "?" stays on the sheet durin
 by pressing one of two muscles, YES or NO. The world knows the answer (the logic); the brain does not. The first frame
 in the window with a press decides (both at once is wrong); no press in the window counts as no answer.
 
-Stages (a stage adds sentences, the earlier ones stay, half of the sentences are of the newest stage):
+Dialogues (dialogue(): someone asks, someone else answers) and turns (turn(): it is asked, then silence for its answer)
+are said at a pace set by LOGIC_TOK (frames per word), LOGIC_GAP (blank frames after a word), LOGIC_WAIT (pause before
+the answer): a sentence has to fit the brain's working-memory window (1 / 0 / 3 worked for 3-word sentences, 11-10).
+Its own voice (own_voice()) is softer than others'.
+
+Stages (a stage adds sentences, the earlier ones stay, half of the sentences are of the newest stage; LOGIC_UNIFORM=1:
+every stage equally often):
   1  T ?   F ?                              truth words
   2  NOT T ?                                negation
   3  T AND F ?   F OR T ?                   two-place
@@ -23,6 +29,7 @@ SCALE = int(os.environ.get('LOGIC_SCALE', 1))       # the sheet (and so the whol
 ROWS, COLS = 12 * SCALE, 16 * SCALE
 YES, NO = 0, 1                                 # the two muscles (button copies 0 and 1)
 STAGES = 5
+UNIFORM = os.environ.get('LOGIC_UNIFORM') == '1'   # every stage up to the current one equally often (no majority)
 
 
 def glyphs(seed=0, density=0.3):
@@ -34,7 +41,7 @@ def glyphs(seed=0, density=0.3):
 def sentence(stage, rng):
     """a random sentence of this stage or an earlier one: (tokens, the true answer, which stage). The answer is YES
     for half of each kind (otherwise "AND -> always NO" is already right 3 times in 4 and the brain stops there)"""
-    s = stage if rng.random() < 0.5 else int(rng.integers(1, stage + 1))
+    s = int(rng.integers(1, stage + 1)) if UNIFORM else (stage if rng.random() < 0.5 else int(rng.integers(1, stage + 1)))
     want = rng.random() < 0.5                                     # the answer this sentence will have
     tv = lambda: 'T' if rng.random() < 0.5 else 'F'            # noqa: E731
     if s == 1:
@@ -70,14 +77,19 @@ def frames(tokens, G, tok=3, window=8, rest=4):
     return out
 
 
-def dialogue(tokens, truth, G, tok=3, rest=4):
+def dialogue(tokens, truth, G, tok=None, rest=None):
     """someone asks, someone else answers (designer 11-09 / ARCH 五: the brain listens to others; it learns what comes
-    next): the question, then the answer word on the sheet. Phases: 'say', 'answer' (the answer word), 'rest'"""
+    next): the question, then the answer word on the sheet. Phases: 'say', 'answer' (the answer word), 'rest'.
+    LOGIC_TOK frames per word (default 3), LOGIC_GAP blank frames after each word (default 1): how fast it is said"""
     blank = np.zeros((ROWS, COLS), bool)
+    tok = int(os.environ.get('LOGIC_TOK', 3)) if tok is None else tok
+    gap = int(os.environ.get('LOGIC_GAP', 1))
     out = []
     for t in tokens:
-        out += [(G[t], 'say')] * tok + [(blank, 'say')]
+        out += [(G[t], 'say')] * tok + [(blank, 'say')] * gap
+    out += [(blank, 'say')] * int(os.environ.get('LOGIC_WAIT', 0))     # a pause before the answer
     out += [(G['YES' if truth else 'NO'], 'answer')] * tok
+    rest = int(os.environ.get('LOGIC_REST', 4)) if rest is None else rest   # quiet after the answer
     out += [(blank, 'rest')] * rest
     return out
 
