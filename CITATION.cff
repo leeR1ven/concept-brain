@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this architecture, code or results, please cite the technical report."
+message: "If you use this architecture, code or results, please cite the paper (preferred-citation below)."
 title: "A Brain That Is Never Switched Off: Binary Neurons, One Local Learning Rule, Innate Wiring and Speech Only Through Muscles"
 type: software
 authors:
@@ -34,3 +34,25 @@ keywords:
   - prefrontal cortex
   - working memory
   - language learning
+preferred-citation:
+  type: article
+  status: preprint
+  title: "A Brain That Is Never Switched Off: Binary Neurons, One Local Learning Rule, Innate Wiring and Speech Only Through Muscles"
+  authors:
+    - family-names: Li
+      given-names: Zhiwen
+      orcid: "https://orcid.org/0009-0005-8289-6393"
+      affiliation: "Independent Researcher"
+  year: 2026
+  month: 11
+  publisher:
+    name: Zenodo
+  doi: "10.5281/zenodo.24085130"
+  url: "https://doi.org/10.5281/zenodo.24085130"
+  identifiers:
+    - type: doi
+      value: "10.5281/zenodo.24085130"
+      description: "Paper, all versions (always the latest)"
+    - type: doi
+      value: "10.5281/zenodo.24085131"
+      description: "Paper, version 1"

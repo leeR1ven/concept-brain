@@ -6,7 +6,7 @@
 
 模仿真实大脑、一直活着、边运行边学的 AI 模型（研究原型）。纯二值神经元，只有一条局部赫布学习规则，只通过肌肉说话。
 
-- **论文（技术报告）：** [英文 PDF](docs/paper/concept-brain.pdf)、[中文 PDF](docs/paper/concept-brain-zh.pdf)（[网页版](docs/paper/concept-brain-zh.md)）。
+- **论文（技术报告）：** [英文 PDF](docs/paper/concept-brain.pdf)、[中文 PDF](docs/paper/concept-brain-zh.pdf)（[网页版](docs/paper/concept-brain-zh.md)）。预印本 DOI：[10.5281/zenodo.24085130](https://doi.org/10.5281/zenodo.24085130)（代码 DOI 见上方徽章）。
 - **架构（唯一权威）：** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)，只写规则。
 - **模型代码：** `core/`，照架构搭的唯一一套代码，整理中。
 - **测试：** 小游戏（打砖块、马里奥）见 [docs/GAME_TEST.md](docs/GAME_TEST.md)；自创逻辑语言（听、想、说）见 [docs/LOGIC.md](docs/LOGIC.md)。

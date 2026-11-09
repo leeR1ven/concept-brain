@@ -2,9 +2,28 @@
   "title": "concept-brain: a brain that is never switched off (binary neurons, one local learning rule, innate wiring, speech only through muscles)",
   "upload_type": "software",
   "creators": [
-    {"name": "Li, Zhiwen", "affiliation": "Independent Researcher", "orcid": "0009-0005-8289-6393"}
+    {
+      "name": "Li, Zhiwen",
+      "affiliation": "Independent Researcher",
+      "orcid": "0009-0005-8289-6393"
+    }
   ],
-  "description": "Research prototype of an artificial brain that lives one continuous life: binary neurons wired at birth by one generator, one local Hebbian rule with concave growth and one global decay, output only through muscles. Includes the rules-only architecture, the theory (the prefrontal Hebbian readout equals an autoregressive language model's readout under stated conditions), measurements of the built brain, and a test on an invented logic language in which the brain learns by listening and answers in turn. Technical report in docs/paper (English PDF and Chinese version).",
+  "description": "Research prototype of an artificial brain that lives one continuous life: binary neurons wired at birth by one generator, one local Hebbian rule with concave growth and one global decay, output only through muscles. Includes the rules-only architecture, the theory (the prefrontal Hebbian readout equals an autoregressive language model's readout under stated conditions), measurements of the built brain, and a test on an invented logic language in which the brain learns by listening and answers in turn. Technical report in docs/paper (English PDF and Chinese version); preprint DOI 10.5281/zenodo.24085130.",
   "license": "MIT",
-  "keywords": ["brain-inspired architecture", "Hebbian learning", "continual learning", "binary neurons", "prefrontal cortex", "working memory", "language learning"]
+  "keywords": [
+    "brain-inspired architecture",
+    "Hebbian learning",
+    "continual learning",
+    "binary neurons",
+    "prefrontal cortex",
+    "working memory",
+    "language learning"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "10.5281/zenodo.24085130",
+      "resource_type": "publication-preprint"
+    }
+  ]
 }
