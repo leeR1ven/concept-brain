@@ -10,6 +10,14 @@ authors:
 repository-code: "https://github.com/leeR1ven/concept-brain"
 url: "https://github.com/leeR1ven/concept-brain"
 license: MIT
+doi: "10.5281/zenodo.24084045"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24084045"
+    description: "All versions (always the latest)"
+  - type: doi
+    value: "10.5281/zenodo.24084046"
+    description: "Version v1.0"
 date-released: "2026-11-09"
 abstract: >-
   A research prototype of an artificial brain that lives one continuous life: binary neurons wired at birth by one

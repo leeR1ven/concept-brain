@@ -4,7 +4,8 @@
 
 李秩文（Zhiwen Li，ORCID 0009-0005-8289-6393），独立研究者
 2026 年 11 月，技术报告第 1 版
-代码、报告和所有失败的结果：<https://github.com/leeR1ven/concept-brain>（MIT 许可证，已由 Software Heritage 永久存档）
+代码、报告和所有失败的结果：<https://github.com/leeR1ven/concept-brain>（MIT 许可证）
+永久存档：Zenodo [10.5281/zenodo.24084045](https://doi.org/10.5281/zenodo.24084045)（所有版本；v1.0 为 10.5281/zenodo.24084046），以及 Software Heritage
 
 > 英文版：[concept-brain.pdf](concept-brain.pdf)（源文件 [concept-brain.tex](concept-brain.tex)）。两版内容相同。
 

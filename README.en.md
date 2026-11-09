@@ -1,5 +1,7 @@
 # concept-brain
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24084045.svg)](https://doi.org/10.5281/zenodo.24084045)
+
 [中文](README.md) | **English**
 
 A research prototype of a brain-like AI that lives continuously and learns while it runs. It uses binary neurons, a single local Hebbian learning rule, and speaks only through muscles.

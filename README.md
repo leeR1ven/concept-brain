@@ -1,5 +1,7 @@
 # concept-brain
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24084045.svg)](https://doi.org/10.5281/zenodo.24084045)
+
 **中文** | [English](README.en.md)
 
 模仿真实大脑、一直活着、边运行边学的 AI 模型（研究原型）。纯二值神经元，只有一条局部赫布学习规则，只通过肌肉说话。
