@@ -8,6 +8,7 @@ import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from game_brain import COLS, ROWS, key_bits     # noqa: E402
+from game_brain import DEV                        # noqa: E402
 from game_data import locate, to_cells          # noqa: E402
 from game_env import LEFT, NOOP, RIGHT, Breakout  # noqa: E402
 from game_fit import BINS                       # noqa: E402
@@ -39,7 +40,7 @@ def main():
     if kind == 'learned' and FEAT:
         kind = FEAT
     N = {'truth': BINS, 'pixels': ROWS * COLS, 'columns': 2 * COLS}.get(kind)
-    b0 = torch.load(net, weights_only=False) if kind in ('copies', 'last_layer', 'last_layer_seen', 'learned') else None
+    b0 = torch.load(net, weights_only=False, map_location=DEV) if kind in ('copies', 'last_layer', 'last_layer_seen', 'learned') else None
     if b0 is not None:
         N = b0.pfc.n
     row = np.full(N, -1)
@@ -48,7 +49,7 @@ def main():
     for g in range(games):
         e = Breakout(seed + g)
         f = e.reset()
-        b = torch.load(net, weights_only=False) if b0 is not None else None
+        b = torch.load(net, weights_only=False, map_location=DEV) if b0 is not None else None
         keys = np.zeros(2, bool)
         ticks, moved = 0, 0
         trace = []

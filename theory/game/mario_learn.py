@@ -15,6 +15,7 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import game_learn as G                            # noqa: E402
 from game_brain import UNITS_PER_KEY as U         # noqa: E402
+from game_brain import DEV                        # noqa: E402
 from mario_build import NEW, SEEN_TRY, episodes   # noqa: E402
 
 NAMES = ('A jump', 'B run', 'left', 'right', 'down')
@@ -61,7 +62,7 @@ def measure(W, eps, rec, nv, label):
 def main():
     net, rec, src, out = sys.argv[1:5]
     limit = int(sys.argv[5]) if len(sys.argv) > 5 else None
-    nv = torch.load(net, weights_only=False).ch.n_vision
+    nv = torch.load(net, weights_only=False, map_location=DEV).ch.n_vision
     eps = episodes(src)
     held_out = {}
     for name, lv in eps:                             # one run of each tried training level is kept out of training

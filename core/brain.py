@@ -113,17 +113,18 @@ class Chains:
 # ============================================================================================ PFC
 def reciprocal_loop(ff, n1, fan, rows=None):
     """ARCH 三 前额叶 birth loop: each last-layer unit returns to the `fan` first-layer copies with the largest path
-    weight into it (through L3 and L2); rows: only these last-layer units"""
+    weight into it (back through the middle layers, however many); rows: only these last-layer units"""
     out = []
-    i3, w3 = (ff[2].idx, ff[2].w) if rows is None else (ff[2].idx[rows], ff[2].w[rows])
-    for a in range(0, i3.shape[0], 256):
-        i2 = ff[1].idx[i3[a:a + 256]]
-        p2 = w3[a:a + 256, :, None] * ff[1].w[i3[a:a + 256]]
-        i1 = ff[0].idx[i2]
-        p1 = p2[..., None] * ff[0].w[i2]
-        dense = torch.zeros((i2.shape[0], n1), device=DEV)
-        dense.scatter_add_(1, i1.reshape(i2.shape[0], -1), p1.reshape(i2.shape[0], -1))
-        out.append(torch.topk(dense, fan, dim=1).indices)
+    iL, wL = (ff[-1].idx, ff[-1].w) if rows is None else (ff[-1].idx[rows], ff[-1].w[rows])
+    for a in range(0, iL.shape[0], 256):
+        idx, p = iL[a:a + 256], wL[a:a + 256]
+        for f in reversed(ff[:-1]):
+            p = p[..., None] * f.w[idx]
+            idx = f.idx[idx]
+        dense = torch.zeros((idx.shape[0], n1), device=DEV)
+        dense.scatter_add_(1, idx.reshape(idx.shape[0], -1), p.reshape(idx.shape[0], -1))
+        v, i = torch.topk(dense, fan, dim=1)
+        out.append(torch.where(v != 0, i, torch.full_like(i, n1)))  # no path at all: no link (a shallow PFC has few)
     return torch.cat(out)
 
 
@@ -136,10 +137,14 @@ class PFC:
     def __init__(self, ch, c, rng):
         n = ch.n
         self.c, self.n = c, n
-        self.ff = [Fixed(*local_net(ch.grid, ch.grid, c['K'], c['dy'][0], c['dz'][0], rng)) for _ in range(3)]
+        # layers: L1 (the copies), up to two middle layers (L2, L3), the last layer (L4). The layers only put time
+        # between input and output, one tick each (designer 11-09: fewer may do; pfc_depth 2 = L1 -> L4)
+        self.depth = int(c.get('pfc_depth', 4))
+        self.ff = [Fixed(*local_net(ch.grid, ch.grid, c['K'], c['dy'][0], c['dz'][0], rng))
+                   for _ in range(self.depth - 1)]
         li = reciprocal_loop(self.ff, n, c['loop_fan'])
-        lw = torch.as_tensor(rng.uniform(0.5, 1.5, tuple(li.shape)), dtype=torch.float32, device=DEV)
-        self.loop = Links(li, c['g_loop'] * lw / lw.sum(1, keepdim=True), n, c, learned=False, name='loop')
+        lw = torch.as_tensor(rng.uniform(0.5, 1.5, tuple(li.shape)), dtype=torch.float32, device=DEV) * (li < n)
+        self.loop = Links(li, c['g_loop'] * lw / lw.sum(1, keepdim=True).clamp_min(1e-9), n, c, learned=False, name='loop')
         self.L41 = Links(radius_lists(ch.pos, ch.pos, c['r_learn']), 0.0, n, c, gain=c['g31'], gamma=c['gamma_pfc'],
                          name='L4->L1')
         self.L44 = Links(radius_lists(ch.pos, ch.pos, c['r_learn'], True), 0.0, n, c, gain=c['g44'],
@@ -159,14 +164,14 @@ class PFC:
         rho = float(X.float().mean())
         self.ext_usual = float(X.float().sum(1).mean())     # the usual external count (the thought budget's base)
         mid = self.c.get('pfc_mid_rate') or rho              # middle layers' own rate (ARCH 二.5: free)
-        D2 = self.ff[0].drive_batch(X)
-        self.thr2 = own_thresholds(D2, mid)
-        S2 = D2 > self.thr2
-        del D2
-        D3 = self.ff[1].drive_batch(S2)
-        self.thr3 = own_thresholds(D3, mid)
-        D4 = self.ff[2].drive_batch(D3 > self.thr3)
-        del D3
+        S, thr = X, []
+        for f in self.ff[:-1]:                             # the middle layers
+            D = f.drive_batch(S)
+            thr.append(own_thresholds(D, mid))
+            S = D > thr[-1]
+            del D
+        self.thr2, self.thr3 = (thr + [None, None])[:2]
+        D4 = self.ff[-1].drive_batch(S)
         # how much the input push into the last layer differs between its units (each unit's own mean taken out):
         # the most the last layer's own links may add to one unit, so that what is heard keeps setting its state
         # (designer 11-04: links capped at a value; the value is the input's own spread, not tuned)
@@ -186,8 +191,9 @@ class PFC:
         # a copy's own threshold follows the drive it usually receives (ARCH 二.4): only drive above its own usual level
         # counts. Excitability = context length (三, 六): at most `context` x the external input count are lit inside.
         e1 = d1 - self.usual
-        if self.adapt:
-            self.usual += (d1 - self.usual) / self.c['tau_usual']
+        if self.adapt:                                     # its usual level is the drive it gets while not lit from
+            rest = ~x_ext.bool()                           # outside, so a copy lit most of the time can still be
+            self.usual += rest * (d1 - self.usual) / self.c['tau_usual']   # pushed firmly and its links stop growing
         n_ext = float(x_ext.sum())
         if getattr(self, 'ext_usual', None) is None:
             self.ext_usual = 0.026 * x_ext.shape[0]
@@ -201,20 +207,27 @@ class PFC:
         self.e1 = e1                                       # kept for probes (graded internal drive)
         if self.force_int is not None:
             x_int = x_int | self.force_int
-        n2 = self.ff[0].drive(self.L1.on) > self.thr2
-        n3 = self.ff[1].drive(self.L2.on) > self.thr3
+        # each layer reads the one before as it was a tick ago (one tick per layer)
+        mids = [self.L2, self.L3][:getattr(self, 'depth', 4) - 2]
+        src, new = self.L1.on, []
+        for f, thr, P in zip(self.ff, (self.thr2, self.thr3), mids):
+            new.append(f.drive(src) > thr)
+            src = P.on
         # the last layer: each unit's own usual level too (二.4); the most driven above it, as many as the input
-        d4 = self.ff[2].drive(self.L3.on) + self.L44.drive(a4)
+        d4 = self.ff[len(mids)].drive(src) + self.L44.drive(a4)
         if getattr(self, 'usual4', None) is None:
             self.usual4 = torch.zeros_like(d4)
         e4 = d4 - self.usual4
         if self.adapt:
             self.usual4 += e4 / self.c['tau_usual']
-        n4 = topk_on(e4, self.L1.on.sum())
+        k4 = self.L1.on.sum()                              # as many as the input layer lights
+        if self.c.get('l4_usual'):                         # ... or as its usual external count, if more: in a quiet
+            k4 = max(float(k4), self.ext_usual)            # moment the last layer still thinks with its usual size
+        n4 = topk_on(e4, k4)                               # (like the thought budget, ARCH 六; designer rule 11-04)
         self.L1ext.set(x_ext)
         self.L1.set(x_ext | x_int)
-        self.L2.set(n2)
-        self.L3.set(n3)
+        for P, nw in zip(mids, new):
+            P.set(nw)
         self.L4.set(n4)
         self.x_int = x_int
         return x_int

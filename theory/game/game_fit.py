@@ -14,6 +14,7 @@ from stream_fit import Rows, chunks             # noqa: E402  (stream_fit sets t
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from game_brain import COLS, ROWS, key_bits     # noqa: E402
+from game_brain import DEV                        # noqa: E402
 
 torch.set_num_threads(16)
 VAL = tuple(os.environ.get('GAME_VAL', '134').split(','))
@@ -95,7 +96,7 @@ def main():
     target = np.stack([Y[:, 0] - Y[:, 1], (S > 0) * 1.0 - (S < 0) * 1.0, Y[:, 0], Y[:, 1]], 1).astype(np.float32)  # key side, ball side, right, left
     tt = torch.from_numpy(target)
     best = {}
-    n_vision = torch.load(os.environ['GAME_NET'], weights_only=False).ch.n_vision if 'GAME_NET' in os.environ else n
+    n_vision = torch.load(os.environ['GAME_NET'], weights_only=False, map_location=DEV).ch.n_vision if 'GAME_NET' in os.environ else n
     for name in os.environ.get('GAME_KINDS', 'truth,pixels,copies,last layer,last layer seen').split(','):
         F = feature(name.replace(' seen', ''))
         cnt = np.bincount(F.ix, minlength=F.n)

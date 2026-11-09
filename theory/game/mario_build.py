@@ -2,7 +2,10 @@
 neurons, the speech model's PFC), here with 52 x 64 cells and five buttons (A, B, left, right, down). Built once from a
 birth period of frames spread over the training levels; every later run loads it.
 Levels never seen in training (the test of generalization): NEW. Training levels also tried in play: SEEN_TRY.
-usage: python mario_build.py <cells dir> <net.pt> [birth frames]"""
+For the life with learning (mario_life.py): r_learn (the reach of the learned PFC links on the sheet) and the key copies
+spread over the middle of the sheet, where the eye puts Mario.
+usage: python mario_build.py <cells dir> <net.pt> [birth frames] [r_learn] [key box lo,hi] [birth seed: the random wiring]
+(MARIO_PFC_DEPTH: the PFC's layers, default 4)"""
 import glob
 import os
 import sys
@@ -39,6 +42,9 @@ def load(src, name):
 def main():
     src, out = sys.argv[1], sys.argv[2]
     n_birth = int(sys.argv[3]) if len(sys.argv) > 3 else 3000
+    r_learn = float(sys.argv[4]) if len(sys.argv) > 4 else 0.01
+    box = tuple(float(v) for v in sys.argv[5].split(',')) if len(sys.argv) > 5 else None
+    seed = int(sys.argv[6]) if len(sys.argv) > 6 else 0
     eps = [e for e in episodes(src) if e[1] not in NEW]
     rng = np.random.default_rng(0)
     pick = rng.choice(len(eps), 30, replace=False)
@@ -51,11 +57,12 @@ def main():
         C.append(cells[sl])
         K.append(np.concatenate([np.zeros((1, keys.shape[1]), bool), keys[:-1]])[sl])
     C, K = np.concatenate(C), np.concatenate(K)
-    c = config(s=1, dz=(2, 4, 8, 16), levels_per_s=4, r_learn=0.01)
+    c = config(s=1, dz=(2, 4, 8, 16), levels_per_s=4, r_learn=r_learn)
+    c['pfc_depth'] = int(os.environ.get('MARIO_PFC_DEPTH', 4))   # PFC layers (2 = L1 -> L4)
     torch.set_num_threads(8)
-    b = GameBrain(c, 0, C, K, game='mario')
-    print('birth frames', len(C), 'vision units', b.area.n, 'feature units', [len(i) for i in b.ch.idx], 'copies', b.ch.n,
-          flush=True)
+    b = GameBrain(c, seed, C, K, game='mario', key_box=box)
+    print('birth frames', len(C), 'pfc depth', c['pfc_depth'], 'r_learn', r_learn, 'links per unit', b.pfc.L41.idx.shape[1], 'vision units',
+          b.area.n, 'feature units', [len(i) for i in b.ch.idx], 'copies', b.ch.n, flush=True)
     torch.save(b, out)
     print('saved', os.path.getsize(out) // 1000000, 'MB')
 

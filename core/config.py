@@ -14,6 +14,8 @@ def config(s=1, **over):
         g_ret=1.05,                 # a return alone lights its unit (x the unit's own threshold)
         # PFC (ARCH 三 前额叶)
         g_loop=1.0, loop_fan=30, theta1=1.0, r_learn=0.15, g44=0.1, g31=1.0, pfc_mid_rate=0.3,
+        pfc_depth=4,                # PFC layers: L1 (copies), middle layers, the last; they only put time between in and out
+        l4_usual=False,             # the last layer lights max(this tick's input count, the usual one) (quiet moments)
         check_step=0.3, check_margin=2.0,    # last layer -> first layer, each copy's own check (ARCH 四, 11-07)
         tau_usual=1000,             # ticks over which a copy's own usual internal drive is averaged (ARCH 二.4)
         context=0.1,                # excitability: copies lit from inside <= context x the usual external input count

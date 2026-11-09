@@ -128,7 +128,8 @@ class Links:
         """concave: the bigger a link, the harder it changes; about 1 % plasticity is always kept (ARCH 四)"""
         if self.plain:
             return torch.ones_like(w)
-        return ((1.0 + w / self.c['w_ref']) ** -self.c['pow']).clamp_min(self.c['floor'])
+        ref = getattr(self, 'w_ref', None) or self.c['w_ref']   # a link group may have its own working size
+        return ((1.0 + w / ref) ** -self.c['pow']).clamp_min(self.c['floor'])
 
     def apply(self, rows, dw, log=True):
         old = self.w[rows]

@@ -9,13 +9,14 @@ import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from game_brain import key_bits                 # noqa: E402
+from game_brain import DEV                        # noqa: E402
 
 torch.set_num_threads(1)
 
 
 def main():
     net, src, trial, out = sys.argv[1:5]
-    b = torch.load(net, weights_only=False)
+    b = torch.load(net, weights_only=False, map_location=DEV)
     z = np.load(f'{src}/{trial}.npz')
     cells, action = z['cells'], z['action']
     if 'shape' in z:                                # packed bits (mario_data.py)

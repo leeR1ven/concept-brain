@@ -21,6 +21,7 @@ from core.config import config                  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from game_brain import UNITS_PER_KEY            # noqa: E402
+from game_brain import DEV                        # noqa: E402
 
 C = config()
 ETA, W_REF, FLOOR, GAMMA, EVERY = C['eta'], C['w_ref'], C['floor'], C['gamma_pfc'], C['decay_every']
@@ -113,7 +114,7 @@ def truth(K):
 
 def main():
     net, rec, src, rule, out, train, test = sys.argv[1:8]
-    b = torch.load(net, weights_only=False)
+    b = torch.load(net, weights_only=False, map_location=DEV)
     nv, n = b.ch.n_vision, b.pfc.n
     W = np.zeros((n, 4 * UNITS_PER_KEY), np.float32)
     for i, tr in enumerate(train.split(',')):

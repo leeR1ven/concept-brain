@@ -5,7 +5,7 @@ fires about as often as it did in the recordings (each neuron's own threshold fr
 Measured: how far Mario gets (x position), and whether he reaches the flag. A run ends at death, at the flag, or when he has
 not got further for 600 frames.
 Baselines (no brain): nothing, run right, run right and jump every 30 frames.
-usage: python mario_play.py <net.pt> <learned.npz | baseline name> <levels e.g. 1-1,2-1> <runs per level> [seed]"""
+usage: python mario_play.py <net.pt or life.pt> <learned.npz | self | baseline name> <levels e.g. 1-1,2-1> <runs per level> [seed]"""
 import os
 import sys
 import warnings
@@ -16,21 +16,30 @@ import torch
 warnings.filterwarnings('ignore')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from game_brain import MARIO_KEYS, UNITS_PER_KEY as U   # noqa: E402
-from mario_data import CELL, COLS, ROWS, TOP             # noqa: E402
+from game_brain import DEV                        # noqa: E402
+from mario_data import CELL, COLS, ROWS, TOP, Eye, centred   # noqa: E402
+from mario_life import next_push                         # noqa: E402
 
 torch.set_num_threads(1)
 PAD = {128: 0b00000001, 16: 0b00000010, 32: 0b01000000, 4: 0b10000000, 2: 0b00100000}   # dataset bit -> nes-py joypad bit
 RATE = os.environ.get('MARIO_RATE')                      # override the per-button firing shares, e.g. "0.3,0.9,0.05,0.8,0.01"
 MAX_STILL = 600
+BAR = os.environ.get('MARIO_BAR', 'rate')                # rate: each button fires about as often as in the recordings;
+                                                          # zero: pressed when its press push beats its stop push
+GAZE = os.environ.get('MARIO_GAZE') == '1'              # the eye on Mario (his red in the emulator's palette)
+RED = np.array([248, 56, 0])
 
 
-def cells_of(rgb):
-    """same as mario_data.to_cells, from an RGB frame: the commonest colour is the background"""
+def cells_of(rgb, eye=None):
+    """same as mario_data.to_cells, from an RGB frame: the commonest colour is the background; with an eye, centred"""
     a = rgb[TOP:].astype(np.int32)
     a = (a[..., 0] << 16) | (a[..., 1] << 8) | a[..., 2]
     vals, cnt = np.unique(a, return_counts=True)
     on = a != vals[np.argmax(cnt)]
-    return on.reshape(ROWS, CELL, COLS, CELL).any(axis=(1, 3))
+    c = on.reshape(ROWS, CELL, COLS, CELL).any(axis=(1, 3))
+    if eye is not None:
+        c = centred(c, *eye.look((rgb[TOP:] == RED).all(-1)))
+    return c
 
 
 def pad_of(keys):
@@ -47,18 +56,25 @@ def run(env, policy, brain, rng):
     keys = np.zeros(len(MARIO_KEYS), bool)
     best, still, t, info = 0, 0, 0, {'x_pos': 0, 'flag_get': False}
     hist = []
+    eye = Eye() if GAZE else None
     while True:
-        c = cells_of(obs)
+        c = cells_of(obs, eye)
         if brain is not None:
             b, W, rate = brain
             b.step(c, keys)
-            on = torch.nonzero(b.pfc.L4.on).squeeze(1).numpy()
-            d = W[on].sum(0) if len(on) else np.zeros(W.shape[1], np.float32)
             nk = len(MARIO_KEYS)
-            s = np.array([d[k * U:(k + 1) * U].mean() - d[(nk + k) * U:(nk + k + 1) * U].mean() for k in range(nk)])
+            if W is None:                                  # what the brain expects itself to press next (mario_life)
+                s = next_push(b)
+            else:
+                on = torch.nonzero(b.pfc.L4.on).squeeze(1).numpy()
+                d = W[on].sum(0) if len(on) else np.zeros(W.shape[1], np.float32)
+                s = np.array([d[k * U:(k + 1) * U].mean() - d[(nk + k) * U:(nk + k + 1) * U].mean() for k in range(nk)])
             hist.append(s)
             H = np.array(hist[-600:])
-            bar = np.array([np.quantile(H[:, k], 1.0 - rate[k]) for k in range(nk)]) if len(hist) > 60 else np.zeros(nk)
+            if BAR == 'zero':                              # the bar the copies' own check learns to: press units
+                bar = np.zeros(nk)                         # pushed above stop units = the button should be down
+            else:
+                bar = np.array([np.quantile(H[:, k], 1.0 - rate[k]) for k in range(nk)]) if len(hist) > 60 else np.zeros(nk)
             keys = s > bar
         elif policy == 'nothing':
             keys = np.zeros(len(MARIO_KEYS), bool)
@@ -86,12 +102,18 @@ def main():
         z = np.load(what)
         W = z['w']
         rate = np.array([float(v) for v in RATE.split(',')]) if RATE else z['rate']
+    elif what == 'self':
+        rate = np.array([float(v) for v in (RATE or '0.198,0.833,0.089,0.559,0.004').split(',')])
     for lv in levels:
         w, s = (int(v) for v in lv.split('-'))
         env = SuperMarioBrosEnv(rom_mode='vanilla', target=(w, s))
         for r in range(runs):
-            brain = (torch.load(net, weights_only=False), W, rate) if W is not None else None
-            x, flag, t = run(env, what if W is None else None, brain, rng)
+            brain = None
+            if W is not None or what == 'self':
+                brain = (torch.load(net, weights_only=False, map_location=DEV), W, rate)
+                brain[0].pfc.adapt = False
+                brain[0].reset()
+            x, flag, t = run(env, what if brain is None else None, brain, rng)
             print('MARIO', os.path.basename(what), lv, 'run', r, 'x', x, 'flag', flag, 'frames', t, flush=True)
         env.close()
 
