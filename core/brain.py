@@ -150,6 +150,7 @@ class PFC:
         self.L44 = Links(radius_lists(ch.pos, ch.pos, c['r_learn'], True), 0.0, n, c, gain=c['g44'],
                          gamma=c['gamma_pfc'], name='L4<->L4')
         self.G1P = None                                    # generation-0 speech link (gen0.py)
+        self.RR = None                                     # the range layer's own links (setup_range), off by default
         self.L1, self.L1ext, self.L2, self.L3, self.L4 = (Pop(n) for _ in range(5))
         self.x_int = torch.zeros(n, dtype=torch.bool, device=DEV)
         self.usual = torch.zeros(n, device=DEV)            # each copy's usual internal drive (its own threshold level)
@@ -183,6 +184,38 @@ class PFC:
         self.L41.gain = self.c['g31'] / max(1.0, float(indeg.mean()) * rho)
         return rho
 
+    def setup_range(self, X, rng):
+        """The range (designer ideas 15, 23 and 11-02: excitability = context length; how fast it fades sets how much
+        of what came before is held). The last middle layer lights `pfc_range` x its usual count. Units rising together
+        (a word entering) grow links among themselves at once (the one rule), so they keep each other lit; the links fade
+        every tick (the one decay, at its own fast rate), so a word leaves the range after a while. X: bool [T, n] what
+        the copies usually receive. Tested 11-10 (docs/LOGIC.md 8): the context it gives grows from 5-6 to 15-21 ticks,
+        but as it takes the place of a combining layer, the logic language is learned worse; so it stays off."""
+        c, n = self.c, self.n
+        mids = self.depth - 2
+        S = X
+        for f, thr in list(zip(self.ff, (self.thr2, self.thr3)))[:mids - 1]:
+            S = f.drive_batch(S) > thr
+        D = self.ff[mids - 1].drive_batch(S)
+        if c.get('range_rate'):                            # the range layer's own sparseness (a word lights few units
+            thr = own_thresholds(D, c['range_rate'])       # of it, so several fit; designer 11-10: like the
+            if mids == 2:                                  # hippocampus, sparser)
+                self.thr3 = thr
+            else:
+                self.thr2 = thr
+        thr = (self.thr2, self.thr3)[mids - 1]
+        usual = float((D > thr).float().sum(1).mean())
+        self.k_range = c['pfc_range'] * usual
+        spread = float((D - D.mean(0)).std(1).mean())
+        del D
+        w = c.get('range_rw', 300)
+        self.RR = Links(random_lists(n, n, w, rng, True), 0.0, n, c, gain=1.0, gamma=c.get('range_fade', 0.8),
+                        name='range')
+        # a word's units entering together get about w x (its share lit) partners, each link ~ the step after one rise;
+        # together they push like `range_rr` x the spread of the input push
+        partners = w * usual / n
+        self.RR.gain = c.get('range_rr', 2.0) * spread / max(1e-6, c.get('range_eta', 0.3) * partners)
+
     def step(self, x_ext):
         a4 = self.L4.on
         d1 = self.loop.drive(a4) + self.L41.drive(a4)
@@ -210,9 +243,16 @@ class PFC:
         # each layer reads the one before as it was a tick ago (one tick per layer)
         mids = [self.L2, self.L3][:getattr(self, 'depth', 4) - 2]
         src, new = self.L1.on, []
-        for f, thr, P in zip(self.ff, (self.thr2, self.thr3), mids):
-            new.append(f.drive(src) > thr)
+        RR = getattr(self, 'RR', None)
+        for i, (f, thr, P) in enumerate(zip(self.ff, (self.thr2, self.thr3), mids)):
+            if RR is not None and i == len(mids) - 1:    # the range: its input above its own threshold + its own links
+                e = f.drive(src) - thr + RR.drive(P.on)
+                new.append((e > 0) & topk_on(e, self.k_range))
+            else:
+                new.append(f.drive(src) > thr)
             src = P.on
+        if RR is not None:
+            RR.decay()                                     # the range's links fade every tick
         # the last layer: each unit's own usual level too (二.4); the most driven above it, as many as the input
         d4 = self.ff[len(mids)].drive(src) + self.L44.drive(a4)
         if getattr(self, 'usual4', None) is None:
@@ -241,6 +281,9 @@ class PFC:
             onset = self.L1ext.rose() & ~self.L1.prev      # rule, so thinking a sound without saying it does not
             self.G1P.learn(self.L4, onset, self.L1ext.held(fw), eta)   # unlearn it (ARCH 六: kept at practised strength)
         self.L44.learn(self.L4, self.L4.rose(), self.L4.held(fw), eta)
+        if getattr(self, 'RR', None) is not None:          # a word entering the range: its units link at once
+            P = (self.L2, self.L3)[self.depth - 3]
+            self.RR.learn(P, P.rose(), P.held(fw), self.c.get('range_eta', 0.3))
 
     def pops(self):
         return [self.L1, self.L1ext, self.L2, self.L3, self.L4]

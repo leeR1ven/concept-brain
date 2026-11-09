@@ -17,7 +17,7 @@ doi:\href{https://doi.org/10.5281/zenodo.24084045}{10.5281/zenodo.24084045} (all
 v1.0: doi:\href{https://doi.org/10.5281/zenodo.24084046}{10.5281/zenodo.24084046}), and by Software Heritage.
 Correspondence via the repository.}\\
 Independent Researcher}
-\date{November 2026 \quad (technical report, version 1)}
+\date{November 2026 \quad (technical report, version 1.1: context length, Section~\ref{sec:context})}
 
 \begin{document}
 \maketitle
@@ -124,10 +124,13 @@ areas this is the inner voice or an imagined picture, in the motor area an inten
 knob between ``reason'' and ``instinct'';
 \item excitability is context length; thinking is continuous and never restarts; speaking is caused by thinking, and
 the outside world only influences thinking;
-\item \textbf{working memory} has two parts: the delay through the layers (about five ticks at birth) and thoughts held by
-the loop and by learned links (more than a dozen ticks after learning). A sentence must fit this window for the PFC to
-link it to what follows (Section~\ref{sec:logic}); in the cortex, holding over seconds relies on recurrent
-activity \cite{goldman_rakic_1995}.
+\item \textbf{context} is how far back what is lit at the moment of choosing the next thought or word still reaches
+(remembering is different: it is stored in links). Several things set it together: a structure that holds content
+(several items lit at once, each kept up by links just grown among its own units, the links fading every tick), how many
+items fit (excitability), how strong each item is (its sparseness and the brain's size), and how fast the links fade. The
+PFC as built has only the delay through its layers, about five to six ticks, so a sentence must fit this window for the
+PFC to link it to what follows (Sections~\ref{sec:pace} and~\ref{sec:context}); in the cortex, holding over seconds relies
+on recurrent activity \cite{goldman_rakic_1995}.
 \end{itemize}
 
 \paragraph{Hippocampus.} Its own population, fed at birth by random connections from the copies, with no birth recurrence.
@@ -440,10 +443,37 @@ after 3,000 dialogues at the right pace & 13\\
 \bottomrule
 \end{tabular}
 \end{center}
-The window is not fixed: at birth it is mostly the delay through the layers; learned links then hold the thought for more
-than a dozen ticks. Too many thoughts (excitability 100\%, 195 per tick) blur it. Sparser middle layers hold longer but, at
+A statistical readout of this kind sees the difference for longer after learning, but the brain cannot use it: with the
+direct test of Section~\ref{sec:context} the usable window stays five to six ticks after learning too. Too many thoughts (excitability 100\%, 195 per tick) blur it. Sparser middle layers hold longer but, at
 the sentence level, recognise a sentence in another voice less well (Section~\ref{sec:core}); with 10\% the three-word
 sentences were slightly better learned and the longer ones not at all, so the 30\% rule stands for now.
+
+\subsection{Context length}\label{sec:context}
+The designer's direct test: two sentences that differ only in their first and last words, ``\texttt{A} $m_1\dots m_k$
+\texttt{YES}'' and ``\texttt{B} $m_1\dots m_k$ \texttt{NO}'', heard in turn with learning on (one frame per word). Just
+before the last word, does the brain expect the right one? The longest distance at which all three middles tested are
+learned within 20 rounds is its context length.
+\begin{itemize}
+\item Newborn and after 20,000 dialogues alike: five to six ticks. Two copies of one brain hearing the two sentences from
+the same state differ in about half of the last layer 14 ticks later after learning, yet these differences do not tell
+the first word apart; in the newborn they vanish after eight to nine ticks.
+\item No gain from excitability (0.1--10$\times$), loop strength (1--4$\times$; at 4$\times$ thoughts fill the budget, never
+stop, and learning fails even at four ticks), learning on while hearing, or making every PFC link grow and fade fast (the
+rule itself is then forgotten).
+\item A \emph{range}: the last middle layer lights several words at once; units rising together grow links among
+themselves at once by the same rule and so keep each other lit; the links fade by 20\% a tick, so a word leaves after a
+while. Each word 5\% of the layer, 16 words held: 21 ticks. At a realistic sparseness (about 5\% of the layer lit in all):
+11 ticks; the same with a brain four times larger: 15 ticks. Slow fading (3\% a tick) locks the range and fails.
+\item The cost: in the logic language, every way of holding content tried (the range, thoughts held in the first layer by
+their own links, a separate sparse context layer feeding the second layer) learned worse, even the short sentences, as
+held content competes with the word being heard and keeps words of the previous dialogue. The range is therefore an
+option in the code, off by default.
+\end{itemize}
+So context is set by several things together, not by one knob; the real PFC is sparse (a few percent active), so length
+comes from sparse items and many neurons rather than from lighting much. Our reading, not yet built: short context (the few
+things held at once) is the PFC's; longer context (earlier sentences) is stored in the hippocampus's fast links and acts
+only when the present content recalls it back into the PFC, as attention does in language models. Patients without a
+hippocampus keep a normal short-term span yet lose track of longer discourse \cite{duff_2012,jeneson_2012}.
 
 \subsection{Reading its thoughts}
 Each tick the word whose own copies take the largest share of the thoughts can be read out. A brain that listened to
@@ -466,7 +496,8 @@ at all.
 readability per layer, push per kind of input, the change one event makes, the memory curve, the thoughts.
 \item \textbf{A sentence must fit the working-memory window.} Learning a composition is learning a longer sentence; it
 fails when the start has faded or the end has not arrived. A large corpus spoken at another pace can fail for this reason
-alone.
+alone. The window is five to six ticks as built; holding content longer works but competes with what is being heard
+(Section~\ref{sec:context}).
 \item \textbf{Credit must match the act}: crediting only the choice made at the moment of answering, in full, made one
 mistake enough to change the next answer, where a long trace credited by surprise did not learn at all.
 \item \textbf{Mostly listen, rarely correct.} Learning ``what comes next'' from others teaches the right answers; a
@@ -498,12 +529,16 @@ responsibility for the content.
 applications in pattern recognition. \emph{IEEE Transactions on Electronic Computers}, EC-14(3):326--334, 1965.
 \bibitem{douglas_martin_2004} R.~J. Douglas and K.~A.~C. Martin. Neuronal circuits of the neocortex. \emph{Annual Review
 of Neuroscience}, 27:419--451, 2004.
+\bibitem{duff_2012} M.~C. Duff and S.~Brown-Schmidt. The hippocampus and the flexible use and processing of language.
+\emph{Frontiers in Human Neuroscience}, 6:69, 2012.
 \bibitem{fusi_2005} S.~Fusi, P.~J. Drew and L.~F. Abbott. Cascade models of synaptically stored memories. \emph{Neuron},
 45(4):599--611, 2005.
 \bibitem{goldman_rakic_1995} P.~S. Goldman-Rakic. Cellular basis of working memory. \emph{Neuron}, 14(3):477--485, 1995.
 \bibitem{hebb_1949} D.~O. Hebb. \emph{The Organization of Behavior}. Wiley, 1949.
 \bibitem{jaeger_2001} H.~Jaeger. The ``echo state'' approach to analysing and training recurrent neural networks.
 GMD Report 148, German National Research Center for Information Technology, 2001.
+\bibitem{jeneson_2012} A.~Jeneson and L.~R. Squire. Working memory, long-term memory, and medial temporal lobe function.
+\emph{Learning \& Memory}, 19(1):15--25, 2012.
 \bibitem{maass_2002} W.~Maass, T.~Natschl\"ager and H.~Markram. Real-time computing without stable states: a new
 framework for neural computation based on perturbations. \emph{Neural Computation}, 14(11):2531--2560, 2002.
 \bibitem{yang_2009} G.~Yang, F.~Pan and W.-B. Gan. Stably maintained dendritic spines are associated with lifelong

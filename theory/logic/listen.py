@@ -5,7 +5,8 @@ After every block a test without learning: at the frame before the answer word a
 expect? Its push into the copies the YES word lights, minus the copies the NO word lights (the copies' drive above
 their usual level: what it would think of next).
   python listen.py <brain.pt> <out.pt> <dialogues> [seed]   (LOGIC_STAGE: dialogues of stages up to it, default 5;
-                                                             LOGIC_LOOP_X, LOGIC_L4_USUAL, LOGIC_SCALE as in life.py)"""
+                                                             LOGIC_LOOP_X, LOGIC_L4_USUAL, LOGIC_SCALE as in life.py;
+                                                             LOGIC_RANGE...: the PFC's range layer, add_range)"""
 import collections
 import copy
 import os
@@ -44,6 +45,31 @@ def word_copies(b, G):
     yes = torch.nonzero((rate['YES'] > 0.5) & (rate['NO'] < 0.1)).squeeze(1)
     no = torch.nonzero((rate['NO'] > 0.5) & (rate['YES'] < 0.1)).squeeze(1)
     return yes, no
+
+
+def usual_input(b, G, n=200):
+    """what the copies usually receive: n logic dialogues heard without learning (for calibrating new parts)"""
+    bb = copy.deepcopy(b)
+    bb.pfc.adapt = False
+    X, r = [], np.random.default_rng(11)
+    for _ in range(n):
+        toks, truth, _ = W.sentence(5, r)
+        for cells, _ in W.dialogue(toks, truth, G):
+            X.append(bb.step(cells, np.zeros(2, bool)))
+    return torch.stack(X)
+
+
+def add_range(b, G):
+    """the PFC's range layer (core/brain.py PFC.setup_range; designer ideas 15, 23, 11-10): LOGIC_RANGE (how many times
+    a word's share it holds), LOGIC_RANGE_RATE (a word's share of the layer), LOGIC_RANGE_FADE (its links x this per
+    tick), LOGIC_RANGE_RR (their strength vs the input's spread). Calibrated on what the copies usually receive."""
+    b.pfc.c.update(pfc_range=float(os.environ['LOGIC_RANGE']),
+                   range_rate=float(os.environ.get('LOGIC_RANGE_RATE', 0.005)),
+                   range_fade=float(os.environ.get('LOGIC_RANGE_FADE', 0.8)),
+                   range_rr=float(os.environ.get('LOGIC_RANGE_RR', 2.0)))
+    b.pfc.setup_range(usual_input(b, G), np.random.default_rng(0))
+    print(f'PFC range: x{b.pfc.c["pfc_range"]} (lights {b.pfc.k_range:.0f}), a word {b.pfc.c["range_rate"]}, '
+          f'fade {b.pfc.c["range_fade"]}, strength {b.pfc.c["range_rr"]}', flush=True)
 
 
 def expect(b):
@@ -93,6 +119,8 @@ def main():
         b.pfc.L41.near.signed = True               # an inhibitory neuron is one whose output weights are negative)
     stage = int(os.environ.get('LOGIC_STAGE', 5))
     G = W.glyphs()
+    if os.environ.get('LOGIC_RANGE') and getattr(b.pfc, 'RR', None) is None:
+        add_range(b, G)
     yes, no = word_copies(b, G)
     print(f'listening: signed {getattr(b.pfc.L41.near, "signed", False)}, check step {b.c["check_step"]}, stage <= {stage}, loop x{LOOP_X}, l4 usual {b.pfc.c.get("l4_usual", False)}; copies the YES word '
           f'lights {len(yes)}, the NO word {len(no)}', flush=True)
