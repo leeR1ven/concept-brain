@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this architecture, code or results, please cite the technical report."
+title: "A Brain That Is Never Switched Off: Binary Neurons, One Local Learning Rule, Innate Wiring and Speech Only Through Muscles"
+type: software
+authors:
+  - family-names: Li
+    given-names: Zhiwen
+    orcid: "https://orcid.org/0009-0005-8289-6393"
+    affiliation: "Independent Researcher"
+repository-code: "https://github.com/leeR1ven/concept-brain"
+url: "https://github.com/leeR1ven/concept-brain"
+license: MIT
+date-released: "2026-11-09"
+abstract: >-
+  A research prototype of an artificial brain that lives one continuous life: binary neurons wired at birth by one
+  generator, one local Hebbian learning rule with concave growth and one global decay, output only through muscles.
+  A multi-layer prefrontal cortex predicts the next input; a thought is a first-layer copy lit from inside; speaking is
+  that prediction returned to the muscles. In an invented logic language the brain learns by only listening to
+  dialogues, with no reward, once sentences fit its working-memory window, and answers in turn without talking over
+  others.
+keywords:
+  - brain-inspired architecture
+  - Hebbian learning
+  - continual learning
+  - binary neurons
+  - prefrontal cortex
+  - working memory
+  - language learning

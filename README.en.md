@@ -4,6 +4,7 @@
 
 A research prototype of a brain-like AI that lives continuously and learns while it runs. It uses binary neurons, a single local Hebbian learning rule, and speaks only through muscles.
 
+- **Paper (technical report):** [PDF](docs/paper/concept-brain.pdf), [LaTeX source](docs/paper/concept-brain.tex), [Chinese version](docs/paper/concept-brain-zh.md).
 - **Architecture (the single authority):** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), in Chinese. It contains the rules only.
 - **Model code:** `core/`, the one code base built from the architecture. It is being assembled.
 - **Tests:** small games (Breakout, Mario) in [docs/GAME_TEST.md](docs/GAME_TEST.md); an invented logic language (listen, think, talk) in [docs/LOGIC.md](docs/LOGIC.md) (both in Chinese).

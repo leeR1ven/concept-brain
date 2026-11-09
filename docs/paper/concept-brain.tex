@@ -1,0 +1,588 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlist{nosep,leftmargin=*}
+\renewcommand{\arraystretch}{1.15}
+
+\title{A Brain That Is Never Switched Off:\\
+Binary Neurons, One Local Learning Rule, Innate Wiring and Speech Only Through Muscles\\[4pt]
+\large Architecture, theory, and a test on an invented logic language}
+\author{Zhiwen Li\thanks{ORCID 0009-0005-8289-6393. Code, reports and negative results:
+\url{https://github.com/leeR1ven/concept-brain} (MIT licence; archived by Software Heritage). Correspondence via the
+repository.}\\
+Independent Researcher}
+\date{November 2026 \quad (technical report, version 1)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We describe \emph{concept-brain}, a research prototype of an artificial brain that lives one continuous life: it is
+never reset, never frozen and never trained offline. It consists only of binary neurons wired at birth by one
+generator (three-dimensional, local, random), a single local Hebbian learning rule with concave growth and one global
+weight decay, and output only through simulated muscles. Sensory areas send one-to-one ``copies'' of their feature
+neurons to a multi-layer prefrontal cortex (PFC) whose last layer predicts the next input; a thought is a first-layer
+copy lit from inside; speaking is that prediction returned to the muscles. Reward is only a tool that strengthens or
+weakens the links that produced an action in the last one to two seconds.
+We give (i) the architecture as a short rule set; (ii) a theory showing that the Hebbian readout of the last layer is
+the readout of an autoregressive language model under stated conditions, with signal-to-noise and timing analyses;
+(iii) measurements of the brain built from the rule set; and (iv) a test on an invented thirteen-word logic language,
+chosen because it is small, exact and reproducible. There the brain learns,
+by only listening to others' dialogues and with no reward, to expect the right answer word after ``\texttt{T ?}'' within
+20 dialogues and after ``\texttt{NOT T ?}'' within one or two hearings, once sentences are spoken at the pace of its
+working-memory window; with hand-wired word--muscle links and an innate brake it answers in turn without talking over
+others. We list what does not work yet, which is most of language.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+Large language models are trained offline by back-propagation and then frozen. A brain learns while it lives: every
+moment it hears, thinks, moves and changes a little. The goal of this project, set by the author (``the designer'' in the
+repository's notes), is an artificial intelligence that learns in real time in the same way, built from neurons only,
+and that eventually talks with people and acts in the world. Its design rules are:
+
+\begin{itemize}
+\item \textbf{Pure neurons.} Binary neurons and connections only: no symbols, no lists, no lookup tables, no program
+written for a particular task. Development-time substitutes are allowed only if an equivalent neural circuit is named
+and later restored.
+\item \textbf{One local learning rule and one global decay} for the whole brain; no back-propagation, no global
+gradient.
+\item \textbf{Always alive.} No reset between conversations, no sleep, no offline training phase.
+\item \textbf{Output only through muscles.} Speaking is moving muscles; the model hears its own voice.
+\item \textbf{Innate wiring first.} Every area is generated at birth by the same generator; learning works on top of it;
+the first generation may receive hand-wired, registered connections (``generation 0''); later generations inherit
+merged connections.
+\end{itemize}
+
+This report concerns thought and language. Our contributions are:
+
+\begin{enumerate}
+\item A rules-only specification of the architecture (Section~\ref{sec:arch}; the repository's
+\texttt{docs/ARCHITECTURE.md} is the single authoritative version).
+\item A theory (Section~\ref{sec:theory}): the last layer's Hebbian readout of ``what comes next'' equals the readout of
+an autoregressive model when context codes overlap little; four premises that must hold; a signal-to-noise formula; a
+proof that a prediction-error variant is the last-layer step of back-propagation; and timing results that later turned
+out to decide what the model can learn.
+\item Measurements of the brain built strictly from the rule set (Section~\ref{sec:built}): what a newborn holds, how
+much activity stays bounded, where information is lost.
+\item A test judged by function and by reading the weights, not by waiting for long runs (Section~\ref{sec:logic}):
+an invented logic language in which the brain listens, thinks and talks.
+\item A list of the designer's ideas with their current status (Appendix~\ref{app:ideas}) and a separate study on making
+a back-propagation-trained language model learn continually with local rules (Appendix~\ref{app:llm2hebb}).
+\end{enumerate}
+
+All numbers in this report come from runs in the repository; each one is traceable to a script and a report file.
+Earlier prototypes that used symbolic shortcuts are superseded by the rule set and are not reported here.
+
+\section{Architecture}\label{sec:arch}
+
+\subsection{Neurons and networks}
+\begin{enumerate}
+\item A neuron is either on or off. An inhibitory neuron is an ordinary neuron whose output weights are negative.
+\item Codes are distributed: one thing lights many neurons; there is no ``one word, one neuron''.
+\item Input layers use thermometer on/off pairs: exactly one of each pair is on, so an input layer is always half on;
+``nothing there'' is also a reading.
+\item \textbf{Every area is made by the same generator}: three-dimensional, local and random. Each neuron connects to a
+few neurons of the layer before, near in the $y,z$ plane; birth weights are fixed. Each neuron's threshold is set from
+the signal it receives, so similar inputs light similar neurons.
+\item Deeper sensory layers are sparser. In the PFC, the last layer lights as many neurons as the input layer; the
+middle layers are freer (about 30\% lit, Section~\ref{sec:core}).
+\item The model's own voice and other people's voices light similar but different neurons; no label is needed.
+\end{enumerate}
+
+\subsection{Areas}
+\paragraph{Sensory areas.} Hearing, vision and touch (including the force each muscle uses). In vision the centre has
+more pixels than the edge; early visual layers also have local motion neurons wired at birth to the eye muscles. An
+\emph{abstract concept area} receives the feature neurons of all sensory areas and learns with the same rule: things that
+occur together or in the same context come to share codes, which is how invariance is learned (a person seen in the
+centre and then drifting to the edge keeps the same concept neurons lit, which then link to the peripheral neurons).
+
+\paragraph{Chain neurons.} Every feature neuron of every layer of every area sends a one-to-one copy to the PFC's first
+layer and to the hippocampus; every outgoing chain has a returning chain, so a lit copy re-lights its source neuron.
+Neurons near the input that are always on carry no feature and get no chain.
+
+\paragraph{Prefrontal cortex.} A multi-layer recurrent network:
+\begin{itemize}
+\item the first layer is the copies of all areas; the middle layers are fixed random local networks made by the same
+generator; the last layer's activity at one moment is linked by Hebbian learning to the first-layer neurons that come
+next (``what comes next''); the last layer's internal links also learn (related units excite each other);
+\item \textbf{depth:} the fewest layers that suffice, comparable to the three to four relay steps of a cortical column
+\cite{douglas_martin_2004}; layers delay the output relative to the input and also combine features. Two layers are not
+enough (the answer to ``\texttt{NOT T}'' is an exclusive-or of two features, Section~\ref{sec:logic});
+\item a birth loop lets the last layer re-light the first layer and hold a thought;
+\item \textbf{output is the first layer lit from inside.} Three sources light it: prediction, the loop, and hippocampal
+recall (returning through the sensory areas). Lit copies re-light their sources through the return chains: in sensory
+areas this is the inner voice or an imagined picture, in the motor area an intention. The strength of the return is a
+knob between ``reason'' and ``instinct'';
+\item excitability is context length; thinking is continuous and never restarts; speaking is caused by thinking, and
+the outside world only influences thinking;
+\item \textbf{working memory} has two parts: the delay through the layers (about five ticks at birth) and thoughts held by
+the loop and by learned links (more than a dozen ticks after learning). A sentence must fit this window for the PFC to
+link it to what follows (Section~\ref{sec:logic}); in the cortex, holding over seconds relies on recurrent
+activity \cite{goldman_rakic_1995}.
+\end{itemize}
+
+\paragraph{Hippocampus.} Its own population, fed at birth by random connections from the copies, with no birth recurrence.
+Its internal and recall links use the same Hebbian rule but grow fast and fade fast. A fixed number of neurons is lit per
+tick. Recall re-lights neurons in the sensory areas, which then influence the PFC indirectly. It stores everything;
+similar signals recall similar memories; long-term memory is learned by the cortex through repeated recall. No sleep, no
+time ring.
+
+\paragraph{Motor area and speech.} Output only through muscles. Each muscle has a group of force neurons (more lit, more
+force), tonically active blocking neurons (``default: do not move'') and normally silent stop neurons whose chains let the
+PFC learn ``finish'' and ``stop it''. Whether to speak is a competition with no hard threshold: when unsure, do not
+speak. Sound and action are linked only through the PFC: the last-layer neurons that represent a sound drive the
+first-layer copies of that sound's muscle forces, which drive the force neurons through the returns, against the
+blockers. Two exceptions are innate: an input-layer $\to$ stop-neuron brake driven by the loudness of nearby sound (it can
+only stop movement; it only gives a \emph{tendency} to take turns), and visual motion $\to$ eye muscles.
+
+\paragraph{Amygdala (innate values).} Its own population, wired at birth to react to certain kinds and ranges of signals;
+when lit it drives tendencies (approach, stop, attend) and is the source of reward signals. There may be several (pleasure,
+fear).
+
+\subsection{Learning}
+\begin{itemize}
+\item \textbf{Temporal Hebbian rule} \cite{hebb_1949}. When $B$ lights while $A$ has just been on or just turned off, $A\to B$ grows; an
+$A$ that stays on while $B$ lights neither grows nor shrinks; $A$ re-lighting after $B$ weakens $A\to B$; $B$ turning
+off changes nothing; neurons lit together do not strengthen each other.
+\item \textbf{Each first-layer copy checks the links into it} (last layer $\to$ first layer). A copy that came from
+outside but was not pushed by the last layer past threshold plus a margin of 2 strengthens the links from the last-layer
+neurons that were just on; a copy pushed past threshold that did not come weakens them; otherwise nothing changes. The
+change per tick (step 0.3) is shared by the lit neurons linked to it. In Breakout this raised the accuracy of predicting
+the player's key from 52\% (learning only at onsets) to 87\% and then 92\%.
+\item \textbf{Concave growth, no upper limit:} $\Delta w = \eta\, a_i a_j / (1 + w/w_\text{ref})^{p}$; weakening and decay
+slow down by the same factor; about 1\% plasticity is always kept. Strong, much-used links are hard to change, so a
+learned skill is not forgotten (metaplasticity \cite{abraham_bear_1996,yang_2009,fusi_2005,benna_fusi_2016}).
+\item \textbf{One global decay:} learned links are multiplied by a factor at intervals and removed when too weak; birth
+links do not decay; the hippocampus decays fastest and deeper layers slower.
+\item \textbf{Time is order}: nothing represents ``how long ago''.
+\item \textbf{Reward is only a tool.} Being right strengthens, being wrong weakens the links that produced an action
+tendency in the last one to two seconds (last layer $\to$ action copies); other links are untouched, so the model still
+remembers what was wrong but no longer does it. Each action's choice is the group lit at that moment (the press group
+when held, the stop group when not; not jumping is a choice too); nearer choices change more; when upset, what pleasure
+strengthened in the last seconds is also weakened. Good and bad come only from innate values, never from the amount of
+response. The model learns mostly by listening; reward is a rare correction: reward more than punish, and punish clearly
+only when it was sure and wrong. The credited choice must be the act itself (the choice made at the moment of answering).
+\item \textbf{Structural plasticity} (slow): always-on neurons split, never-on neurons are removed; the criterion is
+whether things can be told apart.
+\item No special mechanism is written for any phenomenon.
+\end{itemize}
+
+\subsection{Life, world and offspring}
+The model lives continuously; the young may make mistakes; the innate brake against talking over others stays. The world
+keeps teaching: an adult pleased by ``almost right'' is the reward; there is no repeat-after-me training. Training order:
+(1) the first generation receives hand-wired ``sound $\leftrightarrow$ the muscles that make it'' links in the PFC; (2) it
+listens to many dialogues between others; (3) when it thinks of an answer, it says it. Every hand-wired group is
+registered, and learnability is tested only on content that was never wired. \textbf{Evolution:} random birth $\to$ test
+$\to$ keep the best $\to$ breed; each number of a child is 40\% the father's, 40\% the mother's and 20\% their mean, plus
+a small random change; children are born with merged connections, still have to learn, but should learn faster; values
+are innate and not merged. The whole brain is scaled together. The final product is pure neurons.
+
+\subsection{Implementation details fixed by measurement}\label{sec:core}
+\begin{itemize}
+\item The PFC's middle layers are lit at about 30\%. When too sparse, each neuron is too selective and the same sentence
+in another voice falls apart: sentence identity at the last layer (60 sentences, a fourth voice) is 0.06 at 2.6\%, 0.21
+at 10\%, 0.41 at 30\% and 0.42 at 50\%.
+\item The number of thoughts (copies lit from inside) is capped by the \emph{usual} external input count, not this tick's;
+otherwise the budget is zero in quiet moments and a thought cannot light. Thoughts go only to copies not lit from outside.
+Too many thoughts blur: a trained brain holds a word longest with a budget of 10\% of the usual input; at 100\% it holds
+less.
+\item The total push into a last-layer neuron from the last layer's own learned links is capped by the spread of the
+input push across neurons at birth (about 1.6); otherwise after long practice the internal push is a thousand times the
+input and the state is no longer set by what is heard.
+\item Generation-0 links are stored at a ``well-used'' strength so daily learning does not wash them out; they keep the
+temporal rule, not the self-check, so that thinking of a sound without saying it does not weaken them.
+\item The self-check: strengthen until the push exceeds threshold by 2; weaken only when a copy was really pushed past
+threshold and did not come.
+\end{itemize}
+
+\subsection{What is not used}
+Back-propagation and global gradients; self-excitation that keeps a neuron on; refractory periods to drive thoughts;
+``later inhibits earlier''; time rings and time cells; one word per neuron, IDs, lists, records; PMI gates, hub
+inhibition, divisive gain, birth biases and similar patches; separate error-correcting readouts, basal ganglia or value
+modules; reflexes and switches written for a test world; reward from the amount of response.
+
+\section{Theory}\label{sec:theory}
+
+\subsection{Formal model}
+Every tick $t$ every neuron is 0 or 1. Let $x_t\in\{0,1\}^n$ be the copies of all feature neurons of all areas (taken
+one-to-one from the areas' previous state). In the PFC
+\begin{align*}
+L1_t &= x_t \lor y_t, & y_t &= [\,d_t-u_t>\theta\,]\land \mathrm{top}_m(d_t-u_t), \quad d_t = G\,a_{t-1}+W\,a_{t-1},\\
+L2_t &= [F_2 L1_{t-1}>\theta_2], & L3_t &= [F_3 L2_{t-1}>\theta_3],\\
+a_t &= \mathrm{top}_{|L1_{t-1}|}\!\left(F_4 L3_{t-1} + g\,V a_{t-1} - u^4_t\right),
+\end{align*}
+where $y$ are the thoughts (copies lit from inside), $a$ the last layer, $G$ the fixed birth loop, $W$ the learned
+last$\to$first readout, $V$ the last layer's learned internal links (capped: $g\sum_j V_{ij}\le\sigma_\text{in}$), $u$ each
+unit's own usual level (a running mean of the push it receives), $m=\kappa\bar n$ the thought budget ($\kappa$ excitability,
+$\bar n$ the usual external count), and $F_k$ fixed local random networks (each unit receives $K$ nearby inputs with weights
+drawn from $U(0.5,1.5)$, thresholds set for a lit fraction $\rho_\text{mid}$). $W$ and $V$ learn with one local rule with
+concave factor $\varphi(w)=1/(1+w)$; all learned links decay together at intervals. The hippocampus is
+$s_t=\mathrm{top}_{k_h}(R\,H1_{t-1}+U s_{t-1}-u^s)$ with recall $h_t=\mathrm{top}_m(Q s_{t-1}-u^h)$ and $H1_t = x_t\lor h_t$.
+Thoughts and recalls re-light their sources through the returns: inner voice, imagined pictures, intended movements.
+Speaking is the PFC predicting the next moment's muscle forces.
+
+\subsection{The PFC does what a language model does}\label{sec:equiv}
+An autoregressive model compresses the past into a state $h_t=F(x_t,h_{t-1})$, reads out $Wh_t$ and feeds the most likely
+next input back in. In this brain the last layer $a_t$ is the state ($F_4$ of the current input plus $V a_{t-1}$ carrying
+the past), $W$ is the readout, and the most-pushed copy becomes the next input as a thought. Both are ``state
+$\to$ predicted next input $\to$ use it as input''. If different contexts $c$ use non-overlapping sets $S_c$ of last-layer
+units, the push into copy $j$ is $|S_c|$ times the count of ``$c$ followed by $j$'', so the most pushed copy is the most
+frequent continuation of $c$, which is what a fully trained language model outputs. In matrix form
+$W=\sum_t x_{t+1}h_t^\top$, which for orthogonal $h$ equals the least-squares readout $YH^\top(HH^\top)^{-1}$ up to scale,
+the solution back-propagation converges to in the last layer. Random fixed middle layers suffice to separate contexts
+(Cover's theorem \cite{cover_1965}; echo-state and liquid-state networks \cite{jaeger_2001,maass_2002}).
+
+Four premises must hold:
+\begin{enumerate}
+\item different contexts overlap little in the last layer (the more they overlap, the more the readout says the most
+common thing regardless of context);
+\item link strengths follow frequencies instead of growing without bound (the global decay);
+\item the most pushed copies really light as thoughts (the budget is set by the usual input count);
+\item the last layer is set mainly by recent input (the echo-state property); the same $A$ must use roughly the same units
+each time. Unbounded internal links break this: the internal push was 12 times the input push after 3,000 dialogues and
+over 1,000 times after 79,000, hence the cap on $V$.
+\end{enumerate}
+
+\paragraph{Signal-to-noise.} For a pair $A\to B$ against a competitor $X$,
+$\text{SNR} = (n(A,B)-n(A,X))(1-o)\,/\,\sqrt{(\text{var}_B+\text{var}_X)/K_p}$, with $o$ the overlap of different contexts in
+the last layer and $K_p$ the number of lit last-layer units a copy receives. For the 20 most frequent pairs of a corpus:
+a large newborn ($o=0.19$, $K_p=79$) gives a median SNR of 2.4 with 5 of 20 pairs reliable (SNR $>3$); a trained large brain
+($o=0.10$, $K_p=98$) 3.9 and 14 of 20; a small newborn ($o=0.16$, $K_p=17$) 1.2 and 0 of 20. The SNR does not depend on how
+long the brain learns, only on the code: interference comes from overlap.
+
+\paragraph{Counting versus prediction error.} With a plain counting readout the push into a copy is a bigram smoother whose
+kernel is the overlap of codes; when the kernel is flat the readout ignores the context. On 300 frequent syllables heard
+18 times each by three voices, counting predicted the next syllable 11.6\% of the time, the same as ignoring the context
+(11.1\%), however many times it listened. A readout with a local prediction error (strengthen what came but was not
+predicted, weaken what was predicted but did not come) is exactly the stochastic-gradient step of the output layer, i.e.\
+the last step of back-propagation; it converges to ridge regression and reached 31--32\% when the decay was strong. The
+first-layer copies' self-check (Section~\ref{sec:arch}) is this rule.
+
+\paragraph{Where identity is lost.} The ear's input bits identify 81\% of syllables by nearest class mean; after four fixed
+random, increasingly sparse auditory layers only 38\% remain. Unsupervised winner-take-all prototypes with a local
+``yield when winning too often'' term recover 19/25/30\% with 300/600/1,200 units. About ten directions separate syllables
+more than a syllable varies with itself.
+
+\paragraph{Timing.} With syllables lasting three ticks, the last layer identifies the syllable just heard 40--43\% of the
+time four ticks after its onset, 49--55\% at five, 48--52\% at six and 28--35\% at seven: the signal needs four ticks to
+reach the last layer. A link ``last layer one tick ago $\to$ copies that light now'' therefore cannot see the previous
+syllable when the next one starts. Reading out the next syllable at the right moment gave 10.9\% on heard sentences in
+order against 7.2\% shuffled (unheard: 9.2\% vs 4.9\%; an ideal reader that knows the syllable and counted pairs: 20.8\%).
+This timing turned out to decide what the brain can learn (Section~\ref{sec:pace}).
+
+\section{The brain built from the rules}\label{sec:built}
+
+\subsection{Newborn}
+A strict whole-brain build (one scale knob for every area, one-to-one chains, a count-preserving PFC with a closing loop,
+competition-only motor) gives, at birth and before any learning:
+\begin{itemize}
+\item a heard question is still identifiable 12 silent ticks later: 32-way decoding 1.00 at the end, 0.64--0.71 after six
+ticks and 0.34--0.40 after twelve (chance 0.03), with one non-learning local inhibitory neuron per patch and a
+\emph{reciprocal} birth loop (each last-layer unit returns to the first-layer copies with the largest path weight into it)
+of gain 1.0; random birth loops hold no better than 0.16 at twelve ticks;
+\item counts are preserved layer to layer ($L_{k+1}/L_k = 0.90$--$1.05$, in silence and in speech); without local
+inhibition and with a strong loop the PFC saturates (95\% on) or freezes;
+\item activity inflation during learning comes only from the learned gains of the last layer's internal links and of the
+hippocampus' internal links (fixed at 0.1);
+\item in the speech brain (34 sounds), all PFC layers tell the sounds apart in another voice (layers 1--3: 1.00, last
+layer: 0.97); a heard question is held 0.66 at its end, 0.31 after six ticks and 0.13 after twelve.
+\end{itemize}
+
+\subsection{Learning: what is kept and what is lost}
+\begin{itemize}
+\item \textbf{Hippocampus.} With a full step per co-occurrence, summed drive and fast forgetting (20,000 neurons, 50 lit),
+a new sentence heard once pushes its next syllable 1.5--2 times more than the others and is gone after about three
+dialogues: short-term memory. Without birth recurrence (fast weights only) the same input returns to the same code
+(0.85--1.00), a question links to its answer across a pause (0.94--1.00) and an ordinary line heard once is completed
+(0.84--0.90); episodes that start alike are not told apart (0.45--0.56), so one-shot facts of the form ``my X is called
+\dots'' reach only 0.25--0.54.
+\item \textbf{Long overhearing} (RTX 4090, 7 ms per tick, 5,000 dialogues in about 25 minutes): activity stays bounded
+throughout. Clearing the hippocampus moves the PFC's rank of the right answer only from 11.5 to 12.5: what the PFC learned
+is in its own links (cortical long-term memory). A hippocampal internal gain of 0.1 locks after 2,000 dialogues; 0.01 does
+not.
+\item \textbf{Regularity.} From the same brain state, the same sentence lights the same units (thoughts 0.61--0.72 Jaccard,
+last layer 0.78--0.86; different sentences 0.15 and 0.25--0.28; another voice raises the thoughts' consistency from
+0.17--0.23 at birth to 0.49--0.51 after 69,000 dialogues). After a gap, however, the last layer's state while listening
+differs completely (0.00), while the input (0.50) and the middle layers (0.65--0.81) are stable. Setting the last layer's
+internal links to zero restores it (0.53); with 15 or more quiet ticks before listening it is stable (0.58--0.69). The
+internal links hold the content just heard for about ten ticks, and turns in dialogue are only four to ten ticks apart, so
+each sentence is covered by the previous one.
+\item \textbf{A large corpus.} 6.6 million Chinese dialogues (LCCC) converted to toned syllables and read by four
+synthetic voices: after 1,000 overheard dialogues the PFC's next-syllable prediction is still at chance while a count model
+reaches 14\%; activity is healthy. Possibly for the reason found in Section~\ref{sec:pace}: a sentence spoken at a pace that does not fit the PFC's
+window cannot be linked to what follows; this has not been checked on the corpus.
+\end{itemize}
+
+\section{An invented logic language: listening, thinking and talking}\label{sec:logic}
+
+\subsection{Setup}
+Instead of a human language we use a small invented one: thirteen words (\texttt{T}, \texttt{F}; \texttt{NOT},
+\texttt{AND}, \texttt{OR}, \texttt{SAME}, \texttt{IS}; the names \texttt{A}--\texttt{D}; ``\texttt{.}'' and ``\texttt{?}'')
+plus two answer words \texttt{YES} and \texttt{NO}. Each word is a fixed random pattern of lit cells on a small sheet seen
+by the vision area. Five stages add sentences while the earlier ones stay:
+
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule
+stage & sentences & needs\\
+\midrule
+1 & \texttt{T ?}, \texttt{F ?} & truth words\\
+2 & \texttt{NOT T ?} & negation\\
+3 & \texttt{T AND F ?}, \texttt{F OR T ?} & two values\\
+4 & \texttt{A SAME B ?} & hold the first name, compare\\
+5 & \texttt{A IS T . A ?} & bind a name to a value, ask later\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The brain answers with two muscles, YES and NO. Each muscle has its own press and stop (inhibiting) groups, so ``none'',
+``one'' and ``both'' are all outputs; only exactly the right muscle is right. Answers are balanced per kind of sentence
+(otherwise ``\texttt{AND} $\to$ always NO'' is right three times in four). The first runs use a $12\times16$ sheet (2,311 copies),
+the later ones a four-times larger brain ($24\times32$ sheet, 9,372 copies); the PFC has four layers unless stated.
+
+\subsection{Reward alone, with parameters computed from the weights}
+With the trace kept only for the choice at the moment of answering and full credit, one reward moves that input's push by
+about $3.6\times$ the step, so a step of 0.5 moves it by twice the motor noise and one mistake should change the next answer.
+With settings taken from an earlier game test (step 0.06, a fifteen-frame trace, credit by surprise) stage 1 was not learned in
+1,000 sentences; with the computed settings it was learned in 40--100. The two-layer PFC learned stage 1 in 239--352
+sentences and never stage 2; the four-layer PFC learned stage 1 in 73 and stage 2 in 762. Readability of the answer at the
+moment of answering (ridge, newborn small brain, 1.0 perfect, 0.5 chance) shows why:
+
+\begin{center}\small
+\begin{tabular}{lccccc}
+\toprule
+PFC & stage 1 & 2 & 3 & 4 & 5\\
+\midrule
+two layers & 0.88 & 0.56 & -- & -- & --\\
+three layers, loop $\times2$ & 0.99 & 1.00 & 0.73 & 0.82 & 0.81\\
+four layers & 1.00 & 1.00 & 0.85 & 0.48 & 0.92\\
+four layers, loop $\times2$ & 1.00 & 1.00 & 0.97 & 0.90 & 0.98\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Halving the motor noise and keeping the PFC's own links fixed while the reward learned brought stage 2 down from 1,981 to
+138 sentences; a four-times larger brain with a doubled loop learned all five stages once (stage 5 at sentence 3,263, about
+five minutes of compute). Mixed together, however, the answers stayed at 60--75\%. Without noise, reading the push per kind
+of sentence showed shortcuts (``\texttt{AND} $\to$ NO'', ``\texttt{OR} $\to$ YES''; \texttt{SAME} and \texttt{IS} near chance),
+although one readout of the trained last layer still separated all answers at 0.92--0.94; the reward links had grown to a
+mean of 3 (maximum 15) and kept about 30\% of their plasticity.
+
+\subsection{Listening, as the architecture prescribes}
+Following the training order of Section~\ref{sec:arch}, the brain only listens to others' dialogues (``\texttt{T ? YES}'',
+``\texttt{NOT T ? NO}'', \dots), muscles still, no reward, and the PFC learns ``what comes next'' as always. A test without
+learning asks which answer word the PFC expects just before it appears (its push into the YES-word copies against the
+NO-word copies, and which word's copies take the thought budget).
+\begin{itemize}
+\item Stage 1: the expectation is right 100\% after 20 dialogues (step 0.3; steps 1, 3 and 10 are not faster and less
+stable).
+\item \textbf{Talking.} Generation-0 links (registered): each copy of an answer word lit from inside (thought of, not
+heard) pushes its muscle's press group; tonic blockers keep the muscles still by default; the innate brake pushes both
+stop groups by the number of lit input cells, holding over the gap between two words. In its own turn after a question,
+a listened brain thinks of the right word about 11 copies per tick against 4.4 for the wrong one out of a budget of 35; the
+link strength was computed from these numbers. Half of life is others' dialogues, half is its own turns; its own word shows
+on the sheet more softly (its own voice).
+\end{itemize}
+\begin{center}\small
+\begin{tabular}{lcccc}
+\toprule
+stage 1, about 500 turns & talks over others & echoes others & answers in its turn & right when it answers\\
+\midrule
+newborn, no reward & 0\% & 0\% & 80\% & 75\%\\
+after listening, no reward & 0\% & 0\% & 40\% & 99\%\\
+after listening, rare correction & 7\% & 0\% & 83\% & 96\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+Turn-taking appears as a tendency from fixed links, as intended. Without any correction over 10,000 episodes (5,000 of
+them its own turns) the accuracy fell to 50--65\%: the brain hears its own wrong words and learns them as ``what comes next''. With rare correction (reward when
+right, punish only when sure and wrong) it learned negation and \texttt{AND}/\texttt{OR} (stage 2 after 2,734--7,500 episodes,
+stage 3 after 14,962; half of the episodes are its own turns), slowly, and eagerness to answer grew until it often answered the others' questions before they did.
+
+\subsection{The pace must fit the working-memory window}\label{sec:pace}
+By listening alone the brain first learned ``\texttt{NOT} $\Rightarrow$ answer the opposite'' and got the plain sentences
+wrong. The cause was not the rule. Recording the last layer just before the answer word in a brain that does not learn, and
+then letting the copies' self-check rule learn on these fixed states, isolates the question:
+\begin{itemize}
+\item said slowly (three frames per word plus a blank), \texttt{NOT} has left the last layer when the answer comes: the
+states of ``\texttt{T ?}'' and ``\texttt{NOT T ?}'' are nearly the same units, and the four sentences were never all
+learned in 60 passes, with excitatory or with signed links, whatever the loop (1--4$\times$), the excitability
+(10--100\%) or the length of the quiet between dialogues;
+\item said fast with no pause, \texttt{T} has not yet reached the last layer;
+\item \textbf{one frame per word, no gap, a pause of three frames before the answer}: ``\texttt{T ?}'' lights 52 units and
+``\texttt{NOT T ?}'' 44, of which 43 and 35 are their own. Same size, different units: the four sentences are learned in
+\textbf{one to two passes}, with the unchanged rule and excitatory links only.
+\end{itemize}
+Listening at that pace (learning on), stages 1 and 2 reach 1.00 (expected and thought word). With all five stages mixed,
+after 3,000 dialogues: stage 1 about 1.00, stage 2 0.83--1.00, stage 3 0.56--0.94, stages 4 and 5 (four- and six-word
+sentences, longer than the window) near chance.
+
+\paragraph{Memory curve.} After ``\texttt{NOT T}'', for how many ticks does the last layer still tell whether
+\texttt{NOT} was said?
+\begin{center}\small
+\begin{tabular}{lc}
+\toprule
+brain & held reliably until tick\\
+\midrule
+newborn, birth loop & 5\\
+newborn, loop $\times2$ & 7\\
+newborn, middle layers 10\% lit & 7 (loop $\times2$: 0.6--0.9 still at 14)\\
+after 3,000 dialogues at the right pace & 13\\
+\bottomrule
+\end{tabular}
+\end{center}
+The window is not fixed: at birth it is mostly the delay through the layers; learned links then hold the thought for more
+than a dozen ticks. Too many thoughts (excitability 100\%, 195 per tick) blur it. Sparser middle layers hold longer but, at
+the sentence level, recognise a sentence in another voice less well (Section~\ref{sec:core}); with 10\% the three-word
+sentences were slightly better learned and the longer ones not at all, so the 30\% rule stands for now.
+
+\subsection{Reading its thoughts}
+Each tick the word whose own copies take the largest share of the thoughts can be read out. A brain that listened to
+stage-1 dialogues, shown ``\texttt{T ?}'' and then nothing, thinks \texttt{YES} on the next tick (36--38\% of its
+thoughts); after ``\texttt{F ?}'' it keeps thinking \texttt{NO} (40--68\%); shown only ``\texttt{T}'' it completes
+\texttt{YES} by itself three to four ticks later. A brain that listened to all stages falls into \texttt{YES}: in this
+language only the answer word is predictable; after \texttt{NOT} either truth word may follow, so nothing clear is
+thought there. To think up new sentences, thinking needs some randomness, as the muscles have motor noise.
+
+\section{Discussion}
+
+\paragraph{What the brain does well.} It learns from a continuous stream in real time with local rules, keeps its
+activity bounded, holds a heard question through a silence at birth and, in the invented language, learns by listening in
+tens of dialogues (one or two hearings once the pace fits) and answers in turn without talking over others, with no reward
+at all.
+
+\paragraph{Lessons that apply beyond these tests.}
+\begin{enumerate}
+\item \textbf{Judge by the weights, not by waiting.} Every decisive finding came from reading the weights and states:
+readability per layer, push per kind of input, the change one event makes, the memory curve, the thoughts.
+\item \textbf{A sentence must fit the working-memory window.} Learning a composition is learning a longer sentence; it
+fails when the start has faded or the end has not arrived. A large corpus spoken at another pace can fail for this reason
+alone.
+\item \textbf{Credit must match the act}: crediting only the choice made at the moment of answering, in full, made one
+mistake enough to change the next answer, where a long trace credited by surprise did not learn at all.
+\item \textbf{Mostly listen, rarely correct.} Learning ``what comes next'' from others teaches the right answers; a
+brain that hears itself also learns its own mistakes unless the world occasionally corrects them.
+\item \textbf{Parameters can be computed from the weights} (step size from the push one event makes, link strengths from
+measured thought counts) instead of searched.
+\end{enumerate}
+
+\section{Limitations and next steps}
+Most of language is not done. Sentences longer than the window (stages 4--5) are not learned; a natural corpus has not
+been learned beyond chance; the brain answers with two muscles only; one-shot facts and the separation of episodes that
+start alike remain open in the hippocampus; the concept area and structural plasticity are not yet part of the tested
+brain. Next: make longer sentences fit the window (learning-driven holding, pace, the loop), give
+every word a muscle so the brain can say whole sentences, add randomness to thinking and count how many of its own
+sentences are grammatical and true, then train on text datasets (each character a pattern, dialogues as in
+Section~\ref{sec:logic}), scale the whole brain together, and let a brain that has learned logic act in a world with purpose.
+
+\section*{Acknowledgements}
+The architecture and its principles are the author's. Code, experiments, analyses and the text of this report were
+produced with the assistance of an AI system (Claude, Anthropic), directed and checked by the author, who takes full
+responsibility for the content.
+
+\begin{thebibliography}{99}\small
+\bibitem{abraham_bear_1996} W.~C. Abraham and M.~F. Bear. Metaplasticity: the plasticity of synaptic plasticity.
+\emph{Trends in Neurosciences}, 19(4):126--130, 1996.
+\bibitem{benna_fusi_2016} M.~K. Benna and S.~Fusi. Computational principles of synaptic memory consolidation.
+\emph{Nature Neuroscience}, 19(12):1697--1706, 2016.
+\bibitem{cover_1965} T.~M. Cover. Geometrical and statistical properties of systems of linear inequalities with
+applications in pattern recognition. \emph{IEEE Transactions on Electronic Computers}, EC-14(3):326--334, 1965.
+\bibitem{douglas_martin_2004} R.~J. Douglas and K.~A.~C. Martin. Neuronal circuits of the neocortex. \emph{Annual Review
+of Neuroscience}, 27:419--451, 2004.
+\bibitem{fusi_2005} S.~Fusi, P.~J. Drew and L.~F. Abbott. Cascade models of synaptically stored memories. \emph{Neuron},
+45(4):599--611, 2005.
+\bibitem{goldman_rakic_1995} P.~S. Goldman-Rakic. Cellular basis of working memory. \emph{Neuron}, 14(3):477--485, 1995.
+\bibitem{hebb_1949} D.~O. Hebb. \emph{The Organization of Behavior}. Wiley, 1949.
+\bibitem{jaeger_2001} H.~Jaeger. The ``echo state'' approach to analysing and training recurrent neural networks.
+GMD Report 148, German National Research Center for Information Technology, 2001.
+\bibitem{maass_2002} W.~Maass, T.~Natschl\"ager and H.~Markram. Real-time computing without stable states: a new
+framework for neural computation based on perturbations. \emph{Neural Computation}, 14(11):2531--2560, 2002.
+\bibitem{yang_2009} G.~Yang, F.~Pan and W.-B. Gan. Stably maintained dendritic spines are associated with lifelong
+memories. \emph{Nature}, 462(7275):920--924, 2009.
+\end{thebibliography}
+
+\appendix
+
+\section{The designer's ideas}\label{app:ideas}
+The architecture grew from the author's ideas, collected in the repository with their status. Those that the current
+rule set follows:
+\begin{enumerate}
+\item \textbf{The PFC and a language model do the same thing}: the top state predicts the next input and the prediction is
+used as input; Hebbian learning does it locally and in real time (one link, effective at once), back-propagation changes
+the whole network and must be done offline (Section~\ref{sec:equiv}).
+\item \textbf{A loop holds a thought}: what lit $G$ is re-lit by $G$.
+\item \textbf{Sensory and motor areas are the PFC's input and output.}
+\item \textbf{Local connections}: each neuron connects only to nearby neurons of the previous layer.
+\item \textbf{Random networks plus Hebbian links}: there is no need to specify which middle-layer units light; similar
+inputs light similar units. Grow many random connections first, as an infant brain does, then learn and prune.
+\item \textbf{Speaking is caused by thinking}; the world only influences thinking.
+\item \textbf{Always coming back to a favourite topic is a feature, not a bug}; how strongly is a parameter.
+\item \textbf{Always alive}, not a chat window; thinking is continuous; no sleep is needed: recalling something often makes
+cortical links strong.
+\item \textbf{Scale the whole brain together}, never one part.
+\item \textbf{Many brains living together} in simulated worlds.
+\item \textbf{Neural codes are fault tolerant} (a few wrong neurons leave the same thought); correcting misheard words is
+practised by living with noise.
+\item \textbf{Excitability is context length.}
+\item \textbf{Vision tells only what is alike and what differs}; what a picture means is taught by words.
+\item \textbf{Decentralisation}: every robot is an independent individual on its own hardware, learning from its own life;
+it is innately good to people. An instinct is a hard-to-change, broad connection from broad features to broad tendencies;
+values are stable, choices are free; ``do not hurt'' is stronger than ``help''; a society of diverse individuals is stable
+even if no single one can be guaranteed.
+\item \textbf{Breeding}: random birth, test, keep the best, breed 40/40/20 with a small change; children are born with
+merged links, relearn, faster.
+\item \textbf{The young may err}; only the innate brake against talking over others is kept.
+\item \textbf{The final product is pure neurons.}
+\item \textbf{Strong, much-used links are harder to change}, both up and down: learned once, kept for life.
+\item \textbf{Think alone, recall what is useful; a broad thinking range not easily interrupted.} The hippocampus stores
+everything; concave growth keeps daily repetition from flooding it.
+\item \textbf{Time is order}; nothing represents ``how long ago''. Good and bad come only from innate values.
+\item \textbf{Use the fewest PFC layers that suffice} (the cortex's three to four steps); \textbf{the PFC can remember after
+a few hearings}; \textbf{learn mostly by listening}, reward and punishment are rare corrections; \textbf{turn-taking is a
+tendency} given by inhibitory neurons that hearing others' voices drives up; the meaning of a composition is just a longer
+sentence (November 2026).
+\end{enumerate}
+
+\section{Separate study: can a back-propagation-trained language model learn continually with local rules?}
+\label{app:llm2hebb}
+This study is independent of the brain architecture (repository folder \texttt{side/llm2hebb}).
+\begin{itemize}
+\item The forward computation of a trained model converts exactly. A learning rule converts exactly only where it already
+equals back-propagation: the output layer's delta rule, and predictive coding with fixed predictions (cosine 1.000 with the
+true gradient per layer). Cheaper, truly local rules are far from the gradient (layer-wise local delta about 0.20, feedback
+alignment about 0; standard predictive coding diverges).
+\item Being local does not remove forgetting: a gradient-aligned local rule forgets exactly as back-propagation does.
+\item The recurrent state of RWKV-7 is a delta-rule (Hebbian) memory: one-shot, but it holds only hundreds to a thousand
+tokens, and without resets it drifts after 16,000--32,000 tokens (cross-entropy 3.9 $\to$ 9.9 at a million tokens); the
+same at 1.5B parameters.
+\item Writing facts one at a time into an MLP with rank-one Hebbian updates collides after about 30 facts.
+\item What works: a separate episodic store next to the frozen network, keyed by the sparse code of the entity name (like
+the dentate gyrus): 10,000 facts learned once with no forgetting, paraphrases 0.99, question format 0.76, no leakage to other
+people, no false triggering; and interleaved replay into the weights (with review of old facts and ordinary text) keeps
+98\% of 2,000 facts without the store.
+\item Conclusion: continual learning needs a frozen inherited network, a fast-weight working memory, an entity-keyed sparse
+hippocampal store and interleaved replay: the division of labour of hippocampus and cortex.
+\end{itemize}
+
+\section{Reproducibility}
+\begin{itemize}
+\item Rule set: \texttt{docs/ARCHITECTURE.md}; theory: \texttt{docs/THEORY.md}, \texttt{docs/THEORY\_fable.md},
+\texttt{docs/EQUIVALENCE.md}; test: \texttt{docs/LOGIC.md}.
+\item The brain: \texttt{core/} (\texttt{net.py} neurons, the one generator, learned links, the rule and the decay;
+\texttt{brain.py} areas, chains, PFC with a depth setting, hippocampus, motor, reward; \texttt{gen0.py} generation-0
+links; \texttt{config.py} all parameters; \texttt{life.py}, \texttt{check.py}).
+\item Logic language: \texttt{theory/logic/} (\texttt{world.py} language, stages, dialogues,
+pace settings; \texttt{life.py} birth and a life with listening, talking and reward; \texttt{listen.py} listening test;
+\texttt{think.py} reading thoughts).
+\item The logic-language brain uses the game brain's vision area and copies (\texttt{theory/game/game\_brain.py}).
+Hardware: one NVIDIA A100 40\,GB; numpy and PyTorch. A life of 3,000 dialogues takes a few minutes.
+\end{itemize}
+
+\end{document}
