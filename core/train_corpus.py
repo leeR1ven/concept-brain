@@ -38,7 +38,7 @@ def main():
     pool_ratio = float(over.pop('pool_min_ratio', 1.05))      # ... and the least lead over the strongest other
     pool_fresh = int(over.pop('pool_fresh', 1))               # ... reading the PFC's newest push
     pool_mask = int(over.pop('pool_mask', 1))                 # ... not what arrives from below now (it is heard)
-    pool_discount = int(over.pop('pool_discount', 1))         # ... a rival weighed by 1 - the overlap of their codes
+    pool_discount = int(over.pop('pool_discount', 0))         # ... a rival weighed by 1 - code overlap (off: hub pools)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)

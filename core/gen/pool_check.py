@@ -73,7 +73,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
                       for x in life.syl(s_, 'C1')]
         b.restore(snap)
         for x in [None] * 2 + heard_line:
-            b.step(torch.as_tensor(life.with_sight(life.coch.a0([x])), device=DEV), 0.0)
+            b.step(torch.as_tensor(life.with_sight(life.coch.a0([] if x is None else [x])), device=DEV), 0.0)
         l4 = b.pfc.L4.on.clone()
         b.restore(snap)
         cp.enable_reward(l4.numel())
