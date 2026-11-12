@@ -13,7 +13,7 @@ import numpy as np
 import torch
 
 
-def main(ckpt, n=80, share=0.1, quiet=6):
+def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
     import core.corpus_life  # noqa: F401
     from ..exam import first_lines
     from ..net import DEV
@@ -22,7 +22,7 @@ def main(ckpt, n=80, share=0.1, quiet=6):
     life = torch.load(ckpt, weights_only=False)['life']
     b, mot = life.brain, life.brain.motor
     b.learning = False
-    cp = install_concept_pools(life, share=share)
+    cp = install_concept_pools(life, share=share, min_ratio=min_ratio)
     sids = mot.cpool_sids
     code = (cp.W > 0)
     snap = b.snapshot()
@@ -105,4 +105,4 @@ def main(ckpt, n=80, share=0.1, quiet=6):
 
 if __name__ == '__main__':
     kw = dict(a.split('=', 1) for a in sys.argv[2:])
-    main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)))
+    main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)), min_ratio=float(kw.get('min_ratio', 1.2)))
