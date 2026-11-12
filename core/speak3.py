@@ -22,6 +22,8 @@ next syllable of a cut line on 2.7 % of lines, 0 % in shuffled order (core/gen/v
   each pool's summed link from them, shared by them (a unit shared by many syllables is explained away).
 - Reward on the pool choice (Fable a40 B4: pool copies and a last-layer -> pool-copy table) is not built yet; the reward
   still replays last layer -> force / stop copies, which no longer choose what is said (registered, open)."""
+import math
+
 import numpy as np
 import torch
 
@@ -117,6 +119,10 @@ class ConceptPools:
         ok = stop_share < 0.5 and s1 / (1.0 + 4.0 * stop_share) >= self.bar and s1 >= self.ratio * s2
         self.winner = i if ok else -1
         self.n_won += ok
+        sh = getattr(self, 'share', None)
+        if adapt and sh and stop_share < 0.5:                     # the 'say nothing' bar follows how often the pools
+            self.bar *= math.exp(0.01 * (float(ok) - sh))         # win (ARCH 二.4; 11-13 smoke: with a fixed bar the
+            # child spoke 2.3, 3.2, 4.1, 5.8 syllables per dialogue in four successive hundreds)
         if ok and T is not None and l4 is not None:              # credit only units not always on (a context-free
             u = torch.nonzero(l4 & (self.rate4 < 0.5)).squeeze(1)  # habit would be the frequency loop again)
             self.trace = [x for x in self.trace if self.tick - x[0] < self.r_win] + [(self.tick, u, i)]
@@ -154,6 +160,7 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
     pat = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
     cp = ConceptPools(code, pat[:, mot.muscle_of], ca, cb)
     cp.mask_heard, cp.fresh, cp.discount, cp.lift = mask_heard, fresh, discount, False
+    cp.share = share
     mot.cpools, mot.cpool_sids = cp, sids
     mot.ret_prep = 0.6 * (mot.thr_f + c['b_block'] * mot.n_tonic / (8.0 * mot.m))
     mot.complete = mot.thr_f.max() + c['b_block'] * mot.n_tonic / (8.0 * mot.m) + 0.5
