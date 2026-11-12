@@ -39,6 +39,7 @@ def main():
     pool_fresh = int(over.pop('pool_fresh', 1))               # ... reading the PFC's newest push
     pool_mask = int(over.pop('pool_mask', 1))                 # ... not what arrives from below now (it is heard)
     pool_discount = int(over.pop('pool_discount', 0))         # ... a rival weighed by 1 - code overlap (off: hub pools)
+    pool_reward = int(over.pop('pool_reward', 0))             # the reward table last layer -> pools (core/speak3.py)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -89,6 +90,10 @@ def main():
         install_concept_pools(life, share=float(pools), min_ratio=pool_ratio, fresh=bool(pool_fresh),
                               mask_heard=bool(pool_mask), discount=bool(pool_discount))
         log(f'concept-space pools at {life.env.n_ex - start} dialogues')
+    cpr = getattr(life.brain.motor, 'cpools', None)
+    if pool_reward and cpr is not None and getattr(cpr, 'T', None) is None:
+        cpr.enable_reward(int(life.brain.pfc.L4.on.numel()))
+        log(f'reward table last layer -> pools at {life.env.n_ex - start} dialogues')
     if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
         from .world.corpus import concat, mixed_order
         tx = Dialogues.load(text)
