@@ -651,7 +651,10 @@ class Brain:
                     getattr(ch, 'ret_amyg', None))
             x_ext = torch.cat([x_ext, am.pop.on])
         self.sound.step(a0, self.ret_sound)
-        self.motor.e1 = getattr(self.pfc, 'e1', None)      # the PFC's expectation for now (concept-space pools)
+        cpf = getattr(getattr(self.motor, 'cpools', None), 'fresh', False)
+        self.motor.e1 = getattr(self.motor, 'e1_fresh', None) if cpf else getattr(self.pfc, 'e1', None)
+        # concept-space pools: the PFC's expectation (pfc.e1 was made at the start of the last tick, for that tick's
+        # arrivals; with fresh, its newest push, made at the end of the last tick, for what comes next)
         self.motor.heard_now = None if cc is None else getattr(cc, 'below', None)   # and what arrives from below now
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
         cnt = torch.zeros(self.motor.nmus, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
@@ -702,6 +705,8 @@ class Brain:
                 self.reward(rb)
         elif r != 0.0:
             self.reward(r)
+        if getattr(getattr(self.motor, 'cpools', None), 'fresh', False):   # the newest push, for the motor area next
+            self.motor.e1_fresh = self.pfc.push() - self.pfc.usual         # tick (core/speak3.py)
         self.t += 1
         return muscles
 

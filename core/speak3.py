@@ -74,7 +74,7 @@ class ConceptPools:
         self.n_learn += 1
 
 
-def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False):
+def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False, fresh=False):
     """the pools for the wired syllables, seeded from the present concept codes; bar and ratio from a frozen stretch of
     never-heard dialogue (ticks without the brake)"""
     b, c = life.brain, life.c
@@ -83,7 +83,7 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
     code, ca, cb = concept_codes(life, sids)
     pat = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
     cp = ConceptPools(code, pat[:, mot.muscle_of], ca, cb)
-    cp.mask_heard = mask_heard
+    cp.mask_heard, cp.fresh = mask_heard, fresh
     mot.cpools, mot.cpool_sids = cp, sids
     mot.ret_prep = 0.6 * (mot.thr_f + c['b_block'] * mot.n_tonic / (8.0 * mot.m))
     mot.complete = mot.thr_f.max() + c['b_block'] * mot.n_tonic / (8.0 * mot.m) + 0.5
@@ -95,9 +95,10 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
 
     def rec(t):                                                   # what the pools would see next tick
         ss = float(mot.stop.on.float().mean())
-        if ss < 0.5 and getattr(pfc, 'e1', None) is not None:
+        e1 = getattr(mot, 'e1_fresh', None) if fresh else getattr(pfc, 'e1', None)
+        if ss < 0.5 and e1 is not None:
             cc = getattr(b, 'concept', None)
-            v = torch.topk(cp.support(pfc.e1, None if cc is None else cc.below), 2).values
+            v = torch.topk(cp.support(e1, None if cc is None else cc.below), 2).values
             S.append((float(v[0]) / (1.0 + 4.0 * ss), float(v[1])))
     for di in range(min(cal_dialogues, life.heldout.n)):
         src = script_dialogue(life.heldout, di, np.random.default_rng([life.seed, 9311, di]), gt, 8, 1, 1)

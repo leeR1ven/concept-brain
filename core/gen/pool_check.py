@@ -13,7 +13,7 @@ import numpy as np
 import torch
 
 
-def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut'):
+def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut', cuts=1, seed=3, fresh=0):
     import core.corpus_life  # noqa: F401
     from ..exam import first_lines
     from ..net import DEV
@@ -22,7 +22,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
     life = torch.load(ckpt, weights_only=False)['life']
     b, mot = life.brain, life.brain.motor
     b.learning = False
-    cp = install_concept_pools(life, share=share, min_ratio=min_ratio, mask_heard=bool(mask_heard))
+    cp = install_concept_pools(life, share=share, min_ratio=min_ratio, mask_heard=bool(mask_heard), fresh=bool(fresh))
     sids = mot.cpool_sids
     code = (cp.W > 0)
     snap = b.snapshot()
@@ -34,7 +34,9 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
     def say(e1, a0):
         b.restore(snap)
         mot.e1, mot.heard_now = e1, None
+        cp.fresh = False                                          # the injected push is read as it is
         mus = mot.step(a0, zf, zs).cpu().numpy()
+        cp.fresh = bool(fresh)
         y = life.mouth.say(mus)
         return None if y is None else ('garble' if y == 'garble' else int(y))
 
@@ -43,7 +45,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
         for i, s in parts:
             e1[cp.ca:cp.cb] += s * cp.bar * code[i].float()
         return e1
-    rng = np.random.default_rng(3)
+    rng = np.random.default_rng(seed)
     rows = rng.choice(len(sids), 40, replace=False)
     out = {}
 
@@ -71,14 +73,14 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
     lines = first_lines(life.heldout, range(life.heldout.n), n, lo=4)
     cases = []
     for ln in lines:
-        k = int(rng.integers(2, len(ln)))
-        pre = list(ln[:k])
-        sh = pre
-        for _ in range(10):
-            sh = [pre[i] for i in rng.permutation(len(pre))]
-            if sh != pre:
-                break
-        cases.append((pre, sh, int(ln[k])))
+        for k in sorted(set(int(x) for x in rng.integers(2, len(ln), cuts))):   # cuts: up to this many places a line
+            pre = list(ln[:k])
+            sh = pre
+            for _ in range(10):
+                sh = [pre[i] for i in rng.permutation(len(pre))]
+                if sh != pre:
+                    break
+            cases.append((pre, sh, int(ln[k])))
     res = {'cases': len(cases), 'babbler says the next': round(float(np.mean([t == common for _, _, t in cases])), 3)}
     for nm, idx in (('own order', 0), ('shuffled', 1)):
         said, wins, per = [], 0, []
@@ -113,4 +115,5 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
 if __name__ == '__main__':
     kw = dict(a.split('=', 1) for a in sys.argv[2:])
     main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)), min_ratio=float(kw.get('min_ratio', 1.2)),
-         mask_heard=int(kw.get('mask_heard', 0)), parts=kw.get('parts', 'inject,cut'))
+         mask_heard=int(kw.get('mask_heard', 0)), parts=kw.get('parts', 'inject,cut'), cuts=int(kw.get('cuts', 1)),
+         seed=int(kw.get('seed', 3)), fresh=int(kw.get('fresh', 0)))
