@@ -89,10 +89,13 @@ class CorpusLife:
             if not hasattr(self, '_see_rng'):
                 self._see_rng = np.random.default_rng(self.seed + 4242)
             cur = self.env.cur
-            see = cur is not None and self._see_rng.random() < self.c.get('p_see', 0.5)
+            sid = None if cur is None else cur[0]
+            if sid is None and own is not None and self.c.get('see_own'):   # the child's own clear syllable, heard
+                sid = own                                  # now, is seen like the adults' (Fable a40 B3: so the own
+            see = sid is not None and self._see_rng.random() < self.c.get('p_see', 0.5)   # voice gets the taught code)
             if getattr(self, 'scene', None) is not None:
                 self.scene.world_step(cur)
-            a0 = self.with_sight(a0, cur[0] if see else None, count=True)
+            a0 = self.with_sight(a0, sid if see else None, count=True)
         r, self.r_next = getattr(self, 'r_next', 0.0), 0.0
         self.muscles = self.brain.step(torch.as_tensor(a0, device=DEV), r).cpu().numpy()
         if getattr(self, 'scene', None) is not None:     # the eye muscles move the gaze

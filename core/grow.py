@@ -81,7 +81,14 @@ class ConceptArea:
                 r = max(1.0 / self.v_n, 1.0 / c['tau_usual'])
                 vu = getattr(self, 'v_usual', None)
                 self.v_usual = vd.clone() if vu is None else vu + r * (vd - vu)
-                lit = lit | topk_on(vd - self.v_usual, self.k)
+                sv = topk_on(vd - self.v_usual, self.k)
+                if seen is not None and sv.any():        # sight_as_sense (Fable a40 A2): a sign only partly on the
+                    m = float((vd - self.v_usual)[sv].mean())   # fovea (the board drifting) lights a weaker, other set:
+                    vw = getattr(self, 'v_win', None)    # it teaches only when its drive above usual is at least
+                    self.v_win = m if vw is None else vw + r * (m - vw)   # sight_guard x the usual for a seen sign
+                    if m < c.get('sight_guard', 0.7) * self.v_win:
+                        sv = torch.zeros_like(sv)
+                lit = lit | sv
         came = lit                                       # what the check compares: lit from below (sound, sight)
         self.below = lit                                 # what is sent on as heard (Fable a37: not the echoes)
         if ret is not None:
