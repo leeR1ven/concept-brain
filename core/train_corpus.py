@@ -36,6 +36,8 @@ def main():
     sight_sense = over.pop('sight_sense', 0)                  # the visual copies as the concept area's second sense
     pools = over.pop('concept_pools', 0)                      # > 0: concept-space syllable pools, winning on this share
     pool_ratio = float(over.pop('pool_min_ratio', 1.05))      # ... and the least lead over the strongest other
+    pool_fresh = int(over.pop('pool_fresh', 1))               # ... reading the PFC's newest push
+    pool_mask = int(over.pop('pool_mask', 1))                 # ... not what arrives from below now (it is heard)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -83,7 +85,8 @@ def main():
         log(f'sight as a sense at {life.env.n_ex - start} dialogues')
     if pools and getattr(life.brain.motor, 'cpools', None) is None:
         from .speak3 import install_concept_pools            # (core/speak3.py)
-        install_concept_pools(life, share=float(pools), min_ratio=pool_ratio)
+        install_concept_pools(life, share=float(pools), min_ratio=pool_ratio, fresh=bool(pool_fresh),
+                              mask_heard=bool(pool_mask))
         log(f'concept-space pools at {life.env.n_ex - start} dialogues')
     if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
         from .world.corpus import concat, mixed_order
