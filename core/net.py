@@ -204,6 +204,50 @@ class Links:
             self.w *= (cap / (self.gain * tot).clamp_min(1e-12)).clamp(max=1.0)[self.idx]
 
 
+class GradedTable:
+    """What comes next, among the copies `sel` (designer 11-10, tested on the bench 11-10): every pair linked.
+    No link changes sign: a copy excites other copies through links E >= 0, and it drives its partner inhibitory unit
+    (lit with it; ARCH 二.1: an inhibitory neuron is an ordinary neuron whose output weights are negative), which
+    inhibits copies through links I >= 0. The push into a copy = the sum over the copies lit a tick before of E - I:
+    about the share of times it came after them (0..1).
+    The copy's own check, graded: change = step x (came - push), shared by the copies lit a tick before; a link that
+    pushed too little gains excitation and loses inhibition, one that pushed too much the reverse. (With links >= 0
+    only, or with growth by counting, the push stays near word frequency however much is heard: fable-lab benches.)"""
+
+    def __init__(self, sel, n, c, name='graded'):
+        self.sel, self.n, self.c, self.name = sel, n, c, name
+        m = len(sel)
+        self.E = torch.zeros((m, m), device=DEV)
+        self.I = torch.zeros((m, m), device=DEV)
+        self.learned, self.log = True, None
+
+    def drive(self, act):
+        """act: bool [n] -> the push into every copy [n] (0 outside sel)"""
+        out = torch.zeros(self.n, device=DEV)
+        a = torch.nonzero(act[self.sel]).squeeze(1)
+        if a.numel():
+            out[self.sel] = self.E[a].sum(0) - self.I[a].sum(0)
+        return out
+
+    def learn(self, pre, came, push, step, skip=None):
+        """pre: bool [n] copies lit a tick before; came: bool [n] copies lit from outside now; push: float [n] what
+        this table pushed (drive(pre)); skip: bool [n] copies that take no part in the check this tick"""
+        a = torch.nonzero(pre[self.sel]).squeeze(1)
+        if a.numel() == 0:
+            return
+        err = came[self.sel].float() - push[self.sel]
+        if skip is not None:
+            err = err * (~skip[self.sel]).float()
+        d = (0.5 * step / a.numel()) * err[None, :]
+        self.E[a] = (self.E[a] + d).clamp_min(0.0)
+        self.I[a] = (self.I[a] - d).clamp_min(0.0)
+
+    def decay(self):
+        g = self.c['gamma_pfc']
+        self.E *= g
+        self.I *= g
+
+
 def radius_lists(pos_pre, pos_post, r, exclude_self=False):
     """for every pre unit, all post units within radius r on the sheet (padded with the sink len(pos_post))"""
     lists = []

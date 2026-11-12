@@ -33,14 +33,82 @@ class ConceptArea:
         self.win = torch.ones((), device=DEV)           # the usual drive of a lit unit (scale of a return)
         self.adapt = False
 
-    def step(self, src, ret):
+    def setup_b(self, sight_bits, rng):
+        """config concept_rule 'b' (bench 11-10, fable-lab stay_bench / coord-lab stay_bench_b): every feature linked
+        to every unit by learned links, excitatory E >= 0 and through the feature's inhibitory partner I >= 0 (no link
+        changes sign), changed by the one graded check. With sight_bits: a second sense (ARCH 三: the concept area
+        takes every sense) - birth links from the sight input bits; what is seen lights its own units."""
+        self.E = torch.zeros((self.n_src, self.n), device=DEV)
+        self.I = torch.zeros((self.n_src, self.n), device=DEV)
+        self.mu = torch.zeros(self.n, device=DEV)          # each unit's usual learned push (taken out, ARCH 二.4)
+        self._chk = None
+        self.vbirth = None
+        if sight_bits:
+            K = self.c['rec_fan']
+            self.vbirth = Fixed(rng.integers(0, sight_bits, (self.n, K)), rng.uniform(0.5, 1.5, (self.n, K)))
+            self.v_rest = None                             # each unit's sight drive when nothing is seen (set by add_concept)
+
+    def step_b(self, src, ret, sight):
+        """A unit is lit when it is among the strongest k of its bottom-up push from the sound (birth drive above its
+        usual level, in units of a usual winner's drive, + its learned push above its usual level), or a return lights
+        it, or what is seen lights it. The check (in learn): lit vs its bottom-up push from the sound, clipped to
+        0..1; a unit that is not lit and was pushed less than a winner takes no part. So a unit its own sound input
+        lights changes nothing; a unit lit by a return or by sight while the sound pushed it too little gains links
+        from the sound features lit now (designer 11-10: "原本没有连接的…产生了赫布连接"); a unit pushed like a winner
+        that did not light loses."""
+        c = self.c
+        e = self.birth.drive(src) - self.usual
+        if self.adapt:
+            self.usual += e / c['tau_usual']
+            ob = topk_on(e, self.k)
+            if ob.any():
+                self.win += (e[ob].mean() - self.win) / c['tau_usual']
+        a = torch.nonzero(src).squeeze(1)
+        q = (self.E[a].sum(0) - self.I[a].sum(0)) if a.numel() else torch.zeros(self.n, device=DEV)
+        if self.adapt:
+            self.mu += (q - self.mu) / c['tau_usual']
+        tot = e / self.win.clamp_min(1e-6) + c['g_c'] * (q - self.mu)
+        lit = topk_on(tot, self.k)
+        heard = lit                                      # lit from the sound alone
+        if sight is not None and self.vbirth is not None and self.v_rest is not None:
+            vd = self.vbirth.drive(sight)
+            if c.get('sight_ref', 'usual') == 'rest':     # old: above the drive when nothing is seen. Units whose few
+                lit = lit | topk_on(vd - self.v_rest - 1e-4, self.k)   # sight links sit on bits off at rest win for
+            elif bool(((vd - self.v_rest).abs() > 1e-6).any()):        # every sign (sets overlap 13 %, chance 1 %)
+                # each unit's own usual drive while something is seen (ARCH 二.4): sets as distinct as chance (1.2 %)
+                self.v_n = getattr(self, 'v_n', 0) + 1
+                r = max(1.0 / self.v_n, 1.0 / c['tau_usual'])
+                vu = getattr(self, 'v_usual', None)
+                self.v_usual = vd.clone() if vu is None else vu + r * (vd - vu)
+                lit = lit | topk_on(vd - self.v_usual, self.k)
+        came = lit                                       # what the check compares: lit from below (sound, sight)
+        self.below = lit                                 # what is sent on as heard (Fable a37: not the echoes)
+        if ret is not None:
+            lit = lit | (ret > 0)
+            if c.get('concept_ret_teach', True):         # False (test switch): a unit lit only by a thought's return
+                came = lit                               # takes no part as "lit" (an echo, as in the PFC's own check)
+        pred = tot.clamp(0.0, 1.0)
+        pred = torch.where(came | (tot >= 1.0), pred, torch.zeros_like(pred))
+        self._chk = (a, came.float() - pred)
+        self.src.set(src)
+        if not c.get('sight_to_code', True):             # test switch: the seen units teach but are not sent on
+            lit = heard | (ret > 0) if ret is not None else heard
+            self.below = heard
+        self.pop.set(lit)
+
+    def step(self, src, ret, sight=None):
+        if getattr(self, 'E', None) is not None:
+            return self.step_b(src, ret, sight)
         d = self.birth.drive(src) + self.learned.drive(src)
         e = d - self.usual
         if self.adapt:
             self.usual += e / self.c['tau_usual']
-        if ret is not None:
-            e = e + self.c['g_ret'] * self.win * ret       # a return lights its own concept unit
-        on = topk_on(e, self.k)
+        if ret is not None and self.c.get('concept_ret_adds'):
+            on = topk_on(e, self.k) | (ret > 0)            # a return lights its own unit beside what is heard (as in
+        else:                                              # the sensory areas), instead of taking a heard unit's place
+            if ret is not None:
+                e = e + self.c['g_ret'] * self.win * ret   # a return lights its own concept unit
+            on = topk_on(e, self.k)
         if self.adapt and on.any():
             self.win += (e[on].mean() - self.win) / self.c['tau_usual']
         self.src.set(src)
@@ -48,12 +116,21 @@ class ConceptArea:
 
     def learn(self):
         """同时亮的互相加强: feature A -> concept B grows while both are on (A on now or just before)"""
-        L, fw = self.learned, self.c['fall_win']
+        if getattr(self, 'E', None) is not None:         # rule b: the graded check, shared by the features lit now
+            if self._chk is not None and self._chk[0].numel():
+                a, dd = self._chk
+                d = (0.5 * self.c.get('concept_step', 0.15) / a.numel()) * dd[None, :]
+                self.E[a] = (self.E[a] + d).clamp_min(0.0)
+                self.I[a] = (self.I[a] - d).clamp_min(0.0)
+            return
+        L, fw, eta = self.learned, self.c['fall_win'], self.c.get('eta_concept', 0.0)
+        if not eta:                                      # birth links only (config eta_concept, 11-10)
+            return
         a = torch.nonzero(self.src.on | self.src.held(fw)).squeeze(1)
         if a.numel() == 0:
             return
         f = torch.cat([self.pop.on, torch.zeros(1, dtype=torch.bool, device=DEV)])
-        L.apply(a, self.c['eta'] * L.plast(L.w[a]) * f[L.idx[a]].float())
+        L.apply(a, eta * L.plast(L.w[a]) * f[L.idx[a]].float())
 
 
 def _extend_pop(p, n_new):
@@ -84,7 +161,20 @@ def add_concept(life, cal_ticks=1000):
     ch, pfc, hip = b.chains, b.pfc, b.hip
     n_old = ch.n
     _, _, n_src, _ = ch.seg('force')[0]                   # sound and touch copies come first: the feature units
+    lay = c.get('concept_from')                           # which layers of the sensory areas it reads (None: all)
+    src_idx = None
+    if lay is not None:                                   # entries: a number = that layer of the SOUND area; or
+        want = {('sound', int(x)) if isinstance(x, (int, float)) else (str(x[0]), int(x[1])) for x in lay}   # (area, layer)
+        assert all(k in ('sound', 'touch', 'sight') for k, _ in want), f'concept_from: unknown area in {lay}'
+        src_idx = torch.cat([torch.arange(a, bb, device=DEV) for kind, l, a, bb in ch.segs if (kind, l) in want])
+        n_src = len(src_idx)
     cc = ConceptArea(n_src, c, rng)
+    cc.src_idx = src_idx
+    if c.get('concept_rule') == 'b':
+        nb = 0 if c.get('sight_area') else int(c.get('sight_bits', 0))   # a visual area: sight comes as its features
+        cc.setup_b(nb, rng)
+        if nb:                                            # each unit's sight drive when nothing is seen
+            cc.v_rest = cc.vbirth.drive(torch.as_tensor(life.sight_of(None), device=DEV))
     n_new = n_old + cc.n
     # chains: one more block of copies at the end (old indices unchanged)
     W = int(math.ceil(math.sqrt(cc.n)))
@@ -108,6 +198,29 @@ def add_concept(life, cal_ticks=1000):
     pfc.loop.n_post, pfc.loop.n_pre = n_new, n_new
     _extend_links(pfc.L41, radius_lists(ch.pos, ch.pos, c['r_learn']), n_new, n_old)
     _extend_links(pfc.L44, radius_lists(ch.pos, ch.pos, c['r_learn'], True), n_new, n_old)
+    for tb in getattr(pfc, 'P', {}).values():             # the other layers' next-tick tables (predict_from)
+        _extend_links(tb, radius_lists(ch.pos, ch.pos, c['r_learn']), n_new, n_old)
+    if c.get('pfc_from_concept'):                         # sensory copies reach the PFC only via the concept area
+        m = torch.zeros(n_new, dtype=torch.bool, device=DEV)
+        for kind, l, a, bb in ch.segs:
+            if kind in ('concept', 'force', 'stop'):
+                m[a:bb] = True
+        b.pfc_in = pfc.pfc_in = m
+    if c.get('pfc_graded'):                               # the graded next-tick table among the copies the PFC hears
+        from .net import GradedTable
+        # the echo of a thought must come back exactly one tick later for the check to skip it (PFC.learn)
+        assert c.get('concept_sync'), 'pfc_graded needs concept_sync (the echo of a thought would come 2 ticks later)'
+        gm = getattr(pfc, 'pfc_in', None)
+        if gm is None:
+            gm = torch.zeros(n_new, dtype=torch.bool, device=DEV)
+            gm[n_old:n_new] = True
+        pfc.GT = GradedTable(torch.nonzero(gm).squeeze(1), n_new, c)
+        pfc.gt_p = torch.zeros(n_new, device=DEV)
+        pfc.gt_used = pfc.gt_p
+        pfc.x_int_prev = torch.zeros(n_new, dtype=torch.bool, device=DEV)
+    if c.get('predict_from_concept'):                     # the first layer's next-tick links start at concept copies
+        pfc.pred_mask = torch.zeros(n_new, dtype=torch.bool, device=DEV)
+        pfc.pred_mask[n_old:n_new] = True
     for pp in pfc.pops():
         _extend_pop(pp, n_new)
     pfc.n = n_new
@@ -131,15 +244,34 @@ def add_concept(life, cal_ticks=1000):
     hip.H1t.idx = torch.cat([torch.where(hip.H1t.idx >= n_old, n_new, hip.H1t.idx), new_t], 1)
     hip.H1t.w = torch.cat([hip.H1t.w, torch.zeros(new_t.shape, device=DEV)], 1)
     hip.H1t.n_post = n_new
+    if getattr(b, 'pfc_in', None) is not None and c.get('hip_from_heard', True):
+        # with pfc_from_concept the hippocampus hears only the concept / force / stop copies: its birth fan-in is drawn
+        # from them (hip_fan each). Drawn over all copies a unit had about 0.07 lit inputs and its recall was generic
+        # (few-hearings test 11-11). Its learned links start from zero with the new fan-in.
+        src = torch.nonzero(b.pfc_in).squeeze(1).cpu().numpy()
+        fan = int(c.get('hip_fan', 150))
+        hip.rec = Fixed(src[rng.integers(0, len(src), (hip.nh, fan))], rng.uniform(0.5, 1.5, (hip.nh, fan)))
+        for tb in hip.plastic():
+            tb.w.zero_()
+        hip.usual.zero_()
+        hip.usual_s = None
     b.concept, b.n1 = cc, n_new
     ch.ret_concept = torch.zeros(cc.n, device=DEV)
     log(f'concept area added: {cc.n} units ({cc.k} on per tick) reading {n_src} feature units; PFC {n_old} -> {n_new}')
     # the new PFC units' own thresholds, from the drive they receive over a short stretch of life (ARCH 二.4)
-    L1s, L2s = [], []
+    L1s, L2s, Ss = [], [], []
     for _ in range(cal_ticks):
         life.tick()
         L1s.append(pfc.L1.on.clone())
         L2s.append(pfc.L2.on.clone())
+        Ss.append(cc.src.on.clone())
+    if getattr(cc, 'E', None) is not None:
+        # rule b compares "lit" with the push in units of a usual winner's drive: each unit's usual birth drive and
+        # that scale are set from this stretch, so that the check does not start from a wrong level
+        D = cc.birth.drive_batch(torch.stack(Ss))
+        cc.usual = D.mean(0)
+        cc.win = torch.topk(D - cc.usual[None, :], cc.k, dim=1).values.mean()
+        del D
     X1, X2 = torch.stack(L1s), torch.stack(L2s)
     rho = c.get("pfc_mid_rate") or b.birth_density          # the middle layers' own rate, as at birth
     new2 = Fixed(pfc.ff[0].idx[n_old:], pfc.ff[0].w[n_old:])
@@ -149,4 +281,32 @@ def add_concept(life, cal_ticks=1000):
     new3 = Fixed(pfc.ff[1].idx[n_old:], pfc.ff[1].w[n_old:])
     pfc.thr3[n_old:] = own_thresholds(new3.drive_batch(X2), rho)
     log(f'new PFC units calibrated over {cal_ticks} ticks')
+    if c.get('speak'):                                    # generation 0: the speech link and the motor pools (11-11)
+        from .speak import wire_speech
+        wire_speech(life)
     return cc
+
+
+def gt_drop_motor(life):
+    """The graded next-copy table keeps only the copies that are heard or felt (concept, amygdala ...), not the
+    force / stop copies (11-12 night, full10 frozen: the table had learned the child's own babble, force copies
+    following force copies; as intents skip the thought budget, 57 of them lit every tick, the same whatever was
+    heard, and speech said them). What to say then comes from what is thought, through the speech link (ARCH 五:
+    想到回答，就会自动说出来). Learned values among the kept copies are kept."""
+    b = life.brain
+    pfc = b.pfc
+    GT = getattr(pfc, 'GT', None)
+    if GT is None:
+        return 0
+    motor = torch.zeros(b.n1, dtype=torch.bool, device=DEV)
+    for kind, l, a, bb in b.chains.segs:
+        if kind in ('force', 'stop'):
+            motor[a:bb] = True
+    keep = ~motor[GT.sel]
+    k = torch.nonzero(keep).squeeze(1)
+    GT.E, GT.I = GT.E[k][:, k].contiguous(), GT.I[k][:, k].contiguous()
+    n_drop = int((~keep).sum())
+    GT.sel = GT.sel[k]
+    life.registry = getattr(life, 'registry', []) + [('graded table without motor copies', int(len(k)), n_drop)]
+    log(f'graded table: {n_drop} motor copies dropped, {len(k)} kept')
+    return n_drop

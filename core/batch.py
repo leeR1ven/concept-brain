@@ -91,6 +91,16 @@ class Batch:
     def __init__(self, life, worlds):
         self.life, self.worlds = life, worlds
         b, B = life.brain, len(worlds)
+        # the batch has not followed core/brain.py since 11-07: its PFC learns by the timing rule (not each copy's own
+        # check), knows no other next-tick tables and no masks. Refuse the options it would silently ignore.
+        p = b.pfc
+        bad = [nm for nm, on in (("predict_from beyond 'L4'", bool(getattr(p, 'P', {}))),
+                                 ('pfc_from_concept', getattr(b, 'pfc_in', None) is not None),
+                                 ('predict_from_concept', getattr(p, 'pred_mask', None) is not None),
+                                 ('pfc_graded', getattr(p, 'GT', None) is not None),
+                                 ('concept_rule b / sight_bits', bool(b.c.get('concept_rule') or b.c.get('sight_bits'))),
+                                 ('pfc_depth other than 4', getattr(p, 'depth', 4) != 4)) if on]
+        assert not bad, f'core/batch.py does not implement: {bad}; run with batch=1'
         self.B = B
         self.sound = [torch.zeros((B, n), dtype=torch.bool, device=DEV) for n in b.sound.n]
         self.touch = [s[None].expand(B, -1).clone() for s in b.touch.state]
@@ -127,7 +137,7 @@ class Batch:
             parts.append(self.cpop.on)
         x = torch.cat(parts, 1)                                                   # chain sources at t-1
         if cc is not None:                                                        # the shared concept area
-            src = x[:, :cc.n_src]
+            src = x[:, :cc.n_src] if getattr(cc, 'src_idx', None) is None else x[:, cc.src_idx]
             e = fdrive(cc.birth, src) + ldrive(cc.learned, src) - cc.usual
             if learning:
                 cc.usual += e.mean(0) * self.adapt
@@ -137,6 +147,8 @@ class Batch:
                 cc.win += (e[on].mean() - cc.win) * self.adapt
             self.csrc.set(src)
             self.cpop.set(on)
+            if c.get('concept_sync'):                    # its copies reach the PFC with the features it read
+                x = torch.cat([x[:, :-cc.n], on], 1)
         # sound area: layer 1 reads this tick's input, layer l the layer below one tick earlier; returns from t-1
         prev = [a0] + self.sound[:-1]
         self.sound = [fdrive(ly, pv) + r * rw > th for ly, pv, r, rw, th in
@@ -222,8 +234,8 @@ class Batch:
             llearn(p.L44, self.L4, self.L4.rose(), self.L4.held(fw), eta, 'main')
             llearn(h.HH, self.Hs, self.Hs.rose(), self.Hs.held(fw), c['eta_h'], 'main')
             llearn(h.H1t, self.Hs, self.H1ext.rose() & ~self.H1.prev, self.H1ext.held(fw), c['eta_h'], 'plain')
-            if cc is not None:
-                llearn(cc.learned, self.csrc, self.cpop.on, None, eta, 'coactive')
+            if cc is not None and c.get('eta_concept', 0.0):    # 0: birth links only, as ConceptArea.learn
+                llearn(cc.learned, self.csrc, self.cpop.on, None, c['eta_concept'], 'coactive')
             self.t += 1
             if self.t % self.decay_every == 0:
                 for tb in b.plastic():

@@ -73,9 +73,11 @@ class DialogueWorld:
         d = i % self.D.n
         rng = np.random.default_rng([self.seed, 7000, i])
         pre = int(rng.integers(*self.gap_dlg))
-        return script_dialogue(self.D, d, rng, self.gap_turn, pre, self.coch.c.get('syl_ticks', 3))
+        return script_dialogue(self.D, d, rng, self.gap_turn, pre, self.coch.c.get('syl_ticks', 3),
+                               self.coch.c.get('syl_hold', 1))
 
-    def step(self, muscles=None):
+    def step(self, muscles=None, extra=()):
+        """extra: sources heard on top of the dialogue this tick (the child's own voice, config speak)"""
         if muscles is not None and muscles.any():
             self.child_ticks += 1
         x = self.plan[self.pos]
@@ -87,7 +89,7 @@ class DialogueWorld:
             self.plan = self._plan(self.i)
         self.cur = x
         self.t += 1
-        return self.coch.a0([] if x is None else [x[:5]])
+        return self.coch.a0(([] if x is None else [x[:5]]) + list(extra))
 
     def adult_speaking(self):
         return self.cur is not None
@@ -102,10 +104,12 @@ class DialogueWorld:
         self.plan = self._plan(self.i)
 
 
-def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12, syl_ticks=3):
+def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12, syl_ticks=3, hold=1):
     """the rendering plan of dialogue d: list per tick of None (pause) or (sid, tick, voice, f0_off, level, d, turn,
     pos). Two different adult voices alternate turns; per turn an F0 offset (+-1 semitone) and a level change (+-2 dB);
-    F0 declines 0.08 semitone per syllable (at most 2) plus 0.3 semitone jitter per syllable."""
+    F0 declines 0.08 semitone per syllable (at most 2) plus 0.3 semitone jitter per syllable. syl_ticks 1: the whole
+    syllable at once, held for `hold` ticks (each stage of the brain is a tick later than the one before; held, the
+    stages hear the same syllable at its last tick, as a real syllable outlasts the steps between areas)."""
     if not isinstance(rng, np.random.Generator):
         rng = np.random.default_rng([int(rng), 9100, d])
     ab = rng.choice(len(ADULTS), 2, replace=False)
@@ -117,7 +121,7 @@ def script_dialogue(dlgs, d, rng, gap_turn=(4, 10), pre=12, syl_ticks=3):
         for p, sid in enumerate(tr):
             off = f0 - min(2.0, 0.08 * p) + rng.normal(0.0, 0.3)
             out += ([(int(sid), k, v, off, lev, d, j, p) for k in range(3)] if syl_ticks == 3
-                    else [(int(sid), -1, v, off, lev, d, j, p)])          # syl_ticks 1: the whole syllable at once
+                    else [(int(sid), -1, v, off, lev, d, j, p)] * hold)   # syl_ticks 1: the whole syllable at once
         if j < len(turns) - 1:
             out += [None] * int(rng.integers(*gap_turn))
     return out
@@ -156,7 +160,8 @@ class CurriculumWorld(DialogueWorld):
         d = int(self.order[min(self.pool(i) - 1, int(self.pool(i) * r.random() ** getattr(self, 'skew', 2.0)))])
         rng = np.random.default_rng([self.seed, 7000, i])
         pre = int(rng.integers(*self.gap_dlg))
-        return script_dialogue(self.D, d, rng, self.gap_turn, pre, self.coch.c.get('syl_ticks', 3))
+        return script_dialogue(self.D, d, rng, self.gap_turn, pre, self.coch.c.get('syl_ticks', 3),
+                               self.coch.c.get('syl_hold', 1))
 
 
 def concat(a, b):

@@ -27,7 +27,12 @@ def main():
     pool, grow = over.pop('pool', 0), over.pop('grow_every', 5000)
     B = over.pop('batch', 1)
     save_at = list(over.pop('save_at', []))                   # extra saves <ckpt>_<n>.pt at these dialogue counts
+    save_dir = over.pop('save_dir', None)                     # ... in this directory instead of beside ckpt
     grow_concept, text = over.pop('grow_concept', 0), over.pop('text', None)
+    grow_amyg = over.pop('grow_amyg', 0)                      # the amygdala grows into the living brain (core/amygdala.py)
+    grow_eye = over.pop('grow_eye', 0)                        # the eye: periphery, motion neurons, eye muscles (core/vision.py)
+    gt_no_motor = over.pop('gt_no_motor', 0)                  # the graded table without the motor copies (grow.gt_drop_motor)
+    speak_tend = over.pop('speak_tend', 0)                    # the speech link from the tendency (core/speak2.py)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -35,6 +40,9 @@ def main():
         log(f'continued from {load}: {life.env.n_ex - start} dialogues so far')
         for k_, v_ in config(**{'levels_per_s': 4, 'n_brake': 20}).items():   # parameters added since the save
             life.c.setdefault(k_, v_)
+        for k_, v_ in over.items():                           # explicit changes for the rest of this life
+            log(f'set {k_}: {life.c.get(k_)} -> {v_}')
+            life.c[k_] = v_
         if pool and not isinstance(life.env, CurriculumWorld):  # from now on: common dialogues first, repeated
             old = life.env
             life.env = CurriculumWorld(life.train, life.coch, life.seed, common_order(life.train), pool, grow,
@@ -52,6 +60,20 @@ def main():
         from .grow import add_concept                        # the shared concept area grows into the living brain
         add_concept(life)
         log(f'concept area added at {life.env.n_ex - start} dialogues')
+    if grow_amyg and getattr(life.brain, 'amyg', None) is None:
+        from .amygdala import add_amygdala
+        add_amygdala(life)
+        log(f'amygdala added at {life.env.n_ex - start} dialogues')
+    if gt_no_motor:
+        from .grow import gt_drop_motor
+        gt_drop_motor(life)
+    if speak_tend and not hasattr(getattr(life.brain.pfc, 'G1C', None), 'n_learn'):
+        from .speak2 import install_tendency_speech
+        install_tendency_speech(life)
+    if grow_eye and getattr(life.brain, 'eye_motion', None) is None:
+        from .vision import add_eye
+        add_eye(life, p_drift=float(grow_eye) if grow_eye < 1 else 0.1)
+        log(f'eye added at {life.env.n_ex - start} dialogues')
     if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
         from .world.corpus import concat, mixed_order
         tx = Dialogues.load(text)
@@ -84,12 +106,28 @@ def main():
         if w.n_ex - start >= nxt:
             print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
             print('NEXT', nxt, json.dumps(life.next_ranks()), flush=True)
+            print('PAIRS', nxt, json.dumps(life.pair_test()), flush=True)
+            if life.c.get('speak'):
+                print('SAY', nxt, json.dumps(life.speak_test()), flush=True)
+                print('SAID', nxt, json.dumps(life.said_since(getattr(life, '_said_t0', 0))), flush=True)
+                life._said_t0 = life.env.t
             nxt += probe
         if ckpt and time.time() - saved_at > save_min * 60:
             torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
             os.replace(ckpt + '.tmp', ckpt)
             saved_at = time.time()
             log(f'saved at {w.n_ex - start} dialogues')
+        if ckpt and save_at and w.n_ex - start >= save_at[0]:   # numbered saves, for frozen checks later
+            p_ = ckpt[:-3] + f'_{save_at[0]}.pt'
+            if save_dir:
+                p_ = os.path.join(save_dir, os.path.basename(p_))
+            torch.save(dict(life=life, start=start, next_probe=nxt), p_)
+            log(f'saved {p_}')
+            save_at = save_at[1:]
+    if ckpt:                                                  # the life as it ends (before the hippocampus test below)
+        torch.save(dict(life=life, start=start, next_probe=nxt), ckpt + '.tmp')
+        os.replace(ckpt + '.tmp', ckpt)
+        log(f'saved at the end, {w.n_ex - start} dialogues')
     before = life.reply_ranks()
     for tb in b.hip.plastic():
         tb.w.zero_()
@@ -131,6 +169,7 @@ def run_batch(life, B, n, start, nxt, every, probe, ckpt, save_min, grow, save_a
         if done >= nxt:
             print('PROBE', nxt, json.dumps(life.reply_ranks()), flush=True)
             print('NEXT', nxt, json.dumps(life.next_ranks()), flush=True)
+            print('PAIRS', nxt, json.dumps(life.pair_test()), flush=True)
             nxt += probe
         if ckpt and save_at and done >= save_at[0]:
             env.n_ex = base + bt.n_ex()

@@ -25,6 +25,13 @@ class CorpusLife:
         self.coch = Cochlea(self.voice, c, seed)
         self.body = Body(bases)
         self.skin = Skin(c['m'] * c['s'], self.body.need_mat)
+        if c.get('speak'):                                 # the mouth gives a whole syllable per tick (core/speak.py)
+            from .speak import Mouth, patterns72
+            assert c.get('syl_ticks', 3) == 1, 'speak: one tick per syllable only'
+            c['n_mus'] = 72
+            c['mus_per_syl'] = int(np.median(patterns72(self.body).sum(1)))
+            self.mouth = Mouth(self.body, c.get('mouth_tol', 1.0))
+        self.said = []                                     # (tick, syllable or 'garble') the child said
         self.train = Dialogues.load(os.path.join(data, 'train.npz'))
         self.heldout = Dialogues.load(os.path.join(data, 'heldout.npz'))
         birth = DialogueWorld(Dialogues.load(os.path.join(data, 'birth.npz')), self.coch, seed)
@@ -32,17 +39,106 @@ class CorpusLife:
         while birth.n_ex < c['birth_dialogues']:
             A0.append(birth.step())
         log(f'birth: {len(A0)} ticks, {birth.n_ex} dialogues')
-        self.brain = Brain(c, seed, self.coch, self.skin, np.array(A0))
+        V = None
+        if c.get('sight_area'):                            # what the newborn sees: nothing, or now and then a sign
+            g = np.random.default_rng(seed + 4343)
+            cnt = np.bincount(self.train.syl[:200000].astype(np.int64))
+            common = np.argsort(-cnt)[:600]
+            V = np.array([self.eye(int(common[g.integers(len(common))]) if g.random() < 0.3 else None)
+                          for _ in range(len(A0))])
+        self.brain = Brain(c, seed, self.coch, self.skin, np.array(A0), V)
         del A0
         b = self.brain
         log(f'brain: sound {b.sound.n}, touch {b.touch.n}, PFC {b.n1} x 4, hippocampus {b.hip.nh}, '
             f'motor {b.motor.nf} force; birth density {b.birth_density:.3f}')
         self.env = DialogueWorld(self.train, self.coch, seed)
-        self.muscles = np.zeros(24, bool)
+        self.muscles = np.zeros(int(c.get('n_mus', 24)), bool)
+        self.own = None                                    # the syllable the child said, heard by it the next tick
+
+    def sight_of(self, sid):
+        """config sight_bits: the input bits of what is seen with a syllable (its written sign: one fixed random
+        pattern per syllable, half on; None = nothing seen: also a fixed pattern, ARCH 二.3). World, not brain."""
+        nb = int(self.c.get('sight_bits', 0))
+        r = np.random.default_rng([self.c['lineage_seed'], 5150, 0 if sid is None else int(sid) + 1])
+        return r.random(nb) < 0.5
+
+    def eye(self, sid=None):
+        """the input bits of the eye: the sight bits as they are (stand-in), or with a visual area one thermometer pair per
+        pixel of the sign (row by row: pixel on, pixel off)"""
+        v = self.sight_of(sid)
+        if not self.c.get('sight_area'):
+            return v
+        return np.stack([v, ~v], 1).reshape(-1)
+
+    def with_sight(self, a0, sid=None, count=False):
+        """the ear's bits, then the sight bits (if the world has sight); with an eye (core/vision.py) the fovea is
+        what the retina sees where the gaze is, then the periphery's coarse cells"""
+        if not self.c.get('sight_bits'):
+            return a0
+        sc = getattr(self, 'scene', None)
+        if sc is None:
+            return np.concatenate([a0, self.eye(sid)])
+        from .vision import pairs
+        fov, coarse = sc.retina(None if sid is None else self.sight_of(sid), self.sight_of(None), count)
+        return np.concatenate([a0, pairs(fov), pairs(coarse)])
 
     def tick(self):
-        a0 = self.env.step(self.muscles)
-        self.muscles = self.brain.step(torch.as_tensor(a0, device=DEV), 0.0).cpu().numpy()
+        own = getattr(self, 'own', None)
+        a0 = self.env.step(self.muscles, [] if own is None else [(own, -1, 'own', 0.0, 0.0)])
+        if self.c.get('sight_bits'):                       # the sign is seen with a share p_see of the syllables heard
+            if not hasattr(self, '_see_rng'):
+                self._see_rng = np.random.default_rng(self.seed + 4242)
+            cur = self.env.cur
+            see = cur is not None and self._see_rng.random() < self.c.get('p_see', 0.5)
+            if getattr(self, 'scene', None) is not None:
+                self.scene.world_step(cur)
+            a0 = self.with_sight(a0, cur[0] if see else None, count=True)
+        r, self.r_next = getattr(self, 'r_next', 0.0), 0.0
+        self.muscles = self.brain.step(torch.as_tensor(a0, device=DEV), r).cpu().numpy()
+        if getattr(self, 'scene', None) is not None:     # the eye muscles move the gaze
+            self.scene.move(self.brain.eye_muscles.cpu().numpy())
+        lk = getattr(self.brain.pfc, 'G1C', None)
+        if self.brain.learning and hasattr(lk, 'n_learn'):  # core/speak2.py: the own voice teaches the speech link:
+            q = self.__dict__.setdefault('_said_q', [])   # the concept units it lights from below (2-3 ticks after
+            for t0, mv in q:                              # the mouth moved) -> the force neurons that moved
+                if self.env.t - t0 in (2, 3):
+                    lk.learn(self.brain.concept.below, mv)
+            q[:] = [(t0, mv) for t0, mv in q if self.env.t - t0 < 3]
+        self.own = None
+        if getattr(self, 'mouth', None) is not None:
+            x = self.mouth.say(self.muscles)
+            if x is not None:
+                self.said.append((self.env.t, x))
+                self.own = x if x != 'garble' else None
+                if self.own is not None and hasattr(getattr(self.brain.pfc, 'G1C', None), 'n_learn'):
+                    self.__dict__.setdefault('_said_q', []).append((self.env.t, self.brain.motor.force.on.clone()))
+                if self.c.get('reward') and self.own is not None:
+                    self.r_next = self.pleased(self.own)
+
+    def pleased(self, x):
+        """config reward (ARCH 五: the world keeps teaching; adults are pleased when the child says something close,
+        and that is the reward; no repeat-after-me): the syllable the child said is among the next r_ahead syllables
+        the adults are about to say: r_match; the same syllable in another tone: r_near; otherwise nothing. The brain
+        gets it the next tick (brain.reward: the changes that led to it are strengthened)."""
+        c, env = self.c, self.env
+        # the next r_ahead syllables the adults will say, silence skipped (Fable a36: the child's voice comes about two
+        # ticks after its thought, so 'the very next tick' could almost never be met; 3 syllables, exact or other tone)
+        ahead = [y for y in env.plan[env.pos:] if y is not None][:int(c.get('r_ahead', 3))]
+        def value(x):
+            if any(int(y[0]) == x for y in ahead):
+                return float(c.get('r_match', 1.0))
+            if any(int(y[0]) // 5 == x // 5 for y in ahead):
+                return float(c.get('r_near', 0.5))
+            return 0.0
+        r = value(x)
+        if r:
+            self.rewarded = getattr(self, 'rewarded', 0) + 1
+        # the yardstick (Fable a35): what a babbler saying the commonest syllable at the same moments would get
+        if getattr(self, '_common_sid', None) is None:
+            self._common_sid = int(np.argmax(np.bincount(self.train.syl[:200000].astype(np.int64))))
+        self.utter = getattr(self, 'utter', 0) + 1
+        self.babbler = getattr(self, 'babbler', 0) + (value(self._common_sid) > 0)
+        return r
 
     def play(self, srcs, rec=None):
         """probe: one source (sid, tick, voice, f0_offset, level) or None per tick; learning off, neuron states
@@ -51,7 +147,8 @@ class CorpusLife:
         was, b.learning = b.learning, False
         snap = b.snapshot()
         for t, x in enumerate(srcs):
-            b.step(torch.as_tensor(self.coch.a0([] if x is None else [x]), device=DEV), 0.0)
+            # probes are by sound alone: nothing is seen
+            b.step(torch.as_tensor(self.with_sight(self.coch.a0([] if x is None else [x])), device=DEV), 0.0)
             if rec is not None:
                 rec(t)
         b.restore(snap)
@@ -60,7 +157,7 @@ class CorpusLife:
     def syl(self, x, v):
         """the per-tick sources of one syllable: its 3 ticks, or the whole syllable in one tick (syl_ticks 1)"""
         if self.c.get('syl_ticks', 3) == 1:
-            return [(int(x), -1, v, 0.0, 0.0)]
+            return [(int(x), -1, v, 0.0, 0.0)] * self.c.get('syl_hold', 1)
         return [(int(x), k, v, 0.0, 0.0) for k in range(3)]
 
     def code(self, sid, p_rel=0.5, layers=None):
@@ -115,57 +212,224 @@ class CorpusLife:
                 out[k].append(sum(v > sc[s] for v in sc.values()) + sum(v == sc[s] for v in sc.values()))
         return {**{k: round(float(np.mean(v)), 1) for k, v in out.items()}, 'chance': (len(cands) + 1) / 2}
 
-    def next_ranks(self, n_dlg=40, n_cands=300):
-        """The next-syllable test (11-10): held-out dialogues heard as in life (learning off, states restored). Each
-        tick, the last layer's push into each candidate syllable's first-layer sound copies (above their usual level)
-        is what the PFC expects to arrive next; the syllable heard this tick is what arrives. The rank of the true
-        syllable among the n_cands most common ones (1 = best, chance about n_cands / 2), and the same items ranked by
-        counts over the training dialogues heard so far (ngram_ranks: frequency, previous 1, previous 2 syllables)."""
+    def pair_test(self, n_pairs=20, min_count=20, after=3):
+        """The designer's direct test (A -> B: is B lit?), 11-10. Pairs: syllables A whose most common follower B
+        follows it most reliably in the training dialogues heard so far (count >= min_count). A alone, in each adult
+        voice, from silence; during the `after` silent ticks that follow, the share of B's concept code (the concept
+        copies lit in >= half of B's hearings, from next_ranks' codes) that the PFC lights from inside (thought), vs
+        the same share for every other candidate syllable. Returns the mean share for B and for the others, how often B
+        is the most lit candidate, and the share of the thought budget that goes to concept copies."""
+        import collections
+        b, p = self.brain, self.brain.pfc
+        segs = {(kind, l): (a, bb) for kind, l, a, bb in b.chains.segs}
+        if ('concept', 0) not in segs:
+            return {}
+        ca, cb = segs[('concept', 0)]
+        if getattr(self, '_ncodes', None) is None:
+            self.next_ranks(n_dlg=1)
+        S = self._nS[' concept']                                 # mean concept copies per candidate
+        k = max(1, int(round(float((S.sum(1)).mean()))))         # its code: the copies most often lit when it is heard
+        code = torch.zeros_like(S, dtype=torch.bool).scatter_(1, torch.topk(S, k, dim=1).indices, True) & (S > 0)
+        pos = {x: i for i, x in enumerate(self._ncand)}
+        seq = self.train.syl[:self.train.turn_off[self.train.dlg_off[min(self.env.n_ex, self.train.n)]]].tolist()
+        c1 = collections.Counter(seq)
+        c2 = collections.Counter(zip(seq[:-1], seq[1:]))
+        best = {}
+        for (a, bb), k in c2.items():
+            if a in pos and bb in pos and a != bb and k >= min_count and code[pos[bb]].any():
+                if k / c1[a] > best.get(a, (0, 0))[1]:
+                    best[a] = (bb, k / c1[a])
+        pairs = sorted(best.items(), key=lambda kv: -kv[1][1])[:n_pairs]
+        shareB, shareO, top, conc = [], [], [], []
+        n_code = code.sum(1).clamp_min(1).float()
+        for a, (bb, pr) in pairs:
+            for v in ADULTS:
+                rec = []
+                src = [None] * 6 + self.syl(a, v) + [None] * after
+                self.play(src, rec=lambda t: rec.append(p.x_int.clone()))
+                lit = torch.stack(rec[-after:]).any(0)
+                sh = (lit[ca:cb][None, :] & code).sum(1).float() / n_code
+                sh[~self._nhave] = -1
+                ib = pos[bb]
+                shareB.append(float(sh[ib]))
+                others = torch.cat([sh[:ib], sh[ib + 1:]])
+                shareO.append(float(others[others >= 0].mean()))
+                top.append(bool(sh[ib] >= sh.max()) and float(sh[ib]) > 0)
+                conc.append(float(lit[ca:cb].sum()) / max(1.0, float(lit.sum())))
+        return {'pairs': len(pairs), 'P(B|A) mean': round(float(np.mean([pr for _, (_, pr) in pairs])), 2),
+                'B share': round(float(np.mean(shareB)), 3), 'others share': round(float(np.mean(shareO)), 3),
+                'B most lit': round(float(np.mean(top)), 2), 'thought in concept copies': round(float(np.mean(conc)), 2)}
+
+    def speak_test(self, n_pairs=20, min_count=20, after=8):
+        """config speak (11-11): the designer's test by output. Pairs as pair_test (A whose most common follower B is
+        most reliable in what was heard); A alone in each adult voice, from silence, then `after` quiet ticks with the
+        mouth on (its own voice heard), learning off, states restored. Returns how often it said anything, how often it
+        said B, said A (an echo), and the syllables it said most."""
+        import collections
+        if getattr(self, 'mouth', None) is None:
+            return {}
+        b = self.brain
+        seq = self.train.syl[:self.train.turn_off[self.train.dlg_off[min(self.env.n_ex, self.train.n)]]].tolist()
+        c1 = collections.Counter(seq)
+        c2 = collections.Counter(zip(seq[:-1], seq[1:]))
+        wired = set(getattr(self, 'speak_sids', []))
+        best = {}
+        for (a, bb), k in c2.items():
+            if a != bb and k >= min_count and bb in wired and k / c1[a] > best.get(a, (0, 0))[1]:
+                best[a] = (bb, k / c1[a])
+        pairs = sorted(best.items(), key=lambda kv: -kv[1][1])[:n_pairs]
+        said_any, said_b, said_a, garble, words = 0, 0, 0, 0, collections.Counter()
+        n = 0
+        for a, (bb, _) in pairs:
+            for v in ADULTS:
+                was, b.learning = b.learning, False
+                snap = b.snapshot()
+                own, out = None, []
+                for x in [None] * 6 + self.syl(a, v) + [None] * after:
+                    a0 = self.coch.a0(([] if x is None else [x]) + ([] if own is None else [(own, -1, 'own', 0.0, 0.0)]))
+                    mus = b.step(torch.as_tensor(self.with_sight(a0), device=DEV), 0.0).cpu().numpy()
+                    y = self.mouth.say(mus)
+                    out.append(y)
+                    own = y if (y is not None and y != 'garble') else None
+                b.restore(snap)
+                b.learning = was
+                tail = [y for y in out[7:] if y is not None]
+                n += 1
+                said_any += bool(tail)
+                said_b += bb in tail
+                said_a += a in tail
+                garble += sum(y == 'garble' for y in tail)
+                words.update(y for y in tail if y != 'garble')
+        from .world import phon
+        bases = phon.load_inventory()
+        return {'trials': n, 'said anything': round(said_any / max(1, n), 2), 'said B': round(said_b / max(1, n), 2),
+                'said A (echo)': round(said_a / max(1, n), 2), 'garbles per trial': round(garble / max(1, n), 2),
+                'most said': [phon.toned_name(bases, int(w)) for w, _ in words.most_common(8)]}
+
+    def said_since(self, t0):
+        """what the child said in life since tick t0: syllables, garbles, the most said"""
+        import collections
+        from .world import phon
+        xs = [x for t, x in self.said if t >= t0]
+        ws = collections.Counter(x for x in xs if x != 'garble')
+        bases = phon.load_inventory()
+        return {'syllables': len(xs) - sum(x == 'garble' for x in xs), 'garbles': sum(x == 'garble' for x in xs),
+                'rewarded so far': getattr(self, 'rewarded', 0),
+                'judged utterances': getattr(self, 'utter', 0), 'a babbler of the commonest would be rewarded':
+                    getattr(self, 'babbler', 0), 'amygdala (pats, innate, expected, reward)':
+                    getattr(self.brain, 'r_stats', None),
+                'eye': None if getattr(self, 'scene', None) is None else self.scene.stats,
+                'distinct': len(ws), 'most said': [(phon.toned_name(bases, int(w)), k) for w, k in ws.most_common(8)]}
+
+    def __getstate__(self):
+        """the probes' codes are not part of the life: they are not saved with it (they are made anew when needed)"""
+        drop = ('_ncand', '_ncands', '_nS', '_ncodes', '_nhave', '_codes')
+        return {k: v for k, v in self.__dict__.items() if k not in drop}
+
+    def next_ranks(self, n_dlg=40, n_cands=300, n_code=300):
+        """The next-syllable test (11-10): held-out dialogues heard as in life (learning off, states restored). At the
+        first tick of each syllable, the PFC's push into the first-layer copies for the coming tick is what it
+        expects; the syllable heard now is what comes. Two sets of copies: the sound area's first layer ('', dense:
+        many syllables share them) and the concept area (' concept', sparse), if there is one. Each candidate's code =
+        the copies that come when it is heard, averaged over n_code training dialogues heard frozen (in context, every
+        voice; the sensory and concept areas do not learn, so the codes stay valid). The 300 most common syllables
+        ranked by the cosine of the push with their codes: the true one's rank (1 = best, chance about n_cands / 2).
+        'ceiling': the copies that really come, read the same way. Yardsticks: counts over the training dialogues heard
+        so far (ngram_ranks), and the same counts as a count-weighted mix of the codes ('as copies': how well a push in
+        these copies can do with perfect counts; a mix of dense codes blurs toward the common ones)."""
+        import collections
         from .world.corpus import script_dialogue
-        b, D, p = self.brain, self.heldout, self.brain.pfc
-        if getattr(self, '_ncands', None) != n_cands:
-            cnt = np.bincount(self.train.syl.astype(np.int64))
-            self._cands = [int(x) for x in np.argsort(-cnt)[:n_cands]]
-            codes = [self.code(x, layers=[0]) for x in self._cands]
-            L = max(1, max(len(cd) for cd in codes))
-            idx = torch.full((n_cands, L), p.n, dtype=torch.int64, device=DEV)
-            for i, cd in enumerate(codes):
-                idx[i, :len(cd)] = cd
-            self._cidx, self._clen = idx, torch.tensor([max(1, len(cd)) for cd in codes], device=DEV).float()
-            self._ncands = n_cands
-        pos = {x: i for i, x in enumerate(self._cands)}
-        ranks, items = [], []
+        b, D, p, c = self.brain, self.heldout, self.brain.pfc, self.c
+        segs = {(kind, l): (a, bb) for kind, l, a, bb in b.chains.segs}
+        spaces = {'': segs[('sound', 0)]}
+        if ('concept', 0) in segs:
+            spaces[' concept'] = segs[('concept', 0)]
+        gt, sk, hold = tuple(c.get('gap_turn', (4, 10))), c.get('syl_ticks', 3), c.get('syl_hold', 1)
+
+        def first(src, t):
+            x = src[t]
+            if x is None or (sk == 3 and x[1] != 0):
+                return False
+            return not (t > 0 and src[t - 1] is not None and src[t - 1][5:] == x[5:])
+
+        # ticks from a syllable's first tick in the ear to its copies in the PFC's first layer: the sound area's first
+        # layer 1; the concept area 1 with concept_sync, else 2 (it reads the sound copies of the tick before). The
+        # push that expects those copies is made a tick before they come. (Valid for syl_hold 1.)
+        lag = {k: (2 if (k == ' concept' and not c.get('concept_sync')) else 1) for k in spaces}
+        # the codes are made anew at every call: a living brain's codes move (its units' usual levels, what its
+        # thoughts return to the senses), and codes kept from an earlier probe (or an earlier n_code) are not its codes
+        cnt = np.bincount(self.train.syl.astype(np.int64))
+        self._ncand = [int(x) for x in np.argsort(-cnt)[:n_cands]]
+        pos = {x: i for i, x in enumerate(self._ncand)}
+        S = {k: torch.zeros(n_cands, bb - a, device=DEV) for k, (a, bb) in spaces.items()}
+        N = {k: torch.zeros(n_cands, device=DEV) for k in spaces}
+        for d in range(min(n_code, self.train.n)):
+            src = script_dialogue(self.train, d, np.random.default_rng([self.seed, 7700, d]), gt, 8, sk, hold)
+            got = []
+            self.play([None if x is None else x[:5] for x in src], rec=lambda t: got.append(p.L1ext.on.clone()))
+            for t in range(len(src)):
+                if first(src, t) and src[t][0] in pos:
+                    for k, (a, bb) in spaces.items():
+                        if t + lag[k] < len(got):
+                            S[k][pos[src[t][0]]] += got[t + lag[k]][a:bb].float()
+                            N[k][pos[src[t][0]]] += 1
+        self._nS = {k: v / N[k].clamp_min(1)[:, None] for k, v in S.items()}
+        self._ncodes = {k: v / v.norm(dim=1, keepdim=True).clamp_min(1e-9) for k, v in self._nS.items()}
+        self._nhave = torch.stack([v > 0 for v in N.values()]).all(0)
+        ranks, items = collections.defaultdict(list), []
+
+        def rank(v, i, k):
+            sc = (v / v.norm().clamp_min(1e-9)) @ self._ncodes[k].T
+            sc[~self._nhave] = -1e9
+            return float((sc > sc[i]).sum() + 0.5 * ((sc == sc[i]).sum() - 1) + 1)
+
+        mlag = max(lag.values())
         for d in range(min(n_dlg, D.n)):
-            src = script_dialogue(D, d, np.random.default_rng([self.seed, 8800, d]), tuple(self.c.get('gap_turn', (4, 10))),
-                                  8, self.c.get('syl_ticks', 3))
-            ctx, rows = [], []
+            src = script_dialogue(D, d, np.random.default_rng([self.seed, 8800, d]), gt, 8, sk, hold)
+            ctx, got, pu = [], [], []
 
             def rec(t):
-                x = src[t]
-                if x is None or (self.c.get('syl_ticks', 3) == 3 and x[1] != 0):
-                    return
-                if x[0] in pos:
-                    e = p.loop.drive(p.L4.on) + p.L41.drive(p.L4.on) - p.usual
-                    e = torch.cat([e, torch.zeros(1, device=DEV)])
-                    sc = e[self._cidx].sum(1) / self._clen
-                    i = pos[x[0]]
-                    ranks.append(float((sc > sc[i]).sum() + 0.5 * ((sc == sc[i]).sum() - 1) + 1))
-                    items.append((list(ctx), x[0], self._cands))
-                ctx.append(x[0])
+                d1 = p.push()                              # made now, for the first layer of the coming tick
+                got.append({k: p.L1ext.on[a:bb].clone() for k, (a, bb) in spaces.items()})
+                pu.append({k: d1[a:bb].clone() for k, (a, bb) in spaces.items()})
             self.play([None if x is None else x[:5] for x in src], rec=rec)
-        r = np.array(ranks)
-        out = {'brain': r}
+            for t in range(len(src)):
+                if not first(src, t):
+                    continue
+                x = src[t]
+                if x[0] in pos and bool(self._nhave[pos[x[0]]]) and t + mlag < len(src):
+                    i = pos[x[0]]
+                    for k in spaces:
+                        ranks['brain' + k].append(rank(pu[t + lag[k] - 1][k], i, k))
+                        ranks['ceiling' + k].append(rank(got[t + lag[k]][k].float(), i, k))
+                    items.append((list(ctx), x[0], self._ncand))
+                ctx.append(x[0])
+        out = {k: np.array(v) for k, v in ranks.items()}
         out.update({k: np.array(v) for k, v in ngram_ranks(self.train, items, self.env.n_ex).items()})
+        seq = self.train.syl[:self.train.turn_off[self.train.dlg_off[min(self.env.n_ex, self.train.n)]]].tolist()
+        c1 = collections.Counter(seq)
+        c2 = collections.Counter(zip(seq[:-1], seq[1:]))
+        f1 = torch.tensor([c1[y] for y in self._ncand], device=DEV, dtype=torch.float32)
+        for k in spaces:
+            for name in ('freq as copies', 'prev 1 as copies'):
+                rs = []
+                for ctx, true, _ in items:
+                    w = f1 if name == 'freq as copies' or not ctx else \
+                        torch.tensor([c2[(ctx[-1], y)] for y in self._ncand], device=DEV, dtype=torch.float32)
+                    if float(w.sum()) == 0:
+                        w = f1
+                    rs.append(rank(w @ self._nS[k], pos[true], k))
+                out[name + k] = np.array(rs)
         return {k: {'mean rank': round(float(v.mean()), 1), 'top1': round(float((v <= 1).mean()), 3),
                     'top10': round(float((v <= 10).mean()), 3)} for k, v in out.items()} | \
-            {'items': len(r), 'chance': (n_cands + 1) / 2}
+            {'items': len(items), 'chance': (n_cands + 1) / 2}
 
 
 def ngram_ranks(train, items, upto):
     """yardsticks for next_ranks: the rank of the true next syllable by its count after the same 0, 1 or 2 syllables
     in the first `upto` training dialogues (ties: average rank); candidates = those of next_ranks"""
     import collections
-    seq = train.syl[:train.dlg_off[min(upto, train.n)]]
+    seq = train.syl[:train.turn_off[train.dlg_off[min(upto, train.n)]]]
     c1 = collections.Counter(seq.tolist())
     c2 = collections.Counter(zip(seq[:-1].tolist(), seq[1:].tolist()))
     c3 = collections.Counter(zip(seq[:-2].tolist(), seq[1:-1].tolist(), seq[2:].tolist()))

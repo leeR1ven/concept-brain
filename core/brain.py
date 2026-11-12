@@ -56,10 +56,11 @@ class Chains:
     blockers never. Copies keep their source's grid (block per area, the source's (y, z)); the sheet position (both
     grid coordinates scaled to [0, 1]) is where learned links look for near partners."""
 
-    def __init__(self, sound, s_rates, touch, t_rates, motor, band):
+    def __init__(self, sound, s_rates, touch, t_rates, motor, band, sight=None, v_rates=()):
         lo, hi = band
         self.sound_idx = [torch.nonzero((r >= lo) & (r <= hi)).squeeze(1) for r in s_rates]
         self.touch_idx = [torch.nonzero((r >= lo) & (r <= hi)).squeeze(1) for r in t_rates]
+        self.sight_idx = [torch.nonzero((r >= lo) & (r <= hi)).squeeze(1) for r in v_rates]   # config sight_area
         segs, grid, pos = [], [], []
         a = 0
 
@@ -75,8 +76,12 @@ class Chains:
             g = touch.grid[l][ix.cpu().numpy()].copy()
             g[:, 0] = 1
             add('touch', l, len(ix), g, touch.NC, touch.Z)
+        for l, ix in enumerate(self.sight_idx):
+            g = sight.grid[l][ix.cpu().numpy()].copy()
+            g[:, 0] = 5
+            add('sight', l, len(ix), g, sight.NC, sight.Z)
         u = np.arange(motor.nf)
-        add('force', 0, motor.nf, np.stack([np.full_like(u, 2), u // motor.m, u % motor.m], 1), 24, motor.m)
+        add('force', 0, motor.nf, np.stack([np.full_like(u, 2), u // motor.m, u % motor.m], 1), motor.nmus, motor.m)
         u = np.arange(motor.ns)
         add('stop', 0, motor.ns, np.stack([np.full_like(u, 3), u, np.zeros_like(u)], 1), motor.ns, 2)
         self.segs, self.n = segs, a
@@ -87,24 +92,31 @@ class Chains:
     def seg(self, kind):
         return [s for s in self.segs if s[0] == kind]
 
-    def gather(self, sound, touch, force, stop, concept=None):
+    def gather(self, sound, touch, force, stop, concept=None, sight=None):
         return torch.cat([sound[l][ix] for l, ix in enumerate(self.sound_idx)] +
-                         [touch[l][ix] for l, ix in enumerate(self.touch_idx)] + [force, stop] +
-                         ([] if concept is None else [concept]))
+                         [touch[l][ix] for l, ix in enumerate(self.touch_idx)] +
+                         ([] if sight is None else [sight[l][ix] for l, ix in enumerate(self.sight_idx)]) +
+                         [force, stop] + ([] if concept is None else [concept]))
 
     def scatter(self, R, sound_n, touch_n):
         """returns R (bool [n]) to its own sources"""
         rs = [torch.zeros(n, device=DEV) for n in sound_n]
         rt = [torch.zeros(n, device=DEV) for n in touch_n]
+        if getattr(self, 'sight_n', None):
+            self.ret_sight = [torch.zeros(n, device=DEV) for n in self.sight_n]
         for kind, l, a, b in self.segs:
             if kind == 'sound':
                 rs[l][self.sound_idx[l]] = R[a:b].float()
             elif kind == 'touch':
                 rt[l][self.touch_idx[l]] = R[a:b].float()
+            elif kind == 'sight':                         # config sight_area: kept here (the call returns four)
+                self.ret_sight[l][self.sight_idx[l]] = R[a:b].float()
             elif kind == 'force':
                 rf = R[a:b].float()
             elif kind == 'stop':
                 rp = R[a:b]
+            elif kind == 'amyg':                          # the amygdala (core/amygdala.py): a thought of it
+                self.ret_amyg = R[a:b].float()
             else:
                 self.ret_concept = R[a:b].float()
         return rs, rt, rf, rp
@@ -150,6 +162,11 @@ class PFC:
         self.L44 = Links(radius_lists(ch.pos, ch.pos, c['r_learn'], True), 0.0, n, c, gain=c['g44'],
                          gamma=c['gamma_pfc'], name='L4<->L4')
         self.G1P = None                                    # generation-0 speech link (gen0.py)
+        # the other layers also learn what comes next in the first layer (11-10, opt-in): each layer is a tick later
+        # than the one before, so the first layer's own copies say what was heard just now, the last layer what was
+        # heard four or more syllables ago (combined); the push into a copy is the sum, checked by the copy as always
+        self.P = {nm: Links(radius_lists(ch.pos, ch.pos, c['r_learn']), 0.0, n, c, gain=c['g31'], gamma=c['gamma_pfc'],
+                            name=f'{nm}->L1') for nm in c.get('predict_from', ('L4',)) if nm != 'L4'}
         self.RR = None                                     # the range layer's own links (setup_range), off by default
         self.L1, self.L1ext, self.L2, self.L3, self.L4 = (Pop(n) for _ in range(5))
         self.x_int = torch.zeros(n, dtype=torch.bool, device=DEV)
@@ -158,7 +175,8 @@ class PFC:
         self.force_int = None                              # probes only: copies lit as if thought
 
     def plastic(self):
-        return [self.L41, self.L44] + ([self.G1P] if self.G1P is not None else [])
+        return [self.L41, self.L44] + list(getattr(self, 'P', {}).values()) + \
+            ([self.G1P] if self.G1P is not None else []) + ([self.GT] if getattr(self, 'GT', None) is not None else [])
 
     def calibrate(self, X):
         """X: bool [T, n] the birth chain input (loop and learning off)"""
@@ -182,6 +200,8 @@ class PFC:
         # last-layer units linked to a copy (in-degree x the last layer's share lit, which equals the input's)
         indeg = torch.bincount(self.L41.idx.reshape(-1), minlength=self.n + 1)[:self.n].float()
         self.L41.gain = self.c['g31'] / max(1.0, float(indeg.mean()) * rho)
+        for tb in getattr(self, 'P', {}).values():         # the same size of link for the other layers' tables
+            tb.gain = self.L41.gain
         return rho
 
     def setup_range(self, X, rng):
@@ -216,11 +236,39 @@ class PFC:
         partners = w * usual / n
         self.RR.gain = c.get('range_rr', 2.0) * spread / max(1e-6, c.get('range_eta', 0.3) * partners)
 
-    def step(self, x_ext):
+    def pred_src(self, nm, on):
+        """the units of layer nm whose next-tick links take part: in the first layer, with predict_mask set (the
+        concept copies, config predict_from_concept), only those (11-10: copies of local sound features are shared by
+        many syllables; as predictors they drown the concept copies, which each stand for few)"""
+        m = getattr(self, 'pred_mask', None)
+        return on & m if (nm == 'L1' and m is not None) else on
+
+    def push(self):
+        """the PFC's push into the first-layer copies for the coming tick (each layer as it is now)"""
         a4 = self.L4.on
         d1 = self.loop.drive(a4) + self.L41.drive(a4)
+        for nm, tb in getattr(self, 'P', {}).items():      # the other layers' push (each as it was a tick ago)
+            d1 = d1 + tb.drive(self.pred_src(nm, getattr(self, nm).on))
         if self.G1P is not None:
             d1 = d1 + self.G1P.drive(a4)
+        G1C = getattr(self, 'G1C', None)
+        if G1C is not None:                                # config speak: thought concept copies -> force copies
+            if getattr(G1C, 'tendency', False) and getattr(self, 'e1', None) is not None:
+                d1 = d1 + G1C.drive(self.e1)               # core/speak2.py: the tendency (the push above usual)
+            else:
+                d1 = d1 + G1C.drive(self.x_int)
+        GT = getattr(self, 'GT', None)
+        if GT is not None:       # the graded table (config pfc_graded): its push is a share 0..1; a copy that always
+            self.gt_p = GT.drive(self.L1.on)       # comes after what is lit now is pushed past theta + margin
+            d1 = d1 + self.c.get('graded_gain', self.c['theta1'] + self.c['check_margin']) * self.gt_p
+        return d1
+
+    def step(self, x_ext):
+        a4 = self.L4.on
+        d1 = self.push()
+        if getattr(self, 'GT', None) is not None:
+            self.gt_used = self.gt_p                       # what the graded table pushed for this tick (for its check)
+            self.x_int_prev = self.x_int                   # what was thought a tick ago (its echo may come back now)
         # a copy's own threshold follows the drive it usually receives (ARCH 二.4): only drive above its own usual level
         # counts. Excitability = context length (三, 六): at most `context` x the external input count are lit inside.
         e1 = d1 - self.usual
@@ -236,8 +284,14 @@ class PFC:
         # recalled in a quiet moment can still light up (designer 11-04: A heard, then quiet, B is thought of)
         self.budget = self.c['context'] * self.ext_usual
         # a copy already lit from outside gains nothing from being thought: the thought budget goes to the others
-        x_int = (e1 > self.c['theta1']) & topk_on(e1.masked_fill(x_ext.bool(), -1e9), self.budget)
-        self.e1 = e1                                       # kept for probes (graded internal drive)
+        cand = e1.masked_fill(x_ext.bool(), -1e9)
+        if getattr(self, 'pfc_in', None) is not None:      # copies that never come from outside are not thought
+            cand = cand.masked_fill(~self.pfc_in, -1e9)
+        x_int = (e1 > self.c['theta1']) & topk_on(cand, self.budget)
+        mm = getattr(self, 'motor_mask', None)
+        if mm is not None:                                 # config speak: an intent to move (a force copy) is not a
+            x_int = x_int | ((e1 > self.c['theta1']) & mm & ~x_ext.bool())   # thought: no budget; whether it moves is a
+        self.e1 = e1                                       # competition in the motor area (ARCH 三 说不说是一场竞争)                                       # kept for probes (graded internal drive)
         if self.force_int is not None:
             x_int = x_int | self.force_int
         # each layer reads the one before as it was a tick ago (one tick per layer)
@@ -275,8 +329,37 @@ class PFC:
     def learn(self):
         fw, eta = self.c['fall_win'], self.c['eta']
         # last layer -> first layer: each copy checks what the last layer did to it (ARCH 四, designer 11-07)
-        self.L41.learn_check(self.L4.prev, self.L1ext.on, self.e1, self.c['theta1'], self.c['check_margin'],
-                             self.c['check_step'])
+        P = getattr(self, 'P', {})
+        step = self.c['check_step'] / (1 + len(P))         # one copy's change per tick, shared by the tables
+        self.L41.learn_check(self.L4.prev, self.L1ext.on, self.e1, self.c['theta1'], self.c['check_margin'], step)
+        for nm, tb in P.items():
+            tb.learn_check(self.pred_src(nm, getattr(self, nm).prev), self.L1ext.on, self.e1, self.c['theta1'],
+                           self.c['check_margin'], step)
+        GT = getattr(self, 'GT', None)
+        if GT is not None:
+            # each copy checks the graded table's push against what came. A copy the PFC itself thought a tick ago
+            # comes back through its return as if from outside (an echo): it takes no part, else every thought would
+            # confirm itself (THEORY_fable 2.4). What the hippocampus recalls does count: that is how the cortex learns it.
+            pre, came, used = self.L1.prev, self.L1ext.on, self.gt_used
+            G1C = getattr(self, 'G1C', None)
+            if G1C is not None and self.c.get('mirror'):
+                # config mirror (designer 11-11: the motor area learns regular speech from the dialogues): a syllable
+                # heard lights, silently, the intent copies of saying it, for this check only (never sent to the
+                # muscles): the table learns "after the movements of A come the movements of B" from what it hears
+                xc = self.L1ext.on[G1C.units].float()
+                ov = (G1C.code @ xc) / G1C.size
+                i = int(ov.argmax())
+                mir = torch.zeros_like(came)
+                if float(ov[i]) >= self.c.get('mirror_min', 0.5):
+                    mir[G1C.f0:G1C.f1] = G1C.copies[i]
+                mp = getattr(self, 'mirror_prev', None)
+                if mp is not None and bool(mp.any()):
+                    add = mp & ~pre
+                    used = used + GT.drive(add)
+                    pre = pre | mp
+                came = came | mir
+                self.mirror_prev = mir
+            GT.learn(pre, came, used, self.c.get('graded_step', 0.15), skip=self.x_int_prev)
         if self.G1P is not None:                           # the hand-wired generation-0 speech link keeps the timing
             onset = self.L1ext.rose() & ~self.L1.prev      # rule, so thinking a sound without saying it does not
             self.G1P.learn(self.L4, onset, self.L1ext.held(fw), eta)   # unlearn it (ARCH 六: kept at practised strength)
@@ -353,13 +436,15 @@ class Motor:
         s = c['s']
         m = c['m'] * s
         self.c, self.m = c, m
-        self.nf, self.nb, self.ns = 24 * m, 8 * m, 8 * m
+        self.nmus = int(c.get('n_mus', 24))               # channels: 24 muscles, or 72 (24 x onset / nucleus / offset
+        # all in one tick, config speak with syl_ticks 1: the mouth gives a whole syllable per tick as the ear hears one)
+        self.nf, self.nb, self.ns = self.nmus * m, 8 * m, 8 * m
         k = torch.arange(self.nf, device=DEV) % m
         self.muscle_of = torch.arange(self.nf, device=DEV) // m
         self.thr_f = c['theta_m'] * (1.0 + k.float() / m)
         self.n_tonic = 4 * m
         self.ret_drive = c['g_ret_force'] * (self.thr_f + c['b_block'] * self.n_tonic / (8.0 * m))
-        sharp = float(self.ret_drive.view(24, m)[:4].sum())               # one syllable: 4 muscles, every grade
+        sharp = float(self.ret_drive.view(self.nmus, m)[:int(c.get('mus_per_syl', 4))].sum())   # one syllable's channels
         self.ladder = sharp * (1.0 + (torch.arange(4 * m, device=DEV) + 1.0) / (4 * m))
         g = np.random.default_rng(c['lineage_seed'] + 900)
         self.thr_s = torch.as_tensor(c['theta_stop'] * g.uniform(0.8, 1.2, self.ns), dtype=torch.float32,
@@ -378,13 +463,20 @@ class Motor:
 
     def step(self, a0, ret_force, ret_stop):
         c, m = self.c, self.m
-        stop = self.brake(a0) | ret_stop
+        self.braked = self.brake(a0)                       # the stop neurons the innate brake lights now
+        stop = self.braked | ret_stop
         lit = ret_force > 0
-        d = lit.float() * self.ret_drive
+        st = getattr(self, 'settle', None)
+        d = lit.float() * (self.ret_drive if st is None else self.ret_prep)
         P = d.sum()
         nblock = self.n_tonic + (P >= self.ladder).sum()
         inh = c['b_block'] * nblock / (8.0 * m) + c['c_stop'] * stop.float().sum() / (8.0 * m)
-        if self.pools is not None:
+        if st is not None:                                 # core/speak2.py: only a winning syllable pool moves muscles
+            w = st.settle(lit)
+            if w >= 0:
+                own = st.P[w] > 0
+                d = torch.where(own, d + self.complete, d - self.complete)
+        elif self.pools is not None:
             pe, pi = self.pool_fire(lit)
             d = d + self.pools['exc'].drive(pe) - self.pools['inh'].drive(pi)
             self.pools['pe'].set(pe)
@@ -393,7 +485,7 @@ class Motor:
         self.lit.set(lit)
         self.force.set(force)
         self.stop.set(stop)
-        on = torch.zeros(24, device=DEV).index_add_(0, self.muscle_of, force.float())
+        on = torch.zeros(self.nmus, device=DEV).index_add_(0, self.muscle_of, force.float())
         return on >= math.ceil(m / 2)
 
     def pool_fire(self, lit):
@@ -418,9 +510,12 @@ class Motor:
 
 # ============================================================================================ the brain
 class Brain:
-    def __init__(self, c, seed, coch, skin, birth_A0):
+    def __init__(self, c, seed, coch, skin, birth_A0, birth_V=None):
         """birth_A0: bool [T, n0], the birth period heard by the silent newborn (learning off)"""
-        self.c, self.seed, self.n0 = c, seed, coch.n
+        self.c, self.seed = c, seed
+        self.n_ear = coch.n                                # the input bits: the ear's, then (config sight_bits) the
+        self.n0 = coch.n + int(c.get('sight_bits', 0)) * (2 if c.get('sight_area') else 1)   # bits of what is seen
+        self.sight_prev = None
         lin = np.random.default_rng(c['lineage_seed'])          # family wiring: the same for every seed
         own = np.random.default_rng(seed + 500)
         self.sound = SenseArea(coch.NC, coch.Z, c['sound_rates'], c, lin)
@@ -430,12 +525,22 @@ class Brain:
         A0 = torch.as_tensor(birth_A0, device=DEV)
         s_states = self.sound.calibrate(A0)
         t_states = self.touch.calibrate(skin.birth_stream(A0.shape[0], seed))
+        self.sight, v_states = None, None
+        if c.get('sight_area'):                            # a visual area, made like the others (ARCH 二.4, 三 感觉区):
+            side = int(round(int(c['sight_bits']) ** 0.5))  # the eye: one thermometer pair per pixel of the sign
+            self.sight = SenseArea(side, 2 * side, c['sight_rates'], c, lin)
+            v_states = self.sight.calibrate(torch.as_tensor(birth_V, device=DEV))
         # a sound unit's rate is counted while a voice is heard (the innate brake hears one); a unit lit for much of
         # any voice has little feature (ARCH 三 链式神经元)
         voice = torch.stack([self.motor.brake(a).any() for a in A0])
         s_rates = [x[l:][voice[:len(voice) - l]].float().mean(0) for l, x in enumerate(s_states)]
         self.chains = Chains(self.sound, s_rates,
-                             self.touch, [x.float().mean(0) for x in t_states], self.motor, c['band'])
+                             self.touch, [x.float().mean(0) for x in t_states], self.motor, c['band'],
+                             self.sight, [] if v_states is None else [x.float().mean(0) for x in v_states])
+        if self.sight is not None:
+            self.chains.sight_n = self.sight.n
+            self.ret_sight = [torch.zeros(n, device=DEV) for n in self.sight.n]
+            self.chains.ret_sight = self.ret_sight
         del t_states
         self.n1 = self.chains.n
         self.pfc = PFC(self.chains, c, own)
@@ -447,7 +552,10 @@ class Brain:
         stop = torch.stack([self.motor.brake(a) for a in A0[-T - 1:-1]])
         X = torch.cat([st[-T - 1:-1, ix] for st, ix in zip(s_states, self.chains.sound_idx)] +
                       [rest[l][ix][None].expand(T, -1) for l, ix in enumerate(self.chains.touch_idx)] +
+                      ([] if v_states is None else
+                       [st[-T - 1:-1, ix] for st, ix in zip(v_states, self.chains.sight_idx)]) +
                       [torch.zeros((T, self.motor.nf), dtype=torch.bool, device=DEV), stop], 1)
+        del v_states
         del s_states
         self.birth_density = self.pfc.calibrate(X)
         del X
@@ -468,29 +576,82 @@ class Brain:
             st = self.touch.step(zero, no_ret)
         return [x.clone() for x in st]
 
+    def concept_sent(self):
+        """the concept units sent on as heard: those lit from below (sound, sight). A unit lit only by a thought's
+        return is that thought itself (its copy is already lit inside); sent on as heard it came back the next tick as
+        if heard (11-12 night: lit thoughts at t matched the external concept copies at t+1 exactly), so the PFC,
+        the hippocampus and the amygdala could not tell heard from thought and the PFC's checks confirmed its own
+        earlier thoughts (Fable a37 #3). config concept_send_echo: the old behaviour."""
+        cc = self.concept
+        if self.c.get('concept_send_echo', False) or getattr(cc, 'below', None) is None:
+            return cc.pop.on
+        return cc.below
+
     def plastic(self):
-        cc = getattr(self, 'concept', None)
-        return self.pfc.plastic() + self.hip.plastic() + self.motor.plastic() + ([] if cc is None else [cc.learned])
+        cc, am = getattr(self, 'concept', None), getattr(self, 'amyg', None)
+        return self.pfc.plastic() + self.hip.plastic() + self.motor.plastic() + ([] if cc is None else [cc.learned]) + \
+            ([] if am is None else [am.learned])
 
     def pops(self):
-        cc = getattr(self, 'concept', None)
-        return self.pfc.pops() + self.hip.pops() + self.motor.pops() + ([] if cc is None else [cc.pop, cc.src])
+        cc, am = getattr(self, 'concept', None), getattr(self, 'amyg', None)
+        return self.pfc.pops() + self.hip.pops() + self.motor.pops() + ([] if cc is None else [cc.pop, cc.src]) + \
+            ([] if am is None else [am.pop])
 
     def step(self, a0, r=0.0):
-        assert a0.dtype == torch.bool and tuple(a0.shape) == (self.n0,), 'the brain receives only the input bits'
+        n0 = getattr(self, 'n_ear', self.n0) + int(self.c.get('sight_bits', 0)) * (2 if self.c.get('sight_area') else 1)
+        em = getattr(self, 'eye_motion', None)
+        n0 += 0 if em is None else self.n_periph
+        assert a0.dtype == torch.bool and tuple(a0.shape) == (n0,), 'the brain receives only the input bits'
+        if em is not None:                                 # the eye's periphery (core/vision.py): local motion neurons
+            per, a0 = a0[-self.n_periph:], a0[:-self.n_periph]   # -> the eye muscles (innate)
+            self.eye_muscles = em.step(per[0::2])
+        sight = None
+        if a0.shape[0] > getattr(self, 'n_ear', self.n0):  # what is seen now reaches the concept area a tick later,
+            sight, a0 = a0[self.n_ear:], a0[:self.n_ear]   # together with the sound features of this tick
+        sight_was, self.sight_prev = getattr(self, 'sight_prev', None), sight
         ch = self.chains
         cc = getattr(self, 'concept', None)
-        x_ext = ch.gather(self.sound.state, self.touch.state, self.motor.force.on, self.motor.stop.on,
-                          None if cc is None else cc.pop.on)                                           # t-1
+        stop_on = self.motor.stop.on
+        if not self.c.get('chain_brake_stop', True) and getattr(self.motor, 'braked', None) is not None:
+            # a stop neuron lit by the innate brake alone says nothing about what is heard (lit all the time others
+            # speak): like other always-lit neurons it sends no chain signal (ARCH 三 链式神经元; designer 11-10: test it)
+            stop_on = stop_on & ~self.motor.braked
+        sa = getattr(self, 'sight', None)
+        x_ext = ch.gather(self.sound.state, self.touch.state, self.motor.force.on, stop_on,
+                          None if cc is None else self.concept_sent(), None if sa is None else sa.state)   # t-1
+        if sa is not None:                                 # the visual area reads what is seen now (read by the
+            sa.step(sight, ch.ret_sight)                   # concept area through its copies a tick later, with the
+            sight_was = None                               # sound features of the same tick)
         if cc is not None:                                 # the shared concept area reads every sensory feature
             cc.adapt = self.learning
-            cc.step(x_ext[:cc.n_src], getattr(ch, 'ret_concept', None))
+            src = x_ext[:cc.n_src] if getattr(cc, 'src_idx', None) is None else x_ext[cc.src_idx]
+            if getattr(cc, 'E', None) is not None:
+                cc.step(src, getattr(ch, 'ret_concept', None), sight_was)
+            else:
+                cc.step(src, getattr(ch, 'ret_concept', None))
+            if self.c.get('concept_sync'):               # its copies reach the PFC with the features it read (11-10)
+                x_ext = torch.cat([x_ext[:-cc.n], self.concept_sent()])
+        am = getattr(self, 'amyg', None)
+        if am is not None:                                 # the amygdala (ARCH 三 杏仁核): the pat now (r is the pat's
+            am.adapt = self.learning                       # strength: the world's pleasure as a sensation) and the
+            pin = getattr(self, 'pfc_in', None)            # copies the PFC hears; its copies join them this tick
+            heard = x_ext if pin is None else x_ext & pin[:x_ext.shape[0]]
+            am.step(torch.cat([heard, torch.zeros(am.n, dtype=torch.bool, device=DEV)]), r,
+                    getattr(ch, 'ret_amyg', None))
+            x_ext = torch.cat([x_ext, am.pop.on])
         self.sound.step(a0, self.ret_sound)
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
-        cnt = torch.zeros(24, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
+        cnt = torch.zeros(self.motor.nmus, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
+        if self.motor.nmus != 24:                          # 72 channels: a muscle feels the strongest of its three parts
+            cnt = cnt.view(-1, 24).max(0).values
         self.touch.step(self.skin.code(self.skin.force(cnt)), self.ret_touch)    # the body's force, felt now
         self.pfc.adapt = self.hip.adapt = self.learning
-        R = self.pfc.step(x_ext) | self.hip.step(x_ext, self.pfc.budget)
+        if getattr(self, 'pfc_in', None) is not None:      # the PFC and hippocampus hear the senses only through the
+            x_ext = x_ext & self.pfc_in                    # concept area (designer 11-10); force/stop copies direct
+        R = self.pfc.step(x_ext)
+        h_int = self.hip.step(x_ext, self.pfc.budget)
+        if self.c.get('hip_recall', True):                 # False: the hippocampus stores but its recall lights nothing
+            R = R | h_int                                  # (a registered test switch, to see the PFC alone first)
         self.ret_sound, self.ret_touch, self.ret_force, self.ret_stop = ch.scatter(R, self.sound.n, self.touch.n)
         if self.learning:
             tabs = self.plastic()
@@ -501,6 +662,8 @@ class Brain:
             self.motor.learn()
             if cc is not None:
                 cc.learn()
+            if am is not None:
+                am.learn(self.pfc.L1ext)
             self.rlog.append((self.t, [(tb, rows, d) for tb in tabs for rows, d in tb.log]))
             while self.rlog and self.t - self.rlog[0][0] >= self.c['r_win']:
                 self.rlog.popleft()
@@ -509,7 +672,22 @@ class Brain:
             if (self.t + 1) % self.c['decay_every'] == 0:
                 for tb in tabs:
                     tb.decay()
-        if r != 0.0:
+        if am is not None:
+            # the reward: the pleased group lit by the pat itself, minus what the PFC expected of those copies this
+            # tick (Fable a35: an expected pat changes nothing; learned or recalled activity never counts)
+            exp = 0.0
+            if getattr(self.pfc, 'GT', None) is not None and am.r_innate > 0:
+                exp = float(self.pfc.gt_used[self.amyg_pleased].clamp(0.0, 1.0).mean())
+            rb = max(0.0, am.r_innate - exp)
+            st = self.__dict__.setdefault('r_stats', dict(pats=0, innate=0.0, expected=0.0, reward=0.0))
+            if r > 0:
+                st['pats'] += 1
+                st['innate'] += am.r_innate
+                st['expected'] += exp
+                st['reward'] += rb
+            if rb > 0:
+                self.reward(rb)
+        elif r != 0.0:
             self.reward(r)
         self.t += 1
         return muscles
@@ -519,10 +697,19 @@ class Brain:
         when upset they are reversed (x -(1 + r_upset)) and the speech state now (L4) is linked to the stop copies."""
         c = self.c
         gain = c['r_pleased'] * r if r > 0 else -(1.0 + c['r_upset']) * (-r)
+        act = None
+        if c.get('reward_scope', 'action') == 'action':     # only the last layer -> action copies (ARCH 四)
+            act = torch.zeros(self.n1 + 1, dtype=torch.bool, device=DEV)
+            for kind, l, a, bb in self.chains.segs:
+                if kind in ('force', 'stop'):
+                    act[a:bb] = True
         for t0, entries in self.rlog:
             f = gain * (1.0 - (self.t - t0) / c['r_win'])
             for tb, rows, d in entries:
-                tb.apply(rows, f * d, log=False)
+                if act is None:
+                    tb.apply(rows, f * d, log=False)
+                elif tb is self.pfc.L41:
+                    tb.apply(rows, f * d * act[tb.idx[rows].clamp(max=self.n1)].float(), log=False)
         self.rlog.clear()
         if r < 0:
             L = self.pfc.L41
@@ -535,12 +722,18 @@ class Brain:
 
     # ------------------------------------------------------------------------------ probes: neuron states only
     def snapshot(self):
+        sa = getattr(self, 'sight', None)
         return dict(sound=[x.clone() for x in self.sound.state], touch=[x.clone() for x in self.touch.state],
+                    sight=None if sa is None else ([x.clone() for x in sa.state],
+                                                   [x.clone() for x in self.chains.ret_sight]),
                     rs=[x.clone() for x in self.ret_sound], rt=[x.clone() for x in self.ret_touch],
                     rf=self.ret_force.clone(), rp=self.ret_stop.clone(), pops=[p.state() for p in self.pops()],
-                    rc=getattr(self.chains, 'ret_concept', None))
+                    rc=getattr(self.chains, 'ret_concept', None), ra=getattr(self.chains, 'ret_amyg', None))
 
     def restore(self, sn):
+        if sn.get('sight') is not None:
+            self.sight.state = [x.clone() for x in sn['sight'][0]]
+            self.chains.ret_sight = [x.clone() for x in sn['sight'][1]]
         self.sound.state = [x.clone() for x in sn['sound']]
         self.touch.state = [x.clone() for x in sn['touch']]
         self.ret_sound = [x.clone() for x in sn['rs']]
@@ -550,6 +743,8 @@ class Brain:
             p.load(st)
         if sn.get('rc') is not None:
             self.chains.ret_concept = sn['rc'].clone()
+        if sn.get('ra') is not None:
+            self.chains.ret_amyg = sn['ra'].clone()
 
     def counts(self):
         p, h = self.pfc, self.hip
