@@ -107,12 +107,21 @@ class CorpusLife:
                 if self.env.t - t0 in (2, 3):
                     lk.learn(self.brain.concept.below, mv)
             q[:] = [(t0, mv) for t0, mv in q if self.env.t - t0 < 3]
+        cp = getattr(self.brain.motor, 'cpools', None)
+        if self.brain.learning and cp is not None:         # core/speak3.py: the own voice teaches the pool that spoke
+            q = self.__dict__.setdefault('_pool_q', [])    # (the concept units lit from below 2-3 ticks later)
+            for t0, w in q:
+                if self.env.t - t0 in (2, 3):
+                    cp.learn(self.brain.concept.below, w)
+            q[:] = [(t0, w) for t0, w in q if self.env.t - t0 < 3]
         self.own = None
         if getattr(self, 'mouth', None) is not None:
             x = self.mouth.say(self.muscles)
             if x is not None:
                 self.said.append((self.env.t, x))
                 self.own = x if x != 'garble' else None
+                if self.own is not None and cp is not None and cp.winner >= 0:
+                    self.__dict__.setdefault('_pool_q', []).append((self.env.t, cp.winner))
                 if self.own is not None and hasattr(getattr(self.brain.pfc, 'G1C', None), 'n_learn'):
                     self.__dict__.setdefault('_said_q', []).append((self.env.t, self.brain.motor.force.on.clone()))
                 if self.c.get('reward') and self.own is not None:

@@ -466,12 +466,18 @@ class Motor:
         self.braked = self.brake(a0)                       # the stop neurons the innate brake lights now
         stop = self.braked | ret_stop
         lit = ret_force > 0
-        st = getattr(self, 'settle', None)
-        d = lit.float() * (self.ret_drive if st is None else self.ret_prep)
+        st, cp = getattr(self, 'settle', None), getattr(self, 'cpools', None)
+        d = lit.float() * (self.ret_drive if st is None and cp is None else self.ret_prep)
         P = d.sum()
         nblock = self.n_tonic + (P >= self.ladder).sum()
         inh = c['b_block'] * nblock / (8.0 * m) + c['c_stop'] * stop.float().sum() / (8.0 * m)
-        if st is not None:                                 # core/speak2.py: only a winning syllable pool moves muscles
+        if cp is not None:                                 # core/speak3.py: pools choose in concept space
+            e1 = getattr(self, 'e1', None)
+            w = -1 if e1 is None else cp.settle(e1, float(stop.float().mean()))
+            if w >= 0:
+                own = cp.P[w] > 0
+                d = torch.where(own, d + self.complete, d - self.complete)
+        elif st is not None:                               # core/speak2.py: only a winning syllable pool moves muscles
             w = st.settle(lit)
             if w >= 0:
                 own = st.P[w] > 0
@@ -645,6 +651,7 @@ class Brain:
                     getattr(ch, 'ret_amyg', None))
             x_ext = torch.cat([x_ext, am.pop.on])
         self.sound.step(a0, self.ret_sound)
+        self.motor.e1 = getattr(self.pfc, 'e1', None)      # the PFC's expectation for now (concept-space pools)
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
         cnt = torch.zeros(self.motor.nmus, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
         if self.motor.nmus != 24:                          # 72 channels: a muscle feels the strongest of its three parts
