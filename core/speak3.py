@@ -74,7 +74,7 @@ class ConceptPools:
         self.n_learn += 1
 
 
-def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.2, mask_heard=False):
+def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False):
     """the pools for the wired syllables, seeded from the present concept codes; bar and ratio from a frozen stretch of
     never-heard dialogue (ticks without the brake)"""
     b, c = life.brain, life.c
@@ -104,7 +104,8 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
         life.play([None if x is None else x[:5] for x in src], rec=rec)
     S = np.array(S)
     # the lead the winner needs over the strongest other: the usual lead, but at least min_ratio (11-13: on life_A's
-    # overlapping codes the usual lead was 1.004, and a flat mix of ten said one of them 85 % of the time)
+    # overlapping codes the usual lead was 1.004, and a flat mix of ten said one of them 85 % of the time; on life_B
+    # 12000 1.05 passes the injection checks, 1.2 silences most mixtures because of near-duplicate codes)
     cp.ratio = max(min_ratio, float(np.quantile(S[:, 0] / np.maximum(S[:, 1], 1e-9), 0.5)))
     lead = S[:, 0] >= cp.ratio * S[:, 1]
     # the bar: among ticks where the top pool leads, the top support passing it on `share` of all unbraked ticks

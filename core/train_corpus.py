@@ -35,6 +35,7 @@ def main():
     speak_tend = over.pop('speak_tend', 0)                    # the speech link from the tendency (core/speak2.py)
     sight_sense = over.pop('sight_sense', 0)                  # the visual copies as the concept area's second sense
     pools = over.pop('concept_pools', 0)                      # > 0: concept-space syllable pools, winning on this share
+    pool_ratio = float(over.pop('pool_min_ratio', 1.05))      # ... and the least lead over the strongest other
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -82,7 +83,7 @@ def main():
         log(f'sight as a sense at {life.env.n_ex - start} dialogues')
     if pools and getattr(life.brain.motor, 'cpools', None) is None:
         from .speak3 import install_concept_pools            # (core/speak3.py)
-        install_concept_pools(life, share=float(pools))
+        install_concept_pools(life, share=float(pools), min_ratio=pool_ratio)
         log(f'concept-space pools at {life.env.n_ex - start} dialogues')
     if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
         from .world.corpus import concat, mixed_order
