@@ -473,7 +473,7 @@ class Motor:
         inh = c['b_block'] * nblock / (8.0 * m) + c['c_stop'] * stop.float().sum() / (8.0 * m)
         if cp is not None:                                 # core/speak3.py: pools choose in concept space
             e1 = getattr(self, 'e1', None)
-            w = -1 if e1 is None else cp.settle(e1, float(stop.float().mean()))
+            w = -1 if e1 is None else cp.settle(e1, float(stop.float().mean()), getattr(self, 'heard_now', None))
             if w >= 0:
                 own = cp.P[w] > 0
                 d = torch.where(own, d + self.complete, d - self.complete)
@@ -652,6 +652,7 @@ class Brain:
             x_ext = torch.cat([x_ext, am.pop.on])
         self.sound.step(a0, self.ret_sound)
         self.motor.e1 = getattr(self.pfc, 'e1', None)      # the PFC's expectation for now (concept-space pools)
+        self.motor.heard_now = None if cc is None else getattr(cc, 'below', None)   # and what arrives from below now
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
         cnt = torch.zeros(self.motor.nmus, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
         if self.motor.nmus != 24:                          # 72 channels: a muscle feels the strongest of its three parts

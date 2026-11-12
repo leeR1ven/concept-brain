@@ -13,7 +13,7 @@ import numpy as np
 import torch
 
 
-def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
+def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut'):
     import core.corpus_life  # noqa: F401
     from ..exam import first_lines
     from ..net import DEV
@@ -22,7 +22,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
     life = torch.load(ckpt, weights_only=False)['life']
     b, mot = life.brain, life.brain.motor
     b.learning = False
-    cp = install_concept_pools(life, share=share, min_ratio=min_ratio)
+    cp = install_concept_pools(life, share=share, min_ratio=min_ratio, mask_heard=bool(mask_heard))
     sids = mot.cpool_sids
     code = (cp.W > 0)
     snap = b.snapshot()
@@ -33,7 +33,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
 
     def say(e1, a0):
         b.restore(snap)
-        mot.e1 = e1
+        mot.e1, mot.heard_now = e1, None
         mus = mot.step(a0, zf, zs).cpu().numpy()
         y = life.mouth.say(mus)
         return None if y is None else ('garble' if y == 'garble' else int(y))
@@ -54,14 +54,16 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
             k['nothing' if y is None else 'garble' if y == 'garble' else 'right' if y == want else 'other'] += 1
         out[name] = {kk: round(v / len(cases), 3) for kk, v in sorted(k.items())}
         print('INJECT', name, json.dumps(out[name]), flush=True)
-    for s in (0.5, 0.9, 1.2, 2.0, 4.0):
+    for s in ((0.5, 0.9, 1.2, 2.0, 4.0) if 'inject' in parts else ()):
         tally(f'one syllable at {s} x bar', [(inj([(i, s)]), silent, sids[i]) for i in rows])
-    for a in (0.7, 0.6, 0.5):
+    for a in ((0.7, 0.6, 0.5) if 'inject' in parts else ()):
         tally(f'two syllables {a}/{1 - a:.1f} (x 2 bar)', [(inj([(i, 2 * a), (j, 2 * (1 - a))]), silent, sids[i])
                                                        for i, j in zip(rows[:20], rows[20:])])
-    tally('flat mix of ten (each 2 x bar)', [(inj([(int(j), 2.0) for j in rng.choice(len(sids), 10, replace=False)]),
+    if 'inject' in parts:
+        tally('flat mix of ten (each 2 x bar)', [(inj([(int(j), 2.0) for j in rng.choice(len(sids), 10, replace=False)]),
                                               silent, -1) for _ in range(20)])
-    tally('one syllable at 4 x bar, brake on (an adult voice)', [(inj([(i, 4.0)]), loud, sids[i]) for i in rows])
+    if 'inject' in parts:
+        tally('one syllable at 4 x bar, brake on (an adult voice)', [(inj([(i, 4.0)]), loud, sids[i]) for i in rows])
     b.restore(snap)
     # 2. cut-line test inside the body
     cnt = np.bincount(life.train.syl[:200000].astype(np.int64))
@@ -79,7 +81,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
         cases.append((pre, sh, int(ln[k])))
     res = {'cases': len(cases), 'babbler says the next': round(float(np.mean([t == common for _, _, t in cases])), 3)}
     for nm, idx in (('own order', 0), ('shuffled', 1)):
-        said, wins = [], 0
+        said, wins, per = [], 0, []
         for case in cases:
             b.restore(snap)
             own, ys = None, []
@@ -93,11 +95,16 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
                     ys.append(y)
                     wins += cp.winner >= 0
             said.append([y for y in ys if y is not None])
+            per.append(ys)
         res[nm] = dict(said_anything=round(float(np.mean([bool(s) for s in said])), 3),
                        garbles=round(float(np.mean([sum(y == 'garble' for y in s) for s in said])), 3),
                        first_is_next=round(float(np.mean([bool(s) and s[0] == cs[2] for s, cs in zip(said, cases)])), 3),
                        next_anywhere=round(float(np.mean([cs[2] in s for s, cs in zip(said, cases)])), 3),
-                       pool_wins_per_case=round(wins / len(cases), 2))
+                       pool_wins_per_case=round(wins / len(cases), 2),
+                       by_quiet_tick={f't{q}': [round(float(np.mean([p_[q] is not None for p_ in per])), 3),
+                                               round(float(np.mean([p_[q] == cs[2] for p_, cs in zip(per, cases)])), 3),
+                                               round(float(np.mean([p_[q] == cs[idx][-1] for p_, cs in zip(per, cases)])), 3)]
+                                      for q in range(quiet)})   # [said, said the next, said the last heard (echo)]
         print('CUT', nm, json.dumps(res[nm]), flush=True)
     b.restore(snap)
     print('POOLCHECK', json.dumps(dict(inject=out, cut=res)), flush=True)
@@ -105,4 +112,5 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2):
 
 if __name__ == '__main__':
     kw = dict(a.split('=', 1) for a in sys.argv[2:])
-    main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)), min_ratio=float(kw.get('min_ratio', 1.2)))
+    main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)), min_ratio=float(kw.get('min_ratio', 1.2)),
+         mask_heard=int(kw.get('mask_heard', 0)), parts=kw.get('parts', 'inject,cut'))
