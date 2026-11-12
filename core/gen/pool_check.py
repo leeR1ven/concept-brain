@@ -13,7 +13,7 @@ import numpy as np
 import torch
 
 
-def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut', cuts=1, seed=3, fresh=0):
+def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut', cuts=1, seed=3, fresh=0, discount=0):
     import core.corpus_life  # noqa: F401
     from ..exam import first_lines
     from ..net import DEV
@@ -22,7 +22,8 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
     life = torch.load(ckpt, weights_only=False)['life']
     b, mot = life.brain, life.brain.motor
     b.learning = False
-    cp = install_concept_pools(life, share=share, min_ratio=min_ratio, mask_heard=bool(mask_heard), fresh=bool(fresh))
+    cp = install_concept_pools(life, share=share, min_ratio=min_ratio, mask_heard=bool(mask_heard), fresh=bool(fresh),
+                              discount=bool(discount))
     sids = mot.cpool_sids
     code = (cp.W > 0)
     snap = b.snapshot()
@@ -67,7 +68,44 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
     if 'inject' in parts:
         tally('one syllable at 4 x bar, brake on (an adult voice)', [(inj([(i, 4.0)]), loud, sids[i]) for i in rows])
     b.restore(snap)
+    if 'reward' in parts:                                         # the reward table (Fable a41 B checks 1-4)
+        heard_line = [x for s_ in list(first_lines(life.heldout, range(life.heldout.n), 1, lo=4)[0])
+                      for x in life.syl(s_, 'C1')]
+        b.restore(snap)
+        for x in [None] * 2 + heard_line:
+            b.step(torch.as_tensor(life.with_sight(life.coch.a0([x])), device=DEV), 0.0)
+        l4 = b.pfc.L4.on.clone()
+        b.restore(snap)
+        cp.enable_reward(l4.numel())
+        i, j = int(rows[0]), int(rows[1])
+
+        def say_r(e1):
+            b.restore(snap)
+            mot.e1, mot.heard_now, mot.l4, mot.adapt = e1, None, l4, False
+            y = life.mouth.say(mot.step(silent, zf, zs).cpu().numpy())
+            return None if y is None else ('garble' if y == 'garble' else int(y))
+        R = {'last-layer units on': int(l4.sum())}
+        R['1 table zero: one syllable at 2 x bar'] = say_r(inj([(i, 2.0)])) == sids[i]
+        R['0.5/0.5 at 2 x bar, table zero'] = str(say_r(inj([(i, 1.0), (j, 1.0)])))
+        caps = []
+        for _ in range(10):
+            u = torch.nonzero(l4 & (cp.rate4 < 0.5)).squeeze(1)
+            cp.trace = [(cp.tick, u, i)]
+            cp.reward(1.0)
+            caps.append(round(float((l4.float() @ cp.T)[i]) / cp.bar, 3))
+        R['4 bias after each of 10 rewards (x bar)'] = caps
+        R['2 table at cap, no tendency: said'] = str(say_r(torch.zeros(n1, device=DEV)))
+        R['2 table at cap, tendency 0.5 x bar: said'] = str(say_r(inj([(i, 0.5)])))
+        R['2 table at cap, tendency 0.8 x bar: said (expect it)'] = say_r(inj([(i, 0.8)])) == sids[i]
+        R['3 0.5/0.5 at 2 x bar, table favours the first: said it'] = say_r(inj([(i, 1.0), (j, 1.0)])) == sids[i]
+        R['bias on the other pool (x bar)'] = round(float((l4.float() @ cp.T)[j]) / cp.bar, 3)
+        print('REWARD', json.dumps(R), flush=True)
+        cp.T = None
+        b.restore(snap)
     # 2. cut-line test inside the body
+    if 'cut' not in parts:
+        print('POOLCHECK', json.dumps(dict(inject=out)), flush=True)
+        return
     cnt = np.bincount(life.train.syl[:200000].astype(np.int64))
     common = int(np.argmax(cnt))
     lines = first_lines(life.heldout, range(life.heldout.n), n, lo=4)
@@ -116,4 +154,4 @@ if __name__ == '__main__':
     kw = dict(a.split('=', 1) for a in sys.argv[2:])
     main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)), min_ratio=float(kw.get('min_ratio', 1.2)),
          mask_heard=int(kw.get('mask_heard', 0)), parts=kw.get('parts', 'inject,cut'), cuts=int(kw.get('cuts', 1)),
-         seed=int(kw.get('seed', 3)), fresh=int(kw.get('fresh', 0)))
+         seed=int(kw.get('seed', 3)), fresh=int(kw.get('fresh', 0)), discount=int(kw.get('discount', 0)))

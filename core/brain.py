@@ -473,7 +473,8 @@ class Motor:
         inh = c['b_block'] * nblock / (8.0 * m) + c['c_stop'] * stop.float().sum() / (8.0 * m)
         if cp is not None:                                 # core/speak3.py: pools choose in concept space
             e1 = getattr(self, 'e1', None)
-            w = -1 if e1 is None else cp.settle(e1, float(stop.float().mean()), getattr(self, 'heard_now', None))
+            w = -1 if e1 is None else cp.settle(e1, float(stop.float().mean()), getattr(self, 'heard_now', None),
+                                                getattr(self, 'l4', None), getattr(self, 'adapt', False))
             if w >= 0:
                 own = cp.P[w] > 0
                 d = torch.where(own, d + self.complete, d - self.complete)
@@ -656,6 +657,7 @@ class Brain:
         # concept-space pools: the PFC's expectation (pfc.e1 was made at the start of the last tick, for that tick's
         # arrivals; with fresh, its newest push, made at the end of the last tick, for what comes next)
         self.motor.heard_now = None if cc is None else getattr(cc, 'below', None)   # and what arrives from below now
+        self.motor.l4, self.motor.adapt = self.pfc.L4.on, self.learning              # (and the reward table's input)
         muscles = self.motor.step(a0, self.ret_force, self.ret_stop)
         cnt = torch.zeros(self.motor.nmus, device=DEV).index_add_(0, self.motor.muscle_of, self.motor.force.on.float())
         if self.motor.nmus != 24:                          # 72 channels: a muscle feels the strongest of its three parts
@@ -703,6 +705,9 @@ class Brain:
                 st['reward'] += rb
             if rb > 0:
                 self.reward(rb)
+                cpr = getattr(self.motor, 'cpools', None)
+                if cpr is not None and self.learning:              # core/speak3.py: reward on the pool choice
+                    cpr.reward(rb)
         elif r != 0.0:
             self.reward(r)
         if getattr(getattr(self.motor, 'cpools', None), 'fresh', False):   # the newest push, for the motor area next

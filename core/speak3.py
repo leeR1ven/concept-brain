@@ -40,6 +40,26 @@ class ConceptPools:
         self.step = step
         self.winner, self.n_learn, self.n_won = -1, 0, 0
         self.last_support = None
+        self.overlaps()
+
+    def overlaps(self):
+        """how much each two pools' codes overlap (cosine of the code sets): a rival is weighed by 1 - overlap in the lead
+        test (Fable a41 C; ARCH: neurons seldom lit together inhibit each other, related ones excite each other), so
+        a tone pair with near-identical codes does not veto the brain's choice exactly when it is most agreed"""
+        M = (self.W > 0).float()
+        n = M.sum(1).clamp_min(1.0)
+        self.O = (M @ M.T) / torch.sqrt(n[:, None] * n[None, :])
+        self.O.fill_diagonal_(1.0)
+
+    def lead(self, sup):
+        """the top pool, its support, and the strongest rival's support weighed by 1 - overlap with it"""
+        i = int(torch.argmax(sup))
+        if not getattr(self, 'discount', False):
+            v = torch.topk(sup, 2).values
+            return i, float(v[0]), float(v[1])
+        r = sup * (1.0 - self.O[i])
+        r[i] = 0.0
+        return i, float(sup[i]), float(r.max())
 
     def support(self, e1, heard=None):
         x = e1[self.ca:self.cb].float().clamp_min(0.0)
@@ -47,16 +67,54 @@ class ConceptPools:
             x = x * (~heard).float()                          # what arrives from below now meets its expectation:
         return self.W @ x                                     # it is being heard, not something to say (11-13)
 
-    def settle(self, e1, stop_share=0.0, heard=None):
-        """e1: the PFC's push above usual [n copies]; heard: bool [concept units] lit from below now -> the winning
-        pool's row, or -1"""
+    # ---- reward on the choice (Fable a41 B, cheaper first version; pool copies in PFC layer 1 / hippocampus still owed)
+    def enable_reward(self, n4, cap=0.3, step=0.5, win=24):
+        """a learned table last layer -> pools, changed only by reward. It can only tilt a tendency that is there: it
+        counts only for pools pushed above their own usual support, at most +cap x bar (a pool still needs 0.7 of the bar
+        from the tendency), and the lead test comes after it."""
+        nS = self.W.shape[0]
+        self.T = torch.zeros((n4, nS), device=DEV)
+        self.mu = torch.zeros(nS, device=DEV)                     # each pool's usual support
+        self.rate4 = torch.zeros(n4, device=DEV)                  # each last-layer unit's usual rate
+        self.r_cap, self.r_step, self.r_win = cap, step, win
+        self.trace, self.tick = [], 0
+
+    def bias(self, l4, sup):
+        b = (l4.float() @ self.T).clamp(-self.bar, self.r_cap * self.bar)
+        return torch.where(sup > self.mu, b, torch.zeros_like(b))
+
+    def reward(self, r):
+        """pleased (r > 0): the (state, pool) choices of the last win ticks gain toward the cap, fading with age"""
+        if getattr(self, 'T', None) is None or r <= 0:
+            return
+        for t0, units, pool in self.trace:
+            f = self.r_step * r * max(0.0, 1.0 - (self.tick - t0) / self.r_win)
+            if units.numel() == 0 or f <= 0:
+                continue
+            now = float(self.T[units, pool].sum())
+            room = max(0.0, 1.0 - now / (self.r_cap * self.bar))
+            self.T[units, pool] += f * room * self.r_cap * self.bar / units.numel()
+        self.trace = []
+
+    def settle(self, e1, stop_share=0.0, heard=None, l4=None, adapt=False):
+        """e1: the PFC's push above usual [n copies]; heard: bool [concept units] lit from below now; l4: the last layer
+        now (reward table) -> the winning pool's row, or -1"""
         sup = self.support(e1, heard)
+        T = getattr(self, 'T', None)
+        if T is not None and l4 is not None:
+            self.tick += 1
+            if adapt:
+                self.mu += (sup - self.mu) / 1000.0
+                self.rate4 += (l4.float() - self.rate4) / 1000.0
+            sup = sup + self.bias(l4, sup)
         self.last_support = sup
-        v = torch.topk(sup, 2)
-        s1, s2 = float(v.values[0]), float(v.values[1])
+        i, s1, s2 = self.lead(sup)
         ok = stop_share < 0.5 and s1 / (1.0 + 4.0 * stop_share) >= self.bar and s1 >= self.ratio * s2
-        self.winner = int(v.indices[0]) if ok else -1
+        self.winner = i if ok else -1
         self.n_won += ok
+        if ok and T is not None and l4 is not None:              # credit only units not always on (a context-free
+            u = torch.nonzero(l4 & (self.rate4 < 0.5)).squeeze(1)  # habit would be the frequency loop again)
+            self.trace = [x for x in self.trace if self.tick - x[0] < self.r_win] + [(self.tick, u, i)]
         return self.winner
 
     def learn(self, heard, pool):
@@ -72,9 +130,11 @@ class ConceptPools:
         d = (self.step / a.numel()) * err[:, None]
         self.W[rows[:, None], a[None, :]] = (self.W[rows[:, None], a[None, :]] + d).clamp_min(0.0)
         self.n_learn += 1
+        if self.n_learn % 500 == 0:                               # the codes' overlaps follow what was learned
+            self.overlaps()
 
 
-def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False, fresh=False):
+def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False, fresh=False, discount=False):
     """the pools for the wired syllables, seeded from the present concept codes; bar and ratio from a frozen stretch of
     never-heard dialogue (ticks without the brake)"""
     b, c = life.brain, life.c
@@ -83,7 +143,7 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
     code, ca, cb = concept_codes(life, sids)
     pat = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
     cp = ConceptPools(code, pat[:, mot.muscle_of], ca, cb)
-    cp.mask_heard, cp.fresh = mask_heard, fresh
+    cp.mask_heard, cp.fresh, cp.discount = mask_heard, fresh, discount
     mot.cpools, mot.cpool_sids = cp, sids
     mot.ret_prep = 0.6 * (mot.thr_f + c['b_block'] * mot.n_tonic / (8.0 * mot.m))
     mot.complete = mot.thr_f.max() + c['b_block'] * mot.n_tonic / (8.0 * mot.m) + 0.5
@@ -98,8 +158,8 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
         e1 = getattr(mot, 'e1_fresh', None) if fresh else getattr(pfc, 'e1', None)
         if ss < 0.5 and e1 is not None:
             cc = getattr(b, 'concept', None)
-            v = torch.topk(cp.support(e1, None if cc is None else cc.below), 2).values
-            S.append((float(v[0]) / (1.0 + 4.0 * ss), float(v[1])))
+            _, s1, s2 = cp.lead(cp.support(e1, None if cc is None else cc.below))
+            S.append((s1 / (1.0 + 4.0 * ss), s2))
     for di in range(min(cal_dialogues, life.heldout.n)):
         src = script_dialogue(life.heldout, di, np.random.default_rng([life.seed, 9311, di]), gt, 8, 1, 1)
         life.play([None if x is None else x[:5] for x in src], rec=rec)
