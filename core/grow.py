@@ -48,7 +48,7 @@ class ConceptArea:
             self.vbirth = Fixed(rng.integers(0, sight_bits, (self.n, K)), rng.uniform(0.5, 1.5, (self.n, K)))
             self.v_rest = None                             # each unit's sight drive when nothing is seen (set by add_concept)
 
-    def step_b(self, src, ret, sight):
+    def step_b(self, src, ret, sight, seen=None):
         """A unit is lit when it is among the strongest k of its bottom-up push from the sound (birth drive above its
         usual level, in units of a usual winner's drive, + its learned push above its usual level), or a return lights
         it, or what is seen lights it. The check (in learn): lit vs its bottom-up push from the sound, clipped to
@@ -70,11 +70,12 @@ class ConceptArea:
         tot = e / self.win.clamp_min(1e-6) + c['g_c'] * (q - self.mu)
         lit = topk_on(tot, self.k)
         heard = lit                                      # lit from the sound alone
-        if sight is not None and self.vbirth is not None and self.v_rest is not None:
-            vd = self.vbirth.drive(sight)
-            if c.get('sight_ref', 'usual') == 'rest':     # old: above the drive when nothing is seen. Units whose few
-                lit = lit | topk_on(vd - self.v_rest - 1e-4, self.k)   # sight links sit on bits off at rest win for
-            elif bool(((vd - self.v_rest).abs() > 1e-6).any()):        # every sign (sets overlap 13 %, chance 1 %)
+        if sight is not None and self.vbirth is not None and (self.v_rest is not None or seen is not None):
+            vd = self.vbirth.drive(sight)                # seen (sight_as_sense): the eye's input differs from nothing
+            if seen is None and c.get('sight_ref', 'usual') == 'rest':  # old: above the drive when nothing is seen.
+                lit = lit | topk_on(vd - self.v_rest - 1e-4, self.k)   # Units whose few sight links sit on bits off
+            elif seen if seen is not None else bool(((vd - self.v_rest).abs() > 1e-6).any()):   # at rest win for
+                # every sign (sets overlap 13 %, chance 1 %)
                 # each unit's own usual drive while something is seen (ARCH 二.4): sets as distinct as chance (1.2 %)
                 self.v_n = getattr(self, 'v_n', 0) + 1
                 r = max(1.0 / self.v_n, 1.0 / c['tau_usual'])
@@ -96,9 +97,9 @@ class ConceptArea:
             self.below = heard
         self.pop.set(lit)
 
-    def step(self, src, ret, sight=None):
+    def step(self, src, ret, sight=None, seen=None):
         if getattr(self, 'E', None) is not None:
-            return self.step_b(src, ret, sight)
+            return self.step_b(src, ret, sight, seen)
         d = self.birth.drive(src) + self.learned.drive(src)
         e = d - self.usual
         if self.adapt:
@@ -285,6 +286,45 @@ def add_concept(life, cal_ticks=1000):
         from .speak import wire_speech
         wire_speech(life)
     return cc
+
+
+def sight_as_sense(life):
+    """config sight_area: the visual area's feature copies reach the concept area as a second sense, as the sight bits
+    did in build 9 (v9, ARCH 三: the concept area takes every sense): what is seen lights its own units (its own
+    strongest k, by birth links from the visual copies, above each unit's usual drive while something is seen), and
+    the graded check teaches the sound features to light them; the seen units teach but are not sent on
+    (sight_to_code False). Mixed into the sound features (concept_from ('sight', 0)) the copies only joined the sound's
+    one top-k and taught nothing: life_A's concept code stayed at full10's level (a linear reader names the syllable
+    from it 65 % from 3000 to 11000 dialogues; v9 83 % at 1000, 95 % at 12000). Grows into a living brain: the
+    sound rows of the learned E / I links are kept, the visual rows dropped; birth links on visual copies get 0."""
+    b, c = life.brain, life.c
+    cc, ch = b.concept, b.chains
+    assert getattr(cc, 'E', None) is not None and cc.src_idx is not None, 'sight_as_sense needs rule b and concept_from'
+    rng = np.random.default_rng(b.seed + 901)
+    vis = torch.zeros(ch.n, dtype=torch.bool, device=DEV)
+    for kind, l, a, bb in ch.segs:
+        if kind == 'sight':
+            vis[a:bb] = True
+    is_v = vis[cc.src_idx]
+    keep, vrow = torch.nonzero(~is_v).squeeze(1), torch.nonzero(is_v).squeeze(1)
+    assert vrow.numel(), 'sight_as_sense: the concept area reads no visual copies'
+    cc.sight_x, cc.src_idx = cc.src_idx[vrow], cc.src_idx[keep]
+    cc.E, cc.I = cc.E[keep].contiguous(), cc.I[keep].contiguous()
+    pos = torch.full((cc.n_src,), -1, dtype=torch.int64, device=DEV)
+    pos[keep] = torch.arange(keep.numel(), device=DEV)
+    bi = pos[cc.birth.idx]
+    cc.birth = Fixed(bi.clamp_min(0), torch.where(bi >= 0, cc.birth.w, torch.zeros_like(cc.birth.w)))
+    cc.n_src = keep.numel()
+    cc.src = Pop(cc.n_src)
+    K = c['rec_fan']
+    cc.vbirth = Fixed(rng.integers(0, vrow.numel(), (cc.n, K)), rng.uniform(0.5, 1.5, (cc.n, K)))
+    cc.v_rest, cc.v_n, cc.v_usual = None, 0, None
+    from .vision import pairs
+    b.sight_blank = torch.as_tensor(pairs(life.sight_of(None)) if c.get('sight_area') else life.sight_of(None),
+                                    device=DEV)
+    c['sight_to_code'] = cc.c['sight_to_code'] = False
+    log(f'sight as a second sense of the concept area: {vrow.numel()} visual copies light their own {cc.k} units; '
+        f'the sound reads {cc.n_src} feature copies')
 
 
 def gt_drop_motor(life):

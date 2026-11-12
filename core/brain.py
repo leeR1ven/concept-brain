@@ -619,14 +619,19 @@ class Brain:
         sa = getattr(self, 'sight', None)
         x_ext = ch.gather(self.sound.state, self.touch.state, self.motor.force.on, stop_on,
                           None if cc is None else self.concept_sent(), None if sa is None else sa.state)   # t-1
+        seen = None
         if sa is not None:                                 # the visual area reads what is seen now (read by the
-            sa.step(sight, ch.ret_sight)                   # concept area through its copies a tick later, with the
-            sight_was = None                               # sound features of the same tick)
+            if cc is not None and getattr(cc, 'sight_x', None) is not None:   # concept area through its copies a
+                bl = self.sight_blank                      # tick later, with the sound features of the same tick;
+                seen = sight_was is not None and bool((sight_was != bl).any())   # grow.sight_as_sense: as a sense)
+            sa.step(sight, ch.ret_sight)
+            sight_was = None
         if cc is not None:                                 # the shared concept area reads every sensory feature
             cc.adapt = self.learning
             src = x_ext[:cc.n_src] if getattr(cc, 'src_idx', None) is None else x_ext[cc.src_idx]
             if getattr(cc, 'E', None) is not None:
-                cc.step(src, getattr(ch, 'ret_concept', None), sight_was)
+                sx = getattr(cc, 'sight_x', None)
+                cc.step(src, getattr(ch, 'ret_concept', None), sight_was if sx is None else x_ext[sx], seen)
             else:
                 cc.step(src, getattr(ch, 'ret_concept', None))
             if self.c.get('concept_sync'):               # its copies reach the PFC with the features it read (11-10)

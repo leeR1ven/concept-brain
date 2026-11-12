@@ -33,6 +33,7 @@ def main():
     grow_eye = over.pop('grow_eye', 0)                        # the eye: periphery, motion neurons, eye muscles (core/vision.py)
     gt_no_motor = over.pop('gt_no_motor', 0)                  # the graded table without the motor copies (grow.gt_drop_motor)
     speak_tend = over.pop('speak_tend', 0)                    # the speech link from the tendency (core/speak2.py)
+    sight_sense = over.pop('sight_sense', 0)                  # the visual copies as the concept area's second sense
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -74,6 +75,10 @@ def main():
         from .vision import add_eye
         add_eye(life, p_drift=float(grow_eye) if grow_eye < 1 else 0.1)
         log(f'eye added at {life.env.n_ex - start} dialogues')
+    if sight_sense and getattr(getattr(life.brain, 'concept', None), 'sight_x', None) is None:
+        from .grow import sight_as_sense                     # (grow.sight_as_sense)
+        sight_as_sense(life)
+        log(f'sight as a sense at {life.env.n_ex - start} dialogues')
     if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
         from .world.corpus import concat, mixed_order
         tx = Dialogues.load(text)
