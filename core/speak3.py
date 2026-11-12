@@ -81,7 +81,7 @@ class ConceptPools:
 
     def bias(self, l4, sup):
         b = (l4.float() @ self.T).clamp(-self.bar, self.r_cap * self.bar)
-        return torch.where(sup > self.mu, b, torch.zeros_like(b))
+        return torch.where(sup > (0.0 if getattr(self, 'lift', False) else self.mu), b, torch.zeros_like(b))
 
     def reward(self, r):
         """pleased (r > 0): the (state, pool) choices of the last win ticks gain toward the cap, fading with age"""
@@ -100,10 +100,15 @@ class ConceptPools:
         """e1: the PFC's push above usual [n copies]; heard: bool [concept units] lit from below now; l4: the last layer
         now (reward table) -> the winning pool's row, or -1"""
         sup = self.support(e1, heard)
+        lift = getattr(self, 'lift', False)
+        if lift:                                                  # ARCH 二.4: only support above the pool's own usual
+            if adapt:                                             # (11-13 smoke: without it the child drifted to the
+                self.us += (sup - self.us) / 1000.0               # commonest syllable, 'de5' 23 % -> 55 % of what it
+            sup = sup - self.us                                   # said in 400 dialogues)
         T = getattr(self, 'T', None)
         if T is not None and l4 is not None:
             self.tick += 1
-            if adapt:
+            if adapt and not lift:
                 self.mu += (sup - self.mu) / 1000.0
                 self.rate4 += (l4.float() - self.rate4) / 1000.0
             sup = sup + self.bias(l4, sup)
@@ -138,7 +143,8 @@ class ConceptPools:
             self.overlaps()
 
 
-def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False, fresh=False, discount=False):
+def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, min_ratio=1.05, mask_heard=False, fresh=False, discount=False,
+                          lift=False):
     """the pools for the wired syllables, seeded from the present concept codes; bar and ratio from a frozen stretch of
     never-heard dialogue (ticks without the brake)"""
     b, c = life.brain, life.c
@@ -147,14 +153,14 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
     code, ca, cb = concept_codes(life, sids)
     pat = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
     cp = ConceptPools(code, pat[:, mot.muscle_of], ca, cb)
-    cp.mask_heard, cp.fresh, cp.discount = mask_heard, fresh, discount
+    cp.mask_heard, cp.fresh, cp.discount, cp.lift = mask_heard, fresh, discount, False
     mot.cpools, mot.cpool_sids = cp, sids
     mot.ret_prep = 0.6 * (mot.thr_f + c['b_block'] * mot.n_tonic / (8.0 * mot.m))
     mot.complete = mot.thr_f.max() + c['b_block'] * mot.n_tonic / (8.0 * mot.m) + 0.5
     if retire_link and getattr(pfc, 'G1C', None) is not None:
         pfc.G1C = None                                            # the old link into force copies no longer chooses
     from .world.corpus import script_dialogue
-    S = []
+    S, RAW = [], []
     gt = tuple(c.get('gap_turn', (4, 10)))
 
     def rec(t):                                                   # what the pools would see next tick
@@ -162,11 +168,16 @@ def install_concept_pools(life, share=0.1, cal_dialogues=30, retire_link=True, m
         e1 = getattr(mot, 'e1_fresh', None) if fresh else getattr(pfc, 'e1', None)
         if ss < 0.5 and e1 is not None:
             cc = getattr(b, 'concept', None)
-            _, s1, s2 = cp.lead(cp.support(e1, None if cc is None else cc.below))
-            S.append((s1 / (1.0 + 4.0 * ss), s2))
+            RAW.append((cp.support(e1, None if cc is None else cc.below), ss))
     for di in range(min(cal_dialogues, life.heldout.n)):
         src = script_dialogue(life.heldout, di, np.random.default_rng([life.seed, 9311, di]), gt, 8, 1, 1)
         life.play([None if x is None else x[:5] for x in src], rec=rec)
+    if lift:                                                      # each pool's usual support, then above it
+        cp.us = torch.stack([x for x, _ in RAW]).mean(0)
+        cp.lift = True
+    for x, ss in RAW:
+        _, s1, s2 = cp.lead(x - cp.us if lift else x)
+        S.append((s1 / (1.0 + 4.0 * ss), s2))
     S = np.array(S)
     # the lead the winner needs over the strongest other: the usual lead, but at least min_ratio (11-13: on life_A's
     # overlapping codes the usual lead was 1.004, and a flat mix of ten said one of them 85 % of the time; on life_B

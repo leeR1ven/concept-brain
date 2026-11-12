@@ -13,7 +13,7 @@ import numpy as np
 import torch
 
 
-def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut', cuts=1, seed=3, fresh=0, discount=0):
+def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inject,cut', cuts=1, seed=3, fresh=0, discount=0, lift=0):
     import core.corpus_life  # noqa: F401
     from ..exam import first_lines
     from ..net import DEV
@@ -23,7 +23,7 @@ def main(ckpt, n=80, share=0.1, quiet=6, min_ratio=1.2, mask_heard=0, parts='inj
     b, mot = life.brain, life.brain.motor
     b.learning = False
     cp = install_concept_pools(life, share=share, min_ratio=min_ratio, mask_heard=bool(mask_heard), fresh=bool(fresh),
-                              discount=bool(discount))
+                              discount=bool(discount), lift=bool(lift))
     sids = mot.cpool_sids
     code = (cp.W > 0)
     snap = b.snapshot()
@@ -154,4 +154,5 @@ if __name__ == '__main__':
     kw = dict(a.split('=', 1) for a in sys.argv[2:])
     main(sys.argv[1], n=int(kw.get('n', 80)), share=float(kw.get('share', 0.1)), min_ratio=float(kw.get('min_ratio', 1.2)),
          mask_heard=int(kw.get('mask_heard', 0)), parts=kw.get('parts', 'inject,cut'), cuts=int(kw.get('cuts', 1)),
-         seed=int(kw.get('seed', 3)), fresh=int(kw.get('fresh', 0)), discount=int(kw.get('discount', 0)))
+         seed=int(kw.get('seed', 3)), fresh=int(kw.get('fresh', 0)), discount=int(kw.get('discount', 0)),
+         lift=int(kw.get('lift', 0)))

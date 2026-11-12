@@ -40,6 +40,7 @@ def main():
     pool_mask = int(over.pop('pool_mask', 1))                 # ... not what arrives from below now (it is heard)
     pool_discount = int(over.pop('pool_discount', 0))         # ... a rival weighed by 1 - code overlap (off: hub pools)
     pool_reward = int(over.pop('pool_reward', 0))             # the reward table last layer -> pools (core/speak3.py)
+    pool_lift = int(over.pop('pool_lift', 1))                 # ... support above each pool's own usual
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -88,7 +89,8 @@ def main():
     if pools and getattr(life.brain.motor, 'cpools', None) is None:
         from .speak3 import install_concept_pools            # (core/speak3.py)
         install_concept_pools(life, share=float(pools), min_ratio=pool_ratio, fresh=bool(pool_fresh),
-                              mask_heard=bool(pool_mask), discount=bool(pool_discount))
+                              mask_heard=bool(pool_mask), discount=bool(pool_discount),
+                              lift=bool(pool_lift))
         log(f'concept-space pools at {life.env.n_ex - start} dialogues')
     cpr = getattr(life.brain.motor, 'cpools', None)
     if pool_reward and cpr is not None and getattr(cpr, 'T', None) is None:
