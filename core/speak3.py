@@ -129,6 +129,10 @@ class ConceptPools:
         err = tgt[rows] - push[rows]
         d = (self.step / a.numel()) * err[:, None]
         self.W[rows[:, None], a[None, :]] = (self.W[rows[:, None], a[None, :]] + d).clamp_min(0.0)
+        # each pool's links keep their total (1): learning moves weight within a code, toward the units its own voice
+        # lights, and never grows a pool that then wins for everything (11-13: life_C's 'wo3' row grew to 41 over
+        # 7968 units and said 15331 of 15353 syllables)
+        self.W[rows] = self.W[rows] / self.W[rows].sum(1, keepdim=True).clamp_min(1e-9)
         self.n_learn += 1
         if self.n_learn % 500 == 0:                               # the codes' overlaps follow what was learned
             self.overlaps()
