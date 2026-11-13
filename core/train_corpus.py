@@ -44,6 +44,7 @@ def main():
     pool_own_skip = int(over.pop('pool_own_skip', 0))         # the PFC's next-tick table skips the own voice
     pool_fixed_bar = int(over.pop('pool_fixed_bar', 0))       # the bar set once (no quota; Fable a42 C1)
     world_data = over.pop('world_data', None)                 # from now on the world speaks these dialogues
+    pool_own = over.pop('pool_own_bar', None)                 # [rate, target]: each pool's own bar (core/speak3.py)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -102,6 +103,10 @@ def main():
     if cpr is not None and pool_fixed_bar:
         cpr.share = None
         log(f'the say-nothing bar fixed at {cpr.bar:.4f}')
+    if cpr is not None and pool_own and getattr(cpr, 'own_bar', None) is None:
+        cpr.own_bar = torch.full((cpr.W.shape[0],), cpr.bar, device=cpr.W.device)
+        cpr.own_rate, cpr.own_target = float(pool_own[0]), float(pool_own[1])
+        log(f'each pool has its own bar (rate {cpr.own_rate}, target {cpr.own_target})')
     if pool_reward and cpr is not None and getattr(cpr, 'T', None) is None:
         cpr.enable_reward(int(life.brain.pfc.L4.on.numel()))
         log(f'reward table last layer -> pools at {life.env.n_ex - start} dialogues')
