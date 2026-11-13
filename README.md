@@ -9,7 +9,7 @@
 - **论文（技术报告）：** [英文 PDF](docs/paper/concept-brain.pdf)、[中文 PDF](docs/paper/concept-brain-zh.pdf)（[网页版](docs/paper/concept-brain-zh.md)）。预印本 DOI：[10.5281/zenodo.24085130](https://doi.org/10.5281/zenodo.24085130)（代码 DOI 见上方徽章）。
 - **架构（唯一权威）：** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)，只写规则。
 - **模型代码：** `core/`，照架构搭的唯一一套代码，整理中。
-- **测试：** 小游戏（打砖块、马里奥）见 [docs/GAME_TEST.md](docs/GAME_TEST.md)；自创逻辑语言（听、想、说）见 [docs/LOGIC.md](docs/LOGIC.md)。
+- **现状：** [docs/STATUS.md](docs/STATUS.md)：什么能用、什么在修。
 - **历史：** 以前的代码、实验报告和讨论都在 [archive/](archive/README.md)，只作背景，不是规则。
 - 独立课题（与大脑架构无关）：把反向传播训练的大语言模型转换成赫布学习式模型，见 [side/llm2hebb/](side/llm2hebb/README.md)。
 
