@@ -122,6 +122,13 @@ class ConceptArea:
         self.src.set(src)
         self.pop.set(on)
 
+    def decay(self):
+        """the one global decay (ARCH 四) for the learned feature -> concept links of rule b"""
+        if getattr(self, 'E', None) is not None:
+            g = self.c.get('gamma_concept') or self.c['gamma_pfc']
+            self.E *= g
+            self.I *= g
+
     def learn(self):
         """同时亮的互相加强: feature A -> concept B grows while both are on (A on now or just before)"""
         if getattr(self, 'E', None) is not None:         # rule b: the graded check, shared by the features lit now
@@ -332,6 +339,42 @@ def sight_as_sense(life):
     c['sight_to_code'] = cc.c['sight_to_code'] = False
     log(f'sight as a second sense of the concept area: {vrow.numel()} visual copies light their own {cc.k} units; '
         f'the sound reads {cc.n_src} feature copies')
+
+
+def rebuild_1113(life):
+    """11-13 rebuild toward docs/ARCHITECTURE.md after the independent audit (applied to a living brain):
+    - the hippocampus's recall lights its areas again; units lit by a return are sent on like any lit unit (the PFC's
+      own checks handle echoes); stop neurons lit by the brake send their chain signal (ARCH 三 链式神经元);
+    - the concept area also takes the touch area's features (ARCH 三: it takes every sense), learned from zero;
+    - the concept area's learned links join the one global decay (Brain.step);
+    - the motor area: returns only prepare force neurons; the generation-0 settling among the wired syllables' muscle
+      neurons decides one whole syllable or nothing (ARCH 三 运动区落定; core/speak2.py SettlePools); the old
+      all-or-none pools and any concept-space pools (core/speak3.py) are removed."""
+    b, c = life.brain, life.c
+    for k_, v_ in (('hip_recall', True), ('concept_send_echo', True), ('chain_brake_stop', True)):
+        c[k_] = v_
+        b.c[k_] = v_
+    cc, ch = b.concept, b.chains
+    tidx = torch.cat([torch.arange(a, bb, device=DEV) for kind, l, a, bb in ch.segs if (kind, l) == ('touch', 0)])
+    if cc.src_idx is not None and not bool(torch.isin(tidx, cc.src_idx).any()):
+        n_old = cc.n_src
+        cc.src_idx = torch.cat([cc.src_idx, tidx])
+        cc.E = torch.cat([cc.E, torch.zeros((len(tidx), cc.n), device=DEV)])
+        cc.I = torch.cat([cc.I, torch.zeros((len(tidx), cc.n), device=DEV)])
+        cc.n_src = cc.src_idx.numel()
+        cc.src = Pop(cc.n_src)
+        log(f'concept area: + {len(tidx)} touch feature copies ({n_old} -> {cc.n_src} inputs)')
+    mot = b.motor
+    for nm in ('cpools', 'cpool_sids', 'e1_fresh', 'heard_now', 'l4'):
+        if hasattr(mot, nm):
+            delattr(mot, nm)
+    from .speak2 import install_settle
+    if getattr(mot, 'settle', None) is None:
+        install_settle(life)
+    mot.pools = None                                       # the old all-or-none pools (replaced by the settling)
+    life.registry = [r for r in getattr(life, 'registry', []) if r[0] not in
+                     ('motor pools (generation 0)', 'concept-space syllable pools (generation 0)')]
+    log('rebuild 11-13: recall on, returns sent on, brake stops chained, touch in the concept area, motor settling')
 
 
 def gt_drop_motor(life):

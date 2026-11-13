@@ -44,6 +44,7 @@ def main():
     pool_own_skip = int(over.pop('pool_own_skip', 0))         # the PFC's next-tick table skips the own voice
     pool_fixed_bar = int(over.pop('pool_fixed_bar', 0))       # the bar set once (no quota; Fable a42 C1)
     world_data = over.pop('world_data', None)                 # from now on the world speaks these dialogues
+    rebuild = over.pop('rebuild_1113', 0)                     # grow.rebuild_1113 (toward ARCH after the 11-13 audit)
     pool_own = over.pop('pool_own_bar', None)                 # [rate, target]: each pool's own bar (core/speak3.py)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
@@ -110,6 +111,10 @@ def main():
     if pool_reward and cpr is not None and getattr(cpr, 'T', None) is None:
         cpr.enable_reward(int(life.brain.pfc.L4.on.numel()))
         log(f'reward table last layer -> pools at {life.env.n_ex - start} dialogues')
+    if rebuild and not getattr(life, 'rebuilt_1113', False):
+        from .grow import rebuild_1113
+        rebuild_1113(life)
+        life.rebuilt_1113 = True
     if world_data:                                            # (designer 11-13: another world, to see whether a habit
         life.env.D = Dialogues.load(world_data)               # changes; probes keep the original training set)
         log(f'the world now speaks {life.env.D.n} dialogues from {os.path.basename(os.path.dirname(world_data))}')

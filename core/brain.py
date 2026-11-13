@@ -705,6 +705,8 @@ class Brain:
             if (self.t + 1) % self.c['decay_every'] == 0:
                 for tb in tabs:
                     tb.decay()
+                if cc is not None and hasattr(cc, 'decay'):    # the concept area's learned links too (ARCH 四)
+                    cc.decay()
         if am is not None:
             # the reward: the pleased group lit by the pat itself, minus what the PFC expected of those copies this
             # tick (Fable a35: an expected pat changes nothing; learned or recalled activity never counts)
