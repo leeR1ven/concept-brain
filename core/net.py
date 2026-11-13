@@ -17,11 +17,18 @@ class Pop:
         self.prev = torch.zeros(n, dtype=torch.bool, device=DEV)
         self.age = torch.full((n,), 99, dtype=torch.int16, device=DEV)
         self.age_prev = self.age.clone()
+        self.run = torch.zeros(n, dtype=torch.int16, device=DEV)      # ticks on without a break (0 = off now)
+        self.run_prev = self.run.clone()
 
     def set(self, new):
         self.prev, self.age_prev = self.on, self.age
         self.on = new
         self.age = torch.where(new, torch.zeros_like(self.age), (self.age + 1).clamp_max(99))
+        run = getattr(self, 'run', None)
+        if run is None:                                   # a population saved before 11-13
+            run = self.prev.to(torch.int16)
+        self.run_prev = run
+        self.run = torch.where(new, (run + 1).clamp_max(99), torch.zeros_like(run))
 
     def rose(self):
         return self.on & ~self.prev
@@ -30,11 +37,24 @@ class Pop:
         """on at t-1, or went off at most `win` ticks before t-1 (ARCH 四: just lit, held on, or just off)"""
         return self.age_prev <= win
 
+    def just_before(self, win):
+        """ARCH 四: 'B 亮起时 A 刚亮或刚灭' - A lit at t-1 for its first tick, or went off now or at most `win` ticks
+        before t-1. Not: A held on for longer ('一直亮着的 A ... 不加强'), A lighting now with B ('同时亮的不互相加强')."""
+        rp = getattr(self, 'run_prev', None)
+        lit_just = self.prev & (rp == 1) if rp is not None else self.prev
+        off_now = self.prev & ~self.on                   # just went off as B lights (however long it was on)
+        off_before = ~self.prev & (self.age_prev >= 1) & (self.age_prev <= win)
+        return lit_just | off_now | off_before
+
     def state(self):
-        return [x.clone() for x in (self.on, self.prev, self.age, self.age_prev)]
+        return [x.clone() for x in (self.on, self.prev, self.age, self.age_prev,
+                                    getattr(self, 'run', self.on.to(torch.int16)),
+                                    getattr(self, 'run_prev', self.prev.to(torch.int16)))]
 
     def load(self, st):
-        self.on, self.prev, self.age, self.age_prev = [x.clone() for x in st]
+        self.on, self.prev, self.age, self.age_prev = [x.clone() for x in st[:4]]
+        if len(st) > 4:
+            self.run, self.run_prev = st[4].clone(), st[5].clone()
 
 
 # ------------------------------------------------------------------------------------------- birth wiring
@@ -105,8 +125,9 @@ class Links:
     """Links from each pre unit to a list of possible post units (padded with the sink n_post).
     learned=False: fixed birth weights. learned=True: grown by the one rule and decayed by the one decay.
     The drive into a post unit is gain x the sum of the weights from the pre units that are on.
-    plain=True (the hippocampus, ARCH 三 海马体): its own growth rule. While A is on, A->B grows by the full step
-    eta when B rises (in order, no concave slowing), so one experience leaves a strong link."""
+    plain=True (the hippocampus, ARCH 三 海马体: '同一条赫布规则，但长得快、掉得快'): the same rule as everywhere, with
+    its own fast step and decay and a 10x larger working size, so one experience leaves a strong link (11-13: it used
+    to have its own rule - every A held on grew, no slowing - the audit's 'six learning rules')."""
 
     def __init__(self, idx, w, n_post, c, learned=True, gain=1.0, gamma=1.0, name='', plain=False):
         self.idx = torch.as_tensor(idx, dtype=torch.int64, device=DEV)
@@ -126,9 +147,7 @@ class Links:
 
     def plast(self, w):
         """concave: the bigger a link, the harder it changes; about 1 % plasticity is always kept (ARCH 四)"""
-        if self.plain:
-            return torch.ones_like(w)
-        ref = getattr(self, 'w_ref', None) or self.c['w_ref']   # a link group may have its own working size
+        ref = getattr(self, 'w_ref', None) or self.c['w_ref'] * (10.0 if self.plain else 1.0)   # own working size
         if getattr(self, 'signed', False):                       # an inhibitory link slows by its size too
             w = w.abs()
         return ((1.0 + w / ref) ** -self.c['pow']).clamp_min(self.c['floor'])
@@ -152,17 +171,14 @@ class Links:
         f = torch.zeros(1, dtype=torch.bool, device=DEV)
         b_rose = torch.cat([b_rose, f])
         b_on = torch.cat([b_on, f])
-        a = torch.nonzero(pre.held(fw) | pre.rose()).squeeze(1)
-        if a.numel() == 0:
+        before = pre.just_before(fw)                       # ARCH 四 (designer 10-29, 11-04): only an A lit just before
+        a = torch.nonzero(before | pre.rose()).squeeze(1)  # B, or just off, strengthens A->B; not one held on, not one
+        if a.numel() == 0:                                 # lighting with B (11-13 audit: both used to grow)
             return
         ix = self.idx[a]
-        if self.plain:                                      # hippocampus: what followed grows by the full step
-            self.apply(a, eta * b_rose[ix].float())
-            return
-        a_rose = pre.rose()[a][:, None]
-        grow = b_rose[ix]
-        weaken = a_rose & b_on[ix] & ~b_rose[ix]
-        p = self.plast(self.w[a])
+        grow = before[a][:, None] & b_rose[ix]
+        weaken = pre.rose()[a][:, None] & b_on[ix] & ~b_rose[ix]   # A lights again after B (B still on, B not new)
+        p = self.plast(self.w[a])                          # the hippocampus: the same rule, faster (its own eta, decay)
         self.apply(a, eta * p * (grow.float() - weaken.float()))
 
     def learn_check(self, pre, ext, e, theta, margin, step):
