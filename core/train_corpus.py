@@ -43,6 +43,7 @@ def main():
     pool_lift = int(over.pop('pool_lift', 1))                 # ... support above each pool's own usual
     pool_own_skip = int(over.pop('pool_own_skip', 0))         # the PFC's next-tick table skips the own voice
     pool_fixed_bar = int(over.pop('pool_fixed_bar', 0))       # the bar set once (no quota; Fable a42 C1)
+    world_data = over.pop('world_data', None)                 # from now on the world speaks these dialogues
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -104,6 +105,9 @@ def main():
     if pool_reward and cpr is not None and getattr(cpr, 'T', None) is None:
         cpr.enable_reward(int(life.brain.pfc.L4.on.numel()))
         log(f'reward table last layer -> pools at {life.env.n_ex - start} dialogues')
+    if world_data:                                            # (designer 11-13: another world, to see whether a habit
+        life.env.D = Dialogues.load(world_data)               # changes; probes keep the original training set)
+        log(f'the world now speaks {life.env.D.n} dialogues from {os.path.basename(os.path.dirname(world_data))}')
     if text and not getattr(life, 'text_added', False):       # read-aloud text joins the dialogues (1 per 3)
         from .world.corpus import concat, mixed_order
         tx = Dialogues.load(text)
