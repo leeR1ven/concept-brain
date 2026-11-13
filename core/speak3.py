@@ -116,9 +116,17 @@ class ConceptPools:
             sup = sup + self.bias(l4, sup)
         self.last_support = sup
         i, s1, s2 = self.lead(sup)
-        ok = stop_share < 0.5 and s1 / (1.0 + 4.0 * stop_share) >= self.bar and s1 >= self.ratio * s2
+        own = getattr(self, 'own_bar', None)                      # each pool's own bar (ARCH 二.4, per neuron): rises
+        bar_i = self.bar if own is None else float(own[i])        # while the pool wins often, never below the bar
+        ok = stop_share < 0.5 and s1 / (1.0 + 4.0 * stop_share) >= bar_i and s1 >= self.ratio * s2
         self.winner = i if ok else -1
         self.n_won += ok
+        if own is not None and adapt and stop_share < 0.5:        # (designer 11-13: 'the more it likes to say, the
+            r = self.own_rate                                     # better it gets at it' - make it less extreme)
+            self.own_bar *= math.exp(-r * self.own_target)        # every unbraked tick: each pool's bar drifts down
+            if ok:                                                # toward the common bar; a win raises the winner's
+                self.own_bar[i] *= math.exp(r)                    # (equilibrium: a pool wins ~own_target of ticks)
+            self.own_bar.clamp_(min=self.bar)
         sh = getattr(self, 'share', None)
         if adapt and sh and stop_share < 0.5:                     # the 'say nothing' bar follows how often the pools
             self.bar *= math.exp(0.01 * (float(ok) - sh))         # win (ARCH 二.4; 11-13 smoke: with a fixed bar the
