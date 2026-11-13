@@ -359,7 +359,11 @@ class PFC:
                     pre = pre | mp
                 came = came | mir
                 self.mirror_prev = mir
-            GT.learn(pre, came, used, self.c.get('graded_step', 0.15), skip=self.x_int_prev)
+            sk = self.x_int_prev
+            own = getattr(self, 'own_skip', None)          # the child's own voice coming back (Fable a42 B): like a
+            if own is not None:                            # thought's echo, not something that came from outside
+                sk = sk | own
+            GT.learn(pre, came, used, self.c.get('graded_step', 0.15), skip=sk)
         if self.G1P is not None:                           # the hand-wired generation-0 speech link keeps the timing
             onset = self.L1ext.rose() & ~self.L1.prev      # rule, so thinking a sound without saying it does not
             self.G1P.learn(self.L4, onset, self.L1ext.held(fw), eta)   # unlearn it (ARCH 六: kept at practised strength)
@@ -666,6 +670,17 @@ class Brain:
         self.pfc.adapt = self.hip.adapt = self.learning
         if getattr(self, 'pfc_in', None) is not None:      # the PFC and hippocampus hear the senses only through the
             x_ext = x_ext & self.pfc_in                    # concept area (designer 11-10); force/stop copies direct
+        cpo = getattr(self.motor, 'cpools', None)
+        if cpo is not None and getattr(cpo, 'own_skip', False):   # corollary discharge for the voice (Fable a42 B):
+            q = self.__dict__.setdefault('_spoke', [])              # the code of the syllable said two ticks ago
+            sk = None                                               # arrives now as heard; the PFC's next-tick table
+            for t0, w in q:                                         # does not learn it as what the world does next
+                if self.t - t0 == 2:                                # (the pools still learn from it, the concept area
+                    m = torch.zeros(self.n1, dtype=torch.bool, device=DEV)   # still hears and sees it)
+                    m[cpo.ca:cpo.cb] = cpo.W[w] > 0
+                    sk = m if sk is None else sk | m
+            self.pfc.own_skip = sk
+            q[:] = [(t0, w) for t0, w in q if self.t - t0 < 2] + ([(self.t, cpo.winner)] if cpo.winner >= 0 else [])
         R = self.pfc.step(x_ext)
         h_int = self.hip.step(x_ext, self.pfc.budget)
         if self.c.get('hip_recall', True):                 # False: the hippocampus stores but its recall lights nothing

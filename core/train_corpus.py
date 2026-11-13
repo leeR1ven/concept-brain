@@ -41,6 +41,8 @@ def main():
     pool_discount = int(over.pop('pool_discount', 0))         # ... a rival weighed by 1 - code overlap (off: hub pools)
     pool_reward = int(over.pop('pool_reward', 0))             # the reward table last layer -> pools (core/speak3.py)
     pool_lift = int(over.pop('pool_lift', 1))                 # ... support above each pool's own usual
+    pool_own_skip = int(over.pop('pool_own_skip', 0))         # the PFC's next-tick table skips the own voice
+    pool_fixed_bar = int(over.pop('pool_fixed_bar', 0))       # the bar set once (no quota; Fable a42 C1)
     if ckpt and os.path.exists(ckpt if load is None else load):
         load = load or ckpt
         st = torch.load(load, weights_only=False)
@@ -93,6 +95,12 @@ def main():
                               lift=bool(pool_lift))
         log(f'concept-space pools at {life.env.n_ex - start} dialogues')
     cpr = getattr(life.brain.motor, 'cpools', None)
+    if cpr is not None and pool_own_skip:
+        cpr.own_skip = True
+        log('the own voice: the next-tick table skips it (corollary discharge)')
+    if cpr is not None and pool_fixed_bar:
+        cpr.share = None
+        log(f'the say-nothing bar fixed at {cpr.bar:.4f}')
     if pool_reward and cpr is not None and getattr(cpr, 'T', None) is None:
         cpr.enable_reward(int(life.brain.pfc.L4.on.numel()))
         log(f'reward table last layer -> pools at {life.env.n_ex - start} dialogues')
