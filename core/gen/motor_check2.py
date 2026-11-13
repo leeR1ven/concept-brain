@@ -17,7 +17,8 @@ def main(ckpt, n=40, no_mask=0):
     from ..speak import concept_codes, patterns72
     from ..world.voice import ADULTS
     life = torch.load(ckpt, weights_only=False)['life']
-    if not getattr(life, 'rebuilt_1113', False):
+    gen = hasattr(life.brain, 'sign_units')               # core/model.py
+    if not gen and not getattr(life, 'rebuilt_1113', False):
         rebuild_1113(life)
     b, p, mot = life.brain, life.brain.pfc, life.brain.motor
     b.learning = False
@@ -31,7 +32,10 @@ def main(ckpt, n=40, no_mask=0):
     exact = {P[s].tobytes(): s for s in range(len(P))}
     rng = np.random.default_rng(4)
     test = [int(x) for x in rng.choice(sids, n, replace=False)]
-    code, _, _ = concept_codes(life, test)
+    if gen:                                               # the generator's newborn: the code of a syllable is the set
+        code = torch.stack([b.sign_units[s] for s in test])   # its sign lights (what the sound is taught to light)
+    else:
+        code, _, _ = concept_codes(life, test)
     snap = b.snapshot()
     fl = []                                               # background: force copies lit inside on quiet ticks
     for _ in range(12):
@@ -40,11 +44,14 @@ def main(ckpt, n=40, no_mask=0):
     b.restore(snap)
     print('BACKGROUND quiet ticks: force copies thought / all thoughts / force neurons prepared by returns', fl[4:], flush=True)
 
-    def force_copies(s, share=1.0):
+    def force_copies(s, share=1.0, one=False):
         ch = np.nonzero(P[s])[0]
         ch = ch[:max(1, int(round(share * len(ch))))] if share < 1 else ch
         m = torch.zeros(p.n, dtype=torch.bool, device=DEV)
-        fn = torch.nonzero(torch.isin(mot.muscle_of, torch.as_tensor(ch, device=DEV))).squeeze(1)
+        if one:                                           # one copy per muscle (the size of a real intention)
+            fn = torch.as_tensor(ch, device=DEV) * mot.m
+        else:
+            fn = torch.nonzero(torch.isin(mot.muscle_of, torch.as_tensor(ch, device=DEV))).squeeze(1)
         m[f0 + fn] = True
         return m
 
@@ -88,6 +95,7 @@ def main(ckpt, n=40, no_mask=0):
     for sh in (1.0, 0.5, 0.15):
         tally(f'1 a syllable intended (its force copies thought, {sh:.0%} of its channels)',
               [(run(force_copies(s, sh)), s) for s in test])
+    tally('1b a syllable intended, one copy per muscle', [(run(force_copies(s, one=True)), s) for s in test])
     tally('2 two syllables intended together (union)',
           [(run(force_copies(s) | force_copies(t)), s) for s, t in zip(test[:n // 2], test[n // 2:])])
     for sh in (1.0, 0.5, 0.25):

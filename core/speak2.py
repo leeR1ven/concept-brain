@@ -111,7 +111,13 @@ class SettlePools:
         self.winner = -1
 
     def settle(self, lit):
-        """lit: bool [nf] the force copies lit by returns -> the winning syllable's row, or -1"""
+        """lit: bool [nf] the force copies lit by returns -> the winning syllable's row, or -1. With channel_of (the
+        generator, core/model.py): a pool reads which of its muscles are prepared (any of a muscle's force neurons),
+        so an intention is one copy per muscle and fits the thought budget; the winner still drives all its force
+        neurons (Pf)"""
+        ch = getattr(self, 'channel_of', None)
+        if ch is not None:
+            lit = torch.zeros(self.P.shape[1], device=lit.device).index_add_(0, ch, lit.float()) > 0
         x = lit.float()
         own = (self.P @ x) / self.n_own
         oth = ((1.0 - self.P) @ x) / self.n_own                  # counted against the pool's own size

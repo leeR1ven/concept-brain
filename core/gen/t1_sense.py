@@ -13,7 +13,7 @@ import torch
 from .grow import DEV, grow, thermometer
 
 P = dict(C=24, levels=8, L=24.0, W=24.0, H=16.0, dens=1.0, lam_e=1.5, lam_i=1.0, k_side=3.0, K_e=12, K_i=16,
-         p_inh=0.2, rate_in=0.20, rate_out=0.05, g_inh=1.5, birth=1500, adapt=0.05, hold=10, B=48, seed=0)
+         p_inh=0.2, rate_in=0.20, rate_out=0.05, g_inh=0.5, birth=4000, adapt=0.15, hold=10, B=48, seed=0)
 for a in sys.argv[1:]:
     k, v = a.split('=', 1)
     P[k] = json.loads(v)

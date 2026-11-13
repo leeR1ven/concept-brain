@@ -88,6 +88,10 @@ def config(s=1, **over):
         # ARCH 四: the reward changes only the last layer -> action (force / stop) copy links, 别的连接不动 ('all': every
         # learned table, the 11-11 behaviour; Fable a35 4b: a gamed reward then also amplified concept / graded learning)
         reward_scope='action',
+        model='',                   # 'gen': the whole brain from the generator (core/model.py, 11-13)
+        p_drift=0.1,                # the eye's world: share of turns on which the sign board drifts away
+        see_own=0,                  # 1: the child's own clear syllables are seen with their sign, like the adults'
+        sight_guard=0.7,            # a sign only partly on the fovea teaches only above this share of a whole one's drive
     )
     for k, v in over.items():
         if k not in c:

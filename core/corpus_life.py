@@ -46,11 +46,27 @@ class CorpusLife:
             common = np.argsort(-cnt)[:600]
             V = np.array([self.eye(int(common[g.integers(len(common))]) if g.random() < 0.3 else None)
                           for _ in range(len(A0))])
-        self.brain = Brain(c, seed, self.coch, self.skin, np.array(A0), V)
-        del A0
-        b = self.brain
-        log(f'brain: sound {b.sound.n}, touch {b.touch.n}, PFC {b.n1} x 4, hippocampus {b.hip.nh}, '
-            f'motor {b.motor.nf} force; birth density {b.birth_density:.3f}')
+        if c.get('model') == 'gen':                        # core/model.py: the whole brain from the generator
+            from .model import Model
+            from .speak import patterns72
+            from .vision import Scene
+            cnt = np.bincount(self.train.syl[:200000].astype(np.int64))
+            self.speak_sids = [int(x) for x in np.argsort(-cnt)[:600] if cnt[x] > 0]
+            Tb = self.skin.birth_stream(len(A0), seed)
+            self.brain = Model(c, seed, self.coch, self.skin, patterns72(self.body), self.speak_sids, self.sight_of,
+                               np.array(A0), V, Tb)
+            self.registry = list(self.brain.registry)
+            self.scene = Scene(seed, p_drift=float(c.get('p_drift', 0.1)))
+            del A0
+            b = self.brain
+            log(f'model (generator): sound {b.sound.n}, touch {b.touch.n}, sight {b.sight.n}, concept {b.concept.n}, '
+                f'PFC {b.n1} x 4, hippocampus {b.hip.nh}, motor {b.motor.nf} force; birth density {b.birth_density:.3f}')
+        else:
+            self.brain = Brain(c, seed, self.coch, self.skin, np.array(A0), V)
+            del A0
+            b = self.brain
+            log(f'brain: sound {b.sound.n}, touch {b.touch.n}, PFC {b.n1} x 4, hippocampus {b.hip.nh}, '
+                f'motor {b.motor.nf} force; birth density {b.birth_density:.3f}')
         self.env = DialogueWorld(self.train, self.coch, seed)
         self.muscles = np.zeros(int(c.get('n_mus', 24)), bool)
         self.own = None                                    # the syllable the child said, heard by it the next tick

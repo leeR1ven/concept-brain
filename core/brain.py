@@ -257,6 +257,9 @@ class PFC:
                 d1 = d1 + G1C.drive(self.e1)               # core/speak2.py: the tendency (the push above usual)
             else:
                 d1 = d1 + G1C.drive(self.x_int)
+        ex = getattr(self, 'extra', None)                 # core/model.py: the generation-0 speech link's push
+        if ex is not None:
+            d1 = d1 + ex
         GT = getattr(self, 'GT', None)
         if GT is not None:       # the graded table (config pfc_graded): its push is a share 0..1; a copy that always
             self.gt_p = GT.drive(self.L1.on)       # comes after what is lit now is pushed past theta + margin
@@ -485,7 +488,7 @@ class Motor:
         elif st is not None:                               # core/speak2.py: only a winning syllable pool moves muscles
             w = st.settle(lit)
             if w >= 0:
-                own = st.P[w] > 0
+                own = (st.Pf if getattr(st, 'Pf', None) is not None else st.P)[w] > 0
                 d = torch.where(own, d + self.complete, d - self.complete)
         elif self.pools is not None:
             pe, pi = self.pool_fire(lit)
