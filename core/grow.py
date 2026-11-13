@@ -377,6 +377,187 @@ def rebuild_1113(life):
     log('rebuild 11-13: recall on, returns sent on, brake stops chained, touch in the concept area, motor settling')
 
 
+def fix_motor(life, speak_rel=1.5):
+    """11-13, the motor area of the working old model (after the designer: "关键你现在还是没有去搞好运动区"):
+    - every thought competes in the one thought budget: the old exception for force copies (motor_mask) is removed;
+    - an intention is one copy per muscle, and the settling reads which muscles are prepared (any of a muscle's force
+      neurons): a whole syllable's intention fits the budget; the winner drives all its force neurons;
+    - generation 0 "sound <-> the muscles that make it" (ARCH 五 1) re-wired from the concept codes as they are now
+      (the old link was wired from full10's codes): each syllable's code units -> its muscles, each link once.
+    Everything else as rebuild_1113 (recall on, returns sent on, brake stops chained, touch in the concept area)."""
+    from .speak import SpeechLink, concept_codes, patterns72
+    from .speak2 import SettlePools
+    b, c = life.brain, life.c
+    if not getattr(life, 'rebuilt_1113', False):
+        rebuild_1113(life)
+        life.rebuilt_1113 = True
+    pfc, mot = b.pfc, b.motor
+    pfc.motor_mask = None
+    sids = list(getattr(life, 'speak_sids', []))
+    P = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
+    mot.settle, mot.settle_sids = SettlePools(P), sids
+    mot.settle.channel_of, mot.settle.Pf = mot.muscle_of, P[:, mot.muscle_of].float()
+    code, ca, cb = concept_codes(life, sids)
+    share = code.float().mean(0)
+    code = code & (share <= c.get('speak_unit_max', 0.05))[None, :]
+    units = torch.nonzero(code.any(0)).squeeze(1)
+    _, _, f0, f1 = b.chains.seg('force')[0]
+    low = torch.zeros((len(sids), f1 - f0), device=DEV)       # one copy per muscle: its lowest-grade force neuron
+    for i in range(len(sids)):
+        low[i, torch.nonzero(P[i]).squeeze(1) * mot.m] = 1.0
+    W = ((code[:, units].float().T @ low) > 0).float()        # unit -> muscle, once however many codes share it
+    link = SpeechLink(ca + units, W, f0, f1, b.n1)
+    hear = getattr(b, 'pfc_in', None)
+    n_ext = getattr(life, '_ext_heard', float(code.sum(1).float().mean()) * 3)
+    k = max(1, int(round(c['context'] * n_ext * c.get('speak_share', 0.5))))   # a thought of one syllable
+    link.gain = speak_rel * c['theta1'] / k
+    link.code, link.size = code[:, units].float(), code.sum(1).clamp_min(1).float()
+    pfc.G1C = link
+    life.registry = [r for r in getattr(life, 'registry', []) if not r[0].startswith(('speech link', 'motor'))] + \
+        [('speech link (generation 0, re-wired 11-13: code units -> muscles, once)', len(sids), int(len(units))),
+         ('motor settling by muscles (generation 0)', len(sids), 1)]
+    log(f'motor fixed: no budget exception; settling by muscles; speech link {len(units)} units -> {len(sids)} '
+        f'syllables\' muscles, a thought of {k} units pushes each muscle {speak_rel} x theta')
+
+
+def motor_downward(life, push=1.2):
+    """11-13, the motor area as the reverse of the sensing path (designer: "前额叶控制运动，本质上应该就是反过来神经网络吧，
+    通过回程神经元把运动区神经元再激活"; active inference, Adams, Shipp & Friston 2013; ideomotor / DIVA):
+    - a thought of a syllable (its concept copies lit inside the PFC) lights, through the returns, the syllable's
+      concept units (the inner syllable); only units lit by a return send down, so what is heard is not repeated;
+    - downward links from those units to the force neurons of the syllable's muscles (generation 0, registered:
+      each syllable's code units -> all its muscles' force neurons, each pair once, at practised strength) unfold a
+      few thought units into the whole movement;
+    - at the bottom the force neurons fire when pushed past their threshold and the blockers (tonic, and recruited
+      by a diffuse command) and the stop neurons (another voice) do not hold them: no program picks a syllable;
+    - the force copies' returns drive their force neurons fully again (no 'prepare only'); the old settling program
+      and the speech link into force copies are removed."""
+    from .net import Links
+    from .speak import concept_codes, patterns72
+    b, c = life.brain, life.c
+    if not getattr(life, 'rebuilt_1113', False):
+        rebuild_1113(life)
+        life.rebuilt_1113 = True
+    pfc, mot = b.pfc, b.motor
+    pfc.motor_mask = None
+    pfc.G1C = None
+    mot.settle = None
+    mot.pools = None
+    for nm in ('ret_prep', 'complete'):
+        if hasattr(mot, nm):
+            delattr(mot, nm)
+    sids = list(getattr(life, 'speak_sids', []))
+    P = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
+    code, ca, cb = concept_codes(life, sids)
+    share = code.float().mean(0)
+    code = code & (share <= c.get('speak_unit_max', 0.05))[None, :]
+    F = P[:, mot.muscle_of].float()                            # [nS, nf] each syllable's force neurons
+    A = (code.float().T @ F) > 0                               # [concept units, nf] unit -> force neuron, once
+    per = A.sum(1)
+    width = max(1, int(per.max()))
+    idx = torch.full((cc_n := A.shape[0], width), mot.nf, dtype=torch.int64, device=DEV)
+    r, cl = torch.nonzero(A, as_tuple=True)
+    start = torch.cumsum(per, 0) - per
+    idx[r, torch.arange(len(r), device=DEV) - start[r]] = cl
+    k = max(1, int(round(c['context'] * getattr(life, '_ext_heard', 100.0) * c.get('speak_share', 0.5))))
+    need = float(mot.thr_f.max() + c['b_block'] * mot.n_tonic / (8.0 * mot.m))
+    mot.down = Links(idx, push * need / k, mot.nf, c, learned=False, name='concept -> force (gen 0)')
+    mot.down.w *= (idx < mot.nf)
+    mot.down_n = cc_n
+    life.registry = [r_ for r_ in getattr(life, 'registry', []) if not r_[0].startswith(('speech link', 'motor'))] + \
+        [('downward links concept units -> force neurons (generation 0)', len(sids), int((per > 0).sum()))]
+    log(f'motor as the reverse path: {int((per > 0).sum())} concept units -> force neurons of {len(sids)} syllables; '
+        f'a thought of {k} units pushes each force neuron {push} x its need; settling program removed')
+
+
+class DownLinks:
+    """the reverse (downward) links concept unit -> force neuron (designer 11-13: "这个反过来的神经网络可能也遵循差不多的
+    赫布学习规则"). They learn when the child hears its own voice: the concept units lit from below then were caused by
+    the force neurons that fired a moment before. The rule is the local one of the wake-sleep reverse weights: a
+    link grows by (did the force neuron fire just before) - (what the heard units already push it), shared by the
+    heard units. So it grows while the movement is not yet predicted, stops when it is, and weakens where it predicts
+    a movement that did not come; it never grows without bound. Sign never changes (ARCH 二.1): an excitatory link E
+    and an inhibitory partner I, both >= 0. Only ticks just after an own movement teach (a voice heard while the child
+    did not move says nothing about its mouth). Start at zero; the one global decay (ARCH 四).
+    Scale (hand-set, listed): a fully predicted force neuron receives `gain` x what its strongest grade needs against
+    the tonic blockers.
+    norm (shunting inhibition): one inhibitory neuron counts the concept units sending down now and divides the push
+    by that count, so a force neuron reads the AVERAGE vote of the units sending down: a thought of 8 units of a
+    syllable pushes about as a whole heard code does (thoughts are ~8 units, a syllable's code ~150, 11-13)."""
+
+    def __init__(self, n_c, n_f, c, need, step=0.2, win=4, gain=2.0, norm=False):
+        self.norm = norm
+        self.E = torch.zeros((n_c, n_f), device=DEV)
+        self.I = torch.zeros((n_c, n_f), device=DEV)
+        self.c, self.step, self.win = c, step, win
+        self.scale = gain * need                             # [n_f]
+        self.hist = []                                      # the force neurons that fired on the last few ticks
+        self.n_learn = 0
+
+    @property
+    def W(self):
+        return self.E - self.I
+
+    def drive(self, units):
+        x = units.float()
+        y = x @ (self.E - self.I)
+        if self.norm:
+            y = y / x.sum().clamp_min(1.0)
+        return y * self.scale
+
+    def learn(self, force_on, heard, voice=True):
+        """force_on: bool [n_f] now; heard: bool [n_c] concept units lit from below now (the own voice is heard 1-2
+        ticks after the movement); voice: a voice is heard now (the brake's loud-voice lines). Only a heard voice
+        teaches: a silent garble teaches nothing (11-13: else the units that FEEL a garble learn to make it)"""
+        self.hist = (self.hist + [force_on.clone()])[-(self.win + 1):]
+        a = torch.nonzero(heard).squeeze(1)
+        if a.numel() == 0 or len(self.hist) < 2 or not voice:
+            return
+        f = torch.stack(self.hist[:-1]).any(0)               # fired just before (not now)
+        if not bool(f.any()):
+            return
+        push = (self.E[a] - self.I[a]).sum(0)
+        if self.norm:
+            push = push / a.numel()
+        d = (0.5 * self.step / (1 if self.norm else a.numel())) * (f.float() - push)[None, :]
+        self.E[a] = (self.E[a] + d).clamp_min(0.0)
+        self.I[a] = (self.I[a] - d).clamp_min(0.0)
+        self.n_learn += 1
+
+    def decay(self):
+        g = self.c.get('gamma_down') or self.c['gamma_pfc']
+        self.E *= g
+        self.I *= g
+
+
+def motor_reverse(life, step=0.2, p_babble=0.05, norm=False):
+    """11-13: the motor area as the reverse of the sensing path, with LEARNED reverse links (DownLinks): a thought's
+    returns light concept units, which push force neurons through the reverse links; the force neurons fire past
+    their threshold unless the blockers and stop neurons hold them; no program picks a syllable. Babbling (innate,
+    registered like the birth period's spontaneous movements): in quiet, now and then the force neurons of a random
+    syllable fire by themselves; the child hears itself, and the reverse links learn."""
+    b, c = life.brain, life.c
+    if not getattr(life, 'rebuilt_1113', False):
+        rebuild_1113(life)
+        life.rebuilt_1113 = True
+    pfc, mot, cc = b.pfc, b.motor, b.concept
+    pfc.motor_mask, pfc.G1C = None, None
+    mot.settle, mot.pools = None, None
+    for nm in ('ret_prep', 'complete', 'down'):
+        if hasattr(mot, nm):
+            delattr(mot, nm)
+    need = mot.thr_f.max() + c['b_block'] * mot.n_tonic / (8.0 * mot.m)
+    mot.rev = DownLinks(cc.n, mot.nf, c, need * torch.ones(mot.nf, device=DEV), step=step, norm=norm)
+    mot.p_babble = p_babble
+    from .speak import patterns72
+    sids = list(getattr(life, 'speak_sids', []))
+    P = torch.as_tensor(patterns72(life.body)[sids], dtype=torch.bool, device=DEV)
+    mot.babble_pat = P[:, mot.muscle_of].float()            # a babbled syllable: all its muscles' force neurons
+    life.registry = [r_ for r_ in getattr(life, 'registry', []) if not r_[0].startswith(('speech link', 'motor', 'down'))] + \
+        [('babbling: in quiet a random syllable\'s force neurons fire by themselves (innate)', len(getattr(life, 'speak_sids', [])), 1)]
+    log(f'motor as the learned reverse path: reverse links {cc.n} x {mot.nf} from zero; babbling {p_babble:.0%} of quiet ticks')
+
+
 def gt_drop_motor(life):
     """The graded next-copy table keeps only the copies that are heard or felt (concept, amygdala ...), not the
     force / stop copies (11-12 night, full10 frozen: the table had learned the child's own babble, force copies

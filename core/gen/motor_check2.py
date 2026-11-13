@@ -10,7 +10,7 @@ import numpy as np
 import torch
 
 
-def main(ckpt, n=40, no_mask=0):
+def main(ckpt, n=40, no_mask=0, fixmotor=0, down=0, push=1.2, near=0):
     import core.corpus_life  # noqa: F401
     from ..grow import rebuild_1113
     from ..net import DEV
@@ -18,7 +18,13 @@ def main(ckpt, n=40, no_mask=0):
     from ..world.voice import ADULTS
     life = torch.load(ckpt, weights_only=False)['life']
     gen = hasattr(life.brain, 'sign_units')               # core/model.py
-    if not gen and not getattr(life, 'rebuilt_1113', False):
+    if not gen and down:
+        from ..grow import motor_downward
+        motor_downward(life, push=push)
+    elif not gen and fixmotor:
+        from ..grow import fix_motor
+        fix_motor(life)
+    elif not gen and not getattr(life, 'rebuilt_1113', False):
         rebuild_1113(life)
     b, p, mot = life.brain, life.brain.pfc, life.brain.motor
     b.learning = False
@@ -71,6 +77,9 @@ def main(ckpt, n=40, no_mask=0):
                 own = None
             else:
                 y = exact.get(mus.astype(bool).tobytes(), 'garble')
+                if y == 'garble' and near:                    # the life's mouth: the nearest syllable if close enough
+                    yy = life.mouth.say(mus)
+                    y = yy if (yy is not None and yy != 'garble') else 'garble'
                 out.append(y)
                 own = None if y == 'garble' else y
         p.force_int = None
@@ -113,4 +122,5 @@ def main(ckpt, n=40, no_mask=0):
 
 if __name__ == '__main__':
     kw = dict(a.split('=', 1) for a in sys.argv[2:])
-    main(sys.argv[1], n=int(kw.get('n', 40)), no_mask=int(kw.get('no_mask', 0)))
+    main(sys.argv[1], n=int(kw.get('n', 40)), no_mask=int(kw.get('no_mask', 0)), fixmotor=int(kw.get('fixmotor', 0)), down=int(kw.get('down', 0)),
+         push=float(kw.get('push', 1.2)), near=int(kw.get('near', 0)))

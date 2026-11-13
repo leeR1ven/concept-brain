@@ -25,7 +25,7 @@ from .grow import DEV, grow
 P = dict(data=os.environ.get('CONCEPT_DATA', 'concept-data'), seed=0, L=16.0, Lm=6.0, W=24.0, H=12.0, dens=0.6,
          lam_e=1.5, lam_i=1.0, k_side=3.0, K_e=12, K_i=16, p_inh=0.2, rate_in=0.2, rate_out=0.06, rate_m=0.08,
          g_inh=0.5, birth=4000, adapt=0.002, K_l=400, lam_l=8.0, step=0.15, B=16, n_learn=3000, probe_every=500,
-         n_cls=60, p_see=1.0, side=16, birth_see=0.3, patch=2.0, proj_depth=99.0, p_birth=0.0, g_proj=1.0, sub=1, win=3, p_long=0.1, lam_long=12.0, apical=1)
+         n_cls=60, p_see=1.0, side=16, birth_see=0.3, patch=2.0, proj_depth=99.0, p_birth=0.0, g_proj=1.0, sub=1, win=3, p_long=0.1, lam_long=12.0, apical=0, dens_m=0.6, eval_old=0, K_lm=0)
 for a in sys.argv[1:]:
     k, v = a.split('=', 1)
     P[k] = json.loads(v) if v[:1] in '-0123456789[{' else v
@@ -42,6 +42,9 @@ eye = torch.stack([torch.full((n_eye,), X + 0.5), (torch.arange(n_eye) // (2 * s
                    (torch.arange(n_eye) % (2 * side)).float() * H / (2 * side)], 1)
 n = int(X * W * H * P['dens'])
 pos = torch.rand(n, 3) * torch.tensor([X, W, H])
+if P['dens_m'] > P['dens']:                              # where the senses meet: denser (a field of the genome)
+    nx = int(Lm * W * H * (P['dens_m'] - P['dens']))
+    pos = torch.cat([pos, torch.rand(nx, 3) * torch.tensor([Lm, W, H]) + torch.tensor([L, 0.0, 0.0])])
 mid = lambda x: (x >= L) & (x < L + Lm)                   # noqa: E731  where the branches meet
 
 
@@ -79,7 +82,7 @@ MID = torch.nonzero(mid(xs) & ~net.inh).squeeze(1)      # the excitatory neurons
 
 def fields_l(Q):
     f = fields(Q)
-    f['K'] = torch.where(f['inh'], 0.0, float(P['K_l']))
+    f['K'] = torch.where(f['inh'], 0.0, torch.where(mid(Q[:, 0]), float(P['K_lm'] or P['K_l']), float(P['K_l'])))
     f['lam'] = f['lam'] * P['lam_l'] / P['lam_e']          # the same short / long mix, a little wider
     return f
 
@@ -330,7 +333,45 @@ def info():
     return out
 
 
+def eval_old_way(nd=768, d0=15000, lags=(0, 1)):
+    """the same evaluation as the old model's concept area (core/gen/concept_eval.evaluate, the designer's definition):
+    syllables heard inside dialogues (train 15000..15767, four voices), sound only, frozen; the middle's code at the
+    tick the syllable arrives (lag 0 or 1); nearest-class-mean across voices ('cross'), VI, core cells"""
+    from .concept_eval import evaluate
+    vidx = {a_: i for i, a_ in enumerate(ADULTS)}
+    X = {f'middle lag {l_}': [] for l_ in lags}
+    X['ear'] = []
+    y, v, dd = [], [], []
+    for b0 in range(d0, d0 + nd, P['B']):
+        plans = [script_dialogue(train, di, np.random.default_rng([P['seed'], 9300, di]), (2, 4), 8, 1, 1) + [None] * 3
+                 for di in range(b0, b0 + P['B'])]
+        T = max(len(p_) for p_ in plans)
+        a = torch.zeros(P['B'], net.n, dtype=torch.bool, device=DEV)
+        R = []
+        for t in range(T):
+            srcs = [p_[t] if t < len(p_) else None for p_ in plans]
+            A = torch.as_tensor(np.stack([coch.a0([] if s_ is None else [s_[:5]]) for s_ in srcs]), device=DEV)
+            a = tick(torch.cat([A, eye_bits([None] * P['B'])], 1), a)
+            R.append((A.cpu(), a[:, MID].cpu()))
+        for bi, p_ in enumerate(plans):
+            for t, x in enumerate(p_):
+                if x is None or t + max(lags) >= T:
+                    continue
+                for l_ in lags:
+                    X[f'middle lag {l_}'].append(R[t + l_][1][bi])
+                X['ear'].append(R[t][0][bi])
+                y.append(int(x[0]))
+                v.append(vidx[x[2]])
+                dd.append(b0 + bi)
+    X = {k: torch.stack(val).float().to(DEV) for k, val in X.items()}
+    ev = evaluate(X, np.array(y), np.array(v), np.array(dd), n_tr=6, seed=1)
+    keep = ('within', 'cross', 'voice', 'VI', 'core cell in n cores')
+    return {k: {kk: val[kk] for kk in keep if kk in val} for k, val in ev.items() if not k.startswith('_')}
+
+
 print('BIRTH done', round(time.time() - t0), 's; probe', json.dumps(probe()), flush=True)
+if P['eval_old']:
+    print('EVAL (as the old model) at birth', json.dumps(eval_old_way()), flush=True)
 print('INFO (linear reader, unseen voice; chance', round(1 / P['n_cls'], 3), ')', json.dumps(info()), flush=True)
 print('DIAG', json.dumps(diag()), flush=True)
 heard, d0 = 0, 0
@@ -356,3 +397,5 @@ while heard < P['n_learn']:
               'learned push', round(float(np.mean(lp)), 3), '|LW| max', round(float(LW.abs().max()), 3),
               f'{time.time() - t0:.0f} s', flush=True)
         print('INFO', heard, json.dumps(info()), flush=True)
+if P['eval_old']:
+    print('EVAL (as the old model) after', heard, 'dialogues', json.dumps(eval_old_way()), flush=True)

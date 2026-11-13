@@ -475,7 +475,10 @@ class Motor:
         lit = ret_force > 0
         st, cp = getattr(self, 'settle', None), getattr(self, 'cpools', None)
         d = lit.float() * (self.ret_drive if st is None and cp is None else self.ret_prep)
-        P = d.sum()
+        di = getattr(self, 'down_in', None)
+        if di is not None:                                 # the downward path (grow.motor_downward / motor_reverse)
+            d = d + di
+        P = d.clamp_min(0.0).sum()                         # the summed command (excitatory) recruits blockers
         nblock = self.n_tonic + (P >= self.ladder).sum()
         inh = c['b_block'] * nblock / (8.0 * m) + c['c_stop'] * stop.float().sum() / (8.0 * m)
         if cp is not None:                                 # core/speak3.py: pools choose in concept space
@@ -496,6 +499,12 @@ class Motor:
             self.pools['pe'].set(pe)
             self.pools['pi'].set(pi)
         force = d - inh > self.thr_f
+        pb = getattr(self, 'p_babble', 0.0)
+        self.babbled = False
+        if pb and getattr(self, 'babble_pat', None) is not None and not bool(stop.any()) and not bool(force.any()) \
+                and getattr(self, 'babbling', True) and float(torch.rand(1)) < pb:
+            force = self.babble_pat[int(torch.randint(len(self.babble_pat), (1,)))] > 0   # innate babbling
+            self.babbled = True
         self.lit.set(lit)
         self.force.set(force)
         self.stop.set(stop)
@@ -659,6 +668,10 @@ class Brain:
                     getattr(ch, 'ret_amyg', None))
             x_ext = torch.cat([x_ext, am.pop.on])
         self.sound.step(a0, self.ret_sound)
+        dn = getattr(self.motor, 'down', None) or getattr(self.motor, 'rev', None)
+        if dn is not None:                                 # grow.motor_downward / motor_reverse: units lit by a
+            rc = getattr(ch, 'ret_concept', None)          # return send down
+            self.motor.down_in = dn.drive(rc > 0) if rc is not None else None
         cpf = getattr(getattr(self.motor, 'cpools', None), 'fresh', False)
         self.motor.e1 = getattr(self.motor, 'e1_fresh', None) if cpf else getattr(self.pfc, 'e1', None)
         # concept-space pools: the PFC's expectation (pfc.e1 was made at the start of the last tick, for that tick's
@@ -698,6 +711,9 @@ class Brain:
             self.motor.learn()
             if cc is not None:
                 cc.learn()
+            rv = getattr(self.motor, 'rev', None)
+            if rv is not None and cc is not None:          # grow.DownLinks: the paired reverse links
+                rv.learn(self.motor.force.on, cc.below, bool(self.motor.braked.any()))
             if am is not None:
                 am.learn(self.pfc.L1ext)
             self.rlog.append((self.t, [(tb, rows, d) for tb in tabs for rows, d in tb.log]))
@@ -710,6 +726,8 @@ class Brain:
                     tb.decay()
                 if cc is not None and hasattr(cc, 'decay'):    # the concept area's learned links too (ARCH 四)
                     cc.decay()
+                if getattr(self.motor, 'rev', None) is not None:
+                    self.motor.rev.decay()
         if am is not None:
             # the reward: the pleased group lit by the pat itself, minus what the PFC expected of those copies this
             # tick (Fable a35: an expected pat changes nothing; learned or recalled activity never counts)
